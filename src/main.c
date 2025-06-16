@@ -12,13 +12,13 @@
 
 #include "minirt.h"
 
-t_data *get_data(void)
+t_data	*get_data(void)
 {
 	static t_data minirt;
 	return (&minirt);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 
 }
