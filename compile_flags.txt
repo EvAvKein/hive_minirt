@@ -1,0 +1,6 @@
+-I
+.
+-I
+./libft
+-I
+./libft_plus
