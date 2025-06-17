@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:22 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/17 10:22:46 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:43:34 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,4 @@ t_data	*get_data(void)
 
 int	main(int argc, char **argv)
 {
-	ft_bzero(get_data(), sizeof(t_data));
 }
