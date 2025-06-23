@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 19:26:47 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/02/18 11:29:57 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:43:03 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ bool	set_next_line(int fd, char **line_ptr)
 	t_line_data		data;
 
 	if (!init_data(&data, line_ptr, buffers[fd], fd))
-		return (set_str_and_return(line_ptr, NULL, 0));
+		return (0);
 	if (data.buffer_nl_i >= 0)
 		return (set_str_and_return(line_ptr, data.line, 1));
 	while (1)
