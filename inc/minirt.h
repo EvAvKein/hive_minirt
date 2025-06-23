@@ -6,14 +6,18 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/17 10:43:28 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:12:19by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include <stdbool.h>
+# include <stdbool.h> // bool
+# include <limits.h> // INT_MAX
+# include <fcntl.h> // open()
+# include <math.h> // pow()
+# include <float.h> // FLT_MAX & DBL_MAX
 # include "libft_plus.h"
 
 # define WINDOW_WIDTH	1024
@@ -71,10 +75,10 @@ typedef union u_8bit_color
 
 typedef struct s_float_color
 {
-	float	r;
-	float	g;
-	float	b;
-	float	a;
+	t_flt	r;
+	t_flt	g;
+	t_flt	b;
+	t_flt	a;
 }			t_float_color;
 
 typedef struct s_color
@@ -155,8 +159,8 @@ typedef struct s_cylinder
 
 typedef struct s_elems
 {
-	t_camera		camera;
-	t_ambient_light	ambient_light;
+	t_camera		*camera;
+	t_ambient_light	*ambient_light;
 	t_light			*lights;
 	t_sphere		*spheres;
 	t_plane			*planes;
@@ -170,5 +174,27 @@ typedef struct s_data
 }			t_data;
 
 t_data	*get_data(void);
+
+int		print_err(char *error);
+
+bool	parse_scene(char *file_path);
+bool	is_space(char c);
+void	skip_spaces(char *str, size_t *parse_i);
+bool	in_flt_range(t_flt checked, t_flt min, t_flt max);
+bool	is_flt_normalized_vec(t_vec4 vec);
+
+bool	flt_parse(char *str, size_t *parse_i, t_flt *dest);
+bool	uint8_parse(char *str, size_t *parse_i, uint8_t *dest);
+
+bool	rgba_parse(char *str, size_t *parse_i, t_8bit_color *dest);
+bool	vec4_parse(char *str, size_t *parse_i, t_vec4 *dest, bool is_point);
+
+bool	ambient_light_parse(char *str, size_t *parse_i);
+bool	camera_parse(char *str, size_t *parse_i);
+bool	light_parse(char *str, size_t *parse_i);
+bool	sphere_parse(char *str, size_t *parse_i);
+bool	plane_parse(char *str, size_t *parse_i);
+bool	cylinder_parse(char *str, size_t *parse_i);
+
 
 #endif

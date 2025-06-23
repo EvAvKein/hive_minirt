@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 13:52:22 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/23 20:26:18 by ekeinan          ###   ########.fr       */
+/*   Created: 2025/06/17 09:26:46 by ekeinan           #+#    #+#             */
+/*   Updated: 2025/06/17 10:48:15 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,14 @@
 
 /**
  * 
- * @returns A pointer to the program's data.
+ * Prints to STDERR "Error" and a newline,
+ * followed by "miniRT: ", two provided strings, and a newline.
+ * 
+ * @returns The return value of `ft_dprintf`
+ *          (amount of characters written, or -1 on write error).
  * 
  */
-t_data	*get_data(void)
+int	print_err(char *error)
 {
-	static t_data minirt;
-
-	return (&minirt);
-}
-
-int	main(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		print_err("program must be provided a single argument");
-		return (1);
-	}
-	if (!parse_scene(argv[1]))
-		return (1);
-	return (0);
+	return (ft_dprintf(STDERR_FILENO, "Error\nminiRT: %s\n", error));
 }
