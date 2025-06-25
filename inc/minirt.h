@@ -19,16 +19,27 @@
 # include <math.h> // pow()
 # include <float.h> // FLT_MAX & DBL_MAX
 # include "libft_plus.h"
+# include "MLX42.h"
 
-# define WINDOW_WIDTH	1024
-# define WINDOW_HEIGHT	1024
+# define WINDOW_WIDTH	800
+# define WINDOW_HEIGHT	300
+
+# define RADIANS_PER_DEGREE	0.0174532925
+# define DEGREES_PER_RADIAN	57.2957795
 
 typedef float	t_flt;
+
+enum e_error
+{
+	ERROR_MLX_INIT = 3,
+	ERROR_MLX_NEW_IMAGE,
+	ERROR_MLX_IMAGE_TO_WINDOW,
+};
 
 /* ------------------------------------------------------------------- colors */
 
 // Endiannes, consider removing later (unclear if conditional compilation is ok)
-# if 1
+# if 0
 
 typedef struct s_channels
 {
