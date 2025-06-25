@@ -6,25 +6,15 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/06/26 11:48:27 by jvarila          ###   ########.fr        #
+#    Updated: 2025/06/26 11:53:10 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := miniRT
+NAME			:= miniRT
 
-INC_DIR := inc
-INC_FILES := minirt.h
-
-LIBFT_DIR := libft_plus
-LIBFT_LIB := $(LIBFT_DIR)/libft_plus.a
-
-CC := cc
-COMPILE_FLAGS := -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIBFT_DIR) -I$(LIBFT_DIR)/include
-COMPILE_WITH_MLX := $(MLX_LIB) -Iinclude -ldl -lglfw -pthread -lm
-
-CC					:= cc
-COMPILE_FLAGS		:= -Wall -Wextra -Werror
-MLX_FLAGS			:= -Iinclude -ldl -lglfw -pthread -lm
+CC				:= cc
+COMPILE_FLAGS	:= -Wall -Wextra -Werror
+MLX_FLAGS		:= -Iinclude -ldl -lglfw -pthread -lm
 # ---------------------------------------------------------------------------- #
 DEBUG_FLAGS := -g
 # ---------------------------------------------------------------------------- #
@@ -37,21 +27,25 @@ MLX_BUILD_DIR	:= $(MLX_DIR)/build
 MLX_LIB			:= $(MLX_BUILD_DIR)/libmlx42.a
 # ---------------------------------------------------------------------------- #
 SRC_DIR	:=	src
-SRC		:=	main.c \
-			errors.c \
-			memory/free_memory.c \
-			memory/dealloc_linked_lists.c \
-			parsing/elems/parse_cam_and_lights.c \
-			parsing/elems/parse_shapes.c \
-			parsing/parse_scene.c \
-			parsing/parse_segment.c \
-			parsing/parse_value.c \
-			parsing/utils.c
+SRC		:=	main.c									\
+			errors.c								\
+			memory/free_memory.c					\
+			memory/dealloc_linked_lists.c			\
+			parsing/elems/parse_cam_and_lights.c	\
+			parsing/elems/parse_shapes.c			\
+			parsing/parse_scene.c					\
+			parsing/parse_segment.c					\
+			parsing/parse_value.c					\
+			parsing/utils.c							\
+			vectors_01.c							\
+			colors_01.c								\
+			backgrounds_01.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
 INC_FILES		:= minirt.h
 HEADERS			:= $(INC_FILES:%=$(INC_DIR)/%)
-COMPILE_FLAGS	+= -I$(INC_DIR) -I$(LIBFT_DIR) -I$(LIBFT_DIR)/include -I$(MLX_DIR)/include/MLX42
+COMPILE_FLAGS	+= -I$(INC_DIR) -I$(LIBFT_DIR) -I$(LIBFT_DIR)/include \
+				   -I$(MLX_DIR)/include/MLX42
 # ---------------------------------------------------------------------------- #
 OBJ_DIR		:= obj
 OBJ			:= $(SRC:%.c=$(OBJ_DIR)/%.o)
@@ -62,7 +56,7 @@ OBJ			:= $(SRC:%.c=$(OBJ_DIR)/%.o)
 all: $(NAME)
 
 $(NAME): $(LIBFT_LIB) $(MLX_LIB) $(OBJ)
-	$(CC) $(COMPILE_FLAGS) $(OBJ) $(LIBFT_LIB) $(MLX_FLAGS) $(MLX_LIB) -o $(NAME)
+	$(CC) $(COMPILE_FLAGS) $(OBJ) $(LIBFT_LIB) $(MLX_LIB) $(MLX_FLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	@mkdir -p $(@D)

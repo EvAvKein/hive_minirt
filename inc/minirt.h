@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/25 17:20:42 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/26 11:50:07 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@
 # include "libft_plus.h"
 # include "MLX42.h"
 
-# define WINDOW_WIDTH	800
-# define WINDOW_HEIGHT	300
+# define RES_X	800
+# define RES_Y	300
 
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
+# define EPSILON			0.00001
 
 typedef float	t_flt;
 
@@ -34,9 +35,11 @@ enum e_error
 	ERROR_MLX_INIT = 3,
 	ERROR_MLX_NEW_IMAGE,
 	ERROR_MLX_IMAGE_TO_WINDOW,
+	ERROR_PROBLEM_WITH_RESOLUTION,
+	ERROR_ALLOC,
 };
 
-/* ------------------------------------------------------------------- colors */
+/* ------------------------------------------------------------------- COLORS */
 
 // Endiannes, consider removing later (unclear if conditional compilation is ok)
 # if 0
@@ -81,7 +84,7 @@ typedef union u_8bit_color
 {
 	uint32_t	rgba;
 	t_channels	channel;
-	uint8_t		ch[4];
+	uint8_t		_[4];
 }				t_8bit_color;
 
 typedef struct s_float_color
@@ -98,7 +101,11 @@ typedef struct s_color
 	t_float_color	flt;
 }					t_color;
 
-/* ----------------------------------------------------- vectors and matrices */
+t_float_color	color_8bit_to_float(t_8bit_color c);
+t_8bit_color	color_float_to_8bit(t_float_color c);
+t_float_color	lerp_color(t_float_color c1, t_float_color c2, float amount);
+
+/* ----------------------------------------------------- VECTORS AND MATRICES */
 
 typedef struct s_axis
 {
@@ -119,7 +126,11 @@ typedef struct t_m4x4
 	t_flt	_[4][4];
 }			t_m4x4;
 
-/* ------------------------------------------------------------ scene objects */
+t_flt	vector_len(t_vec4 const *vec);
+t_vec4	new_unit_vector(t_vec4 const *vec);
+t_vec4	*normalize_vector(t_vec4 *vec);
+
+/* ------------------------------------------------------------ SCENE OBJECTS */
 
 typedef struct s_camera
 {
@@ -180,8 +191,12 @@ typedef struct s_elems
 
 typedef struct s_data
 {
-	t_elems	elems;
-	uint8_t	pixels[WINDOW_HEIGHT][WINDOW_WIDTH];
+	t_elems			elems;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_vec4			*pixel_rays;
+	size_t			pixel_count;
+	enum e_error	error;
 }			t_data;
 
 t_data	*get_data(void);
@@ -213,5 +228,27 @@ void	dealloc_lights(t_light *light);
 void	dealloc_spheres(t_sphere *sphere);
 void	dealloc_planes(t_plane *plane);
 void	dealloc_cylinders(t_cylinder *cylinder);
+
+/* -------------------------------------------------------------- BACKGROUNDS */
+
+void	set_horizontal_gradient(mlx_image_t *img, t_float_color colors[2]);
+void	set_vertical_gradient(mlx_image_t *img, t_float_color colors[2]);
+void	set_uv(mlx_image_t *img);
+
+/* -------------------------------------------------------------------- UTILS */
+
+typedef struct s_pixel_grid
+{
+	t_flt	fov_h;
+	t_flt	fov_v;
+	t_flt	width;
+	t_flt	height;
+	t_flt	pixel_width;
+}			t_pixel_grid;
+
+t_flt	to_radians(t_flt degrees);
+t_flt	to_degrees(t_flt radians);
+bool	floats_are_equal(t_flt flt1, t_flt flt2);
+bool	vecs_are_equal(t_vec4 const *vec1, t_vec4 const *vec2);
 
 #endif
