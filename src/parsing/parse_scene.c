@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:16:54 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/25 16:36:40 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/25 17:16:40 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ static bool	parsing_loop(int fd)
 		if (!set_next_line(fd, &line))
 		{
 			print_err("Failed to read from the provided file");
-			ft_dprintf(STDERR_FILENO,
-				"at line %d, char %i\n", line_count, line_i);
+			ft_dprintf(STDERR_FILENO, "at line %d\n", line_count);
 			return (false);
 		}
 		if (!line)
@@ -85,6 +84,7 @@ static bool	parsing_loop(int fd)
 				"at line %d, char %i\n", line_count, line_i);
 			return (free(line), false);
 		}
+		free(line);
 	}
 }
 

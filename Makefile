@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/06/25 16:47:26 by ekeinan          ###   ########.fr        #
+#    Updated: 2025/06/25 17:03:28 by ekeinan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ MLX_LIB := $(MLX_BUILD_DIR)/libmlx42.a
 SRC_DIR := src
 SRC_FILES := main.c \
 			 errors.c \
+			 memory/free_memory.c \
+			 memory/dealloc_linked_lists.c \
 			 parsing/elems/parse_cam_and_lights.c \
 			 parsing/elems/parse_shapes.c \
 			 parsing/parse_scene.c \

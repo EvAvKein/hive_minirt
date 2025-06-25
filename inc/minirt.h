@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/25 16:28:12 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/25 17:02:30 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,5 +197,10 @@ bool	sphere_parse(char *str, size_t *parse_i);
 bool	plane_parse(char *str, size_t *parse_i);
 bool	cylinder_parse(char *str, size_t *parse_i);
 
+void	free_data(void);
+void	dealloc_lights(t_light *light);
+void	dealloc_spheres(t_sphere *sphere);
+void	dealloc_planes(t_plane *plane);
+void	dealloc_cylinders(t_cylinder *cylinder);
 
 #endif

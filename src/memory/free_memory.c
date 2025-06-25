@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 13:52:22 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/25 17:02:44 by ekeinan          ###   ########.fr       */
+/*   Created: 2025/06/25 16:48:51 by ekeinan           #+#    #+#             */
+/*   Updated: 2025/06/25 17:02:06 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,19 @@
 
 /**
  * 
- * @returns A pointer to the program's data.
+ * Free all heap-allocated memory in the program's data struct.
  * 
  */
-t_data	*get_data(void)
+void	free_data(void)
 {
-	static t_data minirt;
+	t_data	*data;
+	
+	data = get_data();
 
-	return (&minirt);
-}
-
-int	main(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		print_err("program must be provided a single argument");
-		return (1);
-	}
-	if (!parse_scene(argv[1]))
-	{
-		free_data();
-		return (1);
-	}
-	free_data();
-	return (0);
+	free(data->elems.ambient_light);
+	free(data->elems.camera);
+	dealloc_lights(data->elems.lights);
+	dealloc_spheres(data->elems.spheres);
+	dealloc_planes(data->elems.planes);
+	dealloc_cylinders(data->elems.cylinders);
 }
