@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/06/23 20:28:23 by ekeinan          ###   ########.fr        #
+#    Updated: 2025/06/25 16:47:26 by ekeinan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,7 @@ SRC_FILES := main.c \
 			 parsing/parse_scene.c \
 			 parsing/parse_segment.c \
 			 parsing/parse_value.c \
-			 parsing/utils.c \
-
+			 parsing/utils.c
 
 OBJ_DIR := obj
 
@@ -71,7 +70,6 @@ clean:
 
 fclean: clean
 	@make -C $(LIBFT_DIR) $@ --no-print-directory
-	rm -rf $(NAME) $(MLX_DIR)
 
 re: fclean all
 

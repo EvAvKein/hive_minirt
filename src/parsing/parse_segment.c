@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:33:37 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/23 11:38:33 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:28:12 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 /**
  * 
- * TODO: Write these docs
+ * @param str		The string being parsed.
+ * 
+ * @param parse_i	The parsing index.
+ * 
+ * @param dest		The destination for the parsed RGB value.
+ * 
+ * @returns Whether parsing was successful.
  * 
  */
-bool	rgba_parse(char *str, size_t *parse_i, t_8bit_color *dest)
+bool	rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest)
 {
 	if (!uint8_parse(str, parse_i, &dest->channel.r)
 		|| is_space(str[(*parse_i) - 1])
@@ -35,7 +41,13 @@ bool	rgba_parse(char *str, size_t *parse_i, t_8bit_color *dest)
 
 /**
  * 
- * TODO: Write these docs
+ * @param str		The string being parsed.
+ * 
+ * @param parse_i	The parsing index.
+ * 
+ * @param dest		The destination for the parsed vector (XYZ) value.
+ * 
+ * @returns Whether parsing was successful.
  * 
  */
 bool	vec4_parse(char *str, size_t *parse_i, t_vec4 *dest, bool is_point)

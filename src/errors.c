@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:26:46 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/17 10:48:15 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:03:36 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 /**
  * 
  * Prints to STDERR "Error" and a newline,
- * followed by "miniRT: ", two provided strings, and a newline.
+ * followed by "miniRT: ", the provided string, and a newline.
  * 
- * @returns The return value of `ft_dprintf`
- *          (amount of characters written, or -1 on write error).
+ * @returns `false`
  * 
  */
-int	print_err(char *error)
+bool	print_err(char *error)
 {
-	return (ft_dprintf(STDERR_FILENO, "Error\nminiRT: %s\n", error));
+	ft_dprintf(STDERR_FILENO, "Error\nminiRT: %s\n", error);
+	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/23 12:12:19by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:28:12 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ typedef struct s_light
 {
 	t_vec4			pos;
 	t_flt			brightness;
-	// t_color	color; // bonus
+	t_color			color;
 	struct s_light	*next;
 }					t_light;
 
@@ -175,18 +175,19 @@ typedef struct s_data
 
 t_data	*get_data(void);
 
-int		print_err(char *error);
+bool	print_err(char *error);
 
 bool	parse_scene(char *file_path);
 bool	is_space(char c);
 void	skip_spaces(char *str, size_t *parse_i);
+void	skip_letters_and_trailing_spaces(char *str, size_t *parse_i);
 bool	in_flt_range(t_flt checked, t_flt min, t_flt max);
-bool	is_flt_normalized_vec(t_vec4 vec);
+bool	is_normalized_vec(t_vec4 vec);
 
 bool	flt_parse(char *str, size_t *parse_i, t_flt *dest);
 bool	uint8_parse(char *str, size_t *parse_i, uint8_t *dest);
 
-bool	rgba_parse(char *str, size_t *parse_i, t_8bit_color *dest);
+bool	rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest);
 bool	vec4_parse(char *str, size_t *parse_i, t_vec4 *dest, bool is_point);
 
 bool	ambient_light_parse(char *str, size_t *parse_i);
