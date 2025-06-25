@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/25 17:02:30 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/25 17:20:42 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINIRT_H
 
 # include <stdbool.h> // bool
-# include <limits.h> // INT_MAX
+# include <limits.h> // LLONG_MAX
 # include <fcntl.h> // open()
 # include <math.h> // pow()
 # include <float.h> // FLT_MAX & DBL_MAX
