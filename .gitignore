@@ -1,4 +1,3 @@
-.vscode
 # Prerequisites
 *.d
 
@@ -59,5 +58,6 @@ dkms.conf
 *.tmp
 .cache
 .vscode
-./miniRT
-.cache
+
+MLX42
+miniRT

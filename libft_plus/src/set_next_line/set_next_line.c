@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 19:26:47 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/02/18 11:29:57 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:43:03 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ static bool	init_data(t_line_data *data, char **line_ptr, char *buffer, int fd)
 			return (set_str_and_return(data->line_ptr, data->line, 0));
 		data->line[0] = '\0';
 		*line_ptr = data->line;
-		return (1);
+		return (true);
 	}
 }
 
-static int	append_to_line(char **line, char *buffer, ssize_t *buffer_nl_i)
+static bool	append_to_line(char **line, char *buffer, ssize_t *buffer_nl_i)
 {
 	size_t	total_len;
 	char	*combined;
@@ -71,7 +71,7 @@ static int	append_to_line(char **line, char *buffer, ssize_t *buffer_nl_i)
 	if (!combined)
 	{
 		free(*line);
-		return (0);
+		return (false);
 	}
 	combined_i = 0;
 	i = 0;
@@ -85,7 +85,7 @@ static int	append_to_line(char **line, char *buffer, ssize_t *buffer_nl_i)
 	combined[combined_i] = '\0';
 	free(*line);
 	*line = combined;
-	return (1);
+	return (true);
 }
 
 bool	set_next_line(int fd, char **line_ptr)
@@ -94,10 +94,10 @@ bool	set_next_line(int fd, char **line_ptr)
 	t_line_data		data;
 
 	if (!init_data(&data, line_ptr, buffers[fd], fd))
-		return (set_str_and_return(line_ptr, NULL, 0));
+		return (false);
 	if (data.buffer_nl_i >= 0)
 		return (set_str_and_return(line_ptr, data.line, 1));
-	while (1)
+	while (true)
 	{
 		if (!buffers[fd][0])
 		{
