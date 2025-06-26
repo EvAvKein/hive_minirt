@@ -28,7 +28,7 @@ MLX_LIB			:= $(MLX_BUILD_DIR)/libmlx42.a
 # ---------------------------------------------------------------------------- #
 SRC_DIR	:=	src
 SRC		:=	main.c									\
-			errors.c								\
+			initialization_01.c						\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
 			parsing/elems/parse_cam_and_lights.c	\
@@ -37,9 +37,11 @@ SRC		:=	main.c									\
 			parsing/parse_segment.c					\
 			parsing/parse_value.c					\
 			parsing/utils.c							\
-			vectors_01.c							\
-			colors_01.c								\
-			backgrounds_01.c
+			utils/errors.c							\
+			utils/utils_01.c						\
+			vectors/vectors_01.c					\
+			color/colors_01.c						\
+			color/backgrounds_01.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
 INC_FILES		:= minirt.h
@@ -75,7 +77,7 @@ $(MLX_LIB):
 
 clean:
 	@make -C $(LIBFT_DIR) $@ --no-print-directory
-	rm -f $(OBJ)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@make -C $(LIBFT_DIR) $@ --no-print-directory

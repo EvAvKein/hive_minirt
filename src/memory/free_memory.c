@@ -28,4 +28,5 @@ void	free_data(void)
 	dealloc_spheres(data->elems.spheres);
 	dealloc_planes(data->elems.planes);
 	dealloc_cylinders(data->elems.cylinders);
+	free(data->pixel_rays);
 }

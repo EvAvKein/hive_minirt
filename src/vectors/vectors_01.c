@@ -46,3 +46,9 @@ t_vec4	*normalize_vector(t_vec4 *vec)
 	vec->axis.w = 0;
 	return (vec);
 }
+
+void	print_vec(t_vec4 const *vec)
+{
+	printf("Vec:	x = %f	y = %f	z = %f	w = %f\n",
+		vec->axis.x, vec->axis.y, vec->axis.z, vec->axis.w);
+}
