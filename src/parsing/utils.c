@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:52:34 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/18 13:55:00by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/26 11:24:25 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ inline bool	in_flt_range(t_flt checked, t_flt min, t_flt max)
 inline bool	is_normalized_vec(t_vec4 vec)
 {
 	return (in_flt_range(vec.axis.x, -1.f, 1.f)
-			&& in_flt_range(vec.axis.y, -1.f, 1.f)
-			&& in_flt_range(vec.axis.z, -1.f, 1.f));
+		&& in_flt_range(vec.axis.y, -1.f, 1.f)
+		&& in_flt_range(vec.axis.z, -1.f, 1.f));
 }

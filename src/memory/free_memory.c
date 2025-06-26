@@ -20,9 +20,8 @@
 void	free_data(void)
 {
 	t_data	*data;
-	
-	data = get_data();
 
+	data = get_data();
 	free(data->elems.ambient_light);
 	free(data->elems.camera);
 	dealloc_lights(data->elems.lights);

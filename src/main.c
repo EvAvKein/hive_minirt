@@ -19,7 +19,7 @@
  */
 t_data	*get_data(void)
 {
-	static t_data minirt;
+	static t_data	minirt;
 
 	return (&minirt);
 }

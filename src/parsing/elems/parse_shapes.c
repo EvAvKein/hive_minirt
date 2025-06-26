@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:25:20 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/25 16:41:41 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/26 11:26:13 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	sphere_parse(char *str, size_t *parse_i)
 {
 	t_sphere	sphere;
 	t_sphere	**ptr_to_next;
-	
+
 	skip_letters_and_trailing_spaces(str, parse_i);
 	if (!vec4_parse(str, parse_i, &sphere.pos, true)
 		|| !is_space(str[*parse_i - 1]))
@@ -70,7 +70,7 @@ bool	plane_parse(char *str, size_t *parse_i)
 {
 	t_plane	plane;
 	t_plane	**ptr_to_next;
-	
+
 	skip_letters_and_trailing_spaces(str, parse_i);
 	if (!vec4_parse(str, parse_i, &plane.pos, true)
 		|| !is_space(str[*parse_i - 1]))
@@ -111,7 +111,7 @@ bool	cylinder_parse(char *str, size_t *parse_i)
 {
 	t_cylinder	cylinder;
 	t_cylinder	**ptr_to_next;
-	
+
 	skip_letters_and_trailing_spaces(str, parse_i);
 	if (!vec4_parse(str, parse_i, &cylinder.pos, true)
 		|| !is_space(str[*parse_i - 1]))

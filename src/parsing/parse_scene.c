@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:16:54 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/25 17:16:40 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/06/26 11:24:12 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ bool	parse_scene(char *file_path)
 {
 	const size_t	path_len = ft_strlen(file_path);
 	int				fd;
-	
+
 	if (path_len < 3 || ft_strncmp(&file_path[path_len - 3], ".rt", 3))
 		return (print_err("Provided file path must end with \".rt\""), false);
 	fd = open(file_path, O_RDONLY);

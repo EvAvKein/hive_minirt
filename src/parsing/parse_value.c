@@ -67,7 +67,7 @@ bool	flt_parse(char *str, size_t *parse_i, t_flt *dest)
 {
 	long long	integer;
 	long long	decimal;
-	size_t	decimal_len;
+	size_t		decimal_len;
 
 	if (!longlong_parse(str, parse_i, &integer))
 		return (false);

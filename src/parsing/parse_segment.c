@@ -68,5 +68,3 @@ bool	vec4_parse(char *str, size_t *parse_i, t_vec4 *dest, bool is_point)
 		dest->axis.w = 0;
 	return (true);
 }
-
-
