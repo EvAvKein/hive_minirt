@@ -33,7 +33,7 @@ typedef struct s_axis
 
 typedef union u_vec4
 {
-	t_flt	idx[4];
+	t_flt	_[4];
 	t_axis	axis;
 }	t_vec4;
 
@@ -41,7 +41,7 @@ void	test_function(void)
 {
 	t_vec4	test;
 	test.axis.x = 0;
-	test.idx[0] = 3;
+	test._[0] = 3;
 	test.axis = (t_axis){.x = 1, .y = 2, .z = 3, .w = 1};
 }
 

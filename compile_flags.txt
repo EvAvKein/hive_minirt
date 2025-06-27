@@ -4,3 +4,9 @@
 ./libft
 -I
 ./libft_plus
+-I
+./libft_plus/include
+-I
+./inc
+-I
+./MLX42/include/MLX42
