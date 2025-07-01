@@ -107,6 +107,7 @@ int	main(int argc, char **argv)
 			data->img->pixels[i * 4 + 3] = 0xff;
 		}
 	}
+	image_to_file("miniRT.bmp");
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	free_data();
