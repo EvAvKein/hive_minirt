@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/01 15:55:32 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/06/27 19:45:29 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,8 @@ typedef struct s_data
 
 t_data			*get_data(void);
 
+void			image_to_file(const char *bmp_file_path);
+
 bool			print_err(char *error);
 
 bool			parse_scene(char *file_path);
@@ -272,5 +274,59 @@ t_flt			to_radians(t_flt degrees);
 t_flt			to_degrees(t_flt radians);
 bool			floats_are_equal(t_flt flt1, t_flt flt2);
 bool			vecs_are_equal(t_vec4 const *vec1, t_vec4 const *vec2);
+
+/* ------------------------------------------------------ IMAGE FILE CREATION */
+
+/**
+ *
+ * Packs members of the structs declared inside by the provided segment size.
+ * With a segment size of one, it doesn't ever add padding between members.
+ *
+ * This is necessary for bitmap files' header formatting.
+ *
+ */
+# pragma pack(push, 1)
+
+/**
+ *
+ * Based on `BITMAPFILEHEADER` (from `<wingdi.h>`)
+ *
+ * For more info, see:
+ * learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapfileheader
+ *
+ */
+typedef struct s_bmp_fileheader
+{
+	uint16_t	file_type;
+	uint32_t	file_size;
+	uint16_t	reserved1;
+	uint16_t	reserved2;
+	uint32_t	bitmap_offset;
+}				t_bmp_fileheader;
+
+/**
+ *
+ * Based on `BITMAPINFOHEADER` (from `<wingdi.h>`)
+ *
+ * For more info, see:
+ * learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapinfoheader
+ *
+ */
+typedef struct s_bmp_infoheader
+{
+	uint32_t	size;
+	uint32_t	width;
+	uint32_t	height;
+	uint16_t	color_planes;
+	uint16_t	bits_per_pixel;
+	uint32_t	compression;
+	uint32_t	size_of_bitmap;
+	int32_t		horizontal_ppm;
+	int32_t		vertical_ppm;
+	uint32_t	colors_used;
+	uint32_t	colors_important;
+}				t_bmp_infoheader;
+
+# pragma pack(pop)
 
 #endif

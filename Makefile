@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/07/01 15:19:46 by jvarila          ###   ########.fr        #
+#    Updated: 2025/06/27 16:56:24 by ekeinan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ MLX_LIB			:= $(MLX_BUILD_DIR)/libmlx42.a
 # ---------------------------------------------------------------------------- #
 SRC_DIR	:=	src
 SRC		:=	main.c									\
+			image_to_file.c							\
 			initialization_01.c						\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
