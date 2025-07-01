@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:22 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/04 09:46:48 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/04 09:45:48 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,14 @@ int	main(int argc, char **argv)
 		}
 	}
 	image_to_file("miniRT.bmp");
+	for (size_t i = 0; i < data->pixel_count; ++i) {
+		if (ray_intersects_sphere(&data->pixel_rays[i], &sp)) {
+			data->img->pixels[i * 4] = 0xff;
+			data->img->pixels[i * 4 + 1] = 0xff;
+			data->img->pixels[i * 4 + 2] = 0xff;
+			data->img->pixels[i * 4 + 3] = 0xff;
+		}
+	}
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	free_data();
