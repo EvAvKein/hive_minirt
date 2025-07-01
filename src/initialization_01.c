@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:55:52 by jvarila           #+#    #+#             */
-/*   Updated: 2025/06/26 15:12:09 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/01 15:20:26 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	setup_pixel_rays(void)
 		pixel.axis.y = (g.height - g.pixel_width) / 2 - idx[2] * g.pixel_width;
 		pixel.axis.z = cos(g.fov_h / 2);
 		pixel.axis.w = 0;
-		data->pixel_rays[idx[0]] = new_unit_vector(&pixel);
+		data->pixel_rays[idx[0]] = new_unit_vec(&pixel);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/26 15:19:53 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/01 15:55:32 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include "libft_plus.h"
 # include "MLX42.h"
 
-# define RES_X	1280	// 3840	1920
-# define RES_Y	720		// 2160	1080
+# define RES_X	3	// 3840	1920
+# define RES_Y	3	// 2160	1080
 
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
@@ -127,9 +127,12 @@ typedef struct t_m4x4
 	t_flt	_[4][4];
 }			t_m4x4;
 
-t_flt			vector_len(t_vec4 const *vec);
-t_vec4			new_unit_vector(t_vec4 const *vec);
-t_vec4			*normalize_vector(t_vec4 *vec);
+t_flt			vec_len(t_vec4 const *vec);
+t_vec4			new_unit_vec(t_vec4 const *vec);
+t_vec4			*normalize_vec(t_vec4 *vec);
+t_vec4			new_scaled_vec(t_vec4 const *vec, t_flt scalar);
+t_vec4			*scale_vec_in_place(t_vec4 *vec, t_flt scalar);
+t_flt			dot_product(t_vec4 const *v1, t_vec4 const *v2);
 void			print_vec(t_vec4 const *vec);
 
 t_m4x4			*multiply_matrix_in_place(t_m4x4 const *mult, t_m4x4 *mat);
@@ -230,6 +233,8 @@ bool			light_parse(char *str, size_t *parse_i);
 bool			sphere_parse(char *str, size_t *parse_i);
 bool			plane_parse(char *str, size_t *parse_i);
 bool			cylinder_parse(char *str, size_t *parse_i);
+
+bool			ray_intersects_sphere(t_vec4 const *ray, t_sphere const *sp);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 

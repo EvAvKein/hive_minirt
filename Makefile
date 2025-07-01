@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/06/26 11:53:10 by jvarila          ###   ########.fr        #
+#    Updated: 2025/07/01 15:19:46 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRC		:=	main.c									\
 			utils/utils_01.c						\
 			vectors/vectors_01.c					\
 			color/colors_01.c						\
-			color/backgrounds_01.c
+			color/backgrounds_01.c					\
+			objects/sphere_intersection.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
 INC_FILES		:= minirt.h
