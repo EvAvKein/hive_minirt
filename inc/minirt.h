@@ -21,9 +21,7 @@
 # include <stdio.h>			// printf()
 # include "libft_plus.h"
 # include "MLX42.h"
-
-# define RES_X	1920	// 1024	// 1280	// 3840	1920
-# define RES_Y	1080	// 1024	// 720	// 2160	1080
+# include "settings.h"
 
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795

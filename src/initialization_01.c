@@ -48,7 +48,7 @@ void	setup_pixel_rays(void)
 	size_t			idx[3];
 
 	data = get_data();
-	g.fov_h = 90 * RADIANS_PER_DEGREE;
+	g.fov_h = FOV * RADIANS_PER_DEGREE;
 	g.fov_v = 2 * atan(tan(g.fov_h / 2) * RES_Y / RES_X);
 	g.width = 2 * sin(g.fov_h / 2);
 	g.pixel_width = g.width / RES_X;
