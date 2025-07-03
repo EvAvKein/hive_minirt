@@ -13,10 +13,16 @@
 #ifndef SETTINGS_H
 # define SETTINGS_H
 
-# define FOV 90
+# ifndef FOV
+#  define FOV	90
+# endif
 
-# define RES_X	1280	// 3840	1920
-# define RES_Y	720		// 2160	1080
+# ifndef RES_X
+#  define RES_X	1280	// 3840	1920
+# endif
+
+# ifndef RES_Y
+#  define RES_Y	720		// 2160	1080
+# endif
 
 #endif
-
