@@ -14,15 +14,16 @@
 
 /**
  *
- * TODO: Write these docs
+ * @returns	The total size of the file to be created,
+ * 			or `0` if a file of the resulting size is not possible.
  *
  */
 static uint32_t	calc_file_size(uint32_t header_size,
 	uint32_t img_width, uint32_t img_height)
 {
-	const uint32_t pixel_count = img_width * img_height;
-	const uint32_t size_per_pixel = 8 * 4;
-	const uint32_t pixels_size = pixel_count * size_per_pixel;
+	const uint32_t	pixel_count = img_width * img_height;
+	const uint32_t	size_per_pixel = 8 * 4;
+	const uint32_t	pixels_size = pixel_count * size_per_pixel;
 
 	if (!header_size || !img_height || !img_width)
 		return (0);
@@ -36,23 +37,26 @@ static uint32_t	calc_file_size(uint32_t header_size,
 
 /**
  *
- * TODO: Write these docs
+ * Write a bmp header to the provided file descriptor,
+ * including the provided image width and height.
+ *
+ * @returns Whether writing was successful.
  *
  */
 static bool	write_header_to_file(int fd,
 	uint32_t img_width, uint32_t img_height)
 {
-	const uint32_t header_size =
-		sizeof(t_bmp_fileheader) + sizeof(t_bmp_infoheader);
-	const uint32_t file_size =
-		calc_file_size(header_size, img_width, img_height);
-	const t_bmp_fileheader file_header = {
+	const uint32_t			header_size
+		= sizeof(t_bmp_fileheader) + sizeof(t_bmp_infoheader);
+	const uint32_t			file_size
+		= calc_file_size(header_size, img_width, img_height);
+	const t_bmp_fileheader	file_header = {
 		.file_type = 0x4D42, .file_size = file_size,
 		.bitmap_offset = header_size
 	};
-	const t_bmp_infoheader info_header = {
+	const t_bmp_infoheader	info_header = {
 		.size = sizeof(t_bmp_infoheader),
-		.width = img_width, .height =  img_height,
+		.width = img_width, .height = img_height,
 		.color_planes = 1,
 		.bits_per_pixel = 32,
 		.compression = 0,
@@ -60,6 +64,7 @@ static bool	write_header_to_file(int fd,
 		.horizontal_ppm = 0, .vertical_ppm = 0,
 		.colors_used = 0, .colors_important = 0,
 	};
+
 	if (file_size == 0)
 		return (print_err("Image is too large to fit in a '.bmp' file"));
 	if (write(fd, &file_header, sizeof(file_header)) < 0
@@ -70,7 +75,7 @@ static bool	write_header_to_file(int fd,
 
 /**
  *
- * TODO: Write these docs
+ * Write the current image's colors to the provided file descriptor.
  *
  */
 static void	write_colors_to_file(int fd)
@@ -101,7 +106,7 @@ static void	write_colors_to_file(int fd)
 
 /**
  *
- * TODO: Write these docs
+ * Saves the currently rendered image to the provided path in a bitmap format.
  *
  */
 void	image_to_file(const char *bmp_file_path)
