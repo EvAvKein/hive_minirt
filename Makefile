@@ -45,7 +45,8 @@ SRC		:=	main.c									\
 			color/backgrounds_01.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
-INC_FILES		:= minirt.h
+INC_FILES		:= minirt.h							\
+				   settings.h
 HEADERS			:= $(INC_FILES:%=$(INC_DIR)/%)
 COMPILE_FLAGS	+= -I$(INC_DIR) -I$(LIBFT_DIR) -I$(LIBFT_DIR)/include \
 				   -I$(MLX_DIR)/include/MLX42
