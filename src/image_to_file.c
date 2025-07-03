@@ -115,7 +115,7 @@ void	image_to_file(const char *bmp_file_path)
 		print_err("Cannot save image to file - image unavailable");
 		return ;
 	}
-	fd = open(bmp_file_path, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	fd = open(bmp_file_path, O_CREAT | O_TRUNC | O_WRONLY, 0666);
 	if (fd < 0)
 	{
 		print_err("Cannot save image to file - cannot create/access file");
