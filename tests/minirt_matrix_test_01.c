@@ -264,9 +264,7 @@ t_vec4	new_unit_vector(t_vec4 const *vec)
 	t_vec4	unit;
 	t_flt	scale;
 
-	scale = sqrt(vec->_[0] * vec->_[0]
-			+ vec->_[1] * vec->_[1]
-			+ vec->_[2] * vec->_[2]);
+	scale = vec_len(vec);
 	unit._[0] = vec->_[0] / scale;
 	unit._[1] = vec->_[1] / scale;
 	unit._[2] = vec->_[2] / scale;

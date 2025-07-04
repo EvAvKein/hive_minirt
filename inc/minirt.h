@@ -125,18 +125,42 @@ typedef struct t_m4x4
 	t_flt	_[4][4];
 }			t_m4x4;
 
+typedef struct t_m3x3
+{
+	t_flt	_[3][3];
+}			t_m3x3;
+
+typedef struct t_m2x2
+{
+	t_flt	_[2][2];
+}			t_m2x2;
+
 t_flt			vec_len(t_vec4 const *vec);
 t_vec4			new_unit_vec(t_vec4 const *vec);
 t_vec4			*normalize_vec(t_vec4 *vec);
 t_vec4			new_scaled_vec(t_vec4 const *vec, t_flt scalar);
 t_vec4			*scale_vec_in_place(t_vec4 *vec, t_flt scalar);
+
 t_flt			dot_product(t_vec4 const *v1, t_vec4 const *v2);
 void			print_vec(t_vec4 const *vec);
 
-t_m4x4			*multiply_matrix_in_place(t_m4x4 const *mult, t_m4x4 *mat);
-t_m4x4			new_mult_matrix(const t_m4x4 *mat1, const t_m4x4 *mat2);
-t_m4x4			*scale_matrix_in_place(t_flt scalar, t_m4x4 *mat);
-t_m4x4			new_scaled_matrix(t_flt scalar, t_m4x4 const *mat);
+// matrices_01.c
+t_m4x4			*multiply_m4x4_in_place(t_m4x4 const *mult, t_m4x4 *m4x4);
+t_m4x4			new_mult_m4x4(const t_m4x4 *m4x4_1, const t_m4x4 *m4x4_2);
+t_m4x4			*scale_m4x4_in_place(t_flt scalar, t_m4x4 *m4x4);
+t_m4x4			new_scaled_m4x4(t_flt scalar, t_m4x4 const *m4x4);
+void			print_m4x4(t_m4x4 const *m4x4);
+
+// matrices_02.c
+t_m2x2			sub_m2x2(t_m3x3 const *m3x3, size_t row, size_t col);
+t_m3x3			sub_m3x3(t_m4x4 const *m4x4, size_t row, size_t col);
+t_flt			det_m2x2(t_m2x2 const *m2x2);
+t_flt			det_m3x3(t_m3x3 const *m3x3);
+t_flt			det_m4x4(t_m4x4 const *m4x4);
+
+// matrices_03.c
+t_m4x4			identity_m4x4(void);
+t_m4x4			transpose_m4x4(t_m4x4 const *m4x4);
 
 /* ------------------------------------------------------------ SCENE OBJECTS */
 
