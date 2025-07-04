@@ -33,10 +33,10 @@ t_8bit_color	color_float_to_8bit(t_float_color c)
 {
 	t_8bit_color	d;
 
-	d.channel.r = 0xff * c.r;
-	d.channel.g = 0xff * c.g;
-	d.channel.b = 0xff * c.b;
-	d.channel.a = 0xff * c.a;
+	d.channel.r = 255.999 * c.r;
+	d.channel.g = 255.999 * c.g;
+	d.channel.b = 255.999 * c.b;
+	d.channel.a = 255.999 * c.a;
 	return (d);
 }
 

@@ -51,8 +51,8 @@ void	setup_pixel_rays(void)
 	g.fov_h = 90 * RADIANS_PER_DEGREE;
 	g.fov_v = 2 * atan(tan(g.fov_h / 2) * RES_Y / RES_X);
 	g.width = 2 * sin(g.fov_h / 2);
-	g.height = 2 * sin(g.fov_v / 2);
 	g.pixel_width = g.width / RES_X;
+	g.height = g.pixel_width * RES_Y;
 	pixel.axis.z = cos(g.fov_h / 2);
 	pixel.axis.w = 0;
 	idx[0] = -1;
