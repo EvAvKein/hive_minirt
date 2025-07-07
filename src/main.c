@@ -108,14 +108,6 @@ int	main(int argc, char **argv)
 		}
 	}
 	image_to_file("miniRT.bmp");
-	for (size_t i = 0; i < data->pixel_count; ++i) {
-		if (ray_intersects_sphere(&data->pixel_rays[i], &sp)) {
-			data->img->pixels[i * 4] = 0xff;
-			data->img->pixels[i * 4 + 1] = 0xff;
-			data->img->pixels[i * 4 + 2] = 0xff;
-			data->img->pixels[i * 4 + 3] = 0xff;
-		}
-	}
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	free_data();

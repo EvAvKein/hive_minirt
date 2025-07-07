@@ -62,6 +62,26 @@ t_vec4	transformed_vec(t_vec4 const *vec, t_m4x4 const *t)
 	return (transformed);
 }
 
+t_vec4	vec_sum(t_vec4 const *v1, t_vec4 const *v2)
+{
+	return ((t_vec4){
+		._[0] = v1->_[0] + v2->_[0],
+		._[1] = v1->_[1] + v2->_[1],
+		._[2] = v1->_[2] + v2->_[2],
+		._[3] = v1->_[3]
+	});
+}
+
+t_vec4	vec_sub(t_vec4 const *v1, t_vec4 const *v2)
+{
+	return ((t_vec4){
+		._[0] = v1->_[0] - v2->_[0],
+		._[1] = v1->_[1] - v2->_[1],
+		._[2] = v1->_[2] - v2->_[2],
+		._[3] = v1->_[3]
+	});
+}
+
 void	print_vec(t_vec4 const *vec)
 {
 	printf("Vec:	x = %f	y = %f	z = %f	w = %f\n",
