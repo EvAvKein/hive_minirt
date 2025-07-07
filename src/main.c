@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:22 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/04 09:45:48 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/07 18:44:16 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,29 +66,26 @@ int	main(int argc, char **argv)
 	sp = (t_sphere){
 		.pos = (t_vec4){.axis.x = 0,
 						.axis.y = 0,
-						.axis.z = 10,
+						.axis.z = 30,
 						.axis.w = 1},
 		.radius = 3,
 		.next = NULL};
 	setup_pixel_rays();
 	set_uv(data->img);
-	for (size_t i = 0; i < data->pixel_count; ++i) {
-		if (ray_intersects_sphere(&data->pixel_rays[i], &sp)) {
-			data->img->pixels[i * 4] = 0xff;
-			data->img->pixels[i * 4 + 1] = 0xff;
-			data->img->pixels[i * 4 + 2] = 0xff;
+	for (size_t i = 0; i < data->pixel_count; ++i)
+	{
+		if (ray_intersects_sphere(&data->pixel_rays[i], &sp))
+		{
+			t_vec4	intersection = closer_sphere_intersection(&data->pixel_rays[i], &sp);
+			t_vec4	normal = vec_sub(&intersection, &sp.pos);
+			normalize_vec(&normal);
+			data->img->pixels[i * 4] = (normal._[0] * 0.5 + 0.5) * 255.999 * 1;
+			data->img->pixels[i * 4 + 1] = (normal._[1] * 0.5 + 0.5) * 255.999 * 1;
+			data->img->pixels[i * 4 + 2] = fabs(normal._[2]) * 255.999 * 1;
 			data->img->pixels[i * 4 + 3] = 0xff;
 		}
 	}
 	image_to_file("miniRT.bmp");
-	for (size_t i = 0; i < data->pixel_count; ++i) {
-		if (ray_intersects_sphere(&data->pixel_rays[i], &sp)) {
-			data->img->pixels[i * 4] = 0xff;
-			data->img->pixels[i * 4 + 1] = 0xff;
-			data->img->pixels[i * 4 + 2] = 0xff;
-			data->img->pixels[i * 4 + 3] = 0xff;
-		}
-	}
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	free_data();

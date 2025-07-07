@@ -6,17 +6,17 @@
 #    By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 10:27:18 by jvarila           #+#    #+#              #
-#    Updated: 2025/07/07 18:56:28 by jvarila          ###   ########.fr        #
+#    Updated: 2025/07/07 10:38:57 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 TESTS	:=	\
-			vec_len.out				\
-			new_unit_vec.out		\
-			normalize_vec.out		\
-			new_scaled_vec.out		\
-			scale_vec_in_place.out	\
-			dot_product.out
+			multiply_m4x4_in_place.out	\
+			new_mult_m4x4.out			\
+			transpose_m4x4.out			\
+			det_m3x3.out				\
+			inverse_m4x4.out			\
+			cofactor_m4x4.out
 
 CC				:= cc
 COMPILE_FLAGS	:= -Wall -Wextra -Werror -g
@@ -33,8 +33,9 @@ MLX_LIB			:= $(MLX_BUILD_DIR)/libmlx42.a
 # ---------------------------------------------------------------------------- #
 SRC_DIR	:=	../../src
 SRC		:=	\
-			vectors/vectors_01.c	\
-			vectors/vectors_02.c
+			matrices/matrices_01.c	\
+			matrices/matrices_02.c	\
+			matrices/matrices_03.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:=	../../inc
 INC_FILES		:=	minirt.h settings.h

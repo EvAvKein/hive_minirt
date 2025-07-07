@@ -69,7 +69,7 @@ t_m4x4	new_mult_m4x4(const t_m4x4 *m4x4_1, const t_m4x4 *m4x4_2)
 	return (new);
 }
 
-t_m4x4	*scale_m4x4_in_place(t_flt scalar, t_m4x4 *m4x4)
+t_m4x4	*scale_m4x4_in_place(t_m4x4 *m4x4, t_flt scalar)
 {
 	m4x4->_[0][0] = scalar * m4x4->_[0][0];
 	m4x4->_[0][1] = scalar * m4x4->_[0][1];
@@ -90,7 +90,7 @@ t_m4x4	*scale_m4x4_in_place(t_flt scalar, t_m4x4 *m4x4)
 	return (m4x4);
 }
 
-t_m4x4	new_scaled_m4x4(t_flt scalar, t_m4x4 const *m4x4)
+t_m4x4	new_scaled_m4x4(t_m4x4 const *m4x4, t_flt scalar)
 {
 	t_m4x4	new;
 

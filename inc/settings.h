@@ -14,7 +14,7 @@
 # define SETTINGS_H
 
 # ifndef FOV
-#  define FOV	90
+#  define FOV	30
 # endif
 
 # ifndef RES_X

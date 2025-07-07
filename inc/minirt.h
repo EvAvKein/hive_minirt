@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/27 19:45:29 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/07 18:53:33 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,18 +142,20 @@ t_vec4			new_scaled_vec(t_vec4 const *vec, t_flt scalar);
 t_vec4			*scale_vec_in_place(t_vec4 *vec, t_flt scalar);
 
 t_flt			dot_product(t_vec4 const *v1, t_vec4 const *v2);
+t_vec4			vec_sum(t_vec4 const *v1, t_vec4 const *v2);
+t_vec4			vec_sub(t_vec4 const *v1, t_vec4 const *v2);
 void			print_vec(t_vec4 const *vec);
 
 // matrices_01.c
 t_m4x4			*multiply_m4x4_in_place(t_m4x4 const *mult, t_m4x4 *m4x4);
 t_m4x4			new_mult_m4x4(const t_m4x4 *m4x4_1, const t_m4x4 *m4x4_2);
-t_m4x4			*scale_m4x4_in_place(t_flt scalar, t_m4x4 *m4x4);
-t_m4x4			new_scaled_m4x4(t_flt scalar, t_m4x4 const *m4x4);
+t_m4x4			*scale_m4x4_in_place(t_m4x4 *m4x4, t_flt scalar);
+t_m4x4			new_scaled_m4x4(t_m4x4 const *m4x4, t_flt scalar);
 void			print_m4x4(t_m4x4 const *m4x4);
 
 // matrices_02.c
-t_m2x2			sub_m2x2(t_m3x3 const *m3x3, size_t row, size_t col);
-t_m3x3			sub_m3x3(t_m4x4 const *m4x4, size_t row, size_t col);
+t_m2x2			sub_m3x3(t_m3x3 const *m3x3, size_t row, size_t col);
+t_m3x3			sub_m4x4(t_m4x4 const *m4x4, size_t row, size_t col);
 t_flt			det_m2x2(t_m2x2 const *m2x2);
 t_flt			det_m3x3(t_m3x3 const *m3x3);
 t_flt			det_m4x4(t_m4x4 const *m4x4);
@@ -161,6 +163,8 @@ t_flt			det_m4x4(t_m4x4 const *m4x4);
 // matrices_03.c
 t_m4x4			identity_m4x4(void);
 t_m4x4			transpose_m4x4(t_m4x4 const *m4x4);
+t_flt			cofactor_m4x4(t_m4x4 const *m4x4, size_t row, size_t col);
+t_m4x4			inverse_m4x4(t_m4x4 const *m4x4);
 
 /* ------------------------------------------------------------ SCENE OBJECTS */
 
@@ -259,6 +263,9 @@ bool			plane_parse(char *str, size_t *parse_i);
 bool			cylinder_parse(char *str, size_t *parse_i);
 
 bool			ray_intersects_sphere(t_vec4 const *ray, t_sphere const *sp);
+t_vec4			closer_sphere_intersection(t_vec4 const *ray,
+									t_sphere const *sp);
+
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
@@ -282,6 +289,13 @@ void			setup_pixel_rays(void);
 bool			data_init_successful(void);
 
 /* -------------------------------------------------------------------- UTILS */
+
+typedef struct s_quad
+{
+	t_flt	b;
+	t_flt	c;
+	t_flt	discr;
+}			t_quad;
 
 typedef struct s_pixel_grid
 {

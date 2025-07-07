@@ -24,16 +24,34 @@ t_m4x4	transpose_m4x4(t_m4x4 const *m4x4)
 {
 	t_m4x4	transpose;
 	size_t	i;
-	size_t	j;
 
 	i = -1;
-	while (++i < 4)
-	{
-		j = -1;
-		while (++j < 4)
-		{
-			transpose._[i][j] = m4x4->_[j][i];
-		}
-	}
+	while (++i < 16)
+		transpose._[i / 4][i % 4] = m4x4->_[i % 4][i / 4];
 	return (transpose);
+}
+
+t_flt	cofactor_m4x4(t_m4x4 const *m4x4, size_t row, size_t col)
+{
+	t_m3x3	sub;
+
+	sub = sub_m4x4(m4x4, row, col);
+	if ((row + col) % 2 != 0)
+		return (-det_m3x3(&sub));
+	return (det_m3x3(&sub));
+}
+
+t_m4x4	inverse_m4x4(t_m4x4 const *m4x4)
+{
+	t_m4x4	inverse;
+	t_flt	det;
+	size_t	i;
+
+	det = det_m4x4(m4x4);
+	if (det == 0)
+		return ((t_m4x4){0});
+	i = -1;
+	while (++i < 16)
+		inverse._[i % 4][i / 4] = cofactor_m4x4(m4x4, i / 4, i % 4) / det;
+	return (inverse);
 }
