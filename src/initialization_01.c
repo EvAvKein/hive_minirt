@@ -14,7 +14,7 @@
 
 static bool	mlx_init_successful(void);
 static bool	problem_with_resolution(void);
-static bool	set_error_return_false(enum e_error error);
+static bool	set_error_return_false(t_error error);
 
 /**
  * Attempts to initialize data structure before running the raytracer.
@@ -64,7 +64,7 @@ void	setup_pixel_rays(void)
 		pixel.axis.y = (g.height - g.pixel_width) / 2 - idx[2] * g.pixel_width;
 		pixel.axis.z = cos(g.fov_h / 2);
 		pixel.axis.w = 0;
-		data->pixel_rays[idx[0]] = new_unit_vec(&pixel);
+		data->pixel_rays[idx[0]] = unit_vec(&pixel);
 	}
 }
 
@@ -121,7 +121,7 @@ static bool	problem_with_resolution(void)
 /**
  * @returns	false
  */
-static bool	set_error_return_false(enum e_error error)
+static bool	set_error_return_false(t_error error)
 {
 	get_data()->error = error;
 	return (false);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_unit_vec.c                                     :+:      :+:    :+:   */
+/*   unit_vec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -18,7 +18,7 @@ int	main(void)
 
 	printf("\n");
 	vec = (t_vec4){};
-	vec = new_unit_vec(&vec);
+	vec = unit_vec(&vec);
 	print_vec(&vec);
 	printf("len:	%f\n\n", vec_len(&vec));
 	vec = (t_vec4){
@@ -26,7 +26,7 @@ int	main(void)
 		._[1] = 1,
 		._[2] = 1
 	};
-	vec = new_unit_vec(&vec);
+	vec = unit_vec(&vec);
 	print_vec(&vec);
 	printf("len:	%f\n\n", vec_len(&vec));
 	vec = (t_vec4){
@@ -35,7 +35,7 @@ int	main(void)
 		._[2] = 3,
 		._[3] = 100
 	};
-	vec = new_unit_vec(&vec);
+	vec = unit_vec(&vec);
 	print_vec(&vec);
 	printf("len:	%f\n\n", vec_len(&vec));
 	return (0);

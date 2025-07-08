@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/07 18:53:33 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/08 10:10:34 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdbool.h>		// bool
 # include <limits.h>		// LLONG_MAX
 # include <fcntl.h>			// open()
-# include <math.h>			// pow()
+# include <math.h>			// pow(), fabs()
 # include <float.h>			// FLT_MAX & DBL_MAX
 # include <stdio.h>			// printf()
 # include "libft_plus.h"
@@ -25,18 +25,17 @@
 
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
-# define EPSILON			0.00001
 
 typedef float	t_flt;
 
-enum e_error
+typedef enum e_error
 {
 	ERROR_MLX_INIT = 3,
 	ERROR_MLX_NEW_IMAGE,
 	ERROR_MLX_IMAGE_TO_WINDOW,
 	ERROR_PROBLEM_WITH_RESOLUTION,
 	ERROR_ALLOC,
-};
+}	t_error;
 
 /* ------------------------------------------------------------------- COLORS */
 
@@ -135,38 +134,58 @@ typedef struct t_m2x2
 	t_flt	_[2][2];
 }			t_m2x2;
 
+// vectors/vectors_01.c
 t_flt			vec_len(t_vec4 const *vec);
-t_vec4			new_unit_vec(t_vec4 const *vec);
+t_vec4			unit_vec(t_vec4 const *vec);
 t_vec4			*normalize_vec(t_vec4 *vec);
-t_vec4			new_scaled_vec(t_vec4 const *vec, t_flt scalar);
-t_vec4			*scale_vec_in_place(t_vec4 *vec, t_flt scalar);
+t_vec4			scaled_vec(t_vec4 const *vec, t_flt scalar);
+t_vec4			*scale_vec(t_vec4 *vec, t_flt scalar);
 
+// vectors/vectors_02.c
 t_flt			dot_product(t_vec4 const *v1, t_vec4 const *v2);
 t_vec4			vec_sum(t_vec4 const *v1, t_vec4 const *v2);
 t_vec4			vec_sub(t_vec4 const *v1, t_vec4 const *v2);
+t_vec4			transformed_vec(t_vec4 const *vec, t_m4x4 const *t);
 void			print_vec(t_vec4 const *vec);
 
-// matrices_01.c
-t_m4x4			*multiply_m4x4_in_place(t_m4x4 const *mult, t_m4x4 *m4x4);
-t_m4x4			new_mult_m4x4(const t_m4x4 *m4x4_1, const t_m4x4 *m4x4_2);
-t_m4x4			*scale_m4x4_in_place(t_m4x4 *m4x4, t_flt scalar);
-t_m4x4			new_scaled_m4x4(t_m4x4 const *m4x4, t_flt scalar);
+// matrices/matrices_01.c
+t_m4x4			*multiply_m4x4(t_m4x4 const *mult, t_m4x4 *m4x4);
+t_m4x4			mult_m4x4(const t_m4x4 *m4x4_1, const t_m4x4 *m4x4_2);
+t_m4x4			*scale_m4x4(t_m4x4 *m4x4, t_flt scalar);
+t_m4x4			scaled_m4x4(t_m4x4 const *m4x4, t_flt scalar);
 void			print_m4x4(t_m4x4 const *m4x4);
 
-// matrices_02.c
+// matrices/matrices_02.c
 t_m2x2			sub_m3x3(t_m3x3 const *m3x3, size_t row, size_t col);
 t_m3x3			sub_m4x4(t_m4x4 const *m4x4, size_t row, size_t col);
 t_flt			det_m2x2(t_m2x2 const *m2x2);
 t_flt			det_m3x3(t_m3x3 const *m3x3);
 t_flt			det_m4x4(t_m4x4 const *m4x4);
 
-// matrices_03.c
+// matrices/matrices_03.c
 t_m4x4			identity_m4x4(void);
 t_m4x4			transpose_m4x4(t_m4x4 const *m4x4);
 t_flt			cofactor_m4x4(t_m4x4 const *m4x4, size_t row, size_t col);
 t_m4x4			inverse_m4x4(t_m4x4 const *m4x4);
 
+// matrices/transforms_01.c
+t_m4x4			translation_m4x4(t_vec4 const *vec);
+t_m4x4			scaling_m4x4(t_vec4 const *vec);
+t_m4x4			x_rotation_m4x4(t_flt deg);
+t_m4x4			y_rotation_m4x4(t_flt deg);
+t_m4x4			z_rotation_m4x4(t_flt deg);
+
 /* ------------------------------------------------------------ SCENE OBJECTS */
+
+typedef enum e_obj_type
+{
+	CAMERA,
+	AMBIENT_LIGHT,
+	LIGHT,
+	SPHERE,
+	PLANE,
+	CYLINDER,
+}	t_obj_type;
 
 typedef struct s_camera
 {
@@ -227,13 +246,13 @@ typedef struct s_elems
 
 typedef struct s_data
 {
-	t_elems			elems;
-	mlx_t			*mlx;
-	mlx_image_t		*img;
-	t_vec4			*pixel_rays;
-	size_t			pixel_count;
-	enum e_error	error;
-}			t_data;
+	t_elems		elems;
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+	t_vec4		*pixel_rays;
+	size_t		pixel_count;
+	t_error		error;
+}				t_data;
 
 t_data			*get_data(void);
 
@@ -262,10 +281,17 @@ bool			sphere_parse(char *str, size_t *parse_i);
 bool			plane_parse(char *str, size_t *parse_i);
 bool			cylinder_parse(char *str, size_t *parse_i);
 
-bool			ray_intersects_sphere(t_vec4 const *ray, t_sphere const *sp);
-t_vec4			closer_sphere_intersection(t_vec4 const *ray,
-									t_sphere const *sp);
+typedef struct s_hit
+{
+	t_obj_type		obj_type;
+	void const		*obj;
+	t_vec4 const	*ray;
+	float			t;
+}					t_hit;
 
+bool			ray_intersects_sphere(t_vec4 const *ray, t_sphere const *sp);
+t_vec4			primary_sphere_intersection(t_vec4 const *ray,
+					t_sphere const *sp);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
@@ -310,6 +336,7 @@ t_flt			to_radians(t_flt degrees);
 t_flt			to_degrees(t_flt radians);
 bool			floats_are_equal(t_flt flt1, t_flt flt2);
 bool			vecs_are_equal(t_vec4 const *vec1, t_vec4 const *vec2);
+bool			in_front_of_camera(t_camera const *cam, t_vec4 const *vec);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

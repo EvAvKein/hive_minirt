@@ -45,6 +45,7 @@ SRC		:=	main.c									\
 			matrices/matrices_01.c					\
 			matrices/matrices_02.c					\
 			matrices/matrices_03.c					\
+			matrices/transforms_01.c				\
 			color/colors_01.c						\
 			color/backgrounds_01.c					\
 			objects/sphere_intersection.c

@@ -45,7 +45,7 @@ void	test_function(void)
 	test.axis = (t_axis){.x = 1, .y = 2, .z = 3, .w = 1};
 }
 
-t_m4x4	*multiply_matrix_in_place(t_m4x4 const *mult, t_m4x4 *mat)
+t_m4x4	*multiply_matrix(t_m4x4 const *mult, t_m4x4 *mat)
 {
 	int		m;
 	t_m4x4	original;
@@ -74,7 +74,7 @@ t_m4x4	*multiply_matrix_in_place(t_m4x4 const *mult, t_m4x4 *mat)
 	return (mat);
 }
 
-t_m4x4	new_mult_matrix(const t_m4x4 *mat1, const t_m4x4 *mat2)
+t_m4x4	mult_matrix(const t_m4x4 *mat1, const t_m4x4 *mat2)
 {
 	int		m;
 	t_m4x4	new;
@@ -102,7 +102,7 @@ t_m4x4	new_mult_matrix(const t_m4x4 *mat1, const t_m4x4 *mat2)
 	return (new);
 }
 
-t_m4x4	*scale_matrix_in_place(t_flt scalar, t_m4x4 *mat)
+t_m4x4	*scale_matrix(t_flt scalar, t_m4x4 *mat)
 {
 	mat->_[0][0] = scalar * mat->_[0][0];
 	mat->_[0][1] = scalar * mat->_[0][1];
@@ -123,7 +123,7 @@ t_m4x4	*scale_matrix_in_place(t_flt scalar, t_m4x4 *mat)
 	return (mat);
 }
 
-t_m4x4	new_scaled_matrix(t_flt scalar, t_m4x4 const *mat)
+t_m4x4	scaled_matrix(t_flt scalar, t_m4x4 const *mat)
 {
 	t_m4x4	new;
 
@@ -146,7 +146,7 @@ t_m4x4	new_scaled_matrix(t_flt scalar, t_m4x4 const *mat)
 	return (new);
 }
 
-t_vec4	*scale_vector_in_place(t_flt scalar, t_vec4 *vec)
+t_vec4	*scale_vector(t_flt scalar, t_vec4 *vec)
 {
 	vec->_[0] = scalar * vec->_[0];
 	vec->_[1] = scalar * vec->_[1];
@@ -154,7 +154,7 @@ t_vec4	*scale_vector_in_place(t_flt scalar, t_vec4 *vec)
 	return (vec);
 }
 
-t_vec4	new_scaled_vector(t_flt scalar, t_vec4 const *vec)
+t_vec4	scaled_vector(t_flt scalar, t_vec4 const *vec)
 {
 	t_vec4	new;
 
@@ -188,7 +188,7 @@ t_vec4	new_transformed_vector(t_m4x4 const *mat, t_vec4 const *vec)
 	return (new);
 }
 
-t_vec4	*transform_vector_in_place(t_m4x4 const *mat, t_vec4 *vec)
+t_vec4	*transform_vector(t_m4x4 const *mat, t_vec4 *vec)
 {
 	t_vec4	original;
 
@@ -259,7 +259,7 @@ t_vec4	*normalize_vector(t_vec4 *vec)
 	return (vec);
 }
 
-t_vec4	new_unit_vector(t_vec4 const *vec)
+t_vec4	unit_vector(t_vec4 const *vec)
 {
 	t_vec4	unit;
 	t_flt	scale;
@@ -306,17 +306,17 @@ int	main(void)
 			test._[m][n] = m * 4 + n;
 	}
 	print_matrix(&test);
-	test = new_mult_matrix(&test, &test);
+	test = mult_matrix(&test, &test);
 	print_matrix(&test);
 	vector = (t_vec4){._ = {1, 2, 3, 0}};
 	print_vector(&vector);
 	point = (t_vec4){._ = {1, 2, 3, 1}};
 	print_vector(&point);
-	test = new_scaled_matrix(3, &identity_matrix);
+	test = scaled_matrix(3, &identity_matrix);
 	print_matrix(&test);
 	vector = new_transformed_vector(&test, &vector);
 	print_vector(&vector);
-	vector = new_unit_vector(&vector);
+	vector = unit_vector(&vector);
 	print_vector(&vector);
 	return (0);
 }

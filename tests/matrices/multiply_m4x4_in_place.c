@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   multiply_m4x4_in_place.c                           :+:      :+:    :+:   */
+/*   multiply_m4x4.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -24,8 +24,8 @@ int	main(void)
 		._[3][0] = 13, ._[3][1] = 14, ._[3][2] = 15, ._[3][3] = 16,
 	};
 	m2 = identity_m4x4();
-	scale_m4x4_in_place(&m2, 2);
-	multiply_m4x4_in_place(&m2, &m1);
+	scale_m4x4(&m2, 2);
+	multiply_m4x4(&m2, &m1);
 	print_m4x4(&m1);
 	return (0);
 }
