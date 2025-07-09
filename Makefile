@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/06/27 16:56:24 by ekeinan          ###   ########.fr        #
+#    Updated: 2025/07/09 12:00:21 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,12 +40,14 @@ SRC		:=	main.c									\
 			parsing/utils.c							\
 			utils/errors.c							\
 			utils/utils_01.c						\
+			utils/utils_02.c						\
 			vectors/vectors_01.c					\
 			vectors/vectors_02.c					\
 			matrices/matrices_01.c					\
 			matrices/matrices_02.c					\
 			matrices/matrices_03.c					\
 			matrices/transforms_01.c				\
+			rays/rays_01.c							\
 			color/colors_01.c						\
 			color/backgrounds_01.c					\
 			objects/sphere_intersection.c

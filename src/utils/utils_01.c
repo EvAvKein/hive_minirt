@@ -55,7 +55,7 @@ bool	vecs_are_equal(t_vec4 const *vec1, t_vec4 const *vec2)
  */
 bool	in_front_of_camera(t_camera const *cam, t_vec4 const *vec)
 {
-	if (dot_product(&cam->orientation, vec) > 0)
+	if (dot(&cam->orientation, vec) > 0)
 		return (true);
 	return (false);
 }

@@ -376,5 +376,59 @@
    "obj/objects/sphere_intersection.o"
   ],
   "file": "src/objects/sphere_intersection.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/utils/utils_02.c",
+   "-o",
+   "obj/utils/utils_02.o"
+  ],
+  "file": "src/utils/utils_02.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/matrices/transforms_01.c",
+   "-o",
+   "obj/matrices/transforms_01.o"
+  ],
+  "file": "src/matrices/transforms_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/rays/rays_01.c",
+   "-o",
+   "obj/rays/rays_01.o"
+  ],
+  "file": "src/rays/rays_01.c"
  }
 ]

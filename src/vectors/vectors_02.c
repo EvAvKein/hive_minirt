@@ -12,13 +12,21 @@
 
 #include "minirt.h"
 
-t_flt	dot_product(t_vec4 const *v1, t_vec4 const *v2)
+/**
+ * @returns	Dot product of vectors v1 and v2
+ */
+t_flt	dot(t_vec4 const *v1, t_vec4 const *v2)
 {
 	return (v1->_[0] * v2->_[0]
 		+ v1->_[1] * v2->_[1]
 		+ v1->_[2] * v2->_[2]);
 }
 
+/**
+ * @returns	New vector whose three first dimensions are the sums of the
+ *			corresponding dimensions of v1 and v2, the fourth dimension
+ *			is copied from v1
+ */
 t_vec4	vec_sum(t_vec4 const *v1, t_vec4 const *v2)
 {
 	return ((t_vec4){
@@ -29,6 +37,11 @@ t_vec4	vec_sum(t_vec4 const *v1, t_vec4 const *v2)
 	});
 }
 
+/**
+ * @returns	New vector whose three first dimensions are the differences of
+ *			the corresponding dimensions of v1 and v2, the fourth dimension
+ *			is copied from v1
+ */
 t_vec4	vec_sub(t_vec4 const *v1, t_vec4 const *v2)
 {
 	return ((t_vec4){
@@ -39,6 +52,10 @@ t_vec4	vec_sub(t_vec4 const *v1, t_vec4 const *v2)
 	});
 }
 
+/**
+ * @returns	The transformed vector resulting from vec being matrix multiplied
+ *			by the transformatino matrix t
+ */
 t_vec4	transformed_vec(t_vec4 const *vec, t_m4x4 const *t)
 {
 	t_vec4	transformed;

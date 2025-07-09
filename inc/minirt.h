@@ -142,7 +142,7 @@ t_vec4			scaled_vec(t_vec4 const *vec, t_flt scalar);
 t_vec4			*scale_vec(t_vec4 *vec, t_flt scalar);
 
 // vectors/vectors_02.c
-t_flt			dot_product(t_vec4 const *v1, t_vec4 const *v2);
+t_flt			dot(t_vec4 const *v1, t_vec4 const *v2);
 t_vec4			vec_sum(t_vec4 const *v1, t_vec4 const *v2);
 t_vec4			vec_sub(t_vec4 const *v1, t_vec4 const *v2);
 t_vec4			transformed_vec(t_vec4 const *vec, t_m4x4 const *t);
@@ -179,6 +179,7 @@ t_m4x4			z_rotation_m4x4(t_flt deg);
 
 typedef enum e_obj_type
 {
+	UNKNOWN,
 	CAMERA,
 	AMBIENT_LIGHT,
 	LIGHT,
@@ -192,6 +193,7 @@ typedef struct s_camera
 	t_vec4	pos;
 	t_vec4	orientation;
 	uint8_t	fov;
+	t_m4x4	transform;
 }			t_camera;
 
 typedef struct s_ambient_light
@@ -205,6 +207,7 @@ typedef struct s_light
 	t_vec4			pos;
 	t_flt			brightness;
 	t_color			color;
+	t_m4x4			transform;
 	struct s_light	*next;
 }					t_light;
 
@@ -213,6 +216,8 @@ typedef struct s_sphere
 	t_vec4			pos;
 	t_flt			radius;
 	t_color			color;
+	t_m4x4			transform;
+	t_m4x4			inverse;
 	struct s_sphere	*next;
 }					t_sphere;
 
@@ -221,6 +226,7 @@ typedef struct s_plane
 	t_vec4			pos;
 	t_vec4			orientation;
 	t_color			color;
+	t_m4x4			transform;
 	struct s_plane	*next;
 }					t_plane;
 
@@ -231,6 +237,7 @@ typedef struct s_cylinder
 	t_flt				diam;
 	t_flt				height;
 	t_color				color;
+	t_m4x4				transform;
 	struct s_cylinder	*next;
 }						t_cylinder;
 
@@ -244,14 +251,43 @@ typedef struct s_elems
 	t_cylinder		*cylinders;
 }					t_elems;
 
+typedef struct s_ray
+{
+	t_vec4	dir;
+	t_vec4	orig;
+}			t_ray;
+
+typedef struct s_rxo
+{
+	t_obj_type		obj_type;
+	void			*obj;
+	t_flt			t;
+}					t_rxo;
+
+typedef struct s_rxos
+{
+	size_t	count;
+	t_rxo	_[2];
+}			t_rxos;
+
+typedef struct s_pixel_grid
+{
+	t_flt	fov_h;
+	t_flt	fov_v;
+	t_flt	width;
+	t_flt	height;
+	t_flt	pixel_width;
+}			t_pixel_grid;
+
 typedef struct s_data
 {
-	t_elems		elems;
-	mlx_t		*mlx;
-	mlx_image_t	*img;
-	t_vec4		*pixel_rays;
-	size_t		pixel_count;
-	t_error		error;
+	t_elems			elems;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_ray			*pixel_rays;
+	size_t			pixel_count;
+	t_pixel_grid	pixel_grid;
+	t_error			error;
 }				t_data;
 
 t_data			*get_data(void);
@@ -281,17 +317,13 @@ bool			sphere_parse(char *str, size_t *parse_i);
 bool			plane_parse(char *str, size_t *parse_i);
 bool			cylinder_parse(char *str, size_t *parse_i);
 
-typedef struct s_hit
-{
-	t_obj_type		obj_type;
-	void const		*obj;
-	t_vec4 const	*ray;
-	float			t;
-}					t_hit;
+t_ray			*transform_ray(t_ray *ray, t_m4x4 const *transform);
+t_ray			*inverse_transform_ray(t_ray *ray, t_m4x4 const *transform);
 
-bool			ray_intersects_sphere(t_vec4 const *ray, t_sphere const *sp);
-t_vec4			primary_sphere_intersection(t_vec4 const *ray,
-					t_sphere const *sp);
+// objects/sphere_intersection.c
+bool			ray_intersects_sphere(t_ray const *ray, t_sphere const *sp);
+t_rxos			ray_x_sphere(t_ray const *ray, t_sphere const *sp);
+t_rxo			hit(t_rxos const *intersections);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
@@ -318,25 +350,21 @@ bool			data_init_successful(void);
 
 typedef struct s_quad
 {
+	t_flt	a;
 	t_flt	b;
 	t_flt	c;
 	t_flt	discr;
 }			t_quad;
 
-typedef struct s_pixel_grid
-{
-	t_flt	fov_h;
-	t_flt	fov_v;
-	t_flt	width;
-	t_flt	height;
-	t_flt	pixel_width;
-}			t_pixel_grid;
-
+// utils/utils_01.c
 t_flt			to_radians(t_flt degrees);
 t_flt			to_degrees(t_flt radians);
 bool			floats_are_equal(t_flt flt1, t_flt flt2);
 bool			vecs_are_equal(t_vec4 const *vec1, t_vec4 const *vec2);
 bool			in_front_of_camera(t_camera const *cam, t_vec4 const *vec);
+
+// utils/utils_02.c
+void			write_pixel_rays_to_file(const char *str);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

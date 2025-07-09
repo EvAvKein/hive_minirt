@@ -12,6 +12,9 @@
 
 #include "minirt.h"
 
+/**
+ * @returns	Length of vector parameter vec
+ */
 t_flt	vec_len(t_vec4 const *vec)
 {
 	t_flt	len;
@@ -22,6 +25,9 @@ t_flt	vec_len(t_vec4 const *vec)
 	return (len);
 }
 
+/**
+ * @returns	Unit vector based on vec
+ */
 t_vec4	unit_vec(t_vec4 const *vec)
 {
 	t_flt	len;
@@ -32,6 +38,12 @@ t_vec4	unit_vec(t_vec4 const *vec)
 	return (scaled_vec(vec, len_div));
 }
 
+/**
+ * Normalizes vec in place, aka divides each dimension by the length of vec,
+ * turning it into a unit vector, and returns its address
+ *
+ * @returns	Address of vec
+ */
 t_vec4	*normalize_vec(t_vec4 *vec)
 {
 	t_flt	len;
@@ -42,6 +54,10 @@ t_vec4	*normalize_vec(t_vec4 *vec)
 	return (scale_vec(vec, len_div));
 }
 
+/**
+ * @returns	Scaled vector, whose dimensions are the dimensions of vec scaled
+ *			by scalar
+ */
 t_vec4	scaled_vec(t_vec4 const *vec, t_flt scalar)
 {
 	return ((t_vec4){
@@ -51,6 +67,11 @@ t_vec4	scaled_vec(t_vec4 const *vec, t_flt scalar)
 		._[3] = vec->_[3]});
 }
 
+/**
+ * Scales vector in place
+ *
+ * @returns	Address of vec
+ */
 t_vec4	*scale_vec(t_vec4 *vec, t_flt scalar)
 {
 	vec->_[0] *= scalar;
