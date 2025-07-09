@@ -11,11 +11,11 @@
 # **************************************************************************** #
 
 TESTS	:=	\
-			vec_len.out				\
-			new_unit_vec.out		\
-			normalize_vec.out		\
-			new_scaled_vec.out		\
-			scale_vec_in_place.out	\
+			vec_len.out			\
+			unit_vec.out		\
+			normalize_vec.out	\
+			scaled_vec.out		\
+			scale_vec.out		\
 			dot_product.out
 
 CC				:= cc
