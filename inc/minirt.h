@@ -135,46 +135,40 @@ typedef struct t_m2x2
 }			t_m2x2;
 
 // vectors/vectors_01.c
-t_flt			vec_len(t_vec4 const *vec);
-t_vec4			unit_vec(t_vec4 const *vec);
-t_vec4			*normalize_vec(t_vec4 *vec);
-t_vec4			scaled_vec(t_vec4 const *vec, t_flt scalar);
-t_vec4			*scale_vec(t_vec4 *vec, t_flt scalar);
-
-// vectors/vectors_02.c
-t_flt			dot(t_vec4 const *v1, t_vec4 const *v2);
-t_vec4			vec_sum(t_vec4 const *v1, t_vec4 const *v2);
-t_vec4			vec_sub(t_vec4 const *v1, t_vec4 const *v2);
-t_vec4			transformed_vec(t_vec4 const *vec, t_m4x4 const *t);
-void			print_vec(t_vec4 const *vec);
-
-// vectors/vectors_03.c
+t_flt			vec_len(t_vec4 vec);
+t_vec4			unit_vec(t_vec4 vec);
+t_vec4			scaled_vec(t_vec4 vec, t_flt scalar);
 t_vec4			vector(t_flt x, t_flt y, t_flt z);
 t_vec4			position(t_flt x, t_flt y, t_flt z);
 
+// vectors/vectors_02.c
+t_flt			dot(t_vec4 v1, t_vec4 v2);
+t_vec4			vec_sum(t_vec4 v1, t_vec4 v2);
+t_vec4			vec_sub(t_vec4 v1, t_vec4 v2);
+t_vec4			transformed_vec(t_vec4 vec, t_m4x4 t);
+void			print_vec(t_vec4 vec);
+
 // matrices/matrices_01.c
-t_m4x4			*multiply_m4x4(t_m4x4 const *mult, t_m4x4 *m4x4);
-t_m4x4			mult_m4x4(const t_m4x4 *m4x4_1, const t_m4x4 *m4x4_2);
-t_m4x4			*scale_m4x4(t_m4x4 *m4x4, t_flt scalar);
-t_m4x4			scaled_m4x4(t_m4x4 const *m4x4, t_flt scalar);
-void			print_m4x4(t_m4x4 const *m4x4);
+t_m4x4			mult_m4x4(t_m4x4 m4x4_1, t_m4x4 m4x4_2);
+t_m4x4			scaled_m4x4(t_m4x4 m4x4, t_flt scalar);
+void			print_m4x4(t_m4x4 m4x4);
 
 // matrices/matrices_02.c
-t_m2x2			sub_m3x3(t_m3x3 const *m3x3, size_t row, size_t col);
-t_m3x3			sub_m4x4(t_m4x4 const *m4x4, size_t row, size_t col);
-t_flt			det_m2x2(t_m2x2 const *m2x2);
-t_flt			det_m3x3(t_m3x3 const *m3x3);
-t_flt			det_m4x4(t_m4x4 const *m4x4);
+t_m2x2			sub_m3x3(t_m3x3 m3x3, size_t row, size_t col);
+t_m3x3			sub_m4x4(t_m4x4 m4x4, size_t row, size_t col);
+t_flt			det_m2x2(t_m2x2 m2x2);
+t_flt			det_m3x3(t_m3x3 m3x3);
+t_flt			det_m4x4(t_m4x4 m4x4);
 
 // matrices/matrices_03.c
 t_m4x4			identity_m4x4(void);
-t_m4x4			transpose_m4x4(t_m4x4 const *m4x4);
-t_flt			cofactor_m4x4(t_m4x4 const *m4x4, size_t row, size_t col);
-t_m4x4			inverse_m4x4(t_m4x4 const *m4x4);
+t_m4x4			transpose_m4x4(t_m4x4 m4x4);
+t_flt			cofactor_m4x4(t_m4x4 m4x4, size_t row, size_t col);
+t_m4x4			inverse_m4x4(t_m4x4 m4x4);
 
 // matrices/transforms_01.c
-t_m4x4			translation_m4x4(t_vec4 const *vec);
-t_m4x4			scaling_m4x4(t_vec4 const *vec);
+t_m4x4			translation_m4x4(t_vec4 vec);
+t_m4x4			scaling_m4x4(t_vec4 vec);
 t_m4x4			x_rotation_m4x4(t_flt deg);
 t_m4x4			y_rotation_m4x4(t_flt deg);
 t_m4x4			z_rotation_m4x4(t_flt deg);
@@ -216,7 +210,7 @@ typedef struct s_phong_helper
 // objects/materials_01.c
 t_material		material(t_flt amb, t_flt diff, t_flt spec, t_flt shiny);
 t_material		default_material(void);
-t_color			vec4_to_color(t_vec4 const *vec);
+t_color			vec4_to_color(t_vec4 vec);
 t_color			let_there_be_light(t_phong_helper *p);
 
 /* ------------------------------------------------------------ SCENE OBJECTS */
@@ -362,17 +356,15 @@ bool			sphere_parse(char *str, size_t *parse_i);
 bool			plane_parse(char *str, size_t *parse_i);
 bool			cylinder_parse(char *str, size_t *parse_i);
 
-t_ray			*transform_ray(t_ray *ray, t_m4x4 const *transform);
-t_ray			*inverse_transform_ray(t_ray *ray, t_m4x4 const *transform);
-t_ray			transformed_ray(t_ray *ray, t_m4x4 const *transform);
-t_vec4			reflection(t_vec4 const *vec, t_vec4 const *normal);
+// rays/rays_01.c
+t_ray			transformed_ray(t_ray ray, t_m4x4 transform);
+t_ray			inverse_transformed_ray(t_ray ray, t_m4x4 transform);
+t_vec4			reflection(t_vec4 vec, t_vec4 normal);
 
 // objects/sphere_intersection.c
-bool			ray_intersects_sphere(t_ray const *ray, t_sphere const *sp);
-t_rxos			ray_x_sphere(t_ray const *ray, t_sphere const *sp);
-t_rxo			hit(t_rxos const *intersections);
-t_vec4			sphere_normal_at(t_sphere const *sp, t_ray const *ray,
-					t_rxo const *rxo);
+t_rxos			ray_x_sphere(t_ray ray, t_sphere *sp);
+t_rxo			hit(t_rxos intersections);
+t_vec4			sphere_normal_at(t_sphere sp, t_ray ray, t_rxo rxo);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
@@ -409,12 +401,12 @@ typedef struct s_quad
 t_flt			to_radians(t_flt degrees);
 t_flt			to_degrees(t_flt radians);
 bool			floats_are_equal(t_flt flt1, t_flt flt2);
-bool			vecs_are_equal(t_vec4 const *vec1, t_vec4 const *vec2);
-bool			in_front_of_camera(t_camera const *cam, t_vec4 const *vec);
+bool			vecs_are_equal(t_vec4 vec1, t_vec4 vec2);
+bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 
 // utils/utils_02.c
 void			write_pixel_rays_to_file(const char *str);
-t_quad			solve_sphere_quadratic(t_ray const *ray, t_sphere const *sp);
+t_quad			solve_sphere_quadratic(t_ray ray, t_sphere sp);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

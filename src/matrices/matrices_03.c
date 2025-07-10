@@ -26,14 +26,14 @@ t_m4x4	identity_m4x4(void)
 /**
  * @returns	Transpose matrix of m4x4 (first row becomes first column etc.)
  */
-t_m4x4	transpose_m4x4(t_m4x4 const *m4x4)
+t_m4x4	transpose_m4x4(t_m4x4 m4x4)
 {
 	t_m4x4	transpose;
 	size_t	i;
 
 	i = -1;
 	while (++i < 16)
-		transpose._[i / 4][i % 4] = m4x4->_[i % 4][i / 4];
+		transpose._[i / 4][i % 4] = m4x4._[i % 4][i / 4];
 	return (transpose);
 }
 
@@ -42,21 +42,21 @@ t_m4x4	transpose_m4x4(t_m4x4 const *m4x4)
  *			in which the row and column have been removed, signed based on if
  *			the sum of the row and column indices is odd or even
  */
-t_flt	cofactor_m4x4(t_m4x4 const *m4x4, size_t row, size_t col)
+t_flt	cofactor_m4x4(t_m4x4 m4x4, size_t row, size_t col)
 {
 	t_m3x3	sub;
 
 	sub = sub_m4x4(m4x4, row, col);
 	if ((row + col) % 2 != 0)
-		return (-det_m3x3(&sub));
-	return (det_m3x3(&sub));
+		return (-det_m3x3(sub));
+	return (det_m3x3(sub));
 }
 
 /**
  * @returns	The inverse matrix of m4x4 when m4x4 is invertible, a zero matrix if
  *			m4x4 is not invertible
  */
-t_m4x4	inverse_m4x4(t_m4x4 const *m4x4)
+t_m4x4	inverse_m4x4(t_m4x4 m4x4)
 {
 	t_m4x4	inverse;
 	t_flt	det;

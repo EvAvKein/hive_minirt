@@ -64,7 +64,7 @@ void	setup_pixel_rays(void)
 		pixel._[2] = cos(g->fov_h / 2);
 		pixel._[3] = 0;
 		data->pixel_rays[idx[0]] = (t_ray){.orig = (t_vec4){._[3] = 1}};
-		data->pixel_rays[idx[0]].dir = unit_vec(&pixel);
+		data->pixel_rays[idx[0]].dir = unit_vec(pixel);
 	}
 }
 

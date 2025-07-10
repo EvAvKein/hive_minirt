@@ -15,28 +15,28 @@
 /**
  * @returns	Translation matrix based on the vector vec
  */
-t_m4x4	translation_m4x4(t_vec4 const *vec)
+t_m4x4	translation_m4x4(t_vec4 vec)
 {
 	t_m4x4	translation;
 
 	translation = identity_m4x4();
-	translation._[0][3] = vec->axis.x;
-	translation._[1][3] = vec->axis.y;
-	translation._[2][3] = vec->axis.z;
+	translation._[0][3] = vec.axis.x;
+	translation._[1][3] = vec.axis.y;
+	translation._[2][3] = vec.axis.z;
 	return (translation);
 }
 
 /**
  * @returns	Scaling matrix based on the vector vec
  */
-t_m4x4	scaling_m4x4(t_vec4 const *vec)
+t_m4x4	scaling_m4x4(t_vec4 vec)
 {
 	t_m4x4	scaling;
 
 	scaling = identity_m4x4();
-	scaling._[0][0] = vec->axis.x;
-	scaling._[1][1] = vec->axis.y;
-	scaling._[2][2] = vec->axis.z;
+	scaling._[0][0] = vec.axis.x;
+	scaling._[1][1] = vec.axis.y;
+	scaling._[2][2] = vec.axis.z;
 	return (scaling);
 }
 

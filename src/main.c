@@ -51,7 +51,7 @@ int	main(int argc, char **argv)
 	sp.pos = position(0, 0, 30);
 	sp.radius = 3;
 	sp.transform = identity_m4x4();
-	sp.inverse = inverse_m4x4(&sp.transform);
+	sp.inverse = inverse_m4x4(sp.transform);
 	sp.material = default_material();
 	sp.material.color = (t_vec4){
 		.axis.x = 1,
@@ -77,13 +77,13 @@ int	main(int argc, char **argv)
 	for (size_t i = 0; i < data->pixel_count; ++i)
 	{
 		ray = data->pixel_rays[i];
-		p.to_cam = scaled_vec(&ray.dir, -1);
-		t_rxos	rxos = ray_x_sphere(&ray, &sp);
-		t_rxo	rxo = hit(&rxos);
+		p.to_cam = scaled_vec(ray.dir, -1);
+		t_rxos	rxos = ray_x_sphere(ray, &sp);
+		t_rxo	rxo = hit(rxos);
 		if (rxo.t <= 0)
 			continue ;
-		p.pos = scaled_vec(&ray.dir, rxo.t);
-		p.normal = sphere_normal_at(&sp, &ray, &rxo);
+		p.pos = scaled_vec(ray.dir, rxo.t);
+		p.normal = sphere_normal_at(sp, ray, rxo);
 		color = let_there_be_light(&p);
 		// data->img->pixels[i * 4 + 0] = (p.normal._[0] * 0.5 + 0.5) * 255.999 * 1;
 		// data->img->pixels[i * 4 + 1] = (p.normal._[1] * 0.5 + 0.5) * 255.999 * 1;

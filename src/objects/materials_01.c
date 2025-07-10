@@ -33,14 +33,14 @@ t_material	default_material(void)
 	});
 }
 
-t_color	vec4_to_color(t_vec4 const *vec)
+t_color	vec4_to_color(t_vec4 vec)
 {
 	t_color	col;
 
-	col.flt.r = vec->axis.x;
-	col.flt.g = vec->axis.y;
-	col.flt.b = vec->axis.z;
-	col.flt.a = vec->axis.w;
+	col.flt.r = vec.axis.x;
+	col.flt.g = vec.axis.y;
+	col.flt.b = vec.axis.z;
+	col.flt.a = vec.axis.w;
 	col.bit = color_float_to_8bit(col.flt);
 	return (col);
 }
@@ -49,9 +49,9 @@ static void	calculate_specular(t_phong_helper *p)
 {
 	t_flt	f;
 
-	p->from_light = scaled_vec(&p->to_light, -1);
-	p->ref = reflection(&p->from_light, &p->normal);
-	p->camera_reflection_alignment = dot(&p->to_cam, &p->ref);
+	p->from_light = scaled_vec(p->to_light, -1);
+	p->ref = reflection(p->from_light, p->normal);
+	p->camera_reflection_alignment = dot(p->to_cam, p->ref);
 	if (p->camera_reflection_alignment < 0)
 	{
 		p->specular = (t_vec4){0};
@@ -62,21 +62,21 @@ static void	calculate_specular(t_phong_helper *p)
 		._[1] = p->light->color.flt.g,
 		._[2] = p->light->color.flt.b,
 		._[3] = p->light->color.flt.a};
-	p->scaled_light = scaled_vec(&p->scaled_light, p->light->brightness);
+	p->scaled_light = scaled_vec(p->scaled_light, p->light->brightness);
 	f = pow(p->camera_reflection_alignment, p->mat->shininess);
-	p->specular = scaled_vec(&p->scaled_light, p->mat->specular * f);
+	p->specular = scaled_vec(p->scaled_light, p->mat->specular * f);
 }
 
 static void	calculate_diffuse_and_specular(t_phong_helper *p)
 {
-	p->surface_light_alignment = dot(&p->to_light, &p->normal);
+	p->surface_light_alignment = dot(p->to_light, p->normal);
 	if (p->surface_light_alignment < 0)
 	{
 		p->diffuse = (t_vec4){0};
 		p->specular = (t_vec4){0};
 		return ;
 	}
-	p->diffuse = scaled_vec(&p->effective_color,
+	p->diffuse = scaled_vec(p->effective_color,
 			p->mat->diffuse * p->surface_light_alignment);
 	calculate_specular(p);
 }
@@ -85,13 +85,11 @@ t_color	let_there_be_light(t_phong_helper *p)
 {
 	t_color	color;
 
-	p->effective_color = scaled_vec(&p->mat->color, p->light->brightness);
-	p->to_light = vec_sub(&p->light->pos, &p->pos);
-	normalize_vec(&p->to_light);
-	p->ambient = scaled_vec(&p->effective_color, p->mat->ambient);
+	p->effective_color = scaled_vec(p->mat->color, p->light->brightness);
+	p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
+	p->ambient = scaled_vec(p->effective_color, p->mat->ambient);
 	calculate_diffuse_and_specular(p);
-	p->combined = vec_sum(&p->ambient, &p->diffuse);
-	p->combined = vec_sum(&p->combined, &p->specular);
-	color = vec4_to_color(&p->combined);
+	p->combined = vec_sum(vec_sum(p->ambient, p->diffuse), p->specular);
+	color = vec4_to_color(p->combined);
 	return (color);
 }

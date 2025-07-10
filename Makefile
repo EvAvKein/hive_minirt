@@ -43,7 +43,6 @@ SRC		:=	main.c									\
 			utils/utils_02.c						\
 			vectors/vectors_01.c					\
 			vectors/vectors_02.c					\
-			vectors/vectors_03.c					\
 			matrices/matrices_01.c					\
 			matrices/matrices_02.c					\
 			matrices/matrices_03.c					\

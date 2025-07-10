@@ -41,21 +41,21 @@ bool	floats_are_equal(t_flt flt1, t_flt flt2)
  * @returns	true if all of the corresponding float pairs satisfy the function
  *			float_are_equal, false if not
  */
-bool	vecs_are_equal(t_vec4 const *vec1, t_vec4 const *vec2)
+bool	vecs_are_equal(t_vec4 vec1, t_vec4 vec2)
 {
-	return (floats_are_equal(vec1->_[0], vec2->_[0])
-		&& floats_are_equal(vec1->_[1], vec2->_[1])
-		&& floats_are_equal(vec1->_[2], vec2->_[2])
-		&& floats_are_equal(vec1->_[3], vec2->_[3]));
+	return (floats_are_equal(vec1._[0], vec2._[0])
+		&& floats_are_equal(vec1._[1], vec2._[1])
+		&& floats_are_equal(vec1._[2], vec2._[2])
+		&& floats_are_equal(vec1._[3], vec2._[3]));
 }
 
 /**
  * @returns	true if the dot product with the camera direction is positive
  *			and above zero, false if negative
  */
-bool	in_front_of_camera(t_camera const *cam, t_vec4 const *vec)
+bool	in_front_of_camera(t_camera cam, t_vec4 vec)
 {
-	if (dot(&cam->orientation, vec) > 0)
+	if (dot(cam.orientation, vec) > 0)
 		return (true);
 	return (false);
 }
