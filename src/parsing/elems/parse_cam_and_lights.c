@@ -76,7 +76,7 @@ bool	camera_parse(char *str, size_t *parse_i)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid camera orientation"));
 	if (!uint8_parse(str, parse_i, &camera.fov)
-		|| camera.fov < 0 || camera.fov > 180)
+		|| camera.fov > 180)
 		return (print_err("invalid camera field of view"));
 	if (str[*parse_i])
 		return (print_err("invalid camera data after field of view"));
