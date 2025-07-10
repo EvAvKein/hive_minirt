@@ -12,6 +12,11 @@
 
 #include "minirt.h"
 
+/**
+ * @returns	A submatrix of a 3x3 matrix, removes row and col from the original
+ *			3x3 and packages the remaining elements into a 2x2 matrix, returns
+ *			that matrix
+ */
 t_m2x2	sub_m3x3(t_m3x3 const *m3x3, size_t row, size_t col)
 {
 	size_t	i;
@@ -40,6 +45,11 @@ t_m2x2	sub_m3x3(t_m3x3 const *m3x3, size_t row, size_t col)
 	return (new_m2x2);
 }
 
+/**
+ * @returns	A submatrix of a 4x4 matrix, removes row and col from the original
+ *			4x4 and packages the remaining elements into a 2x2 matrix, returns
+ *			that matrix
+ */
 t_m3x3	sub_m4x4(t_m4x4 const *m4x4, size_t row, size_t col)
 {
 	size_t	i;
@@ -68,11 +78,17 @@ t_m3x3	sub_m4x4(t_m4x4 const *m4x4, size_t row, size_t col)
 	return (new_m3x3);
 }
 
+/**
+ * @returns	The determinant of a 2x2 matrix
+ */
 t_flt	det_m2x2(t_m2x2 const *m2x2)
 {
 	return (m2x2->_[0][0] * m2x2->_[1][1] - m2x2->_[0][1] * m2x2->_[1][0]);
 }
 
+/**
+ * @returns	The determinant of a 3x3 matrix
+ */
 t_flt	det_m3x3(t_m3x3 const *m3x3)
 {
 	t_m2x2	sub;
@@ -88,6 +104,9 @@ t_flt	det_m3x3(t_m3x3 const *m3x3)
 	return (det);
 }
 
+/**
+ * @returns	The determinant of a 4x4 matrix
+ */
 t_flt	det_m4x4(t_m4x4 const *m4x4)
 {
 	t_m3x3	sub;

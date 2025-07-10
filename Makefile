@@ -43,6 +43,7 @@ SRC		:=	main.c									\
 			utils/utils_02.c						\
 			vectors/vectors_01.c					\
 			vectors/vectors_02.c					\
+			vectors/vectors_03.c					\
 			matrices/matrices_01.c					\
 			matrices/matrices_02.c					\
 			matrices/matrices_03.c					\
@@ -50,7 +51,8 @@ SRC		:=	main.c									\
 			rays/rays_01.c							\
 			color/colors_01.c						\
 			color/backgrounds_01.c					\
-			objects/sphere_intersection.c
+			objects/sphere_intersection.c			\
+			objects/materials_01.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
 INC_FILES		:= minirt.h							\

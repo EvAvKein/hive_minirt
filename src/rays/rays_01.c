@@ -37,3 +37,12 @@ t_ray	transformed_ray(t_ray *ray, t_m4x4 const *transform)
 	transformed.orig = transformed_vec(&ray->orig, transform);
 	return (transformed);
 }
+
+t_vec4	reflection(t_vec4 const *vec, t_vec4 const *normal)
+{
+	t_vec4	ref;
+
+	ref = scaled_vec(normal, 2 * dot(vec, normal));
+	ref = vec_sub(vec, &ref);
+	return (ref);
+}

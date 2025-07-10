@@ -12,6 +12,9 @@
 
 #include "minirt.h"
 
+/**
+ * @returns	Translation matrix based on the vector vec
+ */
 t_m4x4	translation_m4x4(t_vec4 const *vec)
 {
 	t_m4x4	translation;
@@ -23,6 +26,9 @@ t_m4x4	translation_m4x4(t_vec4 const *vec)
 	return (translation);
 }
 
+/**
+ * @returns	Scaling matrix based on the vector vec
+ */
 t_m4x4	scaling_m4x4(t_vec4 const *vec)
 {
 	t_m4x4	scaling;
@@ -34,6 +40,10 @@ t_m4x4	scaling_m4x4(t_vec4 const *vec)
 	return (scaling);
 }
 
+/**
+ * @returns	X-rotation matrix, rotates vectors by deg degrees clockwise when
+ *			the x-axis is pointing at the viewer
+ */
 t_m4x4	x_rotation_m4x4(t_flt deg)
 {
 	t_m4x4	rotation;
@@ -46,6 +56,10 @@ t_m4x4	x_rotation_m4x4(t_flt deg)
 	return (rotation);
 }
 
+/**
+ * @returns	Y-rotation matrix, rotates vectors by deg degrees clockwise when
+ *			the x-axis is pointing at the viewer
+ */
 t_m4x4	y_rotation_m4x4(t_flt deg)
 {
 	t_m4x4	rotation;
@@ -58,6 +72,10 @@ t_m4x4	y_rotation_m4x4(t_flt deg)
 	return (rotation);
 }
 
+/**
+ * @returns	Z-rotation matrix, rotates vectors by deg degrees clockwise when
+ *			the x-axis is pointing at the viewer
+ */
 t_m4x4	z_rotation_m4x4(t_flt deg)
 {
 	t_m4x4	rotation;

@@ -12,6 +12,9 @@
 
 #include "minirt.h"
 
+/**
+ * @returns	Identity 4x4 matrix (elem = 1 when row == col)
+ */
 t_m4x4	identity_m4x4(void)
 {
 	static t_m4x4 const	identity = (t_m4x4){
@@ -20,6 +23,9 @@ t_m4x4	identity_m4x4(void)
 	return (identity);
 }
 
+/**
+ * @returns	Transpose matrix of m4x4 (first row becomes first column etc.)
+ */
 t_m4x4	transpose_m4x4(t_m4x4 const *m4x4)
 {
 	t_m4x4	transpose;
@@ -31,6 +37,11 @@ t_m4x4	transpose_m4x4(t_m4x4 const *m4x4)
 	return (transpose);
 }
 
+/**
+ * @returns	Cofactor at row and col, which is the determinant of the submatrix
+ *			in which the row and column have been removed, signed based on if
+ *			the sum of the row and column indices is odd or even
+ */
 t_flt	cofactor_m4x4(t_m4x4 const *m4x4, size_t row, size_t col)
 {
 	t_m3x3	sub;
@@ -41,6 +52,10 @@ t_flt	cofactor_m4x4(t_m4x4 const *m4x4, size_t row, size_t col)
 	return (det_m3x3(&sub));
 }
 
+/**
+ * @returns	The inverse matrix of m4x4 when m4x4 is invertible, a zero matrix if
+ *			m4x4 is not invertible
+ */
 t_m4x4	inverse_m4x4(t_m4x4 const *m4x4)
 {
 	t_m4x4	inverse;

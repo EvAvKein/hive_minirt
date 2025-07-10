@@ -148,6 +148,10 @@ t_vec4			vec_sub(t_vec4 const *v1, t_vec4 const *v2);
 t_vec4			transformed_vec(t_vec4 const *vec, t_m4x4 const *t);
 void			print_vec(t_vec4 const *vec);
 
+// vectors/vectors_03.c
+t_vec4			vector(t_flt x, t_flt y, t_flt z);
+t_vec4			position(t_flt x, t_flt y, t_flt z);
+
 // matrices/matrices_01.c
 t_m4x4			*multiply_m4x4(t_m4x4 const *mult, t_m4x4 *m4x4);
 t_m4x4			mult_m4x4(const t_m4x4 *m4x4_1, const t_m4x4 *m4x4_2);
@@ -174,6 +178,46 @@ t_m4x4			scaling_m4x4(t_vec4 const *vec);
 t_m4x4			x_rotation_m4x4(t_flt deg);
 t_m4x4			y_rotation_m4x4(t_flt deg);
 t_m4x4			z_rotation_m4x4(t_flt deg);
+
+/* ---------------------------------------------------------------- MATERIALS */
+
+typedef struct s_material
+{
+	t_vec4	color;
+	t_flt	ambient;
+	t_flt	diffuse;
+	t_flt	specular;
+	t_flt	shininess;
+}			t_material;
+
+typedef struct s_light\
+				t_light;
+
+typedef struct s_phong_helper
+{
+	t_material const	*mat;
+	t_light const		*light;
+	t_vec4				pos;
+	t_vec4				normal;
+	t_vec4				to_cam;
+	t_vec4				to_light;
+	t_vec4				from_light;
+	t_vec4				effective_color;
+	t_vec4				ambient;
+	t_vec4				diffuse;
+	t_vec4				specular;
+	t_vec4				combined;
+	t_vec4				ref;
+	t_vec4				scaled_light;
+	t_flt				surface_light_alignment;
+	t_flt				camera_reflection_alignment;
+}						t_phong_helper;
+
+// objects/materials_01.c
+t_material		material(t_flt amb, t_flt diff, t_flt spec, t_flt shiny);
+t_material		default_material(void);
+t_color			vec4_to_color(t_vec4 const *vec);
+t_color			let_there_be_light(t_phong_helper *p);
 
 /* ------------------------------------------------------------ SCENE OBJECTS */
 
@@ -218,6 +262,7 @@ typedef struct s_sphere
 	t_color			color;
 	t_m4x4			transform;
 	t_m4x4			inverse;
+	t_material		material;
 	struct s_sphere	*next;
 }					t_sphere;
 
@@ -319,11 +364,15 @@ bool			cylinder_parse(char *str, size_t *parse_i);
 
 t_ray			*transform_ray(t_ray *ray, t_m4x4 const *transform);
 t_ray			*inverse_transform_ray(t_ray *ray, t_m4x4 const *transform);
+t_ray			transformed_ray(t_ray *ray, t_m4x4 const *transform);
+t_vec4			reflection(t_vec4 const *vec, t_vec4 const *normal);
 
 // objects/sphere_intersection.c
 bool			ray_intersects_sphere(t_ray const *ray, t_sphere const *sp);
 t_rxos			ray_x_sphere(t_ray const *ray, t_sphere const *sp);
 t_rxo			hit(t_rxos const *intersections);
+t_vec4			sphere_normal_at(t_sphere const *sp, t_ray const *ray,
+					t_rxo const *rxo);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
@@ -365,6 +414,7 @@ bool			in_front_of_camera(t_camera const *cam, t_vec4 const *vec);
 
 // utils/utils_02.c
 void			write_pixel_rays_to_file(const char *str);
+t_quad			solve_sphere_quadratic(t_ray const *ray, t_sphere const *sp);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 
