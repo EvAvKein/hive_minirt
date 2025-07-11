@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:55:52 by jvarila           #+#    #+#             */
-/*   Updated: 2025/06/26 15:12:09 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/01 15:20:26 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool	mlx_init_successful(void);
 static bool	problem_with_resolution(void);
-static bool	set_error_return_false(enum e_error error);
+static bool	set_error_return_false(t_error error);
 
 /**
  * Attempts to initialize data structure before running the raytracer.
@@ -29,7 +29,7 @@ bool	data_init_successful(void)
 	if (problem_with_resolution())
 		return (set_error_return_false(ERROR_PROBLEM_WITH_RESOLUTION));
 	data->pixel_count = RES_X * RES_Y;
-	data->pixel_rays = malloc(data->pixel_count * sizeof(t_vec4));
+	data->pixel_rays = malloc(data->pixel_count * sizeof(t_ray));
 	if (data->pixel_rays == NULL)
 		return (set_error_return_false(ERROR_ALLOC));
 	if (mlx_init_successful() == false)
@@ -42,29 +42,29 @@ bool	data_init_successful(void)
  */
 void	setup_pixel_rays(void)
 {
-	t_data			*data;
-	t_pixel_grid	g;
-	t_vec4			pixel;
-	size_t			idx[3];
+	t_data *const		data = get_data();
+	t_pixel_grid *const	g = &data->pixel_grid;
+	t_vec4				pixel;
+	size_t				idx[3];
 
-	data = get_data();
-	g.fov_h = FOV * RADIANS_PER_DEGREE;
-	g.fov_v = 2 * atan(tan(g.fov_h / 2) * RES_Y / RES_X);
-	g.width = 2 * sin(g.fov_h / 2);
-	g.height = 2 * sin(g.fov_v / 2);
-	g.pixel_width = g.width / RES_X;
-	pixel.axis.z = cos(g.fov_h / 2);
+	g->fov_h = FOV * RADIANS_PER_DEGREE;
+	g->fov_v = 2 * atan(tan(g->fov_h / 2) * RES_Y / RES_X);
+	g->width = 2 * sin(g->fov_h / 2);
+	g->pixel_width = g->width / RES_X;
+	g->height = g->pixel_width * RES_Y;
+	pixel.axis.z = cos(g->fov_h / 2);
 	pixel.axis.w = 0;
 	idx[0] = -1;
 	while (++idx[0] < data->pixel_count)
 	{
 		idx[1] = idx[0] % RES_X;
 		idx[2] = idx[0] / RES_X;
-		pixel.axis.x = (-g.width + g.pixel_width) / 2 + idx[1] * g.pixel_width;
-		pixel.axis.y = (g.height - g.pixel_width) / 2 - idx[2] * g.pixel_width;
-		pixel.axis.z = cos(g.fov_h / 2);
-		pixel.axis.w = 0;
-		data->pixel_rays[idx[0]] = new_unit_vector(&pixel);
+		pixel._[0] = (-g->width + g->pixel_width) / 2 + idx[1] * g->pixel_width;
+		pixel._[1] = (g->height - g->pixel_width) / 2 - idx[2] * g->pixel_width;
+		pixel._[2] = cos(g->fov_h / 2);
+		pixel._[3] = 0;
+		data->pixel_rays[idx[0]] = (t_ray){.orig = (t_vec4){._[3] = 1}};
+		data->pixel_rays[idx[0]].dir = unit_vec(pixel);
 	}
 }
 
@@ -121,7 +121,7 @@ static bool	problem_with_resolution(void)
 /**
  * @returns	false
  */
-static bool	set_error_return_false(enum e_error error)
+static bool	set_error_return_false(t_error error)
 {
 	get_data()->error = error;
 	return (false);

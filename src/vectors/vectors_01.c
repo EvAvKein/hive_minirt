@@ -6,49 +6,64 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:10:26 by jvarila           #+#    #+#             */
-/*   Updated: 2025/06/25 21:15:21 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/08 10:09:30 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_flt	vector_len(t_vec4 const *vec)
+/**
+ * @returns	Length of vector parameter vec
+ */
+t_flt	vec_len(t_vec4 vec)
 {
 	t_flt	len;
 
-	len = sqrt(vec->axis.x * vec->axis.x
-			+ vec->axis.y * vec->axis.y
-			+ vec->axis.z * vec->axis.z);
+	len = sqrt(vec.axis.x * vec.axis.x
+			+ vec.axis.y * vec.axis.y
+			+ vec.axis.z * vec.axis.z);
 	return (len);
 }
 
-t_vec4	new_unit_vector(const t_vec4 *vec)
+/**
+ * @returns	Unit vector based on vec
+ */
+t_vec4	unit_vec(t_vec4 vec)
 {
-	t_vec4	uvec;
 	t_flt	len;
+	t_flt	len_div;
 
-	len = vector_len(vec);
-	uvec.axis.x = vec->axis.x / len;
-	uvec.axis.y = vec->axis.y / len;
-	uvec.axis.z = vec->axis.z / len;
-	uvec.axis.w = 0;
-	return (uvec);
+	len = vec_len(vec);
+	len_div = 1 / len;
+	return (scaled_vec(vec, len_div));
 }
 
-t_vec4	*normalize_vector(t_vec4 *vec)
+/**
+ * @returns	Scaled vector, whose dimensions are the dimensions of vec scaled
+ *			by scalar
+ */
+t_vec4	scaled_vec(t_vec4 vec, t_flt scalar)
 {
-	t_flt	len;
-
-	len = vector_len(vec);
-	vec->axis.x /= len;
-	vec->axis.y /= len;
-	vec->axis.z /= len;
-	vec->axis.w = 0;
+	vec._[0] *= scalar;
+	vec._[1] *= scalar;
+	vec._[2] *= scalar;
 	return (vec);
 }
 
-void	print_vec(t_vec4 const *vec)
+t_vec4	vector(t_flt x, t_flt y, t_flt z)
 {
-	printf("Vec:	x = %f	y = %f	z = %f	w = %f\n",
-		vec->axis.x, vec->axis.y, vec->axis.z, vec->axis.w);
+	return ((t_vec4){
+		.axis.x = x,
+		.axis.y = y,
+		.axis.z = z,
+		.axis.w = 0});
+}
+
+t_vec4	position(t_flt x, t_flt y, t_flt z)
+{
+	return ((t_vec4){
+		.axis.x = x,
+		.axis.y = y,
+		.axis.z = z,
+		.axis.w = 1});
 }

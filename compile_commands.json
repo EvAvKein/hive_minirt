@@ -29,24 +29,6 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/errors.c",
-   "-o",
-   "obj/errors.o"
-  ],
-  "file": "src/errors.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
    "src/memory/free_memory.c",
    "-o",
    "obj/memory/free_memory.o"
@@ -191,11 +173,11 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/vectors_01.c",
+   "src/image_to_file.c",
    "-o",
-   "obj/vectors_01.o"
+   "obj/image_to_file.o"
   ],
-  "file": "src/vectors_01.c"
+  "file": "src/image_to_file.c"
  },
  {
   "directory": "/home/jvarila/Repos/minirt",
@@ -209,11 +191,11 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/colors_01.c",
+   "src/initialization_01.c",
    "-o",
-   "obj/colors_01.o"
+   "obj/initialization_01.o"
   ],
-  "file": "src/colors_01.c"
+  "file": "src/initialization_01.c"
  },
  {
   "directory": "/home/jvarila/Repos/minirt",
@@ -227,10 +209,280 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/backgrounds_01.c",
+   "src/utils/errors.c",
    "-o",
-   "obj/backgrounds_01.o"
+   "obj/utils/errors.o"
   ],
-  "file": "src/backgrounds_01.c"
+  "file": "src/utils/errors.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/utils/utils_01.c",
+   "-o",
+   "obj/utils/utils_01.o"
+  ],
+  "file": "src/utils/utils_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/vectors/vectors_01.c",
+   "-o",
+   "obj/vectors/vectors_01.o"
+  ],
+  "file": "src/vectors/vectors_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/vectors/vectors_02.c",
+   "-o",
+   "obj/vectors/vectors_02.o"
+  ],
+  "file": "src/vectors/vectors_02.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/matrices/matrices_01.c",
+   "-o",
+   "obj/matrices/matrices_01.o"
+  ],
+  "file": "src/matrices/matrices_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/matrices/matrices_02.c",
+   "-o",
+   "obj/matrices/matrices_02.o"
+  ],
+  "file": "src/matrices/matrices_02.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/matrices/matrices_03.c",
+   "-o",
+   "obj/matrices/matrices_03.o"
+  ],
+  "file": "src/matrices/matrices_03.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/color/colors_01.c",
+   "-o",
+   "obj/color/colors_01.o"
+  ],
+  "file": "src/color/colors_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/color/backgrounds_01.c",
+   "-o",
+   "obj/color/backgrounds_01.o"
+  ],
+  "file": "src/color/backgrounds_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/objects/sphere_intersection.c",
+   "-o",
+   "obj/objects/sphere_intersection.o"
+  ],
+  "file": "src/objects/sphere_intersection.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/utils/utils_02.c",
+   "-o",
+   "obj/utils/utils_02.o"
+  ],
+  "file": "src/utils/utils_02.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/matrices/transforms_01.c",
+   "-o",
+   "obj/matrices/transforms_01.o"
+  ],
+  "file": "src/matrices/transforms_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/rays/rays_01.c",
+   "-o",
+   "obj/rays/rays_01.o"
+  ],
+  "file": "src/rays/rays_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/objects/materials_01.c",
+   "-o",
+   "obj/objects/materials_01.o"
+  ],
+  "file": "src/objects/materials_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/lighting/lighting_01.c",
+   "-o",
+   "obj/lighting/lighting_01.o"
+  ],
+  "file": "src/lighting/lighting_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/lighting/single_sphere.c",
+   "-o",
+   "obj/lighting/single_sphere.o"
+  ],
+  "file": "src/lighting/single_sphere.c"
  }
 ]

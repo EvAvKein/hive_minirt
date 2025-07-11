@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:22:10 by jvarila           #+#    #+#             */
-/*   Updated: 2025/06/25 23:30:31 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:33:44 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ t_8bit_color	color_float_to_8bit(t_float_color c)
 {
 	t_8bit_color	d;
 
-	d.channel.r = 0xff * c.r;
-	d.channel.g = 0xff * c.g;
-	d.channel.b = 0xff * c.b;
-	d.channel.a = 0xff * c.a;
+	d.channel.r = fminf(fmaxf(0, 255.999 * c.r), 255.999);
+	d.channel.g = fminf(fmaxf(0, 255.999 * c.g), 255.999);
+	d.channel.b = fminf(fmaxf(0, 255.999 * c.b), 255.999);
+	d.channel.a = fminf(fmaxf(0, 255.999 * c.a), 255.999);
 	return (d);
 }
 

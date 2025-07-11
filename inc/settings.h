@@ -13,16 +13,20 @@
 #ifndef SETTINGS_H
 # define SETTINGS_H
 
+# ifndef EPSILON
+#  define EPSILON	0.00001
+# endif
+
 # ifndef FOV
-#  define FOV	90
+#  define FOV		30
 # endif
 
 # ifndef RES_X
-#  define RES_X	1280	// 3840	1920
+#  define RES_X		1280	// 3840	1920
 # endif
 
 # ifndef RES_Y
-#  define RES_Y	720		// 2160	1080
+#  define RES_Y		720		// 2160	1080
 # endif
 
 #endif

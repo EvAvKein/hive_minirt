@@ -6,16 +6,14 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:22 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/27 17:43:07 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/10 11:48:59 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 /**
- * 
  * @returns A pointer to the program's data.
- * 
  */
 t_data	*get_data(void)
 {
@@ -26,7 +24,7 @@ t_data	*get_data(void)
 
 int	main(int argc, char **argv)
 {
-	t_data		*data;
+	t_data *const	data = get_data();
 
 	if (argc != 2)
 	{
@@ -38,11 +36,11 @@ int	main(int argc, char **argv)
 		free_data();
 		return (1);
 	}
-	data = get_data();
 	if (data_init_successful() == false)
 		return (data->error);
 	setup_pixel_rays();
 	set_uv(data->img);
+	single_sphere_test();
 	image_to_file("miniRT.bmp");
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
