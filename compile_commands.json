@@ -430,5 +430,59 @@
    "obj/rays/rays_01.o"
   ],
   "file": "src/rays/rays_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/objects/materials_01.c",
+   "-o",
+   "obj/objects/materials_01.o"
+  ],
+  "file": "src/objects/materials_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/lighting/lighting_01.c",
+   "-o",
+   "obj/lighting/lighting_01.o"
+  ],
+  "file": "src/lighting/lighting_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/lighting/single_sphere.c",
+   "-o",
+   "obj/lighting/single_sphere.o"
+  ],
+  "file": "src/lighting/single_sphere.c"
  }
 ]

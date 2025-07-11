@@ -38,7 +38,6 @@ t_vec4	unit_vec(t_vec4 vec)
 	return (scaled_vec(vec, len_div));
 }
 
-
 /**
  * @returns	Scaled vector, whose dimensions are the dimensions of vec scaled
  *			by scalar

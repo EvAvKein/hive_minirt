@@ -27,7 +27,7 @@ t_flt	dot(t_vec4 v1, t_vec4 v2)
  *			corresponding dimensions of v1 and v2, the fourth dimension
  *			is left as is from v1
  */
-t_vec4	vec_sum(t_vec4  v1, t_vec4 v2)
+t_vec4	vec_sum(t_vec4 v1, t_vec4 v2)
 {
 	v1._[0] += v2._[0];
 	v1._[1] += v2._[1];

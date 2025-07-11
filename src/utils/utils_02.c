@@ -45,3 +45,27 @@ t_quad	solve_sphere_quadratic(t_ray ray, t_sphere sp)
 	q.discr = q.b * q.b - 4 * q.a * q.c;
 	return (q);
 }
+
+t_color	vec4_to_color(t_vec4 vec)
+{
+	t_color	col;
+
+	col.flt.r = vec.axis.x;
+	col.flt.g = vec.axis.y;
+	col.flt.b = vec.axis.z;
+	col.flt.a = vec.axis.w;
+	col.bit = color_float_to_8bit(col.flt);
+	return (col);
+}
+
+t_color	normal_to_color(t_vec4 normal)
+{
+	t_color	col;
+
+	col.bit.channel.r = (normal._[0] * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.channel.g = (normal._[1] * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.channel.b = (-normal._[2] * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.channel.a = 0xff;
+	col.flt = color_8bit_to_float(col.bit);
+	return (col);
+}

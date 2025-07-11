@@ -51,11 +51,12 @@ SRC		:=	main.c									\
 			color/colors_01.c						\
 			color/backgrounds_01.c					\
 			objects/sphere_intersection.c			\
-			objects/materials_01.c
+			objects/materials_01.c					\
+			lighting/lighting_01.c					\
+			lighting/single_sphere.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
-INC_FILES		:= minirt.h							\
-				   settings.h
+INC_FILES		:= minirt.h settings.h
 HEADERS			:= $(INC_FILES:%=$(INC_DIR)/%)
 COMPILE_FLAGS	+= -I$(INC_DIR) -I$(LIBFT_DIR) -I$(LIBFT_DIR)/include \
 				   -I$(MLX_DIR)/include/MLX42

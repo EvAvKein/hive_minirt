@@ -210,7 +210,9 @@ typedef struct s_phong_helper
 // objects/materials_01.c
 t_material		material(t_flt amb, t_flt diff, t_flt spec, t_flt shiny);
 t_material		default_material(void);
-t_color			vec4_to_color(t_vec4 vec);
+
+/* ----------------------------------------------------------------- LIGHTING */
+
 t_color			let_there_be_light(t_phong_helper *p);
 
 /* ------------------------------------------------------------ SCENE OBJECTS */
@@ -232,6 +234,7 @@ typedef struct s_camera
 	t_vec4	orientation;
 	uint8_t	fov;
 	t_m4x4	transform;
+	t_m4x4	inverse;
 }			t_camera;
 
 typedef struct s_ambient_light
@@ -246,6 +249,7 @@ typedef struct s_light
 	t_flt			brightness;
 	t_color			color;
 	t_m4x4			transform;
+	t_m4x4			inverse;
 	struct s_light	*next;
 }					t_light;
 
@@ -266,6 +270,7 @@ typedef struct s_plane
 	t_vec4			orientation;
 	t_color			color;
 	t_m4x4			transform;
+	t_m4x4			inverse;
 	struct s_plane	*next;
 }					t_plane;
 
@@ -277,6 +282,7 @@ typedef struct s_cylinder
 	t_flt				height;
 	t_color				color;
 	t_m4x4				transform;
+	t_m4x4				inverse;
 	struct s_cylinder	*next;
 }						t_cylinder;
 
@@ -327,7 +333,7 @@ typedef struct s_data
 	size_t			pixel_count;
 	t_pixel_grid	pixel_grid;
 	t_error			error;
-}				t_data;
+}					t_data;
 
 t_data			*get_data(void);
 
@@ -407,6 +413,12 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 // utils/utils_02.c
 void			write_pixel_rays_to_file(const char *str);
 t_quad			solve_sphere_quadratic(t_ray ray, t_sphere sp);
+t_color			vec4_to_color(t_vec4 vec);
+t_color			normal_to_color(t_vec4 normal);
+
+/* -------------------------------------------------------------------- TESTS */
+
+void			single_sphere_test(void);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 
