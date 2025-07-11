@@ -15,7 +15,7 @@
 /**
  * @returns	Dot product of vectors v1 and v2
  */
-t_flt	dot(t_vec4 v1, t_vec4 v2)
+inline t_flt	dot(t_vec4 v1, t_vec4 v2)
 {
 	return (v1._[0] * v2._[0]
 		+ v1._[1] * v2._[1]

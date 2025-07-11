@@ -19,28 +19,28 @@
  */
 t_m2x2	sub_m3x3(t_m3x3 m3x3, size_t row, size_t col)
 {
-	size_t	i;
-	size_t	j;
-	size_t	k;
-	size_t	l;
+	size_t	row_3x3;
+	size_t	col_3x3;
+	size_t	row_2x2;
+	size_t	col_2x2;
 	t_m2x2	new_m2x2;
 
-	i = -1;
-	k = 0;
-	l = 0;
-	while (++i < 3)
+	row_3x3 = -1;
+	row_2x2 = 0;
+	col_2x2 = 0;
+	while (++row_3x3 < 3)
 	{
-		if (i == row)
+		if (row_3x3 == row)
 			continue ;
-		j = -1;
-		while (++j < 3)
+		col_3x3 = -1;
+		while (++col_3x3 < 3)
 		{
-			if (j == col)
+			if (col_3x3 == col)
 				continue ;
-			new_m2x2._[k][l++] = m3x3._[i][j];
+			new_m2x2._[row_2x2][col_2x2++] = m3x3._[row_3x3][col_3x3];
 		}
-		++k;
-		l = 0;
+		++row_2x2;
+		col_2x2 = 0;
 	}
 	return (new_m2x2);
 }
@@ -52,28 +52,28 @@ t_m2x2	sub_m3x3(t_m3x3 m3x3, size_t row, size_t col)
  */
 t_m3x3	sub_m4x4(t_m4x4 m4x4, size_t row, size_t col)
 {
-	size_t	i;
-	size_t	j;
-	size_t	k;
-	size_t	l;
+	size_t	row_3x3;
+	size_t	col_3x3;
+	size_t	row_2x2;
+	size_t	col_2x2;
 	t_m3x3	new_m3x3;
 
-	i = -1;
-	k = 0;
-	l = 0;
-	while (++i < 4)
+	row_3x3 = -1;
+	row_2x2 = 0;
+	col_2x2 = 0;
+	while (++row_3x3 < 4)
 	{
-		if (i == row)
+		if (row_3x3 == row)
 			continue ;
-		j = -1;
-		while (++j < 4)
+		col_3x3 = -1;
+		while (++col_3x3 < 4)
 		{
-			if (j == col)
+			if (col_3x3 == col)
 				continue ;
-			new_m3x3._[k][l++] = m4x4._[i][j];
+			new_m3x3._[row_2x2][col_2x2++] = m4x4._[row_3x3][col_3x3];
 		}
-		++k;
-		l = 0;
+		++row_2x2;
+		col_2x2 = 0;
 	}
 	return (new_m3x3);
 }
@@ -81,7 +81,7 @@ t_m3x3	sub_m4x4(t_m4x4 m4x4, size_t row, size_t col)
 /**
  * @returns	The determinant of a 2x2 matrix
  */
-t_flt	det_m2x2(t_m2x2 m2x2)
+inline t_flt	det_m2x2(t_m2x2 m2x2)
 {
 	return (m2x2._[0][0] * m2x2._[1][1] - m2x2._[0][1] * m2x2._[1][0]);
 }
