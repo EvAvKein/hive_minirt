@@ -302,14 +302,14 @@ typedef struct s_ray
 	t_vec4	orig;
 }			t_ray;
 
-typedef struct s_rxo
+typedef struct s_ray_x_obj
 {
 	t_obj_type		obj_type;
 	void			*obj;
 	t_flt			t;
 }					t_ray_x_obj;
 
-typedef struct s_rxos
+typedef struct s_ray_x_objs
 {
 	size_t		count;
 	t_ray_x_obj	_[2];
