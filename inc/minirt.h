@@ -296,11 +296,7 @@ typedef struct s_elems
 	t_cylinder		*cylinders;
 }					t_elems;
 
-typedef struct s_ray
-{
-	t_vec4	dir;
-	t_vec4	orig;
-}			t_ray;
+/* --------------------------------------------------------------------- RAYS */
 
 typedef struct s_ray_x_obj
 {
@@ -315,6 +311,22 @@ typedef struct s_ray_x_objs
 	t_ray_x_obj	_[2];
 }			t_ray_x_objs;
 
+typedef struct s_ray_x_obj_array
+{
+	size_t		capacity;
+	size_t		idx;
+	t_ray_x_obj	*_;
+}				t_ray_x_obj_array;
+
+typedef struct s_ray
+{
+	t_vec4				dir;
+	t_vec4				orig;
+	t_ray_x_obj_array	intersections;
+}						t_ray;
+
+/* -------------------------------------------------------------------------- */
+
 typedef struct s_pixel_grid
 {
 	t_flt	fov_h;
@@ -327,11 +339,13 @@ typedef struct s_pixel_grid
 typedef struct s_data
 {
 	t_elems			elems;
-	mlx_t			*mlx;
-	mlx_image_t		*img;
+	t_pixel_grid	pixel_grid;
 	t_ray			*pixel_rays;
 	size_t			pixel_count;
-	t_pixel_grid	pixel_grid;
+	size_t			object_count;
+	size_t			intersection_count;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
 	t_error			error;
 }					t_data;
 
@@ -367,10 +381,17 @@ t_ray			transformed_ray(t_ray ray, t_m4x4 transform);
 t_ray			inverse_transformed_ray(t_ray ray, t_m4x4 transform);
 t_vec4			reflection(t_vec4 vec, t_vec4 normal);
 
+// objects/transform_initialization.c
+void			init_transforms(void);
+
+/* ------------------------------------------------------------ INTERSECTIONS */
+
 // objects/sphere_intersection.c
 t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp);
 t_ray_x_obj		hit(t_ray_x_objs intersections);
 t_vec4			sphere_normal_at(t_sphere sp, t_ray ray, t_ray_x_obj rxo);
+
+// intersections/intersections_01.c
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
