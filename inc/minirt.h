@@ -455,6 +455,11 @@ void			init_camera_transform(t_camera *cam);
 
 /* ------------------------------------------------------------ INTERSECTIONS */
 
+// objects/transform_initialization.c
+void			init_transforms(void);
+
+/* ------------------------------------------------------------ INTERSECTIONS */
+
 // objects/sphere_intersection.c
 t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp);
 t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
@@ -476,6 +481,8 @@ void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 // intersections/intersections_01.c
 void			xinit_ray_intersections(t_ray *ray);
 void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
+
+// intersections/intersections_01.c
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
