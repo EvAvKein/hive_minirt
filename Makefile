@@ -53,6 +53,8 @@ SRC		:=	main.c									\
 			color/backgrounds_01.c					\
 			objects/sphere_intersection.c			\
 			objects/materials_01.c					\
+			objects/transform_initialization.c		\
+			intersections/intersections_01.c		\
 			lighting/lighting_01.c					\
 			lighting/single_sphere.c
 # ---------------------------------------------------------------------------- #

@@ -38,6 +38,7 @@ int	main(int argc, char **argv)
 	}
 	if (data_init_successful() == false)
 		return (data->error);
+	init_transforms();
 	setup_pixel_rays();
 	set_uv(data->img);
 	single_sphere_test();
