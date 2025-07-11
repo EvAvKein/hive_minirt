@@ -15,7 +15,7 @@
 /**
  * @returns	Angle in radians, converted from degrees
  */
-t_flt	to_radians(t_flt degrees)
+inline t_flt	to_radians(t_flt degrees)
 {
 	return (degrees * RADIANS_PER_DEGREE);
 }
@@ -23,7 +23,7 @@ t_flt	to_radians(t_flt degrees)
 /**
  * @returns	Angle in degrees, converted from radians
  */
-t_flt	to_degrees(t_flt radians)
+inline t_flt	to_degrees(t_flt radians)
 {
 	return (radians * DEGREES_PER_RADIAN);
 }
@@ -32,7 +32,7 @@ t_flt	to_degrees(t_flt radians)
  * @returns	true when the difference between the floats is less than EPSILON,
  *			false when the difference is equal or over
  */
-bool	floats_are_equal(t_flt flt1, t_flt flt2)
+inline bool	floats_are_equal(t_flt flt1, t_flt flt2)
 {
 	return (fabs(flt1 - flt2) < EPSILON);
 }
@@ -41,7 +41,7 @@ bool	floats_are_equal(t_flt flt1, t_flt flt2)
  * @returns	true if all of the corresponding float pairs satisfy the function
  *			float_are_equal, false if not
  */
-bool	vecs_are_equal(t_vec4 vec1, t_vec4 vec2)
+inline bool	vecs_are_equal(t_vec4 vec1, t_vec4 vec2)
 {
 	return (floats_are_equal(vec1._[0], vec2._[0])
 		&& floats_are_equal(vec1._[1], vec2._[1])
@@ -53,9 +53,7 @@ bool	vecs_are_equal(t_vec4 vec1, t_vec4 vec2)
  * @returns	true if the dot product with the camera direction is positive
  *			and above zero, false if negative
  */
-bool	in_front_of_camera(t_camera cam, t_vec4 vec)
+inline bool	in_front_of_camera(t_camera cam, t_vec4 vec)
 {
-	if (dot(cam.orientation, vec) > 0)
-		return (true);
-	return (false);
+	return (dot(cam.orientation, vec) > 0);
 }
