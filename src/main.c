@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:22 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/10 11:48:59 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/11 10:16:31 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char **argv)
 	set_uv(data->img);
 	single_sphere_test();
 	image_to_file("miniRT.bmp");
+	mlx_key_hook(data->mlx, keyhook, NULL);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	free_data();

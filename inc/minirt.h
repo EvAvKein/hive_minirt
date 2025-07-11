@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/08 10:10:34 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/11 10:19:07 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,7 +361,6 @@ bool			light_parse(char *str, size_t *parse_i);
 bool			sphere_parse(char *str, size_t *parse_i);
 bool			plane_parse(char *str, size_t *parse_i);
 bool			cylinder_parse(char *str, size_t *parse_i);
-
 // rays/rays_01.c
 t_ray			transformed_ray(t_ray ray, t_m4x4 transform);
 t_ray			inverse_transformed_ray(t_ray ray, t_m4x4 transform);
@@ -392,6 +391,7 @@ void			set_uv(mlx_image_t *img);
 
 void			setup_pixel_rays(void);
 bool			data_init_successful(void);
+void			keyhook(mlx_key_data_t key_data, void *param);
 
 /* -------------------------------------------------------------------- UTILS */
 
