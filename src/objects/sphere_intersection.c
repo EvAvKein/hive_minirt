@@ -19,7 +19,7 @@
  *
  * @todo	Consider adding support for sphere transform matrices
  */
-t_rxos	ray_x_sphere(t_ray ray, t_sphere *sp)
+t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp)
 {
 	t_quad	q;
 	t_flt	t1;
@@ -27,13 +27,13 @@ t_rxos	ray_x_sphere(t_ray ray, t_sphere *sp)
 
 	q = solve_sphere_quadratic(ray, *sp);
 	if (q.discr < 0)
-		return ((t_rxos){0});
+		return ((t_ray_x_objs){0});
 	t1 = (-q.b + sqrt(q.discr)) / (2 * q.a);
 	t2 = (-q.b - sqrt(q.discr)) / (2 * q.a);
-	return ((t_rxos){
+	return ((t_ray_x_objs){
 		.count = 2,
-		._[0] = (t_rxo){.obj_type = SPHERE, .obj = (void *)sp, .t = t1},
-		._[1] = (t_rxo){.obj_type = SPHERE, .obj = (void *)sp, .t = t2}});
+		._[0] = (t_ray_x_obj){.obj_type = SPHERE, .obj = (void *)sp, .t = t1},
+		._[1] = (t_ray_x_obj){.obj_type = SPHERE, .obj = (void *)sp, .t = t2}});
 }
 
 /**
@@ -41,10 +41,10 @@ t_rxos	ray_x_sphere(t_ray ray, t_sphere *sp)
  *			in rxos (ray-object intersections), 0 struct when both t-values
  *			are negative
  */
-t_rxo	hit(t_rxos rxos)
+t_ray_x_obj	hit(t_ray_x_objs rxos)
 {
 	if (rxos._[0].t < 0 && rxos._[1].t < 0)
-		return ((t_rxo){0});
+		return ((t_ray_x_obj){0});
 	if (rxos._[0].t < 0)
 		return (rxos._[1]);
 	if (rxos._[1].t > 0
@@ -58,7 +58,7 @@ t_rxo	hit(t_rxos rxos)
  *
  * @todo	Consider adding support for sphere transform matrices
  */
-t_vec4	sphere_normal_at(t_sphere sp, t_ray ray, t_rxo rxo)
+t_vec4	sphere_normal_at(t_sphere sp, t_ray ray, t_ray_x_obj rxo)
 {
 	t_vec4	normal;
 	t_vec4	intersection_position;

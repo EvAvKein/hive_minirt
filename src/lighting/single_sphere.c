@@ -57,11 +57,11 @@ static void	light_single_sphere(t_sphere *sp, t_light const *light)
 static void	cast_rays_at_sphere(t_data const *data, t_sphere *sp,
 				t_phong_helper *p)
 {
-	t_rxos	rxos;
-	t_rxo	rxo;
-	t_ray	ray;
-	t_color	color;
-	size_t	i;
+	t_ray_x_objs	rxos;
+	t_ray_x_obj		rxo;
+	t_ray			ray;
+	t_color			color;
+	size_t			i;
 
 	i = -1;
 	while (++i < data->pixel_count)

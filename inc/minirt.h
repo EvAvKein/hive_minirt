@@ -307,13 +307,13 @@ typedef struct s_rxo
 	t_obj_type		obj_type;
 	void			*obj;
 	t_flt			t;
-}					t_rxo;
+}					t_ray_x_obj;
 
 typedef struct s_rxos
 {
-	size_t	count;
-	t_rxo	_[2];
-}			t_rxos;
+	size_t		count;
+	t_ray_x_obj	_[2];
+}			t_ray_x_objs;
 
 typedef struct s_pixel_grid
 {
@@ -368,9 +368,9 @@ t_ray			inverse_transformed_ray(t_ray ray, t_m4x4 transform);
 t_vec4			reflection(t_vec4 vec, t_vec4 normal);
 
 // objects/sphere_intersection.c
-t_rxos			ray_x_sphere(t_ray ray, t_sphere *sp);
-t_rxo			hit(t_rxos intersections);
-t_vec4			sphere_normal_at(t_sphere sp, t_ray ray, t_rxo rxo);
+t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp);
+t_ray_x_obj		hit(t_ray_x_objs intersections);
+t_vec4			sphere_normal_at(t_sphere sp, t_ray ray, t_ray_x_obj rxo);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
