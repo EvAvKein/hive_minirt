@@ -13,21 +13,6 @@
 #include "libft.h"
 #include "minirt.h"
 
-void	*xcalloc(size_t nmemb, size_t size)
-{
-	void	*mem;
-
-	mem = ft_calloc(nmemb, size);
-	if (mem == NULL)
-	{
-		ft_putendl_fd("ERROR: xcalloc: couldn't allocate memory",
-			STDERR_FILENO);
-		free_data();
-		exit(ERROR_ALLOC);
-	}
-	return (mem);
-}
-
 void	xinit_ray_intersections(t_ray *ray)
 {
 	ray->intersections.capacity = 8;
