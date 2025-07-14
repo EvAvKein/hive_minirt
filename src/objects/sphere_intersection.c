@@ -16,8 +16,6 @@
  * @returns	Struct with two ray-object intersections, defined by t values
  *			(how long to follow the ray and in which direction), and an
  *			object flag combined with a void pointer to that object's data
- *
- * @todo	Consider adding support for sphere transform matrices
  */
 t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp)
 {
@@ -25,6 +23,7 @@ t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp)
 	t_flt	t1;
 	t_flt	t2;
 
+	ray = transformed_ray(ray, sp->inverse);
 	q = solve_sphere_quadratic(ray, *sp);
 	if (q.discr < 0)
 		return ((t_ray_x_objs){0});
@@ -55,19 +54,14 @@ t_ray_x_obj	hit(t_ray_x_objs rxos)
 
 /**
  * @returns	Sphere's normal at ray's intersection rxo
- *
- * @todo	Consider adding support for sphere transform matrices
  */
-t_vec4	sphere_normal_at(t_sphere sp, t_ray ray, t_ray_x_obj rxo)
+t_vec4	sphere_normal_at(t_sphere sp, t_vec4 world_pos)
 {
 	t_vec4	normal;
-	t_vec4	intersection_position;
-	t_vec4	ray_origin;
-	t_vec4	ray_traversal;
+	t_vec4	sphere_pos;
 
-	ray_origin = ray.orig;
-	ray_traversal = scaled_vec(ray.dir, rxo.t);
-	intersection_position = vec_sum(ray_origin, ray_traversal);
-	normal = unit_vec(vec_sub(intersection_position, sp.pos));
+	sphere_pos = transformed_vec(world_pos, sp.inverse);
+	normal = unit_vec(transformed_vec(sphere_pos, transpose_m4x4(sp.inverse)));
+	normal.axis.w = 0;
 	return (normal);
 }

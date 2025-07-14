@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:55:52 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/01 15:20:26 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/11 16:35:14 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	data_init_successful(void)
 	if (problem_with_resolution())
 		return (set_error_return_false(ERROR_PROBLEM_WITH_RESOLUTION));
 	data->pixel_count = RES_X * RES_Y;
-	data->pixel_rays = malloc(data->pixel_count * sizeof(t_ray));
+	data->pixel_rays = ft_calloc(data->pixel_count, sizeof(t_ray));
 	if (data->pixel_rays == NULL)
 		return (set_error_return_false(ERROR_ALLOC));
 	if (mlx_init_successful() == false)
@@ -47,7 +47,7 @@ void	setup_pixel_rays(void)
 	t_vec4				pixel;
 	size_t				idx[3];
 
-	g->fov_h = FOV * RADIANS_PER_DEGREE;
+	g->fov_h = data->elems.camera->fov * RADIANS_PER_DEGREE;
 	g->fov_v = 2 * atan(tan(g->fov_h / 2) * RES_Y / RES_X);
 	g->width = 2 * sin(g->fov_h / 2);
 	g->pixel_width = g->width / RES_X;
