@@ -18,14 +18,12 @@ static void	cast_rays_at_sphere(t_data const *data, t_sphere *sp,
 
 void	single_sphere_test(void)
 {
-	t_data *const	data = get_data();
 	t_sphere		sp;
 	t_light			light;
 
-	data->elems.camera->orientation = vector(0, 0, 1);
-	sp.pos = position(0, 0, 30);
+	sp.pos = position(0, 0, 0);
 	sp.radius = 3;
-	sp.transform = identity_m4x4();
+	sp.transform = scaling_m4x4(vector(1, 1, 1));
 	sp.inverse = inverse_m4x4(sp.transform);
 	sp.material = default_material();
 	sp.material.color = (t_vec4){
@@ -34,7 +32,6 @@ void	single_sphere_test(void)
 		.axis.z = 1,
 		.axis.w = 1,
 	};
-	sp.material.ambient = .2;
 	light.pos = position(20, 80, -10);
 	light.color = (t_color){.bit = (t_8bit_color){.rgba = 0xffffffff}};
 	light.brightness = 1;
@@ -67,13 +64,14 @@ static void	cast_rays_at_sphere(t_data const *data, t_sphere *sp,
 	while (++i < data->pixel_count)
 	{
 		ray = data->pixel_rays[i];
+		ray = transformed_ray(ray, data->elems.camera->transform);
 		p->to_cam = scaled_vec(ray.dir, -1);
 		rxos = ray_x_sphere(ray, sp);
 		rxo = hit(rxos);
 		if (rxo.t <= 0)
 			continue ;
-		p->pos = scaled_vec(ray.dir, rxo.t);
-		p->normal = sphere_normal_at(*sp, ray, rxo);
+		p->pos = vec_sum(ray.orig, scaled_vec(ray.dir, rxo.t));
+		p->normal = sphere_normal_at(*sp, p->pos);
 		color = let_there_be_light(p);
 		data->img->pixels[i * 4 + 0] = color.bit.channel.r;
 		data->img->pixels[i * 4 + 1] = color.bit.channel.g;

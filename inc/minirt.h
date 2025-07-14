@@ -169,9 +169,9 @@ t_m4x4			inverse_m4x4(t_m4x4 m4x4);
 // matrices/transforms_01.c
 t_m4x4			translation_m4x4(t_vec4 vec);
 t_m4x4			scaling_m4x4(t_vec4 vec);
-t_m4x4			x_rotation_m4x4(t_flt deg);
-t_m4x4			y_rotation_m4x4(t_flt deg);
-t_m4x4			z_rotation_m4x4(t_flt deg);
+t_m4x4			x_rotation_m4x4(t_flt rad);
+t_m4x4			y_rotation_m4x4(t_flt rad);
+t_m4x4			z_rotation_m4x4(t_flt rad);
 
 /* ---------------------------------------------------------------- MATERIALS */
 
@@ -389,9 +389,12 @@ void			init_transforms(void);
 // objects/sphere_intersection.c
 t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp);
 t_ray_x_obj		hit(t_ray_x_objs intersections);
-t_vec4			sphere_normal_at(t_sphere sp, t_ray ray, t_ray_x_obj rxo);
+t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
 
 // intersections/intersections_01.c
+void			*xcalloc(size_t nmemb, size_t size);
+void			xinit_ray_intersections(t_ray *ray);
+void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
