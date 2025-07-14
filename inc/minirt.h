@@ -466,6 +466,9 @@ void			xinit_ray_intersections(t_ray *ray);
 void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 
 // intersections/intersections_01.c
+void			*xcalloc(size_t nmemb, size_t size);
+void			xinit_ray_intersections(t_ray *ray);
+void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
