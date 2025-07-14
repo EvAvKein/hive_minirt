@@ -69,3 +69,18 @@ t_color	normal_to_color(t_vec4 normal)
 	col.flt = color_8bit_to_float(col.bit);
 	return (col);
 }
+
+void	*xcalloc(size_t nmemb, size_t size)
+{
+	void	*mem;
+
+	mem = ft_calloc(nmemb, size);
+	if (mem == NULL)
+	{
+		ft_putendl_fd("ERROR: xcalloc: couldn't allocate memory",
+			STDERR_FILENO);
+		free_data();
+		exit(ERROR_ALLOC);
+	}
+	return (mem);
+}

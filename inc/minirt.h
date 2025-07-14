@@ -392,7 +392,6 @@ t_ray_x_obj		hit(t_ray_x_objs intersections);
 t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
 
 // intersections/intersections_01.c
-void			*xcalloc(size_t nmemb, size_t size);
 void			xinit_ray_intersections(t_ray *ray);
 void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 
@@ -439,6 +438,7 @@ void			write_pixel_rays_to_file(const char *str);
 t_quad			solve_sphere_quadratic(t_ray ray, t_sphere sp);
 t_color			vec4_to_color(t_vec4 vec);
 t_color			normal_to_color(t_vec4 normal);
+void			*xcalloc(size_t nmemb, size_t size);
 
 /* -------------------------------------------------------------------- TESTS */
 
