@@ -35,9 +35,9 @@ static void	init_camera_transform(void)
 	if (vecs_are_equal(cam->orientation, (t_vec4){0}))
 		cam->orientation = (t_vec4){.axis.z = 1};
 	cam->orientation = unit_vec(cam->orientation);
-	pitch_angle = atan(cam->orientation.axis.y);
+	pitch_angle = atan(cam->orientation.axis.y / cam->orientation.axis.z);
 	yaw_angle = atan(cam->orientation.axis.x / cam->orientation.axis.z);
-	cam->transform = x_rotation_m4x4(pitch_angle);
+	cam->transform = x_rotation_m4x4(-pitch_angle);
 	cam->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), cam->transform);
 	cam->transform = mult_m4x4(translation_m4x4(cam->pos), cam->transform);
 	cam->inverse = inverse_m4x4(cam->transform);

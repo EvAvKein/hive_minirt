@@ -20,9 +20,9 @@ void	*xcalloc(size_t nmemb, size_t size)
 	mem = ft_calloc(nmemb, size);
 	if (mem == NULL)
 	{
-		free_data();
 		ft_putendl_fd("ERROR: xcalloc: couldn't allocate memory",
 			STDERR_FILENO);
+		free_data();
 		exit(ERROR_ALLOC);
 	}
 	return (mem);

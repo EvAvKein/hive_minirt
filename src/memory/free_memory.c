@@ -20,6 +20,7 @@
 void	free_data(void)
 {
 	t_data	*data;
+	size_t	i;
 
 	data = get_data();
 	free(data->elems.ambient_light);
@@ -28,5 +29,8 @@ void	free_data(void)
 	dealloc_spheres(data->elems.spheres);
 	dealloc_planes(data->elems.planes);
 	dealloc_cylinders(data->elems.cylinders);
+	i = -1;
+	while (++i < data->pixel_count)
+		free(data->pixel_rays[i].intersections._);
 	free(data->pixel_rays);
 }

@@ -26,7 +26,7 @@ t_material	default_material(void)
 {
 	return ((t_material){
 		.color = (t_vec4){._[0] = 1, ._[1] = 1, ._[2] = 1, ._[3] = 1},
-		.ambient = 0.1,
+		.ambient = 0.2,
 		.diffuse = 0.9,
 		.specular = 0.9,
 		.shininess = 200
