@@ -518,6 +518,9 @@ void			*xcalloc(size_t nmemb, size_t size);
 
 // lighting/single_sphere.c
 void			single_sphere_test(void);
+//
+// lighting/single_plane.c
+void			single_plane_test(void);
 
 // lighting/single_plane.c
 void			single_plane_test(void);
