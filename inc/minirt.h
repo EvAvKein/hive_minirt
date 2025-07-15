@@ -149,6 +149,9 @@ t_vec4			vec_sub(t_vec4 v1, t_vec4 v2);
 t_vec4			transformed_vec(t_vec4 vec, t_m4x4 t);
 void			print_vec(t_vec4 vec);
 
+// vectors/vectors_03.c
+t_vec4			opposite_vec(t_vec4 vec);
+
 // matrices/matrices_01.c
 t_m4x4			mult_m4x4(t_m4x4 m4x4_1, t_m4x4 m4x4_2);
 t_m4x4			scaled_m4x4(t_m4x4 m4x4, t_flt scalar);
@@ -273,6 +276,7 @@ typedef struct s_plane
 	t_color			color;
 	t_m4x4			transform;
 	t_m4x4			inverse;
+	t_material		material;
 	struct s_plane	*next;
 }					t_plane;
 
@@ -285,6 +289,7 @@ typedef struct s_cylinder
 	t_color				color;
 	t_m4x4				transform;
 	t_m4x4				inverse;
+	t_material			material;
 	struct s_cylinder	*next;
 }						t_cylinder;
 
@@ -386,6 +391,7 @@ bool			cylinder_parse(char *str, size_t *parse_i);
 t_ray			transformed_ray(t_ray ray, t_m4x4 transform);
 t_ray			inverse_transformed_ray(t_ray ray, t_m4x4 transform);
 t_vec4			reflection(t_vec4 vec, t_vec4 normal);
+t_vec4			ray_position(t_ray ray, t_flt t);
 
 // rays/cast_rays.c
 void			cast_rays(void);
@@ -397,9 +403,13 @@ void			init_transforms(void);
 /* ------------------------------------------------------------ INTERSECTIONS */
 
 // objects/sphere_intersection.c
-t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp);
+t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp);
 t_ray_x_obj		hit(t_ray_x_objs intersections);
 t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
+
+// objects/plane_intersection.c
+t_ray_x_obj		ray_x_plane(t_ray ray, t_plane const *pl);
+t_vec4			plane_normal(t_plane pl, t_ray ray);
 
 // intersections/intersections_01.c
 void			xinit_ray_intersections(t_ray *ray);
@@ -457,7 +467,11 @@ void			*xcalloc(size_t nmemb, size_t size);
 
 /* -------------------------------------------------------------------- TESTS */
 
+// lighting/single_sphere.c
 void			single_sphere_test(void);
+//
+// lighting/single_plane.c
+void			single_plane_test(void);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

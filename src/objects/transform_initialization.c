@@ -68,7 +68,7 @@ static void	init_plane_transform(void)
 		if (vecs_are_equal(pl->orientation, (t_vec4){0}))
 			pl->orientation = (t_vec4){.axis.y = 1};
 		pl->orientation = unit_vec(pl->orientation);
-		pitch_angle = atan(pl->orientation.axis.z);
+		pitch_angle = atan(pl->orientation.axis.z / pl->orientation.axis.y);
 		yaw_angle = atan(pl->orientation.axis.x / pl->orientation.axis.z);
 		pl->transform = x_rotation_m4x4(pitch_angle);
 		pl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), pl->transform);

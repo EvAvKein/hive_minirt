@@ -17,7 +17,7 @@
  *			(how long to follow the ray and in which direction), and an
  *			object flag combined with a void pointer to that object's data
  */
-t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp)
+t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp)
 {
 	t_quad	q;
 	t_flt	t1;

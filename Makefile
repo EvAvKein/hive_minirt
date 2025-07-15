@@ -45,6 +45,7 @@ SRC		:=	main.c									\
 			utils/utils_02.c						\
 			vectors/vectors_01.c					\
 			vectors/vectors_02.c					\
+			vectors/vectors_03.c					\
 			matrices/matrices_01.c					\
 			matrices/matrices_02.c					\
 			matrices/matrices_03.c					\
@@ -55,11 +56,13 @@ SRC		:=	main.c									\
 			color/colors_01.c						\
 			color/backgrounds_01.c					\
 			objects/sphere_intersection.c			\
+			objects/plane_intersection.c			\
 			objects/materials_01.c					\
 			objects/transform_initialization.c		\
 			intersections/intersections_01.c		\
 			lighting/lighting_01.c					\
-			lighting/single_sphere.c
+			lighting/single_sphere.c				\
+			lighting/single_plane.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
 INC_FILES		:= minirt.h settings.h
