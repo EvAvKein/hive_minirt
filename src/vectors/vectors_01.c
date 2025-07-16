@@ -50,6 +50,9 @@ t_vec4	scaled_vec(t_vec4 vec, t_flt scalar)
 	return (vec);
 }
 
+/**
+ * @returns	New t_vec4 struct with the given floats as dimensions, w set to 0
+ */
 t_vec4	vector(t_flt x, t_flt y, t_flt z)
 {
 	return ((t_vec4){
@@ -59,6 +62,9 @@ t_vec4	vector(t_flt x, t_flt y, t_flt z)
 		.axis.w = 0});
 }
 
+/**
+ * @returns	New t_vec4 struct with the given floats as dimensions, w set to 1
+ */
 t_vec4	position(t_flt x, t_flt y, t_flt z)
 {
 	return ((t_vec4){
