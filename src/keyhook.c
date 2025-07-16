@@ -14,7 +14,6 @@
 
 void	keyhook(mlx_key_data_t key_data, void *param)
 {
-	(void) key_data;
 	(void) param;
 	if (key_data.key == MLX_KEY_ESCAPE)
 	{
