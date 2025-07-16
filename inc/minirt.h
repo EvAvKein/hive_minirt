@@ -455,6 +455,9 @@ void			init_camera_transform(t_camera *cam);
 
 /* ------------------------------------------------------------ INTERSECTIONS */
 
+// rays/cast_rays.c
+void			cast_rays(void);
+
 // objects/transform_initialization.c
 void			init_transforms(void);
 
