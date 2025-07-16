@@ -490,6 +490,9 @@ void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
 
 /* ------------------------------------------------------------ INTERSECTIONS */
 
+// rays/cast_rays.c
+void			cast_rays(void);
+
 // objects/transform_initialization.c
 void			init_transforms(void);
 
