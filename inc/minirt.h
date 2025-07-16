@@ -495,6 +495,10 @@ void			cast_rays(void);
 
 // objects/transform_initialization.c
 void			init_transforms(void);
+void			init_sphere_transform(t_sphere *sp);
+void			init_plane_transform(t_plane *pl);
+void			init_cylinder_transform(t_cylinder *cyl);
+void			init_camera_transform(t_camera *cam);
 
 /* ------------------------------------------------------------ INTERSECTIONS */
 
