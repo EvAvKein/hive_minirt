@@ -509,6 +509,10 @@ void			cast_ray_at_objs(t_ray *ray, t_elems *elems, void *obj_ignore);
 
 // objects/transform_initialization.c
 void			init_transforms(void);
+void			init_sphere_transform(t_sphere *sp);
+void			init_plane_transform(t_plane *pl);
+void			init_cylinder_transform(t_cylinder *cyl);
+void			init_camera_transform(t_camera *cam);
 
 /* ------------------------------------------------------------ INTERSECTIONS */
 
@@ -587,6 +591,7 @@ void			write_pixel_rays_to_file(const char *str);
 t_color			vec4_to_color(t_vec4 vec);
 t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
+t_ray_x_obj		hit(t_ray_x_objs intersections);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 
