@@ -492,7 +492,6 @@ void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
 
 // objects/sphere_intersection.c
 t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp);
-t_ray_x_obj		hit(t_ray_x_objs intersections);
 t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
 
 // objects/plane_intersection.c
@@ -556,6 +555,7 @@ void			write_pixel_rays_to_file(const char *str);
 t_color			vec4_to_color(t_vec4 vec);
 t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
+t_ray_x_obj		hit(t_ray_x_objs intersections);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

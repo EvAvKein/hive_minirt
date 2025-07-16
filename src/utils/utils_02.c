@@ -105,3 +105,20 @@ void	*xcalloc(size_t nmemb, size_t size)
 	}
 	return (mem);
 }
+
+/**
+ * @returns	Struct containing the smallest non-negative t-valued intersection
+ *			in rxos (ray-object intersections), 0 struct when both t-values
+ *			are negative
+ */
+t_ray_x_obj	hit(t_ray_x_objs rxos)
+{
+	if (rxos._[0].t < 0 && rxos._[1].t < 0)
+		return ((t_ray_x_obj){0});
+	if (rxos._[0].t < 0)
+		return (rxos._[1]);
+	if (rxos._[1].t > 0
+		&& rxos._[0].t > rxos._[1].t)
+		return (rxos._[1]);
+	return (rxos._[0]);
+}
