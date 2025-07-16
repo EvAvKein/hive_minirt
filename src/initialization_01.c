@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:55:52 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/11 16:35:14 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/16 10:21:02 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ bool	data_init_successful(void)
 	data->pixel_rays = ft_calloc(data->pixel_count, sizeof(t_ray));
 	if (data->pixel_rays == NULL)
 		return (set_error_return_false(ERROR_ALLOC));
+	init_object_data();
 	if (mlx_init_successful() == false)
 		return (false);
 	return (true);

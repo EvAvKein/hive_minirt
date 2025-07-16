@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:14:55 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/09 14:12:45 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/16 10:32:48 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,6 @@ t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp)
 		.count = 2,
 		._[0] = (t_ray_x_obj){.obj_type = SPHERE, .obj = (void *)sp, .t = t1},
 		._[1] = (t_ray_x_obj){.obj_type = SPHERE, .obj = (void *)sp, .t = t2}});
-}
-
-/**
- * @returns	Struct containing the smallest non-negative t-valued intersection
- *			in rxos (ray-object intersections), 0 struct when both t-values
- *			are negative
- */
-t_ray_x_obj	hit(t_ray_x_objs rxos)
-{
-	if (rxos._[0].t < 0 && rxos._[1].t < 0)
-		return ((t_ray_x_obj){0});
-	if (rxos._[0].t < 0)
-		return (rxos._[1]);
-	if (rxos._[1].t > 0
-		&& rxos._[0].t > rxos._[1].t)
-		return (rxos._[1]);
-	return (rxos._[0]);
 }
 
 /**

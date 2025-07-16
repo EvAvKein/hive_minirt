@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/11 10:19:07 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/16 10:19:31 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_color
 	t_float_color	flt;
 }					t_color;
 
+void			set_pixel_color(size_t pixel_i, t_color color);
 t_float_color	color_8bit_to_float(t_8bit_color c);
 t_8bit_color	color_float_to_8bit(t_float_color c);
 t_float_color	lerp_color(t_float_color c1, t_float_color c2, float amount);
@@ -355,6 +356,8 @@ void			image_to_file(const char *bmp_file_path);
 
 bool			print_err(char *error);
 
+/* ------------------------------------------------------------- FILE PARSING */
+
 bool			parse_scene(char *file_path);
 bool			is_space(char c);
 void			skip_spaces(char *str, size_t *parse_i);
@@ -375,10 +378,14 @@ bool			light_parse(char *str, size_t *parse_i);
 bool			sphere_parse(char *str, size_t *parse_i);
 bool			plane_parse(char *str, size_t *parse_i);
 bool			cylinder_parse(char *str, size_t *parse_i);
+
 // rays/rays_01.c
 t_ray			transformed_ray(t_ray ray, t_m4x4 transform);
 t_ray			inverse_transformed_ray(t_ray ray, t_m4x4 transform);
 t_vec4			reflection(t_vec4 vec, t_vec4 normal);
+
+// rays/cast_rays.c
+void			cast_rays(void);
 
 // objects/transform_initialization.c
 void			init_transforms(void);
@@ -396,7 +403,7 @@ void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
-void			free_data(void);
+bool			free_data(void);
 void			dealloc_lights(t_light *light);
 void			dealloc_spheres(t_sphere *sphere);
 void			dealloc_planes(t_plane *plane);
@@ -412,9 +419,13 @@ void			set_uv(mlx_image_t *img);
 
 /* ---------------------------------------------- DATA SETUP & INITIALIZATION */
 
+// initialization_01.c
 void			setup_pixel_rays(void);
 bool			data_init_successful(void);
 void			keyhook(mlx_key_data_t key_data, void *param);
+
+// initialization_02.c
+void			init_object_data(void);
 
 /* -------------------------------------------------------------------- UTILS */
 

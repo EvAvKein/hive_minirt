@@ -32,16 +32,16 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (!parse_scene(argv[1]))
-	{
-		free_data();
-		return (1);
-	}
+		return (free_data());
 	if (data_init_successful() == false)
 		return (data->error);
 	init_transforms();
 	setup_pixel_rays();
-	set_uv(data->img);
-	single_sphere_test();
+	set_vertical_gradient(data->img, (t_float_color[2]){
+		(t_float_color){.r = .1, .g = 1, .b = 1, .a = 1},
+		(t_float_color){.r = 1, .g = 1, .b = 1, .a = 1}
+	});
+	cast_rays();
 	mlx_key_hook(data->mlx, keyhook, NULL);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);

@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/07/11 10:22:45 by ekeinan          ###   ########.fr        #
+#    Updated: 2025/07/16 10:21:28 by ekeinan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC		:=	main.c									\
 			image_to_file.c							\
 			keyhook.c								\
 			initialization_01.c						\
+			initialization_02.c						\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
 			parsing/elems/parse_cam_and_lights.c	\
@@ -49,6 +50,7 @@ SRC		:=	main.c									\
 			matrices/matrices_03.c					\
 			matrices/transforms_01.c				\
 			rays/rays_01.c							\
+			rays/cast_rays.c						\
 			color/colors_01.c						\
 			color/backgrounds_01.c					\
 			objects/sphere_intersection.c			\
