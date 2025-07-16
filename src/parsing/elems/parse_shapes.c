@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:25:20 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/26 11:26:13 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/16 10:37:08 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	sphere_parse(char *str, size_t *parse_i)
 		return (print_err("invalid sphere data after color"));
 	sphere.next = NULL;
 	ptr_to_next = &get_data()->elems.spheres;
-	while (*ptr_to_next && (*ptr_to_next)->next)
+	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_sphere));
 	if (!*ptr_to_next)
@@ -85,7 +85,7 @@ bool	plane_parse(char *str, size_t *parse_i)
 		return (print_err("invalid plane data after color"));
 	plane.next = NULL;
 	ptr_to_next = &get_data()->elems.planes;
-	while (*ptr_to_next && (*ptr_to_next)->next)
+	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_plane));
 	if (!*ptr_to_next)
@@ -127,7 +127,7 @@ bool	cylinder_parse(char *str, size_t *parse_i)
 		return (print_err("invalid cylinder color (or data after color)"));
 	cylinder.next = NULL;
 	ptr_to_next = &get_data()->elems.cylinders;
-	while (*ptr_to_next && (*ptr_to_next)->next)
+	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_cylinder));
 	if (!*ptr_to_next)
