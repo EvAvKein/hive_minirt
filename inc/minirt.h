@@ -492,6 +492,7 @@ void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
 
 // rays/cast_rays.c
 void			cast_rays(void);
+t_ray_x_obj		hit(t_ray_x_objs intersections);
 
 // objects/transform_initialization.c
 void			init_transforms(void);
@@ -567,7 +568,6 @@ void			write_pixel_rays_to_file(const char *str);
 t_color			vec4_to_color(t_vec4 vec);
 t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
-t_ray_x_obj		hit(t_ray_x_objs intersections);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 
