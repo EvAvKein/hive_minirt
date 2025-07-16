@@ -17,10 +17,6 @@
 #  define EPSILON	0.00001
 # endif
 
-# ifndef FOV
-#  define FOV		30
-# endif
-
 # ifndef RES_X
 #  define RES_X		1280	// 3840	1920
 # endif
