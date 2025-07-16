@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   settings.h                                         :+:      :+:    :+:   */
+/*   keyhook.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/03 12:09:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/03 12:20:36 by ekeinan          ###   ########.fr       */
+/*   Created: 2025/07/11 10:11:06 by ekeinan           #+#    #+#             */
+/*   Updated: 2025/07/11 10:21:43 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SETTINGS_H
-# define SETTINGS_H
+#include "minirt.h"
 
-# ifndef EPSILON
-#  define EPSILON	0.00001
-# endif
-
-# ifndef RES_X
-#  define RES_X		1280	// 3840	1920
-# endif
-
-# ifndef RES_Y
-#  define RES_Y		720		// 2160	1080
-# endif
-
-#endif
+void	keyhook(mlx_key_data_t key_data, void *param)
+{
+	(void) param;
+	if (key_data.key == MLX_KEY_ESCAPE)
+	{
+		mlx_terminate(get_data()->mlx);
+		free_data();
+		exit(EXIT_SUCCESS);
+	}
+	if (key_data.modifier == MLX_CONTROL && key_data.key == MLX_KEY_S)
+		image_to_file("miniRT.bmp");
+}

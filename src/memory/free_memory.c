@@ -13,11 +13,11 @@
 #include "minirt.h"
 
 /**
- * 
- * Free all heap-allocated memory in the program's data struct.
- * 
+ * Free all heap-allocated memory in the program's data struct
+ *
+ * @returns `true`
  */
-void	free_data(void)
+bool	free_data(void)
 {
 	t_data	*data;
 	size_t	i;
@@ -33,4 +33,5 @@ void	free_data(void)
 	while (++i < data->pixel_count)
 		free(data->pixel_rays[i].intersections._);
 	free(data->pixel_rays);
+	return (true);
 }

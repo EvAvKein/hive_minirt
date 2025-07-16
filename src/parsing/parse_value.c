@@ -45,8 +45,7 @@ static bool	longlong_parse(char *str, size_t *parse_i, long long *dest)
 	}
 	if (negative)
 		num = -num;
-	if ((*parse_i - negative - initial_i) == 0
-		|| (negative && !num))
+	if ((*parse_i - negative - initial_i) == 0)
 		return (false);
 	*dest = num;
 	return (true);

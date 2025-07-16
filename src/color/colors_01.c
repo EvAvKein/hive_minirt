@@ -6,11 +6,24 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:22:10 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/10 17:33:44 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/15 15:56:19 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+/**
+ * Sets the color at the provided pixel index to the provided color
+ */
+void	set_pixel_color(size_t pixel_i, t_color color)
+{
+	t_data *const	data = get_data();
+
+	data->img->pixels[pixel_i * 4 + 0] = color.bit.channel.r;
+	data->img->pixels[pixel_i * 4 + 1] = color.bit.channel.g;
+	data->img->pixels[pixel_i * 4 + 2] = color.bit.channel.b;
+	data->img->pixels[pixel_i * 4 + 3] = 0xff;
+}
 
 /**
  * @returns	Float color converted from 8 bit color c

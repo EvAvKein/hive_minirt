@@ -38,7 +38,7 @@ t_quad	solve_sphere_quadratic(t_ray ray, t_sphere sp)
 	t_vec4	sp_to_ray;
 	t_quad	q;
 
-	sp_to_ray = vec_sub(ray.orig, sp.pos);
+	sp_to_ray = ray.orig;
 	q.a = dot(ray.dir, ray.dir);
 	q.b = 2 * dot(ray.dir, sp_to_ray);
 	q.c = dot(sp_to_ray, sp_to_ray) - sp.radius * sp.radius;
