@@ -14,6 +14,8 @@
 
 /**
  * Free all heap-allocated memory in the program's data struct
+ *
+ * @returns `true`
  */
 bool	free_data(void)
 {
