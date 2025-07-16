@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+static t_quad	solve_sphere_quadratic(t_ray ray, t_sphere sp);
+
 /**
  * @returns	Struct with two ray-object intersections, defined by t values
  *			(how long to follow the ray and in which direction), and an
@@ -33,6 +35,21 @@ t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp)
 		.count = 2,
 		._[0] = (t_ray_x_obj){.obj_type = SPHERE, .obj = (void *)sp, .t = t1},
 		._[1] = (t_ray_x_obj){.obj_type = SPHERE, .obj = (void *)sp, .t = t2}});
+}
+
+/**
+ * @returns	t_quad helper struct which contains the values for solving a
+ *			quadratic equation.
+ */
+static t_quad	solve_sphere_quadratic(t_ray ray, t_sphere sp)
+{
+	t_quad	q;
+
+	q.a = dot(ray.dir, ray.dir);
+	q.b = 2 * dot(ray.dir, ray.orig);
+	q.c = dot(ray.orig, ray.orig) - sp.radius * sp.radius;
+	q.discr = q.b * q.b - 4 * q.a * q.c;
+	return (q);
 }
 
 /**

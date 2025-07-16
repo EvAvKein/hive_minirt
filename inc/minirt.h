@@ -356,6 +356,14 @@ typedef struct s_data
 	t_error			error;
 }					t_data;
 
+typedef struct s_quad
+{
+	t_flt	a;
+	t_flt	b;
+	t_flt	c;
+	t_flt	discr;
+}			t_quad;
+
 t_data			*get_data(void);
 
 void			image_to_file(const char *bmp_file_path);
@@ -399,12 +407,15 @@ void			cast_ray_at_objs(t_ray *ray, t_elems *elems, void *obj_ignore);
 
 // objects/transform_initialization.c
 void			init_transforms(void);
+void			init_sphere_transform(t_sphere *sp);
+void			init_plane_transform(t_plane *pl);
+void			init_cylinder_transform(t_cylinder *cyl);
+void			init_camera_transform(t_camera *cam);
 
 /* ------------------------------------------------------------ INTERSECTIONS */
 
 // objects/sphere_intersection.c
 t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp);
-t_ray_x_obj		hit(t_ray_x_objs intersections);
 t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
 
 // objects/plane_intersection.c
@@ -443,14 +454,6 @@ void			init_object_data(void);
 
 /* -------------------------------------------------------------------- UTILS */
 
-typedef struct s_quad
-{
-	t_flt	a;
-	t_flt	b;
-	t_flt	c;
-	t_flt	discr;
-}			t_quad;
-
 // utils/utils_01.c
 t_flt			to_radians(t_flt degrees);
 t_flt			to_degrees(t_flt radians);
@@ -460,10 +463,10 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 
 // utils/utils_02.c
 void			write_pixel_rays_to_file(const char *str);
-t_quad			solve_sphere_quadratic(t_ray ray, t_sphere sp);
 t_color			vec4_to_color(t_vec4 vec);
 t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
+t_ray_x_obj		hit(t_ray_x_objs intersections);
 
 /* -------------------------------------------------------------------- TESTS */
 

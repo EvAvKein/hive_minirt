@@ -6,12 +6,17 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:11:04 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/09 11:59:33 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/16 13:08:07 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+/**
+ * Used this function for debugging raycasting.
+ *
+ * TODO: Remove function before eval or move to a debug source file
+ */
 void	write_pixel_rays_to_file(const char *str)
 {
 	size_t	i;
@@ -33,19 +38,15 @@ void	write_pixel_rays_to_file(const char *str)
 	close(fds[1]);
 }
 
-t_quad	solve_sphere_quadratic(t_ray ray, t_sphere sp)
-{
-	t_vec4	sp_to_ray;
-	t_quad	q;
-
-	sp_to_ray = ray.orig;
-	q.a = dot(ray.dir, ray.dir);
-	q.b = 2 * dot(ray.dir, sp_to_ray);
-	q.c = dot(sp_to_ray, sp_to_ray) - sp.radius * sp.radius;
-	q.discr = q.b * q.b - 4 * q.a * q.c;
-	return (q);
-}
-
+/**
+ * Helper function for converting a vec4 into a color object.
+ *
+ * @returns	Color based on vec4 parameter vec, with the following mapping:
+ *			r = x
+ *			g = y
+ *			b = z
+ *			a = w
+ */
 t_color	vec4_to_color(t_vec4 vec)
 {
 	t_color	col;
@@ -58,6 +59,12 @@ t_color	vec4_to_color(t_vec4 vec)
 	return (col);
 }
 
+/**
+ * Converts a vec4 containing the normal of a surface into the corresponding
+ * color.
+ *
+ * @returns Color that corrensponds to vec4 parameter normal
+ */
 t_color	normal_to_color(t_vec4 normal)
 {
 	t_color	col;
@@ -70,6 +77,10 @@ t_color	normal_to_color(t_vec4 normal)
 	return (col);
 }
 
+/**
+ * @returns	Attempts to calloc, frees data and exits program if calloc fails.
+ *			Returns void pointer to allocated memory block.
+ */
 void	*xcalloc(size_t nmemb, size_t size)
 {
 	void	*mem;
@@ -83,4 +94,21 @@ void	*xcalloc(size_t nmemb, size_t size)
 		exit(ERROR_ALLOC);
 	}
 	return (mem);
+}
+
+/**
+ * @returns	Struct containing the smallest non-negative t-valued intersection
+ *			in rxos (ray-object intersections), 0 struct when both t-values
+ *			are negative
+ */
+t_ray_x_obj	hit(t_ray_x_objs rxos)
+{
+	if (rxos._[0].t < 0 && rxos._[1].t < 0)
+		return ((t_ray_x_obj){0});
+	if (rxos._[0].t < 0)
+		return (rxos._[1]);
+	if (rxos._[1].t > 0
+		&& rxos._[0].t > rxos._[1].t)
+		return (rxos._[1]);
+	return (rxos._[0]);
 }

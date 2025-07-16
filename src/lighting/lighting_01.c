@@ -15,6 +15,9 @@
 static void	calculate_diffuse_and_specular(t_phong_helper *p);
 static void	calculate_specular(t_phong_helper *p);
 
+/**
+ * @returns	Color defined by phong helper p
+ */
 t_color	let_there_be_light(t_phong_helper *p)
 {
 	t_color		color;
@@ -39,6 +42,10 @@ t_color	let_there_be_light(t_phong_helper *p)
 	return (color);
 }
 
+/**
+ * Calculates diffuse based on phong helper p and calls specular calculation
+ * function.
+ */
 static void	calculate_diffuse_and_specular(t_phong_helper *p)
 {
 	p->surface_light_alignment = dot(p->to_light, p->normal);
@@ -54,6 +61,9 @@ static void	calculate_diffuse_and_specular(t_phong_helper *p)
 	calculate_specular(p);
 }
 
+/**
+ * Calculates specular based on phong helper p
+ */
 static void	calculate_specular(t_phong_helper *p)
 {
 	t_flt	f;

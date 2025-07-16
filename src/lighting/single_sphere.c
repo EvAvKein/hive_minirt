@@ -21,18 +21,19 @@ void	single_sphere_test(void)
 	t_sphere	sp;
 	t_light		light;
 
-	sp.pos = position(0, 0, 0);
-	sp.radius = 3;
-	sp.transform = scaling_m4x4(vector(1, 1, 1));
+	sp.pos = position(0, 0, 20);
+	sp.radius = 2.5;
+	sp.transform = scaling_m4x4(vector(1, 0.5, 1));
+	sp.transform = mult_m4x4(translation_m4x4(sp.pos), sp.transform);
 	sp.inverse = inverse_m4x4(sp.transform);
 	sp.material = default_material();
 	sp.material.color = position(1, 0, 1);
-	light.pos = position(20, 80, -10);
+	light.pos = position(0, 7, 20);
 	light.color = (t_color){.bit = (t_8bit_color){.rgba = 0xffffffff}};
 	light.color.flt = color_8bit_to_float(light.color.bit);
 	light.brightness = 1;
-	light.transform = identity_m4x4();
-	light.inverse = identity_m4x4();
+	light.transform = translation_m4x4(light.pos);
+	light.inverse = inverse_m4x4(light.transform);
 	light_single_sphere(&sp, &light);
 }
 

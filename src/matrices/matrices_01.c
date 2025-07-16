@@ -71,6 +71,9 @@ t_m4x4	scaled_m4x4(t_m4x4 m4x4, t_flt scalar)
 	return (scaled);
 }
 
+/**
+ * Prints a 4 by 4 matrix with whitespace around.
+ */
 void	print_m4x4(t_m4x4 m4x4)
 {
 	printf("\n%10.2f%10.2f%10.2f%10.2f",

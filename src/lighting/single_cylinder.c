@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vectors_03.c                                       :+:      :+:    :+:   */
+/*   single_cylinder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 13:36:10 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/15 13:50:53 by jvarila          ###   ########.fr       */
+/*   Created: 2025/07/16 15:13:35 by jvarila           #+#    #+#             */
+/*   Updated: 2025/07/16 17:28:02 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-/**
- * @returns	Vector pointing in the opposite direction than vec
- */
-t_vec4	opposite_vec(t_vec4 vec)
+void	single_cylinder_test(void)
 {
-	vec._[0] = -vec._[0];
-	vec._[1] = -vec._[1];
-	vec._[2] = -vec._[2];
-	return (vec);
+	t_cylinder	cyl;
+
+	cyl.pos = position(0, 0, 20);
+	cyl.diam = 10;
+	cyl.orientation = vector(0, 1, 0);
 }
