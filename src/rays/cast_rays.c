@@ -61,13 +61,12 @@ static t_ray_x_obj	*closest_rxo(t_ray_x_obj_array *array)
 	t_flt		t;
 
 	rxo = NULL;
-	i = 0;
-	while (i < array->idx)
+	i = -1;
+	while (++i < array->idx)
 	{
 		t = array->_[i].t;
 		if (t > EPSILON && (!rxo || t < rxo->t))
 			rxo = &array->_[i];
-		i++;
 	}
 	return (rxo);
 }
@@ -98,9 +97,9 @@ void	cast_rays(void)
 	t_ray_x_obj		*rxo;
 	t_phong_helper	phong;
 
-	i = -1;
 	ray = (t_ray){0};
 	phong = (t_phong_helper){0};
+	i = -1;
 	while (++i < data->pixel_count)
 	{
 		free(ray.intersections._);
