@@ -16,12 +16,12 @@ void	keyhook(mlx_key_data_t key_data, void *param)
 {
 	(void) key_data;
 	(void) param;
-
 	if (key_data.key == MLX_KEY_ESCAPE)
 	{
 		mlx_terminate(get_data()->mlx);
 		free_data();
 		exit(EXIT_SUCCESS);
 	}
+	if (key_data.modifier == MLX_CONTROL && key_data.key == MLX_KEY_S)
+		image_to_file("miniRT.bmp");
 }
-

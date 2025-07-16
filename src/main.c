@@ -42,7 +42,6 @@ int	main(int argc, char **argv)
 	setup_pixel_rays();
 	set_uv(data->img);
 	single_sphere_test();
-	image_to_file("miniRT.bmp");
 	mlx_key_hook(data->mlx, keyhook, NULL);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
