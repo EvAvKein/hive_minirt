@@ -24,6 +24,7 @@ t_data	*get_data(void)
 	return (&data);
 }
 
+// cast_rays();
 int	main(int argc, char **argv)
 {
 	t_data *const	data = get_data();
@@ -41,7 +42,7 @@ int	main(int argc, char **argv)
 		(t_float_color){.r = .1, .g = 1, .b = 1, .a = 1},
 		(t_float_color){.r = 1, .g = 1, .b = 1, .a = 1}
 	});
-	cast_rays();
+	single_cylinder_test();
 	mlx_key_hook(data->mlx, keyhook, NULL);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
