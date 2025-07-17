@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-static void	light_single_sphere(t_sphere *sp, t_light const *light);
+static void	light_single_sphere(t_sphere const *sp, t_light const *light);
 static void	cast_rays_at_sphere(t_data const *data, t_sphere const *sp,
 				t_phong_helper *p);
 
@@ -37,7 +37,7 @@ void	single_sphere_test(void)
 	light_single_sphere(&sp, &light);
 }
 
-static void	light_single_sphere(t_sphere *sp, t_light const *light)
+static void	light_single_sphere(t_sphere const *sp, t_light const *light)
 {
 	t_data *const	data = get_data();
 	t_phong_helper	p;
@@ -70,9 +70,6 @@ static void	cast_rays_at_sphere(t_data const *data, t_sphere const *sp,
 		p->normal = sphere_normal_at(*sp, p->pos);
 		p->to_cam = opposite_vec(ray.dir);
 		color = let_there_be_light(p);
-		data->img->pixels[i * 4 + 0] = color.bit.channel.r;
-		data->img->pixels[i * 4 + 1] = color.bit.channel.g;
-		data->img->pixels[i * 4 + 2] = color.bit.channel.b;
-		data->img->pixels[i * 4 + 3] = 0xff;
+		set_pixel_color(i, color);
 	}
 }

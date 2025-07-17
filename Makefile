@@ -57,12 +57,14 @@ SRC		:=	main.c									\
 			color/backgrounds_01.c					\
 			objects/sphere_intersection.c			\
 			objects/plane_intersection.c			\
+			objects/cylinder_intersection.c			\
 			objects/materials_01.c					\
 			objects/transform_initialization.c		\
 			intersections/intersections_01.c		\
 			lighting/lighting_01.c					\
 			lighting/single_sphere.c				\
-			lighting/single_plane.c
+			lighting/single_plane.c					\
+			lighting/single_cylinder.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
 INC_FILES		:= minirt.h settings.h

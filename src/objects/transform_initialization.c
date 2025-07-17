@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:27:40 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/16 18:40:11 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/17 11:57:46 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,13 @@ void	init_camera_transform(t_camera *cam)
 
 	if (vecs_are_equal(cam->orientation, (t_vec4){0}))
 		cam->orientation = (t_vec4){.axis.z = 1};
+	pitch_angle = 0;
+	yaw_angle = 0;
 	cam->orientation = unit_vec(cam->orientation);
-	pitch_angle = atan(cam->orientation.axis.y / cam->orientation.axis.z);
-	yaw_angle = atan(cam->orientation.axis.x / cam->orientation.axis.z);
+	if (!floats_are_equal(cam->orientation.axis.z, 0))
+		pitch_angle = atan(cam->orientation.axis.y / cam->orientation.axis.z);
+	if (!floats_are_equal(cam->orientation.axis.z, 0))
+		yaw_angle = atan(cam->orientation.axis.x / cam->orientation.axis.z);
 	cam->transform = x_rotation_m4x4(-pitch_angle);
 	cam->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), cam->transform);
 	cam->transform = mult_m4x4(translation_m4x4(cam->pos), cam->transform);
@@ -84,9 +88,13 @@ void	init_plane_transform(t_plane *pl)
 
 	if (vecs_are_equal(pl->orientation, (t_vec4){0}))
 		pl->orientation = (t_vec4){.axis.y = 1};
+	pitch_angle = 0;
+	yaw_angle = 0;
 	pl->orientation = unit_vec(pl->orientation);
-	pitch_angle = atan(pl->orientation.axis.z / pl->orientation.axis.y);
-	yaw_angle = atan(pl->orientation.axis.x / pl->orientation.axis.z);
+	if (!floats_are_equal(pl->orientation.axis.y, 0))
+		pitch_angle = atan(pl->orientation.axis.z / pl->orientation.axis.y);
+	if (!floats_are_equal(pl->orientation.axis.z, 0))
+		yaw_angle = atan(pl->orientation.axis.x / pl->orientation.axis.z);
 	pl->transform = x_rotation_m4x4(pitch_angle);
 	pl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), pl->transform);
 	pl->transform = mult_m4x4(translation_m4x4(pl->pos), pl->transform);
@@ -104,9 +112,13 @@ void	init_cylinder_transform(t_cylinder *cyl)
 
 	if (vecs_are_equal(cyl->orientation, (t_vec4){0}))
 		cyl->orientation = (t_vec4){.axis.y = 1};
+	pitch_angle = 0;
+	yaw_angle = 0;
 	cyl->orientation = unit_vec(cyl->orientation);
-	pitch_angle = atan(cyl->orientation.axis.z / cyl->orientation.axis.y);
-	yaw_angle = atan(cyl->orientation.axis.x / cyl->orientation.axis.z);
+	if (!floats_are_equal(cyl->orientation.axis.y, 0))
+		pitch_angle = atan(cyl->orientation.axis.z / cyl->orientation.axis.y);
+	if (!floats_are_equal(cyl->orientation.axis.z, 0))
+		yaw_angle = atan(cyl->orientation.axis.x / cyl->orientation.axis.z);
 	cyl->transform = x_rotation_m4x4(pitch_angle);
 	cyl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), cyl->transform);
 	cyl->transform = mult_m4x4(translation_m4x4(cyl->pos), cyl->transform);
