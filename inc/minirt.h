@@ -100,6 +100,7 @@ typedef struct s_color
 }					t_color;
 
 void			set_pixel_color(size_t pixel_i, t_color color);
+t_color			color_from_uint32(uint32_t c);
 t_float_color	color_8bit_to_float(t_8bit_color c);
 t_8bit_color	color_float_to_8bit(t_float_color c);
 t_float_color	lerp_color(t_float_color c1, t_float_color c2, float amount);
@@ -435,6 +436,9 @@ t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
 t_ray_x_obj		ray_x_plane(t_ray ray, t_plane const *pl);
 t_vec4			plane_normal(t_plane pl, t_ray ray);
 
+// objects/cylinder_intersection.c
+bool			ray_hits_cylinder(t_ray ray, t_cylinder cyl);
+
 // intersections/intersections_01.c
 void			xinit_ray_intersections(t_ray *ray);
 void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
@@ -484,9 +488,12 @@ void			*xcalloc(size_t nmemb, size_t size);
 
 // lighting/single_sphere.c
 void			single_sphere_test(void);
-//
+
 // lighting/single_plane.c
 void			single_plane_test(void);
+
+// lighting/single_cylinder.c
+void			single_cylinder_test(void);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

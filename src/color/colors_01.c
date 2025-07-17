@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:22:10 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/15 15:56:19 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/17 10:54:12 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,20 @@ void	set_pixel_color(size_t pixel_i, t_color color)
 	data->img->pixels[pixel_i * 4 + 1] = color.bit.channel.g;
 	data->img->pixels[pixel_i * 4 + 2] = color.bit.channel.b;
 	data->img->pixels[pixel_i * 4 + 3] = 0xff;
+}
+
+/**
+ * Convenience function for easily creating colors
+ *
+ * @returns	t_color struct with colors set to match c
+ */
+t_color	color_from_uint32(uint32_t c)
+{
+	t_color	col;
+
+	col.bit.rgba = c;
+	col.flt = color_8bit_to_float(col.bit);
+	return (col);
 }
 
 /**

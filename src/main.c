@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:22 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/16 18:42:21 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/17 10:58:45 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_data	*get_data(void)
 	return (&data);
 }
 
+// cast_rays();
 int	main(int argc, char **argv)
 {
 	t_data *const	data = get_data();
@@ -41,7 +42,7 @@ int	main(int argc, char **argv)
 		(t_float_color){.r = .1, .g = 1, .b = 1, .a = 1},
 		(t_float_color){.r = 1, .g = 1, .b = 1, .a = 1}
 	});
-	cast_rays();
+	single_cylinder_test();
 	mlx_key_hook(data->mlx, keyhook, NULL);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);

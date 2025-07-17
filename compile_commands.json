@@ -484,5 +484,167 @@
    "obj/lighting/single_sphere.o"
   ],
   "file": "src/lighting/single_sphere.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/keyhook.c",
+   "-o",
+   "obj/keyhook.o"
+  ],
+  "file": "src/keyhook.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/initialization_02.c",
+   "-o",
+   "obj/initialization_02.o"
+  ],
+  "file": "src/initialization_02.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/vectors/vectors_03.c",
+   "-o",
+   "obj/vectors/vectors_03.o"
+  ],
+  "file": "src/vectors/vectors_03.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/rays/cast_rays.c",
+   "-o",
+   "obj/rays/cast_rays.o"
+  ],
+  "file": "src/rays/cast_rays.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/objects/plane_intersection.c",
+   "-o",
+   "obj/objects/plane_intersection.o"
+  ],
+  "file": "src/objects/plane_intersection.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/objects/transform_initialization.c",
+   "-o",
+   "obj/objects/transform_initialization.o"
+  ],
+  "file": "src/objects/transform_initialization.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/intersections/intersections_01.c",
+   "-o",
+   "obj/intersections/intersections_01.o"
+  ],
+  "file": "src/intersections/intersections_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/lighting/single_plane.c",
+   "-o",
+   "obj/lighting/single_plane.o"
+  ],
+  "file": "src/lighting/single_plane.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/lighting/single_cylinder.c",
+   "-o",
+   "obj/lighting/single_cylinder.o"
+  ],
+  "file": "src/lighting/single_cylinder.c"
  }
 ]
