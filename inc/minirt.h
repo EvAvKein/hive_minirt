@@ -533,7 +533,7 @@ t_ray_x_obj		hit(t_ray_x_objs intersections);
 
 // lighting/single_sphere.c
 void			single_sphere_test(void);
-//
+
 // lighting/single_plane.c
 void			single_plane_test(void);
 
