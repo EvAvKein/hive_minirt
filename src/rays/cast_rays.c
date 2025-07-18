@@ -19,12 +19,23 @@
  */
 t_ray_x_obj	hit(t_ray_x_objs rxos)
 {
-	if (rxos._[0].t < 0 && rxos._[1].t < 0)
+	t_flt	t1;
+	t_flt	t2;
+
+	t1 = rxos._[0].t;
+	t2 = rxos._[1].t;
+	if ((floats_are_equal(t1, 0) && floats_are_equal(t2, 0))
+		|| (t1 < 0 && t2 < 0))
 		return ((t_ray_x_obj){0});
-	if (rxos._[0].t < 0)
+	if (t1 < 0)
 		return (rxos._[1]);
-	if (rxos._[1].t > 0
-		&& rxos._[0].t > rxos._[1].t)
+	if (t2 < 0)
+		return (rxos._[0]);
+	if (floats_are_equal(t1, 0))
+		return (rxos._[1]);
+	if (floats_are_equal(t2, 0))
+		return (rxos._[0]);
+	if (rxos._[0].t > rxos._[1].t)
 		return (rxos._[1]);
 	return (rxos._[0]);
 }

@@ -14,7 +14,7 @@
 
 static t_quad	solve_cylinder_quadratic(t_ray ray, t_cylinder cyl);
 
-t_ray_x_obj		ray_hit_cylinder(t_ray ray, t_cylinder const *cyl)
+t_ray_x_obj	ray_hit_cylinder(t_ray ray, t_cylinder const *cyl)
 {
 	t_ray_x_objs	shell;
 	t_ray_x_objs	caps;
@@ -74,12 +74,8 @@ t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl)
 	c.btm_dist = vec_len(c.btm_mid_to_hit);
 	if (c.top_dist > cyl->diam / 2)
 		c.top_hit.t = 0;
-	else if (!floats_are_equal(c.top_hit.t, 0))
-		printf("Top hit t: %f\n", c.top_hit.t);
 	if (c.btm_dist > cyl->diam / 2)
 		c.btm_hit.t = 0;
-	else if (!floats_are_equal(c.btm_hit.t, 0))
-		printf("Bottom hit t: %f\n", c.btm_hit.t);
 	return ((t_ray_x_objs){
 		.count = 2,
 		._[0] = (t_ray_x_obj){

@@ -14,7 +14,7 @@
 # define SETTINGS_H
 
 # ifndef EPSILON
-#  define EPSILON	0.00001
+#  define EPSILON	0.0001
 # endif
 
 # ifndef RES_X
