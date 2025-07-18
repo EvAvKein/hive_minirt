@@ -444,6 +444,7 @@ void			init_camera_transform(t_camera *cam);
 
 // rays/cast_rays.c
 void			cast_rays(void);
+void			cast_ray_at_objs(t_ray *ray, t_elems *elems, void *obj_ignore);
 
 // objects/transform_initialization.c
 void			init_transforms(void);
