@@ -490,40 +490,6 @@ void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
 
 /* ------------------------------------------------------------ INTERSECTIONS */
 
-// rays/cast_rays.c
-void			cast_rays(void);
-t_ray_x_obj		hit(t_ray_x_objs intersections);
-
-// objects/transform_initialization.c
-void			init_transforms(void);
-void			init_sphere_transform(t_sphere *sp);
-void			init_plane_transform(t_plane *pl);
-void			init_cylinder_transform(t_cylinder *cyl);
-void			init_camera_transform(t_camera *cam);
-
-/* ------------------------------------------------------------ INTERSECTIONS */
-
-// rays/cast_rays.c
-void			cast_rays(void);
-void			cast_ray_at_objs(t_ray *ray, t_elems *elems, void *obj_ignore);
-
-// objects/transform_initialization.c
-void			init_transforms(void);
-void			init_sphere_transform(t_sphere *sp);
-void			init_plane_transform(t_plane *pl);
-void			init_cylinder_transform(t_cylinder *cyl);
-void			init_camera_transform(t_camera *cam);
-
-/* ------------------------------------------------------------ INTERSECTIONS */
-
-// rays/cast_rays.c
-void			cast_rays(void);
-
-// objects/transform_initialization.c
-void			init_transforms(void);
-
-/* ------------------------------------------------------------ INTERSECTIONS */
-
 // objects/sphere_intersection.c
 t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp);
 t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
@@ -548,12 +514,6 @@ t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 void			xinit_ray_intersections(t_ray *ray);
 void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 void			empty_intersections(t_ray *ray);
-
-// intersections/intersections_01.c
-void			xinit_ray_intersections(t_ray *ray);
-void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
-
-// intersections/intersections_01.c
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
@@ -601,7 +561,6 @@ void			write_pixel_rays_to_file(const char *str);
 t_color			vec4_to_color(t_vec4 vec);
 t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
-t_ray_x_obj		hit(t_ray_x_objs intersections);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 
