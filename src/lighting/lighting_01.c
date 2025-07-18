@@ -23,7 +23,7 @@ t_color	let_there_be_light(t_phong_helper *p)
 
 	p->ambient = scaled_vec(p->mat->color, ab);
 	p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
-	shadow_ray.orig = vec_sum(p->pos, scaled_vec(p->normal, EPSILON));
+	shadow_ray.orig = p->pos;
 	shadow_ray.dir = p->to_light;
 	xinit_ray_intersections(&shadow_ray);
 	cast_ray_at_objs(&shadow_ray, &get_data()->elems, p->obj_hit);
