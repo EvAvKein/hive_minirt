@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/07/16 10:21:28 by ekeinan          ###   ########.fr        #
+#    Updated: 2025/07/18 17:16:09 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRC		:=	main.c									\
 			objects/materials_01.c					\
 			objects/transform_initialization.c		\
 			intersections/intersections_01.c		\
+			intersections/quicksort.c				\
 			lighting/lighting_01.c					\
 			lighting/single_sphere.c				\
 			lighting/single_plane.c					\
