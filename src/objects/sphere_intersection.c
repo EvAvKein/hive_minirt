@@ -58,10 +58,10 @@ static t_quad	solve_sphere_quadratic(t_ray ray, t_sphere sp)
 t_vec4	sphere_normal_at(t_sphere sp, t_vec4 world_pos)
 {
 	t_vec4	normal;
-	t_vec4	sphere_pos;
+	t_vec4	object_pos;
 
-	sphere_pos = transformed_vec(world_pos, sp.inverse);
-	normal = unit_vec(transformed_vec(sphere_pos, transpose_m4x4(sp.inverse)));
+	object_pos = transformed_vec(world_pos, sp.inverse);
+	normal = unit_vec(transformed_vec(object_pos, transpose_m4x4(sp.inverse)));
 	normal.axis.w = 0;
 	return (normal);
 }

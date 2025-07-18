@@ -25,9 +25,8 @@ void	single_cylinder_test(void)
 	cyl.diam = 10;
 	cyl.height = 10;
 	cyl.orientation = vector(0, 1, 1);
+	cyl.material = default_material();
 	init_cylinder_transform(&cyl);
-	print_m4x4(cyl.transform);
-	print_m4x4(cyl.inverse);
 	light.pos = position(20, 80, -20);
 	light.color = (t_color){.bit = (t_8bit_color){.rgba = 0xffffffff}};
 	light.color.flt = color_8bit_to_float(light.color.bit);
@@ -51,9 +50,11 @@ static void	light_single_cylinder(t_cylinder const *cyl, t_light const *light)
 static void	cast_rays_at_cylinder(t_data const *data, t_cylinder const *cyl,
 				t_phong_helper *p)
 {
-	t_ray	ray;
-	t_color	color;
-	size_t	i;
+	t_ray			ray;
+	t_ray_x_obj		rxo;
+	t_ray_x_objs	rxos;
+	t_color			color;
+	size_t			i;
 
 	(void)p;
 	color = color_from_uint32(0x0000ffff);
@@ -62,8 +63,17 @@ static void	cast_rays_at_cylinder(t_data const *data, t_cylinder const *cyl,
 	{
 		ray = data->pixel_rays[i];
 		ray = transformed_ray(ray, data->elems.camera->transform);
-		ray = transformed_ray(ray, cyl->inverse);
-		if (ray_hits_cylinder(ray, *cyl))
-			set_pixel_color(i, color);
+		rxos = ray_x_cylinder_shell(ray, cyl);
+		rxo = hit(rxos);
+		//rxo = ray_hit_cylinder(ray, cyl);
+		if (rxo.t <= 0)
+			continue ;
+		//p->pos = ray_position(ray, rxo.t);
+		//p->normal = cylinder_normal_at(*cyl, p->pos);
+		//p->to_cam = opposite_vec(ray.dir);
+		//if (dot(p->normal, p->to_cam) < 0)
+		//	p->normal = opposite_vec(p->normal);
+		color = color_from_uint32(0xff000000);
+		set_pixel_color(i, color);
 	}
 }
