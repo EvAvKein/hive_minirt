@@ -20,10 +20,11 @@ static void	calculate_specular(t_phong_helper *p);
  */
 t_color	let_there_be_light(t_phong_helper *p)
 {
-	t_color		color;
 	t_ray		shadow_ray;
 	t_flt const	ab = get_data()->elems.ambient_light->brightness;
 
+	if (dot(p->to_cam, p->normal) < 0)
+		p->normal = opposite_vec(p->normal);
 	p->ambient = scaled_vec(p->mat->color, ab);
 	p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
 	shadow_ray.orig = p->pos;
@@ -38,8 +39,7 @@ t_color	let_there_be_light(t_phong_helper *p)
 		p->specular = (t_vec4){0};
 	}
 	p->combined = vec_sum(vec_sum(p->ambient, p->diffuse), p->specular);
-	color = vec4_to_color(p->combined);
-	return (color);
+	return (vec4_to_color(p->combined));
 }
 
 /**

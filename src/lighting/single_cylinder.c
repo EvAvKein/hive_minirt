@@ -61,15 +61,12 @@ static void	cast_rays_at_cylinder(t_data const *data, t_cylinder const *cyl,
 	while (++i < data->pixel_count)
 	{
 		ray = data->pixel_rays[i];
-		ray = transformed_ray(ray, data->elems.camera->transform);
 		rxo = ray_hit_cylinder(ray, cyl);
 		if (rxo.t <= 0)
 			continue ;
 		p->pos = ray_position(ray, rxo.t);
 		p->normal = cylinder_normal_at(*cyl, p->pos);
 		p->to_cam = opposite_vec(ray.dir);
-		if (dot(p->normal, p->to_cam) < 0)
-			p->normal = opposite_vec(p->normal);
 		color = let_there_be_light(p);
 		set_pixel_color(i, color);
 	}

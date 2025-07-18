@@ -45,6 +45,9 @@ static void	init_spheres(t_sphere *sp)
 		sp->transform = translation_m4x4(sp->pos);
 		sp->inverse = inverse_m4x4(sp->transform);
 		sp->material = default_material();
+		sp->color.flt = color_8bit_to_float(sp->color.bit);
+		sp->material.color = position(sp->color.flt.r,
+								sp->color.flt.g, sp->color.flt.b);
 		sp = sp->next;
 	}
 }
@@ -61,15 +64,16 @@ static void	init_planes(t_plane *pl)
 		pitch_angle = 0;
 		yaw_angle = 0;
 		pl->orientation = unit_vec(pl->orientation);
-		if (!floats_are_equal(pl->orientation.axis.y, 0))
-			pitch_angle = atan(pl->orientation.axis.z / pl->orientation.axis.y);
-		if (!floats_are_equal(pl->orientation.axis.z, 0))
-			yaw_angle = atan(pl->orientation.axis.x / pl->orientation.axis.z);
+		pitch_angle = asin(pl->orientation.axis.z);
+		yaw_angle = asin(pl->orientation.axis.x);
 		pl->transform = x_rotation_m4x4(pitch_angle);
 		pl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), pl->transform);
 		pl->transform = mult_m4x4(translation_m4x4(pl->pos), pl->transform);
 		pl->inverse = inverse_m4x4(pl->transform);
 		pl->material = default_material();
+		pl->color.flt = color_8bit_to_float(pl->color.bit);
+		pl->material.color = position(pl->color.flt.r,
+								pl->color.flt.g, pl->color.flt.b);
 		pl = pl->next;
 	}
 }
@@ -86,16 +90,16 @@ static void	init_cylinders(t_cylinder *cyl)
 		pitch_angle = 0;
 		yaw_angle = 0;
 		cyl->orientation = unit_vec(cyl->orientation);
-		if (!floats_are_equal(cyl->orientation.axis.y, 0))
-			pitch_angle = atan(cyl->orientation.axis.z
-					/ cyl->orientation.axis.y);
-		if (!floats_are_equal(cyl->orientation.axis.z, 0))
-			yaw_angle = atan(cyl->orientation.axis.x / cyl->orientation.axis.z);
+		pitch_angle = asin(cyl->orientation.axis.z);
+		yaw_angle = asin(cyl->orientation.axis.x);
 		cyl->transform = x_rotation_m4x4(pitch_angle);
 		cyl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), cyl->transform);
 		cyl->transform = mult_m4x4(translation_m4x4(cyl->pos), cyl->transform);
 		cyl->inverse = inverse_m4x4(cyl->transform);
 		cyl->material = default_material();
+		cyl->color.flt = color_8bit_to_float(cyl->color.bit);
+		cyl->material.color = position(cyl->color.flt.r,
+								cyl->color.flt.g, cyl->color.flt.b);
 		cyl = cyl->next;
 	}
 }

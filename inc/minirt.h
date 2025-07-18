@@ -26,7 +26,7 @@
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
-typedef float	t_flt;
+typedef double	t_flt;
 
 typedef enum e_error
 {
@@ -435,7 +435,7 @@ t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
 
 // objects/plane_intersection.c
 t_ray_x_obj		ray_x_plane(t_ray ray, t_plane const *pl);
-t_vec4			plane_normal(t_plane pl, t_ray ray);
+t_vec4			plane_normal(t_plane pl);
 
 // objects/cylinder_intersection.c
 t_ray_x_obj		ray_hit_cylinder(t_ray ray, t_cylinder const *cyl);

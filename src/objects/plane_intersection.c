@@ -27,12 +27,12 @@ t_ray_x_obj	ray_x_plane(t_ray ray, t_plane const *pl)
 	return ((t_ray_x_obj){.t = t, .obj = (void *)pl, .obj_type = PLANE});
 }
 
-t_vec4	plane_normal(t_plane pl, t_ray ray)
+t_vec4	plane_normal(t_plane pl)
 {
 	t_vec4	normal;
 
 	normal = transformed_vec(pl.orientation, pl.inverse);
-	if (dot(ray.dir, pl.orientation) > 0)
-		normal = opposite_vec(normal);
+	normal = unit_vec(transformed_vec(normal, transpose_m4x4(pl.inverse)));
+	normal.axis.w = 0;
 	return (normal);
 }

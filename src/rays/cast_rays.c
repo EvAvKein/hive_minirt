@@ -73,7 +73,7 @@ static t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 	}
 	if (rxo->obj_type == PLANE)
 	{
-		p->normal = plane_normal(*(t_plane *)rxo->obj, *p->ray);
+		p->normal = plane_normal(*(t_plane *)rxo->obj);
 		p->mat = &((t_plane *)rxo->obj)->material;
 	}
 	if (rxo->obj_type == CYLINDER)
@@ -81,8 +81,6 @@ static t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 		p->normal = cylinder_normal_at(*(t_cylinder *)rxo->obj, p->pos);
 		p->mat = &((t_cylinder *)rxo->obj)->material;
 	}
-	if (dot(p->to_cam, p->normal) < 0)
-		p->normal = opposite_vec(p->normal);
 	return (let_there_be_light(p));
 }
 
@@ -93,27 +91,25 @@ void	cast_rays(void)
 {
 	t_data *const	data = get_data();
 	size_t			i;
-	t_ray			ray;
+	t_ray			*ray;
 	t_ray_x_obj		*rxo;
 	t_phong_helper	phong;
 
-	ray = (t_ray){0};
 	phong = (t_phong_helper){0};
 	i = -1;
 	while (++i < data->pixel_count)
 	{
-		ray = data->pixel_rays[i];
-		free(ray.intersections._);
-		xinit_ray_intersections(&ray);
-		ray = transformed_ray(ray, data->elems.camera->transform);
-		cast_ray_at_objs(&ray, &get_data()->elems, NULL);
-		rxo = closest_rxo(&ray.intersections);
+		ray = &data->pixel_rays[i];
+		free(ray->intersections._);
+		xinit_ray_intersections(ray);
+		cast_ray_at_objs(ray, &get_data()->elems, NULL);
+		rxo = closest_rxo(&ray->intersections);
 		if (!rxo)
 			continue ;
-		phong.ray = &ray;
-		phong.to_cam = opposite_vec(ray.dir);
+		phong.ray = ray;
+		phong.pos = ray_position(*ray, rxo->t);
+		phong.to_cam = opposite_vec(ray->dir);
 		phong.obj_hit = rxo->obj;
-		phong.pos = ray_position(ray, rxo->t);
 		set_pixel_color(i, color_at_obj_hit(rxo, &phong));
 	}
 }
