@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:50:49 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/11 10:56:04 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/17 12:37:26 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,23 @@ static void	calculate_specular(t_phong_helper *p);
 
 t_color	let_there_be_light(t_phong_helper *p)
 {
-	t_color	color;
+	t_color		color;
+	t_ray		shadow_ray;
+	t_flt const	ab = get_data()->elems.ambient_light->brightness;
 
-	p->effective_color = scaled_vec(p->mat->color, p->light->brightness);
+	p->ambient = scaled_vec(p->mat->color, ab);
 	p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
-	p->ambient = scaled_vec(p->effective_color, p->mat->ambient);
-	calculate_diffuse_and_specular(p);
+	shadow_ray.orig = p->pos;
+	shadow_ray.dir = p->to_light;
+	xinit_ray_intersections(&shadow_ray);
+	cast_ray_at_objs(&shadow_ray, &get_data()->elems, p->obj_hit);
+	if (shadow_ray.intersections.idx == 0)
+		calculate_diffuse_and_specular(p);
+	else
+	{
+		p->diffuse = (t_vec4){0};
+		p->specular = (t_vec4){0};
+	}
 	p->combined = vec_sum(vec_sum(p->ambient, p->diffuse), p->specular);
 	color = vec4_to_color(p->combined);
 	return (color);
@@ -37,6 +48,7 @@ static void	calculate_diffuse_and_specular(t_phong_helper *p)
 		p->specular = (t_vec4){0};
 		return ;
 	}
+	p->effective_color = scaled_vec(p->mat->color, p->light->brightness);
 	p->diffuse = scaled_vec(p->effective_color,
 			p->mat->diffuse * p->surface_light_alignment);
 	calculate_specular(p);
