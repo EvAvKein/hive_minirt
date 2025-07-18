@@ -57,7 +57,6 @@ static void	cast_rays_at_cylinder(t_data const *data, t_cylinder const *cyl,
 	t_color			color;
 	size_t			i;
 
-	color = color_from_uint32(0x0000ffff);
 	i = -1;
 	while (++i < data->pixel_count)
 	{
