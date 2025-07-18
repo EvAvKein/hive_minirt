@@ -59,17 +59,13 @@ static void	cast_rays_at_plane(t_data *const data, t_plane const *pl,
 	while (++i < data->pixel_count)
 	{
 		ray = data->pixel_rays[i];
-		ray = transformed_ray(ray, data->elems.camera->transform);
 		rxo = ray_x_plane(ray, pl);
 		if (rxo.t <= 0)
 			continue ;
 		p->pos = ray_position(ray, rxo.t);
-		p->normal = plane_normal(*pl, ray);
+		p->normal = plane_normal(*pl);
 		p->to_cam = opposite_vec(ray.dir);
 		color = let_there_be_light(p);
-		data->img->pixels[i * 4 + 0] = color.bit.channel.r;
-		data->img->pixels[i * 4 + 1] = color.bit.channel.g;
-		data->img->pixels[i * 4 + 2] = color.bit.channel.b;
-		data->img->pixels[i * 4 + 3] = 0xff;
+		set_pixel_color(i, color);
 	}
 }
