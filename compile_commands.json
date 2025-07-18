@@ -646,5 +646,59 @@
    "obj/lighting/single_cylinder.o"
   ],
   "file": "src/lighting/single_cylinder.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/rays/ray_at_obj.c",
+   "-o",
+   "obj/rays/ray_at_obj.o"
+  ],
+  "file": "src/rays/ray_at_obj.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/objects/cylinder_intersection.c",
+   "-o",
+   "obj/objects/cylinder_intersection.o"
+  ],
+  "file": "src/objects/cylinder_intersection.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/intersections/quicksort.c",
+   "-o",
+   "obj/intersections/quicksort.o"
+  ],
+  "file": "src/intersections/quicksort.c"
  }
 ]

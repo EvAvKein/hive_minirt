@@ -63,16 +63,27 @@ static t_ray_x_obj	*closest_rxo(t_ray_x_obj_array *array)
 /**
  * @returns The color at the provided intersection
  */
-static t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *phong)
+static t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 {
+	p->light = get_data()->elems.lights;
 	if (rxo->obj_type == SPHERE)
 	{
-		phong->normal = sphere_normal_at(*(t_sphere *)rxo->obj, phong->pos);
-		phong->light = get_data()->elems.lights;
-		phong->mat = &((t_sphere *)rxo->obj)->material;
-		return (let_there_be_light(phong));
+		p->normal = sphere_normal_at(*(t_sphere *)rxo->obj, p->pos);
+		p->mat = &((t_sphere *)rxo->obj)->material;
 	}
-	return ((t_color){0});
+	if (rxo->obj_type == PLANE)
+	{
+		p->normal = plane_normal(*(t_plane *)rxo->obj, *p->ray);
+		p->mat = &((t_plane *)rxo->obj)->material;
+	}
+	if (rxo->obj_type == CYLINDER)
+	{
+		p->normal = cylinder_normal_at(*(t_cylinder *)rxo->obj, p->pos);
+		p->mat = &((t_cylinder *)rxo->obj)->material;
+	}
+	if (dot(p->to_cam, p->normal) < 0)
+		p->normal = opposite_vec(p->normal);
+	return (let_there_be_light(p));
 }
 
 /**
@@ -86,23 +97,23 @@ void	cast_rays(void)
 	t_ray_x_obj		*rxo;
 	t_phong_helper	phong;
 
-	i = -1;
 	ray = (t_ray){0};
 	phong = (t_phong_helper){0};
+	i = -1;
 	while (++i < data->pixel_count)
 	{
+		ray = data->pixel_rays[i];
 		free(ray.intersections._);
 		xinit_ray_intersections(&ray);
-		ray = data->pixel_rays[i];
 		ray = transformed_ray(ray, data->elems.camera->transform);
-		phong.to_cam = scaled_vec(ray.dir, -1);
 		cast_ray_at_objs(&ray, &get_data()->elems, NULL);
 		rxo = closest_rxo(&ray.intersections);
 		if (!rxo)
 			continue ;
+		phong.ray = &ray;
+		phong.to_cam = opposite_vec(ray.dir);
 		phong.obj_hit = rxo->obj;
-		phong.pos = vec_sum(ray.orig, scaled_vec(ray.dir, rxo->t));
+		phong.pos = ray_position(ray, rxo->t);
 		set_pixel_color(i, color_at_obj_hit(rxo, &phong));
-		rxo = NULL;
 	}
 }

@@ -17,6 +17,7 @@ t_ray_x_obj	ray_x_plane(t_ray ray, t_plane const *pl)
 	t_flt	t;
 	t_flt	divisor;
 
+	ray = transformed_ray(ray, pl->inverse);
 	divisor = dot(ray.dir, pl->orientation);
 	if (floats_are_equal(divisor, 0))
 		return ((t_ray_x_obj){0});
