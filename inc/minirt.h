@@ -365,6 +365,20 @@ typedef struct s_quad
 	t_flt	discr;
 }			t_quad;
 
+typedef struct s_cap_helper
+{
+	t_plane		top;
+	t_plane		btm;
+	t_ray_x_obj	top_hit;
+	t_ray_x_obj	btm_hit;
+	t_vec4		top_mid;
+	t_vec4		btm_mid;
+	t_vec4		top_mid_to_hit;
+	t_vec4		btm_mid_to_hit;
+	t_flt		top_dist;
+	t_flt		btm_dist;
+}				t_cap_helper;
+
 t_data			*get_data(void);
 
 void			image_to_file(const char *bmp_file_path);
@@ -437,7 +451,10 @@ t_ray_x_obj		ray_x_plane(t_ray ray, t_plane const *pl);
 t_vec4			plane_normal(t_plane pl, t_ray ray);
 
 // objects/cylinder_intersection.c
-bool			ray_hits_cylinder(t_ray ray, t_cylinder cyl);
+t_ray_x_obj		ray_hit_cylinder(t_ray ray, t_cylinder const *cyl);
+t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl);
+t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
+t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 
 // intersections/intersections_01.c
 void			xinit_ray_intersections(t_ray *ray);
