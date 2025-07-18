@@ -68,6 +68,8 @@ static void	cast_rays_at_sphere(t_data const *data, t_sphere const *sp,
 		p->pos = ray_position(ray, rxo.t);
 		p->normal = sphere_normal_at(*sp, p->pos);
 		p->to_cam = opposite_vec(ray.dir);
+		if (dot(p->normal, p->to_cam) < 0)
+			p->normal = opposite_vec(p->normal);
 		color = let_there_be_light(p);
 		set_pixel_color(i, color);
 	}

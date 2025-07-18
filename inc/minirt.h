@@ -518,7 +518,10 @@ t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
 t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 
 // objects/cylinder_intersection.c
-bool			ray_hits_cylinder(t_ray ray, t_cylinder cyl);
+t_ray_x_obj		ray_hit_cylinder(t_ray ray, t_cylinder const *cyl);
+t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl);
+t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
+t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 
 // intersections/intersections_01.c
 void			xinit_ray_intersections(t_ray *ray);
