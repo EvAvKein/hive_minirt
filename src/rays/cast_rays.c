@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:44:50 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/15 19:48:29 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/17 12:32:00 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,6 @@ t_ray_x_obj	hit(t_ray_x_objs rxos)
 		&& rxos._[0].t > rxos._[1].t)
 		return (rxos._[1]);
 	return (rxos._[0]);
-}
-
-/**
- *	Checks if the provided ray intersects with any spheres,
- *	adding any such intersections to the ray's array
- */
-static void	cast_ray_at_spheres(t_ray *ray, t_sphere *spheres)
-{
-	t_ray_x_objs	rxos;
-	t_ray_x_obj		rxo;
-	t_sphere		*sphere;
-
-	sphere = spheres;
-	while (sphere)
-	{
-		rxos = ray_x_sphere(*ray, sphere);
-		rxo = hit(rxos);
-		if (rxo.t > 0)
-			while (rxos.count--)
-				xadd_intersection(ray, rxos._[rxos.count]);
-		sphere = sphere->next;
-	}
 }
 
 /**
@@ -97,9 +75,9 @@ void	cast_rays(void)
 	t_ray_x_obj		*rxo;
 	t_phong_helper	phong;
 
+	i = -1;
 	ray = (t_ray){0};
 	phong = (t_phong_helper){0};
-	i = -1;
 	while (++i < data->pixel_count)
 	{
 		free(ray.intersections._);
@@ -107,10 +85,11 @@ void	cast_rays(void)
 		ray = data->pixel_rays[i];
 		ray = transformed_ray(ray, data->elems.camera->transform);
 		phong.to_cam = scaled_vec(ray.dir, -1);
-		cast_ray_at_spheres(&ray, get_data()->elems.spheres);
+		cast_ray_at_objs(&ray, &get_data()->elems, NULL);
 		rxo = closest_rxo(&ray.intersections);
 		if (!rxo)
 			continue ;
+		phong.obj_hit = rxo->obj;
 		phong.pos = vec_sum(ray.orig, scaled_vec(ray.dir, rxo->t));
 		set_pixel_color(i, color_at_obj_hit(rxo, &phong));
 		rxo = NULL;

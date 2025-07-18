@@ -51,6 +51,7 @@ SRC		:=	main.c									\
 			matrices/transforms_01.c				\
 			rays/rays_01.c							\
 			rays/cast_rays.c						\
+			rays/ray_at_obj.c						\
 			color/colors_01.c						\
 			color/backgrounds_01.c					\
 			objects/sphere_intersection.c			\

@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/16 10:19:31 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/17 12:30:49 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ typedef struct s_phong_helper
 {
 	t_material const	*mat;
 	t_light const		*light;
+	void				*obj_hit;
 	t_vec4				pos;
 	t_vec4				normal;
 	t_vec4				to_cam;
@@ -379,6 +380,8 @@ bool			sphere_parse(char *str, size_t *parse_i);
 bool			plane_parse(char *str, size_t *parse_i);
 bool			cylinder_parse(char *str, size_t *parse_i);
 
+/* -------------------------------------------------------------- RAY CASTING */
+
 // rays/rays_01.c
 t_ray			transformed_ray(t_ray ray, t_m4x4 transform);
 t_ray			inverse_transformed_ray(t_ray ray, t_m4x4 transform);
@@ -386,6 +389,7 @@ t_vec4			reflection(t_vec4 vec, t_vec4 normal);
 
 // rays/cast_rays.c
 void			cast_rays(void);
+void			cast_ray_at_objs(t_ray *ray, t_elems *elems, void *obj_ignore);
 
 // objects/transform_initialization.c
 void			init_transforms(void);
