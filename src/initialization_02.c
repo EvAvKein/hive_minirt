@@ -47,7 +47,7 @@ static void	init_spheres(t_sphere *sp)
 		sp->material = default_material();
 		sp->color.flt = color_8bit_to_float(sp->color.bit);
 		sp->material.color = position(sp->color.flt.r,
-								sp->color.flt.g, sp->color.flt.b);
+				sp->color.flt.g, sp->color.flt.b);
 		sp = sp->next;
 	}
 }
@@ -73,7 +73,7 @@ static void	init_planes(t_plane *pl)
 		pl->material = default_material();
 		pl->color.flt = color_8bit_to_float(pl->color.bit);
 		pl->material.color = position(pl->color.flt.r,
-								pl->color.flt.g, pl->color.flt.b);
+				pl->color.flt.g, pl->color.flt.b);
 		pl = pl->next;
 	}
 }
@@ -99,7 +99,7 @@ static void	init_cylinders(t_cylinder *cyl)
 		cyl->material = default_material();
 		cyl->color.flt = color_8bit_to_float(cyl->color.bit);
 		cyl->material.color = position(cyl->color.flt.r,
-								cyl->color.flt.g, cyl->color.flt.b);
+				cyl->color.flt.g, cyl->color.flt.b);
 		cyl = cyl->next;
 	}
 }
