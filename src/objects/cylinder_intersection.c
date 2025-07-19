@@ -41,7 +41,7 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl)
 		return ((t_ray_x_objs){0});
 	t1 = (-q.b - sqrt(q.discr)) / (2 * q.a);
 	t2 = (-q.b + sqrt(q.discr)) / (2 * q.a);
-	y_component = dot(ray_position(ray, t1), vector(0, 1, 0));
+	y_component = ray_position(ray, t1).y;
 	if (fabs(y_component) > cyl->height / 2)
 		t1 = 0;
 	y_component = dot(ray_position(ray, t2), vector(0, 1, 0));
@@ -60,10 +60,10 @@ t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl)
 	t_cap_helper	c;
 
 	ray = transformed_ray(ray, cyl->inverse);
-	c.top.pos = position(0, cyl->height / 2, 0);
-	c.btm.pos = position(0, -cyl->height / 2, 0);
-	c.top.orientation = vector(0, 1, 0);
-	c.btm.orientation = vector(0, -1, 0);
+	c.top = (t_plane){.pos = position(0, cyl->height / 2, 0),
+		.orientation = vector(0, 1, 0), .inverse = identity_m4x4()};
+	c.btm = (t_plane){.pos = position(0, -cyl->height / 2, 0),
+		.orientation = vector(0, -1, 0), .inverse = identity_m4x4()};
 	c.top_hit = ray_x_plane(ray, &c.top);
 	c.btm_hit = ray_x_plane(ray, &c.btm);
 	c.top_mid = position(0, cyl->height / 2, 0);
@@ -76,9 +76,7 @@ t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl)
 		c.top_hit.t = 0;
 	if (c.btm_dist > cyl->diam / 2)
 		c.btm_hit.t = 0;
-	return ((t_ray_x_objs){
-		.count = 2,
-		._[0] = (t_ray_x_obj){
+	return ((t_ray_x_objs){.count = 2, ._[0] = (t_ray_x_obj){
 		.obj_type = CYLINDER, .obj = (void *)cyl, .t = c.top_hit.t},
 		._[1] = (t_ray_x_obj){
 		.obj_type = CYLINDER, .obj = (void *)cyl, .t = c.btm_hit.t}});
@@ -88,19 +86,17 @@ t_vec4	cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos)
 {
 	t_vec4	object_pos;
 	t_vec4	normal;
-	t_flt	y_component;
 
 	object_pos = transformed_vec(world_pos, cyl.inverse);
-	y_component = dot(object_pos, vector(0, 1, 0));
-	if (floats_are_equal(fabs(y_component), cyl.height / 2))
+	if (floats_are_equal(fabs(object_pos.y), cyl.height / 2))
 	{
-		if (y_component < 0)
+		if (object_pos.y < 0)
 			return (opposite_vec(cyl.orientation));
 		return (cyl.orientation);
 	}
-	normal = vector(object_pos._[0], 0, object_pos._[2]);
+	normal = vector(object_pos.x, 0, object_pos.z);
 	normal = unit_vec(transformed_vec(normal, transpose_m4x4(cyl.inverse)));
-	normal.axis.w = 0;
+	normal.w = 0;
 	return (normal);
 }
 
@@ -108,11 +104,11 @@ static t_quad	solve_cylinder_quadratic(t_ray ray, t_cylinder cyl)
 {
 	t_quad	q;
 
-	q.a = pow(ray.dir._[0], 2) + pow(ray.dir._[2], 2);
+	q.a = pow(ray.dir.x, 2) + pow(ray.dir.z, 2);
 	if (floats_are_equal(q.a, 0))
 		return ((t_quad){0});
-	q.b = 2 * ray.orig._[0] * ray.dir._[0] + 2 * ray.orig._[2] * ray.dir._[2];
-	q.c = pow(ray.orig._[0], 2) + pow(ray.orig._[2], 2) - pow(cyl.diam / 2, 2);
+	q.b = 2 * ray.orig.x * ray.dir.x + 2 * ray.orig.z * ray.dir.z;
+	q.c = pow(ray.orig.x, 2) + pow(ray.orig.z, 2) - pow(cyl.diam / 2, 2);
 	q.discr = q.b * q.b - 4 * q.a * q.c;
 	return (q);
 }

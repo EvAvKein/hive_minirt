@@ -67,7 +67,7 @@ inline bool	in_flt_range(t_flt checked, t_flt min, t_flt max)
  */
 inline bool	is_normalized_vec(t_vec4 vec)
 {
-	return (in_flt_range(vec.axis.x, -1.f, 1.f)
-		&& in_flt_range(vec.axis.y, -1.f, 1.f)
-		&& in_flt_range(vec.axis.z, -1.f, 1.f));
+	return (in_flt_range(vec.x, -1.f, 1.f)
+		&& in_flt_range(vec.y, -1.f, 1.f)
+		&& in_flt_range(vec.z, -1.f, 1.f));
 }

@@ -107,18 +107,12 @@ t_float_color	lerp_color(t_float_color c1, t_float_color c2, float amount);
 
 /* ----------------------------------------------------- VECTORS AND MATRICES */
 
-typedef struct s_axis
+typedef struct s_vec4
 {
 	t_flt	x;
 	t_flt	y;
 	t_flt	z;
 	t_flt	w;
-}			t_axis;
-
-typedef union u_vec4
-{
-	t_flt	_[4];
-	t_axis	axis;
 }			t_vec4;
 
 typedef struct t_m4x4

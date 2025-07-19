@@ -33,6 +33,6 @@ t_vec4	plane_normal(t_plane pl)
 
 	normal = transformed_vec(pl.orientation, pl.inverse);
 	normal = unit_vec(transformed_vec(normal, transpose_m4x4(pl.inverse)));
-	normal.axis.w = 0;
+	normal.w = 0;
 	return (normal);
 }

@@ -77,10 +77,10 @@ static void	calculate_specular(t_phong_helper *p)
 		return ;
 	}
 	p->scaled_light = (t_vec4){
-		._[0] = p->light->color.flt.r,
-		._[1] = p->light->color.flt.g,
-		._[2] = p->light->color.flt.b,
-		._[3] = p->light->color.flt.a};
+		.x = p->light->color.flt.r,
+		.y = p->light->color.flt.g,
+		.z = p->light->color.flt.b,
+		.w = p->light->color.flt.a};
 	p->scaled_light = scaled_vec(p->scaled_light, p->light->brightness);
 	f = pow(p->camera_reflection_alignment, p->mat->shininess);
 	p->specular = scaled_vec(p->scaled_light, p->mat->specular * f);
