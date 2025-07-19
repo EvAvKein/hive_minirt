@@ -69,10 +69,10 @@ t_color	normal_to_color(t_vec4 normal)
 {
 	t_color	col;
 
-	col.bit.channel.r = (normal.x * 0.5 + 0.5) * 255.999 * 1;
-	col.bit.channel.g = (normal.y * 0.5 + 0.5) * 255.999 * 1;
-	col.bit.channel.b = (-normal.z * 0.5 + 0.5) * 255.999 * 1;
-	col.bit.channel.a = 0xff;
+	col.bit.r = (normal.x * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.g = (normal.y * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.b = (-normal.z * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.a = 0xff;
 	col.flt = color_8bit_to_float(col.bit);
 	return (col);
 }

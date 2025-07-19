@@ -13,17 +13,17 @@
 #include "minirt.h"
 
 static void	cast_ray_at_spheres(t_ray *ray,
-				t_sphere *spheres, void *obj_ignore);
+				t_sphere *spheres, void const *obj_ignore);
 static void	cast_ray_at_planes(t_ray *ray,
-				t_plane *planes, void *obj_ignore);
+				t_plane *planes, void const *obj_ignore);
 static void	cast_ray_at_cylinders(t_ray *ray,
-				t_cylinder *cylinders, void *obj_ignore);
+				t_cylinder *cylinders, void const *obj_ignore);
 
 /**
  *	checks if the provided ray intersects with any objects,
  *	adding any such intersections to the ray's array
  */
-void	cast_ray_at_objs(t_ray *ray, t_elems *elems, void *obj_ignore)
+void	cast_ray_at_objs(t_ray *ray, t_elems *elems, void const *obj_ignore)
 {
 	cast_ray_at_spheres(ray, elems->spheres, obj_ignore);
 	cast_ray_at_planes(ray, elems->planes, obj_ignore);
@@ -35,7 +35,7 @@ void	cast_ray_at_objs(t_ray *ray, t_elems *elems, void *obj_ignore)
  *	adding any such intersections to the ray's array
  */
 static void	cast_ray_at_spheres(t_ray *ray,
-				t_sphere *spheres, void *obj_ignore)
+				t_sphere *spheres, void const *obj_ignore)
 {
 	t_ray_x_objs	rxos;
 	t_ray_x_obj		rxo;
@@ -63,7 +63,7 @@ static void	cast_ray_at_spheres(t_ray *ray,
  *	adding any such intersections to the ray's array
  */
 static void	cast_ray_at_planes(t_ray *ray,
-					t_plane *planes, void *obj_ignore)
+					t_plane *planes, void const *obj_ignore)
 {
 	t_ray_x_obj	rxo;
 	t_plane		*plane;
@@ -88,7 +88,7 @@ static void	cast_ray_at_planes(t_ray *ray,
  *	adding any such intersections to the ray's array
  */
 static void	cast_ray_at_cylinders(t_ray *ray,
-					t_cylinder *cylinders, void *obj_ignore)
+					t_cylinder *cylinders, void const *obj_ignore)
 {
 	t_ray_x_obj		rxo;
 	t_cylinder		*cylinder;

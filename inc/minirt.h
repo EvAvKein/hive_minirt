@@ -39,27 +39,6 @@ typedef enum e_error
 
 /* ------------------------------------------------------------------- COLORS */
 
-// Endiannes, consider removing later (unclear if conditional compilation is ok)
-# if 0
-
-typedef struct s_channels
-{
-	uint8_t	a;
-	uint8_t	b;
-	uint8_t	g;
-	uint8_t	r;
-}			t_channels;
-
-enum e_channel_type
-{
-	A,
-	B,
-	G,
-	R,
-};
-
-# else
-
 typedef struct s_channels
 {
 	uint8_t	r;
@@ -75,14 +54,17 @@ enum e_channel_type
 	B,
 	A,
 };
-
-# endif
 
 typedef union u_8bit_color
 {
 	uint32_t	rgba;
-	t_channels	channel;
-	uint8_t		_[4];
+	struct
+	{
+		uint8_t	r;
+		uint8_t	g;
+		uint8_t	b;
+		uint8_t	a;
+	};
 }				t_8bit_color;
 
 typedef struct s_float_color
@@ -193,7 +175,7 @@ typedef struct s_phong_helper
 {
 	t_material const	*mat;
 	t_light const		*light;
-	void				*obj_hit;
+	void const			*obj_hit;
 	t_ray				*ray;
 	t_vec4				pos;
 	t_vec4				normal;
@@ -231,6 +213,91 @@ typedef enum e_obj_type
 	PLANE,
 	CYLINDER,
 }	t_obj_type;
+
+// Example 1 of generic object struct with all possible data, not very
+// efficient, some risk of using members when they're not valid/initialized.
+typedef struct s_obj
+{
+	t_obj_type	type;
+	t_vec4		pos;
+	t_vec4		orientation;
+	t_m4x4		transform;
+	t_m4x4		inverse;
+	t_material	material;
+	uint8_t		fov;
+	t_flt		brightness;
+	t_flt		radius;
+	t_flt		diam;
+	t_flt		height;
+	t_color		color;
+	void		*next;
+}				t_obj;
+
+// Example 2 of generic object struct, has struct within a union for all
+// possible sets of object properties. Slightly more memory efficient than
+// example 1, but more verbose. Verbosity serves as reminder of underlying
+// object type.
+typedef struct s_obj2
+{
+	t_obj_type	type;
+	union
+	{
+		struct
+		{
+			t_vec4	cam_pos;
+			t_vec4	cam_orie;
+			uint8_t	cam_fov;
+			t_m4x4	cam_trans;
+			t_m4x4	cam_inv;
+		};
+		struct
+		{
+			t_vec4	amb_bright;
+			t_color	amb_color;
+		};
+		struct
+		{
+			t_vec4			light_pos;
+			t_flt			light_bright;
+			t_color			light_color;
+			t_m4x4			light_trans;
+			t_m4x4			light_inv;
+			struct s_light	*light_next;
+		};
+		struct
+		{
+			t_vec4			sph_pos;
+			t_flt			sph_radius;
+			t_color			sph_color;
+			t_m4x4			sph_transf;
+			t_m4x4			sph_inv;
+			t_material		sph_mat;
+			struct s_sphere	*sph_next;
+		};
+		struct
+		{
+			t_vec4			pln_pos;
+			t_vec4			pln_orie;
+			t_color			pln_color;
+			t_m4x4			pln_trans;
+			t_m4x4			pln_inv;
+			t_material		pln_mat;
+			struct s_plane	*pln_next;
+		};
+		struct
+		{
+			t_vec4				cyl_pos;
+			t_vec4				cyl_orie;
+			t_flt				cyl_diam;
+			t_flt				cyl_height;
+			t_color				cyl_color;
+			t_m4x4				cyl_trans;
+			t_m4x4				cyl_inv;
+			t_material			cyl_mat;
+			struct s_cylinder	*cyl_next;
+		};
+	};
+}	t_obj2;
 
 typedef struct s_camera
 {
@@ -419,7 +486,8 @@ t_ray_x_obj		hit(t_ray_x_objs intersections);
 void			cast_rays(void);
 
 // rays/ray_at_obj.c
-void			cast_ray_at_objs(t_ray *ray, t_elems *elems, void *obj_ignore);
+void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
+					void const *obj_ignore);
 
 /* ------------------------------------------------------------ INTERSECTIONS */
 
