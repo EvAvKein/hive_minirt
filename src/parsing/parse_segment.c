@@ -25,17 +25,17 @@
  */
 bool	rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest)
 {
-	if (!uint8_parse(str, parse_i, &dest->channel.r)
+	if (!uint8_parse(str, parse_i, &dest->r)
 		|| is_space(str[(*parse_i) - 1])
 		|| str[(*parse_i)++] != ',')
 		return (false);
-	if (!uint8_parse(str, parse_i, &dest->channel.g)
+	if (!uint8_parse(str, parse_i, &dest->g)
 		|| is_space(str[(*parse_i) - 1])
 		|| str[(*parse_i)++] != ',')
 		return (false);
-	if (!uint8_parse(str, parse_i, &dest->channel.b))
+	if (!uint8_parse(str, parse_i, &dest->b))
 		return (false);
-	dest->channel.a = UINT8_MAX;
+	dest->a = UINT8_MAX;
 	return (true);
 }
 

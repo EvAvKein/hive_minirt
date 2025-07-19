@@ -70,14 +70,14 @@ void	set_uv(mlx_image_t *img)
 	t_flt			zero_to_one_vertical;
 
 	pixel_count = img->width * img->height;
-	color = (t_8bit_color){.channel.a = 0xff, .channel.b = 0};
+	color = (t_8bit_color){.a = 0xff, .b = 0};
 	i = -1;
 	while (++i < pixel_count)
 	{
 		zero_to_one_horizontal = (t_flt)(i % RES_X) / RES_X;
 		zero_to_one_vertical = (t_flt)(i / RES_X) / RES_Y;
-		color._[G] = (uint8_t)(zero_to_one_vertical * 0xff);
-		color._[R] = (uint8_t)(zero_to_one_horizontal * 0xff);
+		color.g = (uint8_t)(zero_to_one_vertical * 0xff);
+		color.r = (uint8_t)(zero_to_one_horizontal * 0xff);
 		ft_memcpy(img->pixels + i * 4, &color.rgba, sizeof(uint32_t));
 	}
 }
