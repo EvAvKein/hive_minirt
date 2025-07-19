@@ -17,8 +17,8 @@
  */
 t_vec4	opposite_vec(t_vec4 vec)
 {
-	vec._[0] = -vec._[0];
-	vec._[1] = -vec._[1];
-	vec._[2] = -vec._[2];
+	vec.x = -vec.x;
+	vec.y = -vec.y;
+	vec.z = -vec.z;
 	return (vec);
 }

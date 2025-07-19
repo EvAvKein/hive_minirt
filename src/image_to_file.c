@@ -100,7 +100,8 @@ static void	write_colors_to_file(int fd)
 			pixels_row[(row_i - 1)].a = 0xff;
 			--i;
 		}
-		write(fd, pixels_row, sizeof(pixels_row));
+		if (write(fd, pixels_row, sizeof(pixels_row)) < 0)
+			print_err("Failed to write colors into image file");
 	}
 }
 

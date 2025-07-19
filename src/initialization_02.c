@@ -60,12 +60,12 @@ static void	init_planes(t_plane *pl)
 	while (pl)
 	{
 		if (vecs_are_equal(pl->orientation, (t_vec4){0}))
-			pl->orientation = (t_vec4){.axis.y = 1};
+			pl->orientation = (t_vec4){.y = 1};
 		pitch_angle = 0;
 		yaw_angle = 0;
 		pl->orientation = unit_vec(pl->orientation);
-		pitch_angle = asin(pl->orientation.axis.z);
-		yaw_angle = asin(pl->orientation.axis.x);
+		pitch_angle = asin(pl->orientation.z);
+		yaw_angle = asin(pl->orientation.x);
 		pl->transform = x_rotation_m4x4(pitch_angle);
 		pl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), pl->transform);
 		pl->transform = mult_m4x4(translation_m4x4(pl->pos), pl->transform);
@@ -86,12 +86,12 @@ static void	init_cylinders(t_cylinder *cyl)
 	while (cyl)
 	{
 		if (vecs_are_equal(cyl->orientation, (t_vec4){0}))
-			cyl->orientation = (t_vec4){.axis.y = 1};
+			cyl->orientation = (t_vec4){.y = 1};
 		pitch_angle = 0;
 		yaw_angle = 0;
 		cyl->orientation = unit_vec(cyl->orientation);
-		pitch_angle = asin(cyl->orientation.axis.z);
-		yaw_angle = asin(cyl->orientation.axis.x);
+		pitch_angle = asin(cyl->orientation.z);
+		yaw_angle = asin(cyl->orientation.x);
 		cyl->transform = x_rotation_m4x4(pitch_angle);
 		cyl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), cyl->transform);
 		cyl->transform = mult_m4x4(translation_m4x4(cyl->pos), cyl->transform);

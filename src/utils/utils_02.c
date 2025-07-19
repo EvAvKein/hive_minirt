@@ -23,7 +23,7 @@ void	write_pixel_rays_to_file(const char *str)
 	t_data	*data;
 	int		fds[2];
 
-	fds[0] = open(str, O_CREAT | O_TRUNC | O_WRONLY);
+	fds[0] = open(str, O_CREAT | O_TRUNC | O_WRONLY, 0666);
 	if (fds[0] < 0)
 		return ;
 	fds[1] = dup(STDOUT_FILENO);
@@ -51,10 +51,10 @@ t_color	vec4_to_color(t_vec4 vec)
 {
 	t_color	col;
 
-	col.flt.r = vec.axis.x;
-	col.flt.g = vec.axis.y;
-	col.flt.b = vec.axis.z;
-	col.flt.a = vec.axis.w;
+	col.flt.r = vec.x;
+	col.flt.g = vec.y;
+	col.flt.b = vec.z;
+	col.flt.a = vec.w;
 	col.bit = color_float_to_8bit(col.flt);
 	return (col);
 }
@@ -69,9 +69,9 @@ t_color	normal_to_color(t_vec4 normal)
 {
 	t_color	col;
 
-	col.bit.channel.r = (normal._[0] * 0.5 + 0.5) * 255.999 * 1;
-	col.bit.channel.g = (normal._[1] * 0.5 + 0.5) * 255.999 * 1;
-	col.bit.channel.b = (-normal._[2] * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.channel.r = (normal.x * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.channel.g = (normal.y * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.channel.b = (-normal.z * 0.5 + 0.5) * 255.999 * 1;
 	col.bit.channel.a = 0xff;
 	col.flt = color_8bit_to_float(col.bit);
 	return (col);

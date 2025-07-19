@@ -17,9 +17,9 @@
  */
 inline t_flt	dot(t_vec4 v1, t_vec4 v2)
 {
-	return (v1._[0] * v2._[0]
-		+ v1._[1] * v2._[1]
-		+ v1._[2] * v2._[2]);
+	return (v1.x * v2.x
+		+ v1.y * v2.y
+		+ v1.z * v2.z);
 }
 
 /**
@@ -29,9 +29,9 @@ inline t_flt	dot(t_vec4 v1, t_vec4 v2)
  */
 t_vec4	vec_sum(t_vec4 v1, t_vec4 v2)
 {
-	v1._[0] += v2._[0];
-	v1._[1] += v2._[1];
-	v1._[2] += v2._[2];
+	v1.x += v2.x;
+	v1.y += v2.y;
+	v1.z += v2.z;
 	return (v1);
 }
 
@@ -42,9 +42,9 @@ t_vec4	vec_sum(t_vec4 v1, t_vec4 v2)
  */
 t_vec4	vec_sub(t_vec4 v1, t_vec4 v2)
 {
-	v1._[0] -= v2._[0];
-	v1._[1] -= v2._[1];
-	v1._[2] -= v2._[2];
+	v1.x -= v2.x;
+	v1.y -= v2.y;
+	v1.z -= v2.z;
 	return (v1);
 }
 
@@ -56,27 +56,27 @@ t_vec4	transformed_vec(t_vec4 vec, t_m4x4 t)
 {
 	t_vec4	transformed;
 
-	transformed.axis.x = t._[0][0] * vec._[0]
-		+ t._[0][1] * vec._[1]
-		+ t._[0][2] * vec._[2]
-		+ t._[0][3] * vec._[3];
-	transformed.axis.y = t._[1][0] * vec._[0]
-		+ t._[1][1] * vec._[1]
-		+ t._[1][2] * vec._[2]
-		+ t._[1][3] * vec._[3];
-	transformed.axis.z = t._[2][0] * vec._[0]
-		+ t._[2][1] * vec._[1]
-		+ t._[2][2] * vec._[2]
-		+ t._[2][3] * vec._[3];
-	transformed.axis.w = t._[3][0] * vec._[0]
-		+ t._[3][1] * vec._[1]
-		+ t._[3][2] * vec._[2]
-		+ t._[3][3] * vec._[3];
+	transformed.x = t._[0][0] * vec.x
+		+ t._[0][1] * vec.y
+		+ t._[0][2] * vec.z
+		+ t._[0][3] * vec.w;
+	transformed.y = t._[1][0] * vec.x
+		+ t._[1][1] * vec.y
+		+ t._[1][2] * vec.z
+		+ t._[1][3] * vec.w;
+	transformed.z = t._[2][0] * vec.x
+		+ t._[2][1] * vec.y
+		+ t._[2][2] * vec.z
+		+ t._[2][3] * vec.w;
+	transformed.w = t._[3][0] * vec.x
+		+ t._[3][1] * vec.y
+		+ t._[3][2] * vec.z
+		+ t._[3][3] * vec.w;
 	return (transformed);
 }
 
 void	print_vec(t_vec4 vec)
 {
 	printf("Vec:	x = %f	y = %f	z = %f	w = %f\n",
-		vec.axis.x, vec.axis.y, vec.axis.z, vec.axis.w);
+		vec.x, vec.y, vec.z, vec.w);
 }

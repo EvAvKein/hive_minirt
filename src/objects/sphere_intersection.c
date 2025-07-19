@@ -62,6 +62,6 @@ t_vec4	sphere_normal_at(t_sphere sp, t_vec4 world_pos)
 
 	object_pos = transformed_vec(world_pos, sp.inverse);
 	normal = unit_vec(transformed_vec(object_pos, transpose_m4x4(sp.inverse)));
-	normal.axis.w = 0;
+	normal.w = 0;
 	return (normal);
 }
