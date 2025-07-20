@@ -101,7 +101,6 @@ void	cast_rays(void)
 	{
 		ray = &data->pixel_rays[i];
 		free(ray->intersections._);
-		xinit_ray_intersections(ray);
 		cast_ray_at_objs(ray, &get_data()->elems, NULL);
 		rxo = closest_rxo(&ray->intersections);
 		if (!rxo)

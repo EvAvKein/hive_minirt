@@ -27,9 +27,7 @@ t_color	let_there_be_light(t_phong_helper *p)
 		p->normal = opposite_vec(p->normal);
 	p->ambient = scaled_vec(p->mat->color, ab);
 	p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
-	shadow_ray.orig = p->pos;
-	shadow_ray.dir = p->to_light;
-	xinit_ray_intersections(&shadow_ray);
+	shadow_ray = (t_ray){.orig = p->pos, .dir = p->to_light};
 	cast_ray_at_objs(&shadow_ray, &get_data()->elems, p->obj_hit);
 	if (shadow_ray.intersections.idx == 0)
 		calculate_diffuse_and_specular(p);
@@ -39,6 +37,7 @@ t_color	let_there_be_light(t_phong_helper *p)
 		p->specular = (t_vec4){0};
 	}
 	p->combined = vec_sum(vec_sum(p->ambient, p->diffuse), p->specular);
+	free(shadow_ray.intersections._);
 	return (vec4_to_color(p->combined));
 }
 

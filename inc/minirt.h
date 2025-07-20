@@ -536,7 +536,6 @@ void			keyhook(mlx_key_data_t key_data, void *param);
 void			init_object_data(void);
 
 // objects/transform_initialization.c
-void			init_transforms(void);
 void			init_sphere_transform(t_sphere *sp);
 void			init_plane_transform(t_plane *pl);
 void			init_cylinder_transform(t_cylinder *cyl);
