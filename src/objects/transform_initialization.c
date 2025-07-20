@@ -91,10 +91,8 @@ void	init_plane_transform(t_plane *pl)
 	pitch_angle = 0;
 	yaw_angle = 0;
 	pl->orientation = unit_vec(pl->orientation);
-	if (!floats_are_equal(pl->orientation.y, 0))
-		pitch_angle = atan(pl->orientation.z / pl->orientation.y);
-	if (!floats_are_equal(pl->orientation.z, 0))
-		yaw_angle = atan(pl->orientation.x / pl->orientation.z);
+	pitch_angle = asin(pl->orientation.z);
+	yaw_angle = asin(pl->orientation.x);
 	pl->transform = x_rotation_m4x4(pitch_angle);
 	pl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), pl->transform);
 	pl->transform = mult_m4x4(translation_m4x4(pl->pos), pl->transform);
@@ -115,10 +113,8 @@ void	init_cylinder_transform(t_cylinder *cyl)
 	pitch_angle = 0;
 	yaw_angle = 0;
 	cyl->orientation = unit_vec(cyl->orientation);
-	if (!floats_are_equal(cyl->orientation.y, 0))
-		pitch_angle = atan(cyl->orientation.z / cyl->orientation.y);
-	if (!floats_are_equal(cyl->orientation.z, 0))
-		yaw_angle = atan(cyl->orientation.x / cyl->orientation.z);
+	pitch_angle = asin(cyl->orientation.z);
+	yaw_angle = asin(cyl->orientation.x);
 	cyl->transform = x_rotation_m4x4(pitch_angle);
 	cyl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), cyl->transform);
 	cyl->transform = mult_m4x4(translation_m4x4(cyl->pos), cyl->transform);
