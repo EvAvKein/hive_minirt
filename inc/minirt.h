@@ -128,6 +128,7 @@ void			print_vec(t_vec4 vec);
 
 // vectors/vectors_03.c
 t_vec4			opposite_vec(t_vec4 vec);
+t_vec4			cross(t_vec4 v1, t_vec4 v2);
 
 // matrices/matrices_01.c
 t_m4x4			mult_m4x4(t_m4x4 m4x4_1, t_m4x4 m4x4_2);
@@ -189,6 +190,7 @@ typedef struct s_phong_helper
 	t_vec4				combined;
 	t_vec4				ref;
 	t_vec4				scaled_light;
+	t_flt				dist_to_light;
 	t_flt				surface_light_alignment;
 	t_flt				camera_reflection_alignment;
 }						t_phong_helper;
@@ -470,6 +472,7 @@ t_vec4			ray_position(t_ray ray, t_flt t);
 // rays/cast_rays.c
 t_ray_x_obj		hit(t_ray_x_objs intersections);
 void			cast_rays(void);
+t_ray_x_obj		*closest_rxo(t_ray_x_obj_array *array);
 
 // rays/ray_at_obj.c
 void			cast_ray_at_objs(t_ray *ray, t_elems *elems,

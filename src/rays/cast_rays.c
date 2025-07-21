@@ -43,7 +43,7 @@ t_ray_x_obj	hit(t_ray_x_objs rxos)
 /**
  * @returns The closest intersection in the provided intersections array
  */
-static t_ray_x_obj	*closest_rxo(t_ray_x_obj_array *array)
+t_ray_x_obj	*closest_rxo(t_ray_x_obj_array *array)
 {
 	t_ray_x_obj	*rxo;
 	size_t		i;

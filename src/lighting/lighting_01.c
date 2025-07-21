@@ -29,7 +29,9 @@ t_color	let_there_be_light(t_phong_helper *p)
 	p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
 	shadow_ray = (t_ray){.orig = p->pos, .dir = p->to_light};
 	cast_ray_at_objs(&shadow_ray, &get_data()->elems, p->obj_hit);
-	if (shadow_ray.intersections.idx == 0)
+	p->dist_to_light = vec_len(vec_sub(p->light->pos, p->pos));
+	if (shadow_ray.intersections.idx == 0
+		|| closest_rxo(&shadow_ray.intersections)->t > p->dist_to_light)
 		calculate_diffuse_and_specular(p);
 	else
 	{
