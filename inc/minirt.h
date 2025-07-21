@@ -494,6 +494,7 @@ t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 // intersections/intersections_01.c
 void			xinit_ray_intersections(t_ray *ray);
 void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
+void			empty_intersections(t_ray *ray);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 

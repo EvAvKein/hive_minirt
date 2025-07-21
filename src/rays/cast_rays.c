@@ -65,7 +65,6 @@ static t_ray_x_obj	*closest_rxo(t_ray_x_obj_array *array)
  */
 static t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 {
-	p->light = get_data()->elems.lights;
 	if (rxo->obj_type == SPHERE)
 	{
 		p->normal = sphere_normal_at(*(t_sphere *)rxo->obj, p->pos);
@@ -100,12 +99,12 @@ void	cast_rays(void)
 	while (++i < data->pixel_count)
 	{
 		ray = &data->pixel_rays[i];
-		free(ray->intersections._);
-		ray->intersections.capacity = 0;
+		empty_intersections(ray);
 		cast_ray_at_objs(ray, &get_data()->elems, NULL);
 		rxo = closest_rxo(&ray->intersections);
 		if (!rxo)
 			continue ;
+		phong.light = data->elems.lights;
 		phong.ray = ray;
 		phong.pos = ray_position(*ray, rxo->t);
 		phong.to_cam = opposite_vec(ray->dir);
