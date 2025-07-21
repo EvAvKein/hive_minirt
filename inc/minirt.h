@@ -240,15 +240,15 @@ typedef struct s_obj
 typedef struct s_obj2
 {
 	t_obj_type	type;
+	t_vec4		pos;
+	t_vec4		orie;
+	t_m4x4		transf;
+	t_m4x4		inv;
 	union
 	{
 		struct
 		{
-			t_vec4	cam_pos;
-			t_vec4	cam_orie;
-			uint8_t	cam_fov;
-			t_m4x4	cam_trans;
-			t_m4x4	cam_inv;
+			uint8_t	fov;
 		};
 		struct
 		{
@@ -257,42 +257,28 @@ typedef struct s_obj2
 		};
 		struct
 		{
-			t_vec4			light_pos;
 			t_flt			light_bright;
 			t_color			light_color;
-			t_m4x4			light_trans;
-			t_m4x4			light_inv;
 			struct s_light	*light_next;
 		};
 		struct
 		{
-			t_vec4			sph_pos;
 			t_flt			sph_radius;
 			t_color			sph_color;
-			t_m4x4			sph_transf;
-			t_m4x4			sph_inv;
 			t_material		sph_mat;
 			struct s_sphere	*sph_next;
 		};
 		struct
 		{
-			t_vec4			pln_pos;
-			t_vec4			pln_orie;
 			t_color			pln_color;
-			t_m4x4			pln_trans;
-			t_m4x4			pln_inv;
 			t_material		pln_mat;
 			struct s_plane	*pln_next;
 		};
 		struct
 		{
-			t_vec4				cyl_pos;
-			t_vec4				cyl_orie;
 			t_flt				cyl_diam;
 			t_flt				cyl_height;
 			t_color				cyl_color;
-			t_m4x4				cyl_trans;
-			t_m4x4				cyl_inv;
 			t_material			cyl_mat;
 			struct s_cylinder	*cyl_next;
 		};
