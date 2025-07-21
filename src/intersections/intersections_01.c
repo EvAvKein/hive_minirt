@@ -36,3 +36,15 @@ void	xadd_intersection(t_ray *ray, t_ray_x_obj intersection)
 	}
 	ray->intersections._[ray->intersections.idx++] = intersection;
 }
+
+void	empty_intersections(t_ray *ray)
+{
+	if (ray->intersections._)
+	{
+		ft_bzero(ray->intersections._, ray->intersections.idx
+			* sizeof(t_ray_x_obj));
+		ray->intersections.idx = 0;
+		return ;
+	}
+	ray->intersections = (t_ray_x_obj_array){0};
+}
