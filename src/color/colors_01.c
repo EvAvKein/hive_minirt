@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:22:10 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/15 15:56:19 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/17 10:54:12 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,24 @@ void	set_pixel_color(size_t pixel_i, t_color color)
 {
 	t_data *const	data = get_data();
 
-	data->img->pixels[pixel_i * 4 + 0] = color.bit.channel.r;
-	data->img->pixels[pixel_i * 4 + 1] = color.bit.channel.g;
-	data->img->pixels[pixel_i * 4 + 2] = color.bit.channel.b;
+	data->img->pixels[pixel_i * 4 + 0] = color.bit.r;
+	data->img->pixels[pixel_i * 4 + 1] = color.bit.g;
+	data->img->pixels[pixel_i * 4 + 2] = color.bit.b;
 	data->img->pixels[pixel_i * 4 + 3] = 0xff;
+}
+
+/**
+ * Convenience function for easily creating colors
+ *
+ * @returns	t_color struct with colors set to match c
+ */
+t_color	color_from_uint32(uint32_t c)
+{
+	t_color	col;
+
+	col.bit.rgba = c;
+	col.flt = color_8bit_to_float(col.bit);
+	return (col);
 }
 
 /**
@@ -32,10 +46,10 @@ t_float_color	color_8bit_to_float(t_8bit_color c)
 {
 	t_float_color	d;
 
-	d.r = c.channel.r / 255.0f;
-	d.g = c.channel.g / 255.0f;
-	d.b = c.channel.b / 255.0f;
-	d.a = c.channel.a / 255.0f;
+	d.r = c.r / 255.0f;
+	d.g = c.g / 255.0f;
+	d.b = c.b / 255.0f;
+	d.a = c.a / 255.0f;
 	return (d);
 }
 
@@ -46,10 +60,10 @@ t_8bit_color	color_float_to_8bit(t_float_color c)
 {
 	t_8bit_color	d;
 
-	d.channel.r = fminf(fmaxf(0, 255.999 * c.r), 255.999);
-	d.channel.g = fminf(fmaxf(0, 255.999 * c.g), 255.999);
-	d.channel.b = fminf(fmaxf(0, 255.999 * c.b), 255.999);
-	d.channel.a = fminf(fmaxf(0, 255.999 * c.a), 255.999);
+	d.r = fminf(fmaxf(0, 255.999 * c.r), 255.999);
+	d.g = fminf(fmaxf(0, 255.999 * c.g), 255.999);
+	d.b = fminf(fmaxf(0, 255.999 * c.b), 255.999);
+	d.a = fminf(fmaxf(0, 255.999 * c.a), 255.999);
 	return (d);
 }
 

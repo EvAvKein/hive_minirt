@@ -13,29 +13,29 @@
 #include "minirt.h"
 
 static void	cast_ray_at_spheres(t_ray *ray,
-				t_sphere *spheres, void *obj_ignore);
-// static void	cast_ray_at_planes(t_ray *ray,
-// 					t_plane *planes, void *obj_ignore);
-// static void	cast_ray_at_cylinders(t_ray *ray,
-// 					t_cylinder *cylinders, void *obj_ignore);
+				t_sphere *spheres, void const *obj_ignore);
+static void	cast_ray_at_planes(t_ray *ray,
+				t_plane *planes, void const *obj_ignore);
+static void	cast_ray_at_cylinders(t_ray *ray,
+				t_cylinder *cylinders, void const *obj_ignore);
 
 /**
  *	checks if the provided ray intersects with any objects,
  *	adding any such intersections to the ray's array
  */
-void	cast_ray_at_objs(t_ray *ray, t_elems *elems, void *obj_ignore)
+void	cast_ray_at_objs(t_ray *ray, t_elems *elems, void const *obj_ignore)
 {
 	cast_ray_at_spheres(ray, elems->spheres, obj_ignore);
+	cast_ray_at_planes(ray, elems->planes, obj_ignore);
+	cast_ray_at_cylinders(ray, elems->cylinders, obj_ignore);
 }
-// cast_ray_at_planes(ray, elems->planes, obj_ignore);
-// cast_ray_at_cylinders(ray, elems->cylinders, obj_ignore);
 
 /**
  *	checks if the provided ray intersects with any spheres,
  *	adding any such intersections to the ray's array
  */
 static void	cast_ray_at_spheres(t_ray *ray,
-				t_sphere *spheres, void *obj_ignore)
+				t_sphere *spheres, void const *obj_ignore)
 {
 	t_ray_x_objs	rxos;
 	t_ray_x_obj		rxo;
@@ -51,7 +51,7 @@ static void	cast_ray_at_spheres(t_ray *ray,
 		}
 		rxos = ray_x_sphere(*ray, sphere);
 		rxo = hit(rxos);
-		if (rxo.t > 0)
+		if (rxo.t > EPSILON)
 			while (rxos.count--)
 				xadd_intersection(ray, rxos._[rxos.count]);
 		sphere = sphere->next;
@@ -62,55 +62,48 @@ static void	cast_ray_at_spheres(t_ray *ray,
  *	checks if the provided ray intersects with any planes,
  *	adding any such intersections to the ray's array
  */
-// static void	cast_ray_at_planes(t_ray *ray,
-// 					t_plane *planes, void *obj_ignore)
-// {
-// 	t_ray_x_objs	rxos;
-// 	t_ray_x_obj		rxo;
-// 	t_plane		*plane;
-//
-// 	plane = planes;
-// 	while (plane)
-// 	{
-// 		if (plane == obj_ignore)
-// 		{
-// 			plane = plane->next;
-// 			continue ;
-// 		}
-// 		rxos = ray_x_plane(*ray, plane);
-// 		rxo = hit(rxos);
-// 		if (rxo.t > 0)
-// 			while (rxos.count--)
-// 				xadd_intersection(ray, rxos._[rxos.count]);
-// 		plane = plane->next;
-// 	}
-// }
+static void	cast_ray_at_planes(t_ray *ray,
+					t_plane *planes, void const *obj_ignore)
+{
+	t_ray_x_obj	rxo;
+	t_plane		*plane;
+
+	plane = planes;
+	while (plane)
+	{
+		if (plane == obj_ignore)
+		{
+			plane = plane->next;
+			continue ;
+		}
+		rxo = ray_x_plane(*ray, plane);
+		if (rxo.t > EPSILON)
+			xadd_intersection(ray, rxo);
+		plane = plane->next;
+	}
+}
 
 /**
  *	Checks if the provided ray intersects with any cylinders,
  *	adding any such intersections to the ray's array
  */
-// static void	cast_ray_at_cylinders(t_ray *ray,
-// 					t_cylinder *cylinders, void *obj_ignore)
-// {
-// 	t_ray_x_objs	rxos;
-// 	t_ray_x_obj		rxo;
-// 	t_cylinder		*cylinder;
-//
-// 	cylinder = cylinders;
-// 	while (cylinder)
-// 	{
-// 		if (cylinder == obj_ignore)
-// 		{
-// 			cylinder = cylinder->next;
-// 			continue ;
-// 		}
-// 		rxos = ray_x_cylinder(*ray, cylinder);
-// 		rxo = hit(rxos);
-// 		if (rxo.t > 0)
-// 			while (rxos.count--)
-// 				xadd_intersection(ray, rxos._[rxos.count]);
-// 		cylinder = cylinder->next;
-// 	}
-// }
-//
+static void	cast_ray_at_cylinders(t_ray *ray,
+					t_cylinder *cylinders, void const *obj_ignore)
+{
+	t_ray_x_obj		rxo;
+	t_cylinder		*cylinder;
+
+	cylinder = cylinders;
+	while (cylinder)
+	{
+		if (cylinder == obj_ignore)
+		{
+			cylinder = cylinder->next;
+			continue ;
+		}
+		rxo = ray_hit_cylinder(*ray, cylinder);
+		if (rxo.t > 0)
+			xadd_intersection(ray, rxo);
+		cylinder = cylinder->next;
+	}
+}

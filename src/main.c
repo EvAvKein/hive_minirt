@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:22 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/11 10:16:31 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/17 10:58:45 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	main(int argc, char **argv)
 		return (free_data());
 	if (data_init_successful() == false)
 		return (data->error);
-	init_transforms();
 	setup_pixel_rays();
 	set_vertical_gradient(data->img, (t_float_color[2]){
 		(t_float_color){.r = .1, .g = 1, .b = 1, .a = 1},

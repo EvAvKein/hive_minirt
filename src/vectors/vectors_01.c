@@ -19,9 +19,9 @@ t_flt	vec_len(t_vec4 vec)
 {
 	t_flt	len;
 
-	len = sqrt(vec.axis.x * vec.axis.x
-			+ vec.axis.y * vec.axis.y
-			+ vec.axis.z * vec.axis.z);
+	len = sqrt(vec.x * vec.x
+			+ vec.y * vec.y
+			+ vec.z * vec.z);
 	return (len);
 }
 
@@ -33,6 +33,7 @@ t_vec4	unit_vec(t_vec4 vec)
 	t_flt	len;
 	t_flt	len_div;
 
+	vec.w = 0;
 	len = vec_len(vec);
 	len_div = 1 / len;
 	return (scaled_vec(vec, len_div));
@@ -44,26 +45,32 @@ t_vec4	unit_vec(t_vec4 vec)
  */
 t_vec4	scaled_vec(t_vec4 vec, t_flt scalar)
 {
-	vec._[0] *= scalar;
-	vec._[1] *= scalar;
-	vec._[2] *= scalar;
+	vec.x *= scalar;
+	vec.y *= scalar;
+	vec.z *= scalar;
 	return (vec);
 }
 
+/**
+ * @returns	New t_vec4 struct with the given floats as dimensions, w set to 0
+ */
 t_vec4	vector(t_flt x, t_flt y, t_flt z)
 {
 	return ((t_vec4){
-		.axis.x = x,
-		.axis.y = y,
-		.axis.z = z,
-		.axis.w = 0});
+		.x = x,
+		.y = y,
+		.z = z,
+		.w = 0});
 }
 
+/**
+ * @returns	New t_vec4 struct with the given floats as dimensions, w set to 1
+ */
 t_vec4	position(t_flt x, t_flt y, t_flt z)
 {
 	return ((t_vec4){
-		.axis.x = x,
-		.axis.y = y,
-		.axis.z = z,
-		.axis.w = 1});
+		.x = x,
+		.y = y,
+		.z = z,
+		.w = 1});
 }

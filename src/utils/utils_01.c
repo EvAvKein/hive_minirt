@@ -43,10 +43,10 @@ inline bool	floats_are_equal(t_flt flt1, t_flt flt2)
  */
 inline bool	vecs_are_equal(t_vec4 vec1, t_vec4 vec2)
 {
-	return (floats_are_equal(vec1._[0], vec2._[0])
-		&& floats_are_equal(vec1._[1], vec2._[1])
-		&& floats_are_equal(vec1._[2], vec2._[2])
-		&& floats_are_equal(vec1._[3], vec2._[3]));
+	return (floats_are_equal(vec1.x, vec2.x)
+		&& floats_are_equal(vec1.y, vec2.y)
+		&& floats_are_equal(vec1.z, vec2.z)
+		&& floats_are_equal(vec1.w, vec2.w));
 }
 
 /**

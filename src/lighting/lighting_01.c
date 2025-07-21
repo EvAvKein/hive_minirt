@@ -15,17 +15,19 @@
 static void	calculate_diffuse_and_specular(t_phong_helper *p);
 static void	calculate_specular(t_phong_helper *p);
 
+/**
+ * @returns	Color defined by phong helper p
+ */
 t_color	let_there_be_light(t_phong_helper *p)
 {
-	t_color		color;
 	t_ray		shadow_ray;
 	t_flt const	ab = get_data()->elems.ambient_light->brightness;
 
+	if (dot(p->to_cam, p->normal) < 0)
+		p->normal = opposite_vec(p->normal);
 	p->ambient = scaled_vec(p->mat->color, ab);
 	p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
-	shadow_ray.orig = p->pos;
-	shadow_ray.dir = p->to_light;
-	xinit_ray_intersections(&shadow_ray);
+	shadow_ray = (t_ray){.orig = p->pos, .dir = p->to_light};
 	cast_ray_at_objs(&shadow_ray, &get_data()->elems, p->obj_hit);
 	if (shadow_ray.intersections.idx == 0)
 		calculate_diffuse_and_specular(p);
@@ -35,10 +37,14 @@ t_color	let_there_be_light(t_phong_helper *p)
 		p->specular = (t_vec4){0};
 	}
 	p->combined = vec_sum(vec_sum(p->ambient, p->diffuse), p->specular);
-	color = vec4_to_color(p->combined);
-	return (color);
+	free(shadow_ray.intersections._);
+	return (vec4_to_color(p->combined));
 }
 
+/**
+ * Calculates diffuse based on phong helper p and calls specular calculation
+ * function.
+ */
 static void	calculate_diffuse_and_specular(t_phong_helper *p)
 {
 	p->surface_light_alignment = dot(p->to_light, p->normal);
@@ -54,6 +60,9 @@ static void	calculate_diffuse_and_specular(t_phong_helper *p)
 	calculate_specular(p);
 }
 
+/**
+ * Calculates specular based on phong helper p
+ */
 static void	calculate_specular(t_phong_helper *p)
 {
 	t_flt	f;
@@ -67,10 +76,10 @@ static void	calculate_specular(t_phong_helper *p)
 		return ;
 	}
 	p->scaled_light = (t_vec4){
-		._[0] = p->light->color.flt.r,
-		._[1] = p->light->color.flt.g,
-		._[2] = p->light->color.flt.b,
-		._[3] = p->light->color.flt.a};
+		.x = p->light->color.flt.r,
+		.y = p->light->color.flt.g,
+		.z = p->light->color.flt.b,
+		.w = p->light->color.flt.a};
 	p->scaled_light = scaled_vec(p->scaled_light, p->light->brightness);
 	f = pow(p->camera_reflection_alignment, p->mat->shininess);
 	p->specular = scaled_vec(p->scaled_light, p->mat->specular * f);

@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   settings.h                                         :+:      :+:    :+:   */
+/*   vectors_03.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/03 12:09:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/03 12:20:36 by ekeinan          ###   ########.fr       */
+/*   Created: 2025/07/15 13:36:10 by jvarila           #+#    #+#             */
+/*   Updated: 2025/07/15 13:50:53 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SETTINGS_H
-# define SETTINGS_H
+#include "minirt.h"
 
-# ifndef EPSILON
-#  define EPSILON	0.0001
-# endif
-
-# ifndef RES_X
-#  define RES_X		1280	// 3840	1920
-# endif
-
-# ifndef RES_Y
-#  define RES_Y		720		// 2160	1080
-# endif
-
-#endif
+/**
+ * @returns	Vector pointing in the opposite direction than vec
+ */
+t_vec4	opposite_vec(t_vec4 vec)
+{
+	vec.x = -vec.x;
+	vec.y = -vec.y;
+	vec.z = -vec.z;
+	return (vec);
+}

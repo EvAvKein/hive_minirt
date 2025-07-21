@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/17 12:30:49 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/21 10:45:50 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
-typedef float	t_flt;
+typedef double	t_flt;
 
 typedef enum e_error
 {
@@ -39,27 +39,6 @@ typedef enum e_error
 
 /* ------------------------------------------------------------------- COLORS */
 
-// Endiannes, consider removing later (unclear if conditional compilation is ok)
-# if 0
-
-typedef struct s_channels
-{
-	uint8_t	a;
-	uint8_t	b;
-	uint8_t	g;
-	uint8_t	r;
-}			t_channels;
-
-enum e_channel_type
-{
-	A,
-	B,
-	G,
-	R,
-};
-
-# else
-
 typedef struct s_channels
 {
 	uint8_t	r;
@@ -75,14 +54,17 @@ enum e_channel_type
 	B,
 	A,
 };
-
-# endif
 
 typedef union u_8bit_color
 {
 	uint32_t	rgba;
-	t_channels	channel;
-	uint8_t		_[4];
+	struct
+	{
+		uint8_t	r;
+		uint8_t	g;
+		uint8_t	b;
+		uint8_t	a;
+	};
 }				t_8bit_color;
 
 typedef struct s_float_color
@@ -100,24 +82,19 @@ typedef struct s_color
 }					t_color;
 
 void			set_pixel_color(size_t pixel_i, t_color color);
+t_color			color_from_uint32(uint32_t c);
 t_float_color	color_8bit_to_float(t_8bit_color c);
 t_8bit_color	color_float_to_8bit(t_float_color c);
 t_float_color	lerp_color(t_float_color c1, t_float_color c2, float amount);
 
 /* ----------------------------------------------------- VECTORS AND MATRICES */
 
-typedef struct s_axis
+typedef struct s_vec4
 {
 	t_flt	x;
 	t_flt	y;
 	t_flt	z;
 	t_flt	w;
-}			t_axis;
-
-typedef union u_vec4
-{
-	t_flt	_[4];
-	t_axis	axis;
 }			t_vec4;
 
 typedef struct t_m4x4
@@ -148,6 +125,9 @@ t_vec4			vec_sum(t_vec4 v1, t_vec4 v2);
 t_vec4			vec_sub(t_vec4 v1, t_vec4 v2);
 t_vec4			transformed_vec(t_vec4 vec, t_m4x4 t);
 void			print_vec(t_vec4 vec);
+
+// vectors/vectors_03.c
+t_vec4			opposite_vec(t_vec4 vec);
 
 // matrices/matrices_01.c
 t_m4x4			mult_m4x4(t_m4x4 m4x4_1, t_m4x4 m4x4_2);
@@ -188,11 +168,15 @@ typedef struct s_material
 typedef struct s_light\
 				t_light;
 
+typedef struct s_ray\
+				t_ray;
+
 typedef struct s_phong_helper
 {
 	t_material const	*mat;
 	t_light const		*light;
-	void				*obj_hit;
+	void const			*obj_hit;
+	t_ray				*ray;
 	t_vec4				pos;
 	t_vec4				normal;
 	t_vec4				to_cam;
@@ -229,6 +213,77 @@ typedef enum e_obj_type
 	PLANE,
 	CYLINDER,
 }	t_obj_type;
+
+// Example 1 of generic object struct with all possible data, not very
+// efficient, some risk of using members when they're not valid/initialized.
+typedef struct s_obj
+{
+	t_obj_type	type;
+	t_vec4		pos;
+	t_vec4		orientation;
+	t_m4x4		transform;
+	t_m4x4		inverse;
+	t_material	material;
+	uint8_t		fov;
+	t_flt		brightness;
+	t_flt		radius;
+	t_flt		diam;
+	t_flt		height;
+	t_color		color;
+	void		*next;
+}				t_obj;
+
+// Example 2 of generic object struct, has struct within a union for all
+// possible sets of object properties. Slightly more memory efficient than
+// example 1, but more verbose. Verbosity serves as reminder of underlying
+// object type.
+typedef struct s_obj2
+{
+	t_obj_type	type;
+	t_vec4		pos;
+	t_vec4		orie;
+	t_m4x4		transf;
+	t_m4x4		inv;
+	union
+	{
+		struct
+		{
+			uint8_t	fov;
+		};
+		struct
+		{
+			t_vec4	amb_bright;
+			t_color	amb_color;
+		};
+		struct
+		{
+			t_flt			light_bright;
+			t_color			light_color;
+			struct s_light	*light_next;
+		};
+		struct
+		{
+			t_flt			sph_radius;
+			t_color			sph_color;
+			t_material		sph_mat;
+			struct s_sphere	*sph_next;
+		};
+		struct
+		{
+			t_color			pln_color;
+			t_material		pln_mat;
+			struct s_plane	*pln_next;
+		};
+		struct
+		{
+			t_flt				cyl_diam;
+			t_flt				cyl_height;
+			t_color				cyl_color;
+			t_material			cyl_mat;
+			struct s_cylinder	*cyl_next;
+		};
+	};
+}	t_obj2;
 
 typedef struct s_camera
 {
@@ -273,6 +328,7 @@ typedef struct s_plane
 	t_color			color;
 	t_m4x4			transform;
 	t_m4x4			inverse;
+	t_material		material;
 	struct s_plane	*next;
 }					t_plane;
 
@@ -285,6 +341,7 @@ typedef struct s_cylinder
 	t_color				color;
 	t_m4x4				transform;
 	t_m4x4				inverse;
+	t_material			material;
 	struct s_cylinder	*next;
 }						t_cylinder;
 
@@ -351,6 +408,28 @@ typedef struct s_data
 	t_error			error;
 }					t_data;
 
+typedef struct s_quad
+{
+	t_flt	a;
+	t_flt	b;
+	t_flt	c;
+	t_flt	discr;
+}			t_quad;
+
+typedef struct s_cap_helper
+{
+	t_plane		top;
+	t_plane		btm;
+	t_ray_x_obj	top_hit;
+	t_ray_x_obj	btm_hit;
+	t_vec4		top_mid;
+	t_vec4		btm_mid;
+	t_vec4		top_mid_to_hit;
+	t_vec4		btm_mid_to_hit;
+	t_flt		top_dist;
+	t_flt		btm_dist;
+}				t_cap_helper;
+
 t_data			*get_data(void);
 
 void			image_to_file(const char *bmp_file_path);
@@ -386,24 +465,36 @@ bool			cylinder_parse(char *str, size_t *parse_i);
 t_ray			transformed_ray(t_ray ray, t_m4x4 transform);
 t_ray			inverse_transformed_ray(t_ray ray, t_m4x4 transform);
 t_vec4			reflection(t_vec4 vec, t_vec4 normal);
+t_vec4			ray_position(t_ray ray, t_flt t);
 
 // rays/cast_rays.c
+t_ray_x_obj		hit(t_ray_x_objs intersections);
 void			cast_rays(void);
-void			cast_ray_at_objs(t_ray *ray, t_elems *elems, void *obj_ignore);
 
-// objects/transform_initialization.c
-void			init_transforms(void);
+// rays/ray_at_obj.c
+void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
+					void const *obj_ignore);
 
 /* ------------------------------------------------------------ INTERSECTIONS */
 
 // objects/sphere_intersection.c
-t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp);
-t_ray_x_obj		hit(t_ray_x_objs intersections);
+t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp);
 t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
+
+// objects/plane_intersection.c
+t_ray_x_obj		ray_x_plane(t_ray ray, t_plane const *pl);
+t_vec4			plane_normal(t_plane pl);
+
+// objects/cylinder_intersection.c
+t_ray_x_obj		ray_hit_cylinder(t_ray ray, t_cylinder const *cyl);
+t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl);
+t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
+t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 
 // intersections/intersections_01.c
 void			xinit_ray_intersections(t_ray *ray);
 void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
+void			empty_intersections(t_ray *ray);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
@@ -431,15 +522,13 @@ void			keyhook(mlx_key_data_t key_data, void *param);
 // initialization_02.c
 void			init_object_data(void);
 
-/* -------------------------------------------------------------------- UTILS */
+// objects/transform_initialization.c
+void			init_sphere_transform(t_sphere *sp);
+void			init_plane_transform(t_plane *pl);
+void			init_cylinder_transform(t_cylinder *cyl);
+void			init_camera_transform(t_camera *cam);
 
-typedef struct s_quad
-{
-	t_flt	a;
-	t_flt	b;
-	t_flt	c;
-	t_flt	discr;
-}			t_quad;
+/* -------------------------------------------------------------------- UTILS */
 
 // utils/utils_01.c
 t_flt			to_radians(t_flt degrees);
@@ -450,14 +539,23 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 
 // utils/utils_02.c
 void			write_pixel_rays_to_file(const char *str);
-t_quad			solve_sphere_quadratic(t_ray ray, t_sphere sp);
 t_color			vec4_to_color(t_vec4 vec);
 t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
 
 /* -------------------------------------------------------------------- TESTS */
 
+// lighting/single_sphere.c
 void			single_sphere_test(void);
+
+// lighting/single_plane.c
+void			single_plane_test(void);
+
+// lighting/single_plane.c
+void			single_plane_test(void);
+
+// lighting/single_cylinder.c
+void			single_cylinder_test(void);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

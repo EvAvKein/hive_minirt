@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:51:09 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/11 18:08:30 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/18 17:15:30 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,16 @@ void	xadd_intersection(t_ray *ray, t_ray_x_obj intersection)
 		ray->intersections.capacity *= 2;
 	}
 	ray->intersections._[ray->intersections.idx++] = intersection;
+}
+
+void	empty_intersections(t_ray *ray)
+{
+	if (ray->intersections._)
+	{
+		ft_bzero(ray->intersections._, ray->intersections.idx
+			* sizeof(t_ray_x_obj));
+		ray->intersections.idx = 0;
+		return ;
+	}
+	ray->intersections = (t_ray_x_obj_array){0};
 }

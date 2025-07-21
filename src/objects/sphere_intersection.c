@@ -12,12 +12,14 @@
 
 #include "minirt.h"
 
+static t_quad	solve_sphere_quadratic(t_ray ray, t_sphere sp);
+
 /**
  * @returns	Struct with two ray-object intersections, defined by t values
  *			(how long to follow the ray and in which direction), and an
  *			object flag combined with a void pointer to that object's data
  */
-t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp)
+t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp)
 {
 	t_quad	q;
 	t_flt	t1;
@@ -36,15 +38,30 @@ t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere *sp)
 }
 
 /**
+ * @returns	t_quad helper struct which contains the values for solving a
+ *			quadratic equation.
+ */
+static t_quad	solve_sphere_quadratic(t_ray ray, t_sphere sp)
+{
+	t_quad	q;
+
+	q.a = dot(ray.dir, ray.dir);
+	q.b = 2 * dot(ray.dir, ray.orig);
+	q.c = dot(ray.orig, ray.orig) - sp.radius * sp.radius;
+	q.discr = q.b * q.b - 4 * q.a * q.c;
+	return (q);
+}
+
+/**
  * @returns	Sphere's normal at ray's intersection rxo
  */
 t_vec4	sphere_normal_at(t_sphere sp, t_vec4 world_pos)
 {
 	t_vec4	normal;
-	t_vec4	sphere_pos;
+	t_vec4	object_pos;
 
-	sphere_pos = transformed_vec(world_pos, sp.inverse);
-	normal = unit_vec(transformed_vec(sphere_pos, transpose_m4x4(sp.inverse)));
-	normal.axis.w = 0;
+	object_pos = transformed_vec(world_pos, sp.inverse);
+	normal = unit_vec(transformed_vec(object_pos, transpose_m4x4(sp.inverse)));
+	normal.w = 0;
 	return (normal);
 }

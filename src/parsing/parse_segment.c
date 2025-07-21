@@ -25,17 +25,17 @@
  */
 bool	rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest)
 {
-	if (!uint8_parse(str, parse_i, &dest->channel.r)
+	if (!uint8_parse(str, parse_i, &dest->r)
 		|| is_space(str[(*parse_i) - 1])
 		|| str[(*parse_i)++] != ',')
 		return (false);
-	if (!uint8_parse(str, parse_i, &dest->channel.g)
+	if (!uint8_parse(str, parse_i, &dest->g)
 		|| is_space(str[(*parse_i) - 1])
 		|| str[(*parse_i)++] != ',')
 		return (false);
-	if (!uint8_parse(str, parse_i, &dest->channel.b))
+	if (!uint8_parse(str, parse_i, &dest->b))
 		return (false);
-	dest->channel.a = UINT8_MAX;
+	dest->a = UINT8_MAX;
 	return (true);
 }
 
@@ -52,19 +52,19 @@ bool	rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest)
  */
 bool	vec4_parse(char *str, size_t *parse_i, t_vec4 *dest, bool is_point)
 {
-	if (!flt_parse(str, parse_i, &dest->axis.x)
+	if (!flt_parse(str, parse_i, &dest->x)
 		|| is_space(str[(*parse_i) - 1])
 		|| str[(*parse_i)++] != ',')
 		return (false);
-	if (!flt_parse(str, parse_i, &dest->axis.y)
+	if (!flt_parse(str, parse_i, &dest->y)
 		|| is_space(str[(*parse_i) - 1])
 		|| str[(*parse_i)++] != ',')
 		return (false);
-	if (!flt_parse(str, parse_i, &dest->axis.z))
+	if (!flt_parse(str, parse_i, &dest->z))
 		return (false);
 	if (is_point)
-		dest->axis.w = 1;
+		dest->w = 1;
 	else
-		dest->axis.w = 0;
+		dest->w = 0;
 	return (true);
 }

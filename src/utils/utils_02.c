@@ -6,19 +6,24 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:11:04 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/09 11:59:33 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/16 13:08:07 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+/**
+ * Used this function for debugging raycasting.
+ *
+ * TODO: Remove function before eval or move to a debug source file
+ */
 void	write_pixel_rays_to_file(const char *str)
 {
 	size_t	i;
 	t_data	*data;
 	int		fds[2];
 
-	fds[0] = open(str, O_CREAT | O_TRUNC | O_WRONLY);
+	fds[0] = open(str, O_CREAT | O_TRUNC | O_WRONLY, 0666);
 	if (fds[0] < 0)
 		return ;
 	fds[1] = dup(STDOUT_FILENO);
@@ -33,43 +38,49 @@ void	write_pixel_rays_to_file(const char *str)
 	close(fds[1]);
 }
 
-t_quad	solve_sphere_quadratic(t_ray ray, t_sphere sp)
-{
-	t_vec4	sp_to_ray;
-	t_quad	q;
-
-	sp_to_ray = ray.orig;
-	q.a = dot(ray.dir, ray.dir);
-	q.b = 2 * dot(ray.dir, sp_to_ray);
-	q.c = dot(sp_to_ray, sp_to_ray) - sp.radius * sp.radius;
-	q.discr = q.b * q.b - 4 * q.a * q.c;
-	return (q);
-}
-
+/**
+ * Helper function for converting a vec4 into a color object.
+ *
+ * @returns	Color based on vec4 parameter vec, with the following mapping:
+ *			r = x
+ *			g = y
+ *			b = z
+ *			a = w
+ */
 t_color	vec4_to_color(t_vec4 vec)
 {
 	t_color	col;
 
-	col.flt.r = vec.axis.x;
-	col.flt.g = vec.axis.y;
-	col.flt.b = vec.axis.z;
-	col.flt.a = vec.axis.w;
+	col.flt.r = vec.x;
+	col.flt.g = vec.y;
+	col.flt.b = vec.z;
+	col.flt.a = vec.w;
 	col.bit = color_float_to_8bit(col.flt);
 	return (col);
 }
 
+/**
+ * Converts a vec4 containing the normal of a surface into the corresponding
+ * color.
+ *
+ * @returns Color that corrensponds to vec4 parameter normal
+ */
 t_color	normal_to_color(t_vec4 normal)
 {
 	t_color	col;
 
-	col.bit.channel.r = (normal._[0] * 0.5 + 0.5) * 255.999 * 1;
-	col.bit.channel.g = (normal._[1] * 0.5 + 0.5) * 255.999 * 1;
-	col.bit.channel.b = (-normal._[2] * 0.5 + 0.5) * 255.999 * 1;
-	col.bit.channel.a = 0xff;
+	col.bit.r = (normal.x * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.g = (normal.y * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.b = (-normal.z * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.a = 0xff;
 	col.flt = color_8bit_to_float(col.bit);
 	return (col);
 }
 
+/**
+ * @returns	Attempts to calloc, frees data and exits program if calloc fails.
+ *			Returns void pointer to allocated memory block.
+ */
 void	*xcalloc(size_t nmemb, size_t size)
 {
 	void	*mem;

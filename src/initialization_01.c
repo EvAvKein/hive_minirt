@@ -40,6 +40,7 @@ bool	data_init_successful(void)
 
 /**
  * Calculates unit vectors for each ray that is being cast at a specific pixel.
+ * Also applies camera transform.
  */
 void	setup_pixel_rays(void)
 {
@@ -47,25 +48,25 @@ void	setup_pixel_rays(void)
 	t_pixel_grid *const	g = &data->pixel_grid;
 	t_vec4				pixel;
 	size_t				idx[3];
+	t_ray				ray;
 
 	g->fov_h = data->elems.camera->fov * RADIANS_PER_DEGREE;
 	g->fov_v = 2 * atan(tan(g->fov_h / 2) * RES_Y / RES_X);
 	g->width = 2 * sin(g->fov_h / 2);
 	g->pixel_width = g->width / RES_X;
 	g->height = g->pixel_width * RES_Y;
-	pixel.axis.z = cos(g->fov_h / 2);
-	pixel.axis.w = 0;
+	pixel.z = cos(g->fov_h / 2);
+	pixel.w = 0;
 	idx[0] = -1;
 	while (++idx[0] < data->pixel_count)
 	{
 		idx[1] = idx[0] % RES_X;
 		idx[2] = idx[0] / RES_X;
-		pixel._[0] = (-g->width + g->pixel_width) / 2 + idx[1] * g->pixel_width;
-		pixel._[1] = (g->height - g->pixel_width) / 2 - idx[2] * g->pixel_width;
-		pixel._[2] = cos(g->fov_h / 2);
-		pixel._[3] = 0;
-		data->pixel_rays[idx[0]] = (t_ray){.orig = (t_vec4){._[3] = 1}};
-		data->pixel_rays[idx[0]].dir = unit_vec(pixel);
+		pixel.x = (-g->width + g->pixel_width) / 2 + idx[1] * g->pixel_width;
+		pixel.y = (g->height - g->pixel_width) / 2 - idx[2] * g->pixel_width;
+		ray = (t_ray){.orig = position(0, 0, 0), .dir = unit_vec(pixel)};
+		ray = transformed_ray(ray, data->elems.camera->transform);
+		data->pixel_rays[idx[0]] = ray;
 	}
 }
 
