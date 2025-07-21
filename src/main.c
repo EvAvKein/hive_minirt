@@ -24,7 +24,6 @@ t_data	*get_data(void)
 	return (&data);
 }
 
-// cast_rays();
 int	main(int argc, char **argv)
 {
 	t_data *const	data = get_data();
