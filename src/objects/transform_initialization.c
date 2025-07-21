@@ -12,6 +12,42 @@
 
 #include "minirt.h"
 
+// t_m4x4	view_transform(t_vec4 from, t_vec4 to, t_vec4 up)
+// {
+// 	t_vec4 const	fwd = unit_vec(vec_sub(to, from));
+// 	t_vec4 const	left = cross(fwd, unit_vec(up));
+// 	t_vec4 const	tu = cross(left, fwd);
+// 	t_m4x4 const	orientation = (t_m4x4){
+// 		._[0][0] = left.x, ._[0][1] = left.y, ._[0][2] = left.z, ._[0][3] = 0,
+// 		._[1][0] = tu.x, ._[1][1] = tu.y, ._[1][2] = tu.z, ._[1][3] = 0,
+// 		._[2][0] = -fwd.x, ._[2][1] = -fwd.y, ._[2][2] = -fwd.z, ._[2][3] = 0,
+// 		._[3][0] = 0, ._[3][1] = 0, ._[3][2] = 0, ._[3][3] = 0
+// 	};
+// 
+// 	return (mult_m4x4(orientation,
+// 			translation_m4x4(position(-from.x, -from.y, -from.z))));
+// }
+
+t_flt	*calculate_pitch_and_yaw(t_camera *cam)
+{
+	static t_flt	angles[2];
+	t_vec4			h;
+
+	ft_bzero(angles, sizeof(t_flt) * 2);
+	h = unit_vec(vector(0, cam->orientation.y, cam->orientation.z));
+	angles[0] = asin(h.y);
+	h = unit_vec(vector(cam->orientation.x, 0, cam->orientation.z));
+	if (h.x < 0 && h.z >= 0)
+		angles[1] = asin(-h.x);
+	else if (h.x < 0 && h.z < 0)
+		angles[1] = M_PI - asin(-h.x);
+	else if (h.x >= 0 && h.z >= 0)
+		angles[1] = -asin(h.x);
+	else
+		angles[1] = -M_PI + asin(h.x);
+	return (angles);
+}
+
 /**
  * Calculates pitch and yaw rotations for camera.
  *
