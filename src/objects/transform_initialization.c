@@ -13,38 +13,6 @@
 #include "minirt.h"
 
 /**
- * Runs transform initialization functions for elements in data.
- */
-void	init_transforms(void)
-{
-	t_data *const	data = get_data();
-	t_camera *const	cam = data->elems.camera;
-	t_sphere		*sp;
-	t_plane			*pl;
-	t_cylinder		*cyl;
-
-	sp = data->elems.spheres;
-	pl = data->elems.planes;
-	cyl = data->elems.cylinders;
-	init_camera_transform(cam);
-	while (sp)
-	{
-		init_sphere_transform(sp);
-		sp = sp->next;
-	}
-	while (pl)
-	{
-		init_plane_transform(pl);
-		pl = pl->next;
-	}
-	while (cyl)
-	{
-		init_cylinder_transform(cyl);
-		cyl = cyl->next;
-	}
-}
-
-/**
  * Initializes camera's transform and inverse using the parsed orientation
  * and position.
  */
