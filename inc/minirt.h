@@ -23,6 +23,11 @@
 # include "MLX42.h"
 # include "settings.h"
 
+typedef struct s_camera\
+				t_camera;
+
+extern t_camera	*g_cam;
+
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
@@ -117,7 +122,7 @@ t_flt			vec_len(t_vec4 vec);
 t_vec4			unit_vec(t_vec4 vec);
 t_vec4			scaled_vec(t_vec4 vec, t_flt scalar);
 t_vec4			vector(t_flt x, t_flt y, t_flt z);
-t_vec4			position(t_flt x, t_flt y, t_flt z);
+t_vec4			point(t_flt x, t_flt y, t_flt z);
 
 // vectors/vectors_02.c
 t_flt			dot(t_vec4 v1, t_vec4 v2);
@@ -132,7 +137,6 @@ t_vec4			cross(t_vec4 v1, t_vec4 v2);
 
 // matrices/matrices_01.c
 t_m4x4			mult_m4x4(t_m4x4 m4x4_1, t_m4x4 m4x4_2);
-t_m4x4			scaled_m4x4(t_m4x4 m4x4, t_flt scalar);
 void			print_m4x4(t_m4x4 m4x4);
 
 // matrices/matrices_02.c
@@ -196,7 +200,7 @@ typedef struct s_phong_helper
 }						t_phong_helper;
 
 // objects/materials_01.c
-t_material		material(t_flt amb, t_flt diff, t_flt spec, t_flt shiny);
+t_material		material(t_flt r, t_flt g, t_flt b);
 t_material		default_material(void);
 
 /* ----------------------------------------------------------------- LIGHTING */
@@ -216,6 +220,9 @@ typedef enum e_obj_type
 	CYLINDER,
 }	t_obj_type;
 
+/**
+ * TODO: Remember to remove before evaluation/use in code
+ */
 // Example 1 of generic object struct with all possible data, not very
 // efficient, some risk of using members when they're not valid/initialized.
 typedef struct s_obj
@@ -235,6 +242,9 @@ typedef struct s_obj
 	void		*next;
 }				t_obj;
 
+/**
+ * TODO: Remember to remove before evaluation/use in code
+ */
 // Example 2 of generic object struct, has struct within a union for all
 // possible sets of object properties. Slightly more memory efficient than
 // example 1, but more verbose. Verbosity serves as reminder of underlying
@@ -545,20 +555,6 @@ void			write_pixel_rays_to_file(const char *str);
 t_color			vec4_to_color(t_vec4 vec);
 t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
-
-/* -------------------------------------------------------------------- TESTS */
-
-// lighting/single_sphere.c
-void			single_sphere_test(void);
-
-// lighting/single_plane.c
-void			single_plane_test(void);
-
-// lighting/single_plane.c
-void			single_plane_test(void);
-
-// lighting/single_cylinder.c
-void			single_cylinder_test(void);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

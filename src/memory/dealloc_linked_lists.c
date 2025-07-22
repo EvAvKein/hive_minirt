@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:25:20 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/25 17:00:50 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/22 09:35:07 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /**
  *
  * Deallocate all the lights in the provided linked list from the heap.
+ *
+ * @param light	First node in light linked list
  * 
  */
 void	dealloc_lights(t_light *light)
@@ -33,6 +35,8 @@ void	dealloc_lights(t_light *light)
  *
  * Deallocate all the spheres in the provided linked list from the heap.
  * 
+ * @param sphere	First node in sphere linked list
+ *
  */
 void	dealloc_spheres(t_sphere *sphere)
 {
@@ -50,6 +54,8 @@ void	dealloc_spheres(t_sphere *sphere)
  *
  * Deallocate all the planes in the provided linked list from the heap.
  * 
+ * @param plane	First node in plane linked list
+ *
  */
 void	dealloc_planes(t_plane *plane)
 {
@@ -67,6 +73,8 @@ void	dealloc_planes(t_plane *plane)
  *
  * Deallocate all the cylinders in the provided linked list from the heap.
  * 
+ * @param cylinder	First node in cylinder linked list
+ *
  */
 void	dealloc_cylinders(t_cylinder *cylinder)
 {

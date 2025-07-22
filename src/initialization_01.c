@@ -35,6 +35,8 @@ bool	data_init_successful(void)
 	init_object_data();
 	if (mlx_init_successful() == false)
 		return (false);
+	g_cam = data->elems.camera;
+	setup_pixel_rays();
 	return (true);
 }
 
@@ -64,7 +66,7 @@ void	setup_pixel_rays(void)
 		idx[2] = idx[0] / RES_X;
 		pixel.x = (-g->width + g->pixel_width) / 2 + idx[1] * g->pixel_width;
 		pixel.y = (g->height - g->pixel_width) / 2 - idx[2] * g->pixel_width;
-		ray = (t_ray){.orig = position(0, 0, 0), .dir = unit_vec(pixel)};
+		ray = (t_ray){.orig = point(0, 0, 0), .dir = unit_vec(pixel)};
 		ray = transformed_ray(ray, data->elems.camera->transform);
 		data->pixel_rays[idx[0]] = ray;
 	}

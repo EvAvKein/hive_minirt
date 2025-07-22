@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+t_camera	*g_cam;
+
 /**
  * @returns A pointer to the program's data.
  */
@@ -35,7 +37,6 @@ int	main(int argc, char **argv)
 		return (free_data());
 	if (data_init_successful() == false)
 		return (data->error);
-	setup_pixel_rays();
 	set_vertical_gradient(data->img, (t_float_color[2]){
 		(t_float_color){.r = .1, .g = 1, .b = 1, .a = 1},
 		(t_float_color){.r = 1, .g = 1, .b = 1, .a = 1}

@@ -6,13 +6,18 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 11:22:13 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/08 12:40:24 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/22 18:38:15 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 /**
+ * Creates a matrix that translates (moves) points by the vector vec. Vectors
+ * with dimension w = 0 are unaffected by translations.
+ *
+ * @param vec	Vector to base translation matrix on
+ *
  * @returns	Translation matrix based on the vector vec
  */
 t_m4x4	translation_m4x4(t_vec4 vec)
@@ -27,6 +32,11 @@ t_m4x4	translation_m4x4(t_vec4 vec)
 }
 
 /**
+ * Creates a matrix that scales points and vectors by the vector vec. Keep each
+ * dimension the same number for a uniform scaling.
+ *
+ * @param vec	Vector to base scaling matrix on
+ *
  * @returns	Scaling matrix based on the vector vec
  */
 t_m4x4	scaling_m4x4(t_vec4 vec)
@@ -41,6 +51,10 @@ t_m4x4	scaling_m4x4(t_vec4 vec)
 }
 
 /**
+ * Creates a matrix that rotates points and vectors around the x axis.
+ *
+ * @param rad	Amount of radians to turn around the x axis
+ *
  * @returns	X-rotation matrix, rotates vectors by rad radians clockwise when
  *			the x-axis is pointing at the viewer
  */
@@ -59,6 +73,10 @@ t_m4x4	x_rotation_m4x4(t_flt rad)
 }
 
 /**
+ * Creates a matrix that rotates points and vectors around the y axis.
+ *
+ * @param rad	Amount of radians to turn around the y axis
+ *
  * @returns	Y-rotation matrix, rotates vectors by rad radians clockwise when
  *			the x-axis is pointing at the viewer
  */
@@ -77,6 +95,10 @@ t_m4x4	y_rotation_m4x4(t_flt rad)
 }
 
 /**
+ * Creates a matrix that rotates points and vectors around the z axis.
+ *
+ * @param rad	Amount of radians to turn around the z axis
+ *
  * @returns	Z-rotation matrix, rotates vectors by rad radians clockwise when
  *			the x-axis is pointing at the viewer
  */

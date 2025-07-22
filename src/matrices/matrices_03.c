@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 09:57:20 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/04 10:49:22 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/22 09:38:25 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_m4x4	identity_m4x4(void)
 }
 
 /**
+ * @param m4x4	4 by 4 matrix to create transpose of
+ *
  * @returns	Transpose matrix of m4x4 (first row becomes first column etc.)
  */
 t_m4x4	transpose_m4x4(t_m4x4 m4x4)
@@ -38,6 +40,10 @@ t_m4x4	transpose_m4x4(t_m4x4 m4x4)
 }
 
 /**
+ * @param m4x4	4 by 4 matrix from which to calculate cofactors
+ * @param row	Row position of cofactor
+ * @param col	Column position of cofactor
+ *
  * @returns	Cofactor at row and col, which is the determinant of the submatrix
  *			in which the row and column have been removed, signed based on if
  *			the sum of the row and column indices is odd or even
@@ -53,6 +59,8 @@ t_flt	cofactor_m4x4(t_m4x4 m4x4, size_t row, size_t col)
 }
 
 /**
+ * @param m4x4	4 by 4 matrix to create inverse matrix from
+ *
  * @returns	The inverse matrix of m4x4 when m4x4 is invertible, a zero matrix if
  *			m4x4 is not invertible
  */

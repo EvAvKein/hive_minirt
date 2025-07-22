@@ -6,13 +6,16 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 10:51:26 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/08 10:09:46 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/22 10:26:47 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 /**
+ * @param v1	First vector to use in dot product
+ * @param v2	Second vector to use in dot product
+ *
  * @returns	Dot product of vectors v1 and v2
  */
 inline t_flt	dot(t_vec4 v1, t_vec4 v2)
@@ -23,6 +26,9 @@ inline t_flt	dot(t_vec4 v1, t_vec4 v2)
 }
 
 /**
+ * @param v1	First vector to use in addition
+ * @param v2	Second vector to use in addition
+ *
  * @returns	Vector whose three first dimensions are the sums of the
  *			corresponding dimensions of v1 and v2, the fourth dimension
  *			is left as is from v1
@@ -36,6 +42,9 @@ t_vec4	vec_sum(t_vec4 v1, t_vec4 v2)
 }
 
 /**
+ * @param v1	Vector to subtract from
+ * @param v2	Vector to subtract with
+ *
  * @returns	Vector whose three first dimensions are the differences of the
  *			corresponding dimensions of v1 and v2, the fourth dimension
  *			is left as is from v1
@@ -49,6 +58,9 @@ t_vec4	vec_sub(t_vec4 v1, t_vec4 v2)
 }
 
 /**
+ * @param vec	Vector to transform
+ * @param t		Transformation matrix to multiply vec with
+ *
  * @returns	The transformed vector resulting from vec being matrix multiplied
  *			by the transformatino matrix t
  */

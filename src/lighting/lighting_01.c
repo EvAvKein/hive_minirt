@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:50:49 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/17 12:37:26 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/22 10:50:08 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	calculate_diffuse_and_specular(t_phong_helper *p);
 static void	calculate_specular(t_phong_helper *p);
 
 /**
+ * @param p	Phong helper struct
+ *
  * @returns	Color defined by phong helper p
  */
 t_color	let_there_be_light(t_phong_helper *p)
@@ -46,6 +48,8 @@ t_color	let_there_be_light(t_phong_helper *p)
 /**
  * Calculates diffuse based on phong helper p and calls specular calculation
  * function.
+ *
+ * @param p	Phong helper struct
  */
 static void	calculate_diffuse_and_specular(t_phong_helper *p)
 {
@@ -64,6 +68,8 @@ static void	calculate_diffuse_and_specular(t_phong_helper *p)
 
 /**
  * Calculates specular based on phong helper p
+ *
+ * @param p	Phong helper struct
  */
 static void	calculate_specular(t_phong_helper *p)
 {
