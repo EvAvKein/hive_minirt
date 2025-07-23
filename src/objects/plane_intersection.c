@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 10:41:38 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/22 11:24:54 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/23 13:15:24 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ t_ray_x_obj	ray_x_plane(t_ray ray, t_plane const *pl)
 	t_flt	divisor;
 
 	ray = transformed_ray(ray, pl->inverse);
-	divisor = dot(ray.dir, vector(0, 1, 0));
+	divisor = dot(ray.dir, pl->orientation);
 	if (floats_are_equal(divisor, 0))
 		return ((t_ray_x_obj){0});
-	t = dot(vec_sub(pl->pos, ray.orig), vector(0, 1, 0)) / divisor;
+	t = dot(vec_sub(pl->pos, ray.orig), pl->orientation) / divisor;
 	if (t < 0)
 		return ((t_ray_x_obj){0});
 	return ((t_ray_x_obj){.t = t, .obj = (void *)pl, .obj_type = PLANE});
@@ -44,6 +44,7 @@ t_vec4	plane_normal(t_plane pl)
 {
 	t_vec4	normal;
 
+	return (pl.orientation);
 	normal = transformed_vec(pl.orientation, pl.inverse);
 	normal = unit_vec(transformed_vec(normal, transpose_m4x4(pl.inverse)));
 	normal.w = 0;

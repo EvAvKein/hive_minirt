@@ -92,14 +92,15 @@ void	init_sphere_transform(t_sphere *sp)
  */
 void	init_plane_transform(t_plane *pl)
 {
-	t_flt		*angles;
+	// t_flt		*angles;
 
 	if (vecs_are_equal(pl->orientation, (t_vec4){0}))
 		pl->orientation = (t_vec4){.y = 1};
 	pl->orientation = unit_vec(pl->orientation);
-	angles = plane_pitch_and_yaw(*pl);
-	pl->transform = x_rotation_m4x4(angles[0]);
-	pl->transform = mult_m4x4(y_rotation_m4x4(-angles[1]), pl->transform);
+	// angles = plane_pitch_and_yaw(*pl);
+	// pl->transform = x_rotation_m4x4(angles[0]);
+	// pl->transform = mult_m4x4(y_rotation_m4x4(-angles[1]), pl->transform);
+	pl->transform = identity_m4x4();
 	pl->transform = mult_m4x4(translation_m4x4(pl->pos), pl->transform);
 	pl->inverse = inverse_m4x4(pl->transform);
 }
