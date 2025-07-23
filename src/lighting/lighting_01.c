@@ -25,7 +25,7 @@ t_color	let_there_be_light(t_phong_helper *p)
 
 	if (dot(p->to_cam, p->normal) < 0)
 		p->normal = opposite_vec(p->normal);
-	p->ambient = scaled_vec(p->mat->color, ab);
+	p->ambient = scaled_vec(p->mat.color, ab);
 	p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
 	shadow_ray = (t_ray){.orig = p->pos, .dir = p->to_light};
 	cast_ray_at_objs(&shadow_ray, &get_data()->elems, p->obj_hit);
@@ -54,9 +54,9 @@ static void	calculate_diffuse_and_specular(t_phong_helper *p)
 		p->specular = (t_vec4){0};
 		return ;
 	}
-	p->effective_color = scaled_vec(p->mat->color, p->light->brightness);
+	p->effective_color = scaled_vec(p->mat.color, p->light->brightness);
 	p->diffuse = scaled_vec(p->effective_color,
-			p->mat->diffuse * p->surface_light_alignment);
+			p->mat.diffuse * p->surface_light_alignment);
 	calculate_specular(p);
 }
 
@@ -81,6 +81,6 @@ static void	calculate_specular(t_phong_helper *p)
 		.z = p->light->color.flt.b,
 		.w = p->light->color.flt.a};
 	p->scaled_light = scaled_vec(p->scaled_light, p->light->brightness);
-	f = pow(p->camera_reflection_alignment, p->mat->shininess);
-	p->specular = scaled_vec(p->scaled_light, p->mat->specular * f);
+	f = pow(p->camera_reflection_alignment, p->mat.shininess);
+	p->specular = scaled_vec(p->scaled_light, p->mat.specular * f);
 }

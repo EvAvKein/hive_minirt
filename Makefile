@@ -62,10 +62,7 @@ SRC		:=	main.c									\
 			objects/transform_initialization.c		\
 			intersections/intersections_01.c		\
 			intersections/quicksort.c				\
-			lighting/lighting_01.c					\
-			lighting/single_sphere.c				\
-			lighting/single_plane.c					\
-			lighting/single_cylinder.c
+			lighting/lighting_01.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
 INC_FILES		:= minirt.h settings.h
