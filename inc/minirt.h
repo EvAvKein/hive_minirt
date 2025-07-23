@@ -178,7 +178,7 @@ typedef struct s_ray\
 
 typedef struct s_phong_helper
 {
-	t_material const	*mat;
+	t_material			mat;
 	t_light const		*light;
 	void const			*obj_hit;
 	t_ray				*ray;
@@ -450,26 +450,35 @@ bool			print_err(char *error);
 
 /* ------------------------------------------------------------- FILE PARSING */
 
+// parsing/parse_scene.c
 bool			parse_scene(char *file_path);
+
+// parsing/parse_value.c
+bool			flt_parse(char *str, size_t *parse_i, t_flt *dest);
+bool			uint8_parse(char *str, size_t *parse_i, uint8_t *dest);
+bool			pattern_parse(char *str, size_t *parse_i, t_pattern *dest);
+
+// parsing/parse_segment.c
+bool			rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest);
+bool			vec4_parse(char *str, size_t *parse_i, t_vec4 *dest,
+					bool is_point);
+
+// parsing/parse_cam_and_lights.c
+bool			ambient_light_parse(char *str, size_t *parse_i);
+bool			camera_parse(char *str, size_t *parse_i);
+bool			light_parse(char *str, size_t *parse_i);
+
+// parsing/parse_shapes.c
+bool			sphere_parse(char *str, size_t *parse_i);
+bool			plane_parse(char *str, size_t *parse_i);
+bool			cylinder_parse(char *str, size_t *parse_i);
+
+// parsing/utils.c
 bool			is_space(char c);
 void			skip_spaces(char *str, size_t *parse_i);
 void			skip_letters_and_trailing_spaces(char *str, size_t *parse_i);
 bool			in_flt_range(t_flt checked, t_flt min, t_flt max);
 bool			is_normalized_vec(t_vec4 vec);
-
-bool			flt_parse(char *str, size_t *parse_i, t_flt *dest);
-bool			uint8_parse(char *str, size_t *parse_i, uint8_t *dest);
-
-bool			rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest);
-bool			vec4_parse(char *str, size_t *parse_i, t_vec4 *dest,
-					bool is_point);
-
-bool			ambient_light_parse(char *str, size_t *parse_i);
-bool			camera_parse(char *str, size_t *parse_i);
-bool			light_parse(char *str, size_t *parse_i);
-bool			sphere_parse(char *str, size_t *parse_i);
-bool			plane_parse(char *str, size_t *parse_i);
-bool			cylinder_parse(char *str, size_t *parse_i);
 
 /* -------------------------------------------------------------- RAY CASTING */
 

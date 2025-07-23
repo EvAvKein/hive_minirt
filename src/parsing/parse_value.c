@@ -64,6 +64,7 @@ static bool	longlong_parse(char *str, size_t *parse_i, long long *dest)
  */
 bool	flt_parse(char *str, size_t *parse_i, t_flt *dest)
 {
+	const bool	negative = (str[*parse_i] == '-');
 	long long	integer;
 	long long	decimal;
 	size_t		decimal_len;
@@ -79,12 +80,13 @@ bool	flt_parse(char *str, size_t *parse_i, t_flt *dest)
 	if (str[(*parse_i)++] != '.')
 		return (false);
 	decimal_len = *parse_i;
-	if (!longlong_parse(str, parse_i, &decimal))
-		return (false);
-	if (decimal < 0)
+	if (!longlong_parse(str, parse_i, &decimal) || decimal < 0)
 		return (false);
 	decimal_len = *parse_i - decimal_len;
-	*dest = (t_flt)integer + ((t_flt)decimal / pow(10, decimal_len));
+	if (negative)
+		*dest = (t_flt)integer - ((t_flt)decimal / pow(10, decimal_len));
+	else
+		*dest = (t_flt)integer + ((t_flt)decimal / pow(10, decimal_len));
 	skip_spaces(str, parse_i);
 	return (true);
 }
