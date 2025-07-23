@@ -12,8 +12,6 @@
 
 #include "minirt.h"
 
-t_camera	*g_cam;
-
 /**
  * @returns A pointer to the program's data.
  */
@@ -41,6 +39,7 @@ int	main(int argc, char **argv)
 		(t_float_color){.r = .1, .g = 1, .b = 1, .a = 1},
 		(t_float_color){.r = 1, .g = 1, .b = 1, .a = 1}
 	});
+	setup_pixel_rays();
 	cast_rays();
 	mlx_key_hook(data->mlx, keyhook, NULL);
 	mlx_loop(data->mlx);

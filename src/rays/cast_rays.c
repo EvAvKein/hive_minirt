@@ -72,7 +72,7 @@ static t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 	}
 	if (rxo->obj_type == PLANE)
 	{
-		p->normal = plane_normal(*(t_plane *)rxo->obj);
+		p->normal = (*(t_plane *)rxo->obj).orientation;
 		p->mat = ((t_plane *)rxo->obj)->material;
 	}
 	if (rxo->obj_type == CYLINDER)

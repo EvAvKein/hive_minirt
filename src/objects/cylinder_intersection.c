@@ -57,7 +57,7 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl)
 	y_component = ray_position(ray, t1).y;
 	if (fabs(y_component) > cyl->height / 2)
 		t1 = 0;
-	y_component = dot(ray_position(ray, t2), vector(0, 1, 0));
+	y_component = ray_position(ray, t2).y;
 	if (fabs(y_component) > cyl->height / 2)
 		t2 = 0;
 	return ((t_ray_x_objs){

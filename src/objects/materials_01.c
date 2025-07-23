@@ -19,7 +19,7 @@
  * @param g	Green component of color (float)
  * @param b	Blue component of color (float)
  *
- * @reutrns	Material struct with colors set to match the float parameters
+ * @returns	Material struct with colors set to match the float parameters
  */
 t_material	material(t_flt r, t_flt g, t_flt b)
 {

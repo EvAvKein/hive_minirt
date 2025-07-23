@@ -23,11 +23,6 @@
 # include "MLX42.h"
 # include "settings.h"
 
-typedef struct s_camera\
-				t_camera;
-
-extern t_camera	*g_cam;
-
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
@@ -504,7 +499,6 @@ t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
 
 // objects/plane_intersection.c
 t_ray_x_obj		ray_x_plane(t_ray ray, t_plane const *pl);
-t_vec4			plane_normal(t_plane pl);
 
 // objects/cylinder_intersection.c
 t_ray_x_obj		ray_hit_cylinder(t_ray ray, t_cylinder const *cyl);
@@ -548,6 +542,10 @@ void			init_sphere_transform(t_sphere *sp);
 void			init_plane_transform(t_plane *pl);
 void			init_cylinder_transform(t_cylinder *cyl);
 void			init_camera_transform(t_camera *cam);
+
+// objects/transform_angle_calculation.c
+t_flt			*cam_pitch_and_yaw(t_camera *cam);
+t_flt			*plane_pitch_and_yaw(t_plane pl);
 
 /* -------------------------------------------------------------------- UTILS */
 

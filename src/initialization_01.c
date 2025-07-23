@@ -35,8 +35,6 @@ bool	data_init_successful(void)
 	init_object_data();
 	if (mlx_init_successful() == false)
 		return (false);
-	g_cam = data->elems.camera;
-	setup_pixel_rays();
 	return (true);
 }
 
