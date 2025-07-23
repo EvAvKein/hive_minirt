@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:26:46 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/26 16:00:22 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/22 09:59:38 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
  *
  * Prints to STDERR "Error" and a newline,
  * followed by "miniRT: ", the provided string, and a newline.
+ *
+ * @param error	String containing error message to print
  *
  * @returns `false`
  *

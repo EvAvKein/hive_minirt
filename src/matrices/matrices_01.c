@@ -6,13 +6,16 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:15:21 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/08 10:08:10 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/22 09:45:37 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 /**
+ * @param m4x4_1	4 by 4 matrix to multiply m4x4_2 with
+ * @param m4x4_2	4 by 4 matrix to get multiplied by m4x4_1
+ *
  * @returns	Matrix that is the result of matrix multiplication between
  *			matrix_1 and matrix_2
  */
@@ -45,33 +48,10 @@ t_m4x4	mult_m4x4(t_m4x4 m4x4_1, t_m4x4 m4x4_2)
 }
 
 /**
- * @returns	New matrix that which has elements corresponding to m4x4, each
- *			scaled by scalar
- */
-t_m4x4	scaled_m4x4(t_m4x4 m4x4, t_flt scalar)
-{
-	t_m4x4	scaled;
-
-	scaled._[0][0] = scalar * m4x4._[0][0];
-	scaled._[0][1] = scalar * m4x4._[0][1];
-	scaled._[0][2] = scalar * m4x4._[0][2];
-	scaled._[0][3] = scalar * m4x4._[0][3];
-	scaled._[1][0] = scalar * m4x4._[1][0];
-	scaled._[1][1] = scalar * m4x4._[1][1];
-	scaled._[1][2] = scalar * m4x4._[1][2];
-	scaled._[1][3] = scalar * m4x4._[1][3];
-	scaled._[2][0] = scalar * m4x4._[2][0];
-	scaled._[2][1] = scalar * m4x4._[2][1];
-	scaled._[2][2] = scalar * m4x4._[2][2];
-	scaled._[2][3] = scalar * m4x4._[2][3];
-	scaled._[3][0] = scalar * m4x4._[3][0];
-	scaled._[3][1] = scalar * m4x4._[3][1];
-	scaled._[3][2] = scalar * m4x4._[3][2];
-	scaled._[3][3] = scalar * m4x4._[3][3];
-	return (scaled);
-}
-
-/**
+ * Function for print debugging and inspecting matrices easily.
+ *
+ * @param m4x4	4 by 4 matrix to print
+ *
  * Prints a 4 by 4 matrix with whitespace around.
  */
 void	print_m4x4(t_m4x4 m4x4)

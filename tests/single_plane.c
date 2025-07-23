@@ -42,7 +42,7 @@ static void	light_single_plane(t_plane *pl, t_light *light)
 	t_phong_helper	p;
 
 	p = (t_phong_helper){0};
-	p.mat = &pl->material;
+	p.mat = pl->material;
 	p.light = light;
 	cast_rays_at_plane(data, pl, &p);
 }
@@ -63,7 +63,7 @@ static void	cast_rays_at_plane(t_data *const data, t_plane const *pl,
 		if (rxo.t <= 0)
 			continue ;
 		p->pos = ray_position(ray, rxo.t);
-		p->normal = plane_normal(*pl);
+		p->normal = pl->orientation;
 		p->to_cam = opposite_vec(ray.dir);
 		color = let_there_be_light(p);
 		set_pixel_color(i, color);

@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 15:01:58 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/17 11:59:48 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/22 10:56:57 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 static t_quad	solve_cylinder_quadratic(t_ray ray, t_cylinder cyl);
 
+/**
+ * @param ray	Ray struct that is cast at the cylinder
+ * @param cyl	Cylinder struct pointer to cast the ray at
+ *
+ * @returns	Ray x object struct containing the hit information
+ */
 t_ray_x_obj	ray_hit_cylinder(t_ray ray, t_cylinder const *cyl)
 {
 	t_ray_x_objs	shell;
@@ -28,6 +34,13 @@ t_ray_x_obj	ray_hit_cylinder(t_ray ray, t_cylinder const *cyl)
 	return (primary_hit);
 }
 
+/**
+ * @param ray	Ray struct that is cast at the cylinder
+ * @param cyl	Cylinder struct pointer to cast the ray at
+ *
+ * @returns	Ray x objects struct containing the intersections with the cylinder
+ *			shell
+ */
 t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl)
 {
 	t_quad	q;
@@ -44,7 +57,7 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl)
 	y_component = ray_position(ray, t1).y;
 	if (fabs(y_component) > cyl->height / 2)
 		t1 = 0;
-	y_component = dot(ray_position(ray, t2), vector(0, 1, 0));
+	y_component = ray_position(ray, t2).y;
 	if (fabs(y_component) > cyl->height / 2)
 		t2 = 0;
 	return ((t_ray_x_objs){
@@ -55,19 +68,26 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl)
 		.obj_type = CYLINDER, .obj = (void *)cyl, .t = t2}});
 }
 
+/**
+ * @param ray	Ray struct that is cast at the cylinder
+ * @param cyl	Cylinder struct pointer to cast the ray at
+ *
+ * @returns	Ray x objects struct containing the intersections with the cylinder
+ *			caps
+ */
 t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl)
 {
 	t_cap_helper	c;
 
 	ray = transformed_ray(ray, cyl->inverse);
-	c.top = (t_plane){.pos = position(0, cyl->height / 2, 0),
+	c.top = (t_plane){.pos = point(0, cyl->height / 2, 0),
 		.orientation = vector(0, 1, 0), .inverse = identity_m4x4()};
-	c.btm = (t_plane){.pos = position(0, -cyl->height / 2, 0),
+	c.btm = (t_plane){.pos = point(0, -cyl->height / 2, 0),
 		.orientation = vector(0, -1, 0), .inverse = identity_m4x4()};
 	c.top_hit = ray_x_plane(ray, &c.top);
 	c.btm_hit = ray_x_plane(ray, &c.btm);
-	c.top_mid = position(0, cyl->height / 2, 0);
-	c.btm_mid = position(0, -cyl->height / 2, 0);
+	c.top_mid = point(0, cyl->height / 2, 0);
+	c.btm_mid = point(0, -cyl->height / 2, 0);
 	c.top_mid_to_hit = vec_sub(ray_position(ray, c.top_hit.t), c.top_mid);
 	c.btm_mid_to_hit = vec_sub(ray_position(ray, c.btm_hit.t), c.btm_mid);
 	c.top_dist = vec_len(c.top_mid_to_hit);
@@ -82,6 +102,13 @@ t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl)
 		.obj_type = CYLINDER, .obj = (void *)cyl, .t = c.btm_hit.t}});
 }
 
+/**
+ * @param cyl		Cylinder struct
+ * @param world_pos	Point in world coordinate space, on the surface of the
+ *					cylinder
+ *
+ * @returns	Cylinder normal at given position
+ */
 t_vec4	cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos)
 {
 	t_vec4	object_pos;
@@ -100,6 +127,16 @@ t_vec4	cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos)
 	return (normal);
 }
 
+/**
+ * Helper function to solve the quadratic equation that defines the cylinder
+ * intersections.
+ *
+ * @param ray	Ray struct that is cast at the cylinder
+ * @param cyl	Cylinder struct to cast the ray at
+ *
+ * @returns	t_quad helper struct containing the calculated second degree
+ *			equation values, 0 struct if no valid solutions exist
+ */
 static t_quad	solve_cylinder_quadratic(t_ray ray, t_cylinder cyl)
 {
 	t_quad	q;

@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/07/18 17:16:09 by jvarila          ###   ########.fr        #
+#    Updated: 2025/07/23 16:27:38 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ SRC		:=	main.c									\
 			objects/cylinder_intersection.c			\
 			objects/materials_01.c					\
 			objects/transform_initialization.c		\
+			objects/transform_angle_calculation.c	\
 			intersections/intersections_01.c		\
 			intersections/quicksort.c				\
 			lighting/lighting_01.c

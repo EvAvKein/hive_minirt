@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:50:49 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/17 12:37:26 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/22 10:50:08 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	calculate_diffuse_and_specular(t_phong_helper *p);
 static void	calculate_specular(t_phong_helper *p);
 
 /**
+ * @param p	Phong helper struct
+ *
  * @returns	Color defined by phong helper p
  */
 t_color	let_there_be_light(t_phong_helper *p)
@@ -29,7 +31,9 @@ t_color	let_there_be_light(t_phong_helper *p)
 	p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
 	shadow_ray = (t_ray){.orig = p->pos, .dir = p->to_light};
 	cast_ray_at_objs(&shadow_ray, &get_data()->elems, p->obj_hit);
-	if (shadow_ray.intersections.idx == 0)
+	p->dist_to_light = vec_len(vec_sub(p->light->pos, p->pos));
+	if (shadow_ray.intersections.idx == 0
+		|| closest_rxo(&shadow_ray.intersections)->t > p->dist_to_light)
 		calculate_diffuse_and_specular(p);
 	else
 	{
@@ -44,6 +48,8 @@ t_color	let_there_be_light(t_phong_helper *p)
 /**
  * Calculates diffuse based on phong helper p and calls specular calculation
  * function.
+ *
+ * @param p	Phong helper struct
  */
 static void	calculate_diffuse_and_specular(t_phong_helper *p)
 {
@@ -62,6 +68,8 @@ static void	calculate_diffuse_and_specular(t_phong_helper *p)
 
 /**
  * Calculates specular based on phong helper p
+ *
+ * @param p	Phong helper struct
  */
 static void	calculate_specular(t_phong_helper *p)
 {

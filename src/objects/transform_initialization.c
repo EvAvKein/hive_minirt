@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:27:40 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/17 11:57:46 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/23 16:27:54 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,14 @@
  */
 void	init_camera_transform(t_camera *cam)
 {
-	t_flt		pitch_angle;
-	t_flt		yaw_angle;
+	t_flt		*angles;
 
 	if (vecs_are_equal(cam->orientation, (t_vec4){0}))
 		cam->orientation = (t_vec4){.z = 1};
-	pitch_angle = 0;
-	yaw_angle = 0;
 	cam->orientation = unit_vec(cam->orientation);
-	if (!floats_are_equal(cam->orientation.z, 0))
-		pitch_angle = atan(cam->orientation.y / cam->orientation.z);
-	if (!floats_are_equal(cam->orientation.z, 0))
-		yaw_angle = atan(cam->orientation.x / cam->orientation.z);
-	cam->transform = x_rotation_m4x4(-pitch_angle);
-	cam->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), cam->transform);
+	angles = cam_pitch_and_yaw(cam);
+	cam->transform = x_rotation_m4x4(-angles[0]);
+	cam->transform = mult_m4x4(y_rotation_m4x4(angles[1]), cam->transform);
 	cam->transform = mult_m4x4(translation_m4x4(cam->pos), cam->transform);
 	cam->inverse = inverse_m4x4(cam->transform);
 }
@@ -51,18 +45,14 @@ void	init_sphere_transform(t_sphere *sp)
  */
 void	init_plane_transform(t_plane *pl)
 {
-	t_flt	pitch_angle;
-	t_flt	yaw_angle;
+	t_flt		*angles;
 
 	if (vecs_are_equal(pl->orientation, (t_vec4){0}))
 		pl->orientation = (t_vec4){.y = 1};
-	pitch_angle = 0;
-	yaw_angle = 0;
 	pl->orientation = unit_vec(pl->orientation);
-	pitch_angle = asin(pl->orientation.z);
-	yaw_angle = asin(pl->orientation.x);
-	pl->transform = x_rotation_m4x4(pitch_angle);
-	pl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), pl->transform);
+	angles = plane_pitch_and_yaw(*pl);
+	pl->transform = x_rotation_m4x4(angles[0]);
+	pl->transform = mult_m4x4(y_rotation_m4x4(angles[1]), pl->transform);
 	pl->transform = mult_m4x4(translation_m4x4(pl->pos), pl->transform);
 	pl->inverse = inverse_m4x4(pl->transform);
 }
@@ -73,18 +63,16 @@ void	init_plane_transform(t_plane *pl)
  */
 void	init_cylinder_transform(t_cylinder *cyl)
 {
-	t_flt		pitch_angle;
-	t_flt		yaw_angle;
+	t_flt	*angles;
+	t_plane	pl;
 
 	if (vecs_are_equal(cyl->orientation, (t_vec4){0}))
 		cyl->orientation = (t_vec4){.y = 1};
-	pitch_angle = 0;
-	yaw_angle = 0;
 	cyl->orientation = unit_vec(cyl->orientation);
-	pitch_angle = asin(cyl->orientation.z);
-	yaw_angle = asin(cyl->orientation.x);
-	cyl->transform = x_rotation_m4x4(pitch_angle);
-	cyl->transform = mult_m4x4(y_rotation_m4x4(yaw_angle), cyl->transform);
+	pl.orientation = cyl->orientation;
+	angles = plane_pitch_and_yaw(pl);
+	cyl->transform = x_rotation_m4x4(angles[0]);
+	cyl->transform = mult_m4x4(y_rotation_m4x4(angles[1]), cyl->transform);
 	cyl->transform = mult_m4x4(translation_m4x4(cyl->pos), cyl->transform);
 	cyl->inverse = inverse_m4x4(cyl->transform);
 }

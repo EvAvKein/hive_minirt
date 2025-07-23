@@ -117,7 +117,7 @@ t_flt			vec_len(t_vec4 vec);
 t_vec4			unit_vec(t_vec4 vec);
 t_vec4			scaled_vec(t_vec4 vec, t_flt scalar);
 t_vec4			vector(t_flt x, t_flt y, t_flt z);
-t_vec4			position(t_flt x, t_flt y, t_flt z);
+t_vec4			point(t_flt x, t_flt y, t_flt z);
 
 // vectors/vectors_02.c
 t_flt			dot(t_vec4 v1, t_vec4 v2);
@@ -128,10 +128,10 @@ void			print_vec(t_vec4 vec);
 
 // vectors/vectors_03.c
 t_vec4			opposite_vec(t_vec4 vec);
+t_vec4			cross(t_vec4 v1, t_vec4 v2);
 
 // matrices/matrices_01.c
 t_m4x4			mult_m4x4(t_m4x4 m4x4_1, t_m4x4 m4x4_2);
-t_m4x4			scaled_m4x4(t_m4x4 m4x4, t_flt scalar);
 void			print_m4x4(t_m4x4 m4x4);
 
 // matrices/matrices_02.c
@@ -189,12 +189,13 @@ typedef struct s_phong_helper
 	t_vec4				combined;
 	t_vec4				ref;
 	t_vec4				scaled_light;
+	t_flt				dist_to_light;
 	t_flt				surface_light_alignment;
 	t_flt				camera_reflection_alignment;
 }						t_phong_helper;
 
 // objects/materials_01.c
-t_material		material(t_flt amb, t_flt diff, t_flt spec, t_flt shiny);
+t_material		material(t_flt r, t_flt g, t_flt b);
 t_material		default_material(void);
 
 /* ----------------------------------------------------------------- LIGHTING */
@@ -214,6 +215,9 @@ typedef enum e_obj_type
 	CYLINDER,
 }	t_obj_type;
 
+/**
+ * TODO: Remember to remove before evaluation/use in code
+ */
 // Example 1 of generic object struct with all possible data, not very
 // efficient, some risk of using members when they're not valid/initialized.
 typedef struct s_obj
@@ -233,6 +237,9 @@ typedef struct s_obj
 	void		*next;
 }				t_obj;
 
+/**
+ * TODO: Remember to remove before evaluation/use in code
+ */
 // Example 2 of generic object struct, has struct within a union for all
 // possible sets of object properties. Slightly more memory efficient than
 // example 1, but more verbose. Verbosity serves as reminder of underlying
@@ -478,6 +485,7 @@ t_vec4			ray_position(t_ray ray, t_flt t);
 // rays/cast_rays.c
 t_ray_x_obj		hit(t_ray_x_objs intersections);
 void			cast_rays(void);
+t_ray_x_obj		*closest_rxo(t_ray_x_obj_array *array);
 
 // rays/ray_at_obj.c
 void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
@@ -491,7 +499,6 @@ t_vec4			sphere_normal_at(t_sphere sp, t_vec4 world_pos);
 
 // objects/plane_intersection.c
 t_ray_x_obj		ray_x_plane(t_ray ray, t_plane const *pl);
-t_vec4			plane_normal(t_plane pl);
 
 // objects/cylinder_intersection.c
 t_ray_x_obj		ray_hit_cylinder(t_ray ray, t_cylinder const *cyl);
@@ -536,6 +543,10 @@ void			init_plane_transform(t_plane *pl);
 void			init_cylinder_transform(t_cylinder *cyl);
 void			init_camera_transform(t_camera *cam);
 
+// objects/transform_angle_calculation.c
+t_flt			*cam_pitch_and_yaw(t_camera *cam);
+t_flt			*plane_pitch_and_yaw(t_plane pl);
+
 /* -------------------------------------------------------------------- UTILS */
 
 // utils/utils_01.c
@@ -550,20 +561,6 @@ void			write_pixel_rays_to_file(const char *str);
 t_color			vec4_to_color(t_vec4 vec);
 t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
-
-/* -------------------------------------------------------------------- TESTS */
-
-// lighting/single_sphere.c
-void			single_sphere_test(void);
-
-// lighting/single_plane.c
-void			single_plane_test(void);
-
-// lighting/single_plane.c
-void			single_plane_test(void);
-
-// lighting/single_cylinder.c
-void			single_cylinder_test(void);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

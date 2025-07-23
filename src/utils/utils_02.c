@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:11:04 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/16 13:08:07 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/22 10:22:47 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 /**
  * Used this function for debugging raycasting.
+ *
+ * @param str	String containing file name to write data into
  *
  * TODO: Remove function before eval or move to a debug source file
  */
@@ -41,6 +43,8 @@ void	write_pixel_rays_to_file(const char *str)
 /**
  * Helper function for converting a vec4 into a color object.
  *
+ * @param vec	Vec4 to convert into a color
+ *
  * @returns	Color based on vec4 parameter vec, with the following mapping:
  *			r = x
  *			g = y
@@ -63,6 +67,8 @@ t_color	vec4_to_color(t_vec4 vec)
  * Converts a vec4 containing the normal of a surface into the corresponding
  * color.
  *
+ * @param normal	Normal vector to convert into a color
+ *
  * @returns Color that corrensponds to vec4 parameter normal
  */
 t_color	normal_to_color(t_vec4 normal)
@@ -78,8 +84,12 @@ t_color	normal_to_color(t_vec4 normal)
 }
 
 /**
- * @returns	Attempts to calloc, frees data and exits program if calloc fails.
- *			Returns void pointer to allocated memory block.
+ * Attempts to calloc, frees data and exits program if calloc fails.
+ *
+ * @param nmemb	Number of members to allocate
+ * @param size	Size of members to allocate
+ *
+ * @returns	Void pointer to allocated memory block
  */
 void	*xcalloc(size_t nmemb, size_t size)
 {
