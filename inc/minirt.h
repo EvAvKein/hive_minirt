@@ -456,7 +456,6 @@ bool			parse_scene(char *file_path);
 // parsing/parse_value.c
 bool			flt_parse(char *str, size_t *parse_i, t_flt *dest);
 bool			uint8_parse(char *str, size_t *parse_i, uint8_t *dest);
-bool			pattern_parse(char *str, size_t *parse_i, t_pattern *dest);
 
 // parsing/parse_segment.c
 bool			rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest);
