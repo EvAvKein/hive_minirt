@@ -46,10 +46,10 @@ SRC		:=	main.c									\
 			vectors/vectors_01.c					\
 			vectors/vectors_02.c					\
 			vectors/vectors_03.c					\
-			matrices/matrices_01.c					\
-			matrices/matrices_02.c					\
-			matrices/matrices_03.c					\
-			matrices/transforms_01.c				\
+			matrices/base_matrices.c				\
+			matrices/utility_matrices.c				\
+			matrices/print_m4x4.c					\
+			matrices/transform_matrices.c			\
 			rays/rays_01.c							\
 			rays/cast_rays.c						\
 			rays/ray_at_obj.c						\

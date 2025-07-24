@@ -19,12 +19,15 @@
 # include <math.h>			// pow(), fabs()
 # include <float.h>			// FLT_MAX & DBL_MAX
 # include <stdio.h>			// printf()
+# include <pthread.h>		// pthread_create()
 # include "libft_plus.h"
 # include "MLX42.h"
 # include "settings.h"
 
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
+
+# define THREADS	2
 
 typedef double	t_flt;
 
@@ -81,11 +84,20 @@ typedef struct s_color
 	t_float_color	flt;
 }					t_color;
 
+// color/colors_01.c
 void			set_pixel_color(size_t pixel_i, t_color color);
 t_color			color_from_uint32(uint32_t c);
 t_float_color	color_8bit_to_float(t_8bit_color c);
 t_8bit_color	color_float_to_8bit(t_float_color c);
 t_float_color	lerp_color(t_float_color c1, t_float_color c2, float amount);
+
+/* -------------------------------------------------------------- BACKGROUNDS */
+
+void			set_horizontal_gradient(mlx_image_t *img,
+					t_float_color colors[2]);
+void			set_vertical_gradient(mlx_image_t *img,
+					t_float_color colors[2]);
+void			set_uv(mlx_image_t *img);
 
 /* ----------------------------------------------------- VECTORS AND MATRICES */
 
@@ -116,38 +128,35 @@ typedef struct t_m2x2
 t_flt			vec_len(t_vec4 vec);
 t_vec4			unit_vec(t_vec4 vec);
 t_vec4			scaled_vec(t_vec4 vec, t_flt scalar);
-t_vec4			vector(t_flt x, t_flt y, t_flt z);
-t_vec4			point(t_flt x, t_flt y, t_flt z);
+t_vec4			vec_sum(t_vec4 v1, t_vec4 v2);
+t_vec4			vec_sub(t_vec4 v1, t_vec4 v2);
 
 // vectors/vectors_02.c
 t_flt			dot(t_vec4 v1, t_vec4 v2);
-t_vec4			vec_sum(t_vec4 v1, t_vec4 v2);
-t_vec4			vec_sub(t_vec4 v1, t_vec4 v2);
+t_vec4			cross(t_vec4 v1, t_vec4 v2);
 t_vec4			transformed_vec(t_vec4 vec, t_m4x4 t);
-void			print_vec(t_vec4 vec);
+t_vec4			opposite_vec(t_vec4 vec);
 
 // vectors/vectors_03.c
-t_vec4			opposite_vec(t_vec4 vec);
-t_vec4			cross(t_vec4 v1, t_vec4 v2);
+t_vec4			vector(t_flt x, t_flt y, t_flt z);
+t_vec4			point(t_flt x, t_flt y, t_flt z);
+void			print_vec(t_vec4 vec);
 
-// matrices/matrices_01.c
+// matrices/base_matrices.c
+t_m4x4			identity_m4x4(void);
 t_m4x4			mult_m4x4(t_m4x4 m4x4_1, t_m4x4 m4x4_2);
-void			print_m4x4(t_m4x4 m4x4);
+t_m4x4			transpose_m4x4(t_m4x4 m4x4);
+t_m4x4			inverse_m4x4(t_m4x4 m4x4);
 
-// matrices/matrices_02.c
-t_m2x2			sub_m3x3(t_m3x3 m3x3, size_t row, size_t col);
+// matrices/utility_matrices.c
 t_m3x3			sub_m4x4(t_m4x4 m4x4, size_t row, size_t col);
-t_flt			det_m2x2(t_m2x2 m2x2);
 t_flt			det_m3x3(t_m3x3 m3x3);
 t_flt			det_m4x4(t_m4x4 m4x4);
 
-// matrices/matrices_03.c
-t_m4x4			identity_m4x4(void);
-t_m4x4			transpose_m4x4(t_m4x4 m4x4);
-t_flt			cofactor_m4x4(t_m4x4 m4x4, size_t row, size_t col);
-t_m4x4			inverse_m4x4(t_m4x4 m4x4);
+// matrices/print_m4x4.c
+void			print_m4x4(t_m4x4 m4x4);
 
-// matrices/transforms_01.c
+// matrices/transform_matrices.c
 t_m4x4			translation_m4x4(t_vec4 vec);
 t_m4x4			scaling_m4x4(t_vec4 vec);
 t_m4x4			x_rotation_m4x4(t_flt rad);
@@ -396,7 +405,6 @@ typedef struct s_ray
 typedef struct s_pixel_grid
 {
 	t_flt	fov_h;
-	t_flt	fov_v;
 	t_flt	width;
 	t_flt	height;
 	t_flt	pixel_width;
@@ -410,6 +418,9 @@ typedef struct s_data
 	size_t			pixel_count;
 	size_t			object_count;
 	size_t			intersection_count;
+	size_t			thread_idx;
+	pthread_t		threads[THREADS];
+	pthread_mutex_t	lock;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	t_error			error;
@@ -519,20 +530,14 @@ void			dealloc_spheres(t_sphere *sphere);
 void			dealloc_planes(t_plane *plane);
 void			dealloc_cylinders(t_cylinder *cylinder);
 
-/* -------------------------------------------------------------- BACKGROUNDS */
-
-void			set_horizontal_gradient(mlx_image_t *img,
-					t_float_color colors[2]);
-void			set_vertical_gradient(mlx_image_t *img,
-					t_float_color colors[2]);
-void			set_uv(mlx_image_t *img);
-
 /* ---------------------------------------------- DATA SETUP & INITIALIZATION */
 
 // initialization_01.c
 void			setup_pixel_rays(void);
 bool			data_init_successful(void);
 void			keyhook(mlx_key_data_t key_data, void *param);
+void			setup_pixel_grid(void);
+t_ray			ray_for_pixel(size_t i);
 
 // initialization_02.c
 void			init_object_data(void);

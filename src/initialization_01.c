@@ -38,36 +38,48 @@ bool	data_init_successful(void)
 	return (true);
 }
 
+void	setup_pixel_grid(void)
+{
+	t_data *const		data = get_data();
+	t_pixel_grid *const	g = &data->pixel_grid;
+
+	g->fov_h = data->elems.camera->fov * RADIANS_PER_DEGREE;
+	g->width = 2 * sin(g->fov_h / 2);
+	g->pixel_width = g->width / data->img->width;
+	g->height = g->pixel_width * data->img->height;
+}
+
+t_ray	ray_for_pixel(size_t i)
+{
+	t_data *const		data = get_data();
+	t_pixel_grid *const	g = &data->pixel_grid;
+	t_vec4				pixel_pos;
+	size_t				idx[2];
+
+	idx[0] = i % data->img->width;
+	idx[1] = i / data->img->width;
+	pixel_pos.x = (-g->width + g->pixel_width) / 2 + (idx[0]) * g->pixel_width;
+	pixel_pos.y = (g->height - g->pixel_width) / 2 - (idx[1]) * g->pixel_width;
+	pixel_pos.z = cos(g->fov_h / 2);
+	pixel_pos.w = 0;
+	return (transformed_ray((t_ray){
+			.orig = point(0, 0, 0),
+			. dir = unit_vec(pixel_pos)}, data->elems.camera->transform));
+}
+
 /**
  * Calculates unit vectors for each ray that is being cast at a specific pixel.
  * Also applies camera transform.
  */
 void	setup_pixel_rays(void)
 {
-	t_data *const		data = get_data();
-	t_pixel_grid *const	g = &data->pixel_grid;
-	t_vec4				pixel;
-	size_t				idx[3];
-	t_ray				ray;
+	t_data *const	data = get_data();
+	size_t			i;
 
-	g->fov_h = data->elems.camera->fov * RADIANS_PER_DEGREE;
-	g->fov_v = 2 * atan(tan(g->fov_h / 2) * RES_Y / RES_X);
-	g->width = 2 * sin(g->fov_h / 2);
-	g->pixel_width = g->width / RES_X;
-	g->height = g->pixel_width * RES_Y;
-	pixel.z = cos(g->fov_h / 2);
-	pixel.w = 0;
-	idx[0] = -1;
-	while (++idx[0] < data->pixel_count)
-	{
-		idx[1] = idx[0] % RES_X;
-		idx[2] = idx[0] / RES_X;
-		pixel.x = (-g->width + g->pixel_width) / 2 + idx[1] * g->pixel_width;
-		pixel.y = (g->height - g->pixel_width) / 2 - idx[2] * g->pixel_width;
-		ray = (t_ray){.orig = point(0, 0, 0), .dir = unit_vec(pixel)};
-		ray = transformed_ray(ray, data->elems.camera->transform);
-		data->pixel_rays[idx[0]] = ray;
-	}
+	setup_pixel_grid();
+	i = -1;
+	while (++i < data->pixel_count)
+		data->pixel_rays[i] = ray_for_pixel(i);
 }
 
 /**

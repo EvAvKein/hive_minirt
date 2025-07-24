@@ -281,60 +281,6 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/matrices/matrices_01.c",
-   "-o",
-   "obj/matrices/matrices_01.o"
-  ],
-  "file": "src/matrices/matrices_01.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/matrices/matrices_02.c",
-   "-o",
-   "obj/matrices/matrices_02.o"
-  ],
-  "file": "src/matrices/matrices_02.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/matrices/matrices_03.c",
-   "-o",
-   "obj/matrices/matrices_03.o"
-  ],
-  "file": "src/matrices/matrices_03.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
    "src/color/colors_01.c",
    "-o",
    "obj/color/colors_01.o"
@@ -407,24 +353,6 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/matrices/transforms_01.c",
-   "-o",
-   "obj/matrices/transforms_01.o"
-  ],
-  "file": "src/matrices/transforms_01.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
    "src/rays/rays_01.c",
    "-o",
    "obj/rays/rays_01.o"
@@ -466,24 +394,6 @@
    "obj/lighting/lighting_01.o"
   ],
   "file": "src/lighting/lighting_01.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/lighting/single_sphere.c",
-   "-o",
-   "obj/lighting/single_sphere.o"
-  ],
-  "file": "src/lighting/single_sphere.c"
  },
  {
   "directory": "/home/jvarila/Repos/minirt",
@@ -623,42 +533,6 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/lighting/single_plane.c",
-   "-o",
-   "obj/lighting/single_plane.o"
-  ],
-  "file": "src/lighting/single_plane.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/lighting/single_cylinder.c",
-   "-o",
-   "obj/lighting/single_cylinder.o"
-  ],
-  "file": "src/lighting/single_cylinder.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
    "src/rays/ray_at_obj.c",
    "-o",
    "obj/rays/ray_at_obj.o"
@@ -700,5 +574,95 @@
    "obj/intersections/quicksort.o"
   ],
   "file": "src/intersections/quicksort.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/matrices/base_matrices.c",
+   "-o",
+   "obj/matrices/base_matrices.o"
+  ],
+  "file": "src/matrices/base_matrices.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/matrices/utility_matrices.c",
+   "-o",
+   "obj/matrices/utility_matrices.o"
+  ],
+  "file": "src/matrices/utility_matrices.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/matrices/print_m4x4.c",
+   "-o",
+   "obj/matrices/print_m4x4.o"
+  ],
+  "file": "src/matrices/print_m4x4.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/matrices/transform_matrices.c",
+   "-o",
+   "obj/matrices/transform_matrices.o"
+  ],
+  "file": "src/matrices/transform_matrices.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/objects/transform_angle_calculation.c",
+   "-o",
+   "obj/objects/transform_angle_calculation.o"
+  ],
+  "file": "src/objects/transform_angle_calculation.c"
  }
 ]
