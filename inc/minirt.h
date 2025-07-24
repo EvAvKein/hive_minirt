@@ -27,8 +27,6 @@
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
-# define THREADS	2
-
 typedef double	t_flt;
 
 typedef enum e_error
@@ -415,10 +413,12 @@ typedef struct s_data
 	t_elems			elems;
 	t_pixel_grid	pixel_grid;
 	t_ray			*pixel_rays;
+	_Atomic size_t	active_threads;
+	_Atomic size_t	threads_waiting;
+	_Atomic bool	stop;
 	size_t			pixel_count;
 	size_t			object_count;
 	size_t			intersection_count;
-	size_t			thread_idx;
 	pthread_t		threads[THREADS];
 	pthread_mutex_t	lock;
 	mlx_t			*mlx;

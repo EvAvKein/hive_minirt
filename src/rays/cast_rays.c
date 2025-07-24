@@ -63,7 +63,7 @@ t_ray_x_obj	*closest_rxo(t_ray_x_obj_array *array)
 /**
  * @returns The color at the provided intersection
  */
-static t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
+t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 {
 	if (rxo->obj_type == SPHERE)
 	{
@@ -100,9 +100,9 @@ void	cast_rays(void)
 	{
 		ray = &data->pixel_rays[i];
 		empty_intersections(ray);
-		cast_ray_at_objs(ray, &get_data()->elems, NULL);
+		cast_ray_at_objs(ray, &data->elems, NULL);
 		rxo = closest_rxo(&ray->intersections);
-		if (!rxo)
+		if (rxo == NULL)
 			continue ;
 		phong.light = data->elems.lights;
 		phong.ray = ray;

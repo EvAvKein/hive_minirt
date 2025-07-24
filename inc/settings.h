@@ -18,11 +18,14 @@
 # endif
 
 # ifndef RES_X
-#  define RES_X		1280	// 3840	1920
+#  define RES_X		1920	// 3840	1920	1280
 # endif
 
 # ifndef RES_Y
-#  define RES_Y		720		// 2160	1080
+#  define RES_Y		1080	// 2160	1080	720
 # endif
 
+# ifndef THREADS
+#  define THREADS	8
+# endif
 #endif
