@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:43:16 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/25 16:25:36 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/28 10:13:36 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool	flt_parse(char *str, size_t *parse_i, t_flt *dest)
 		skip_spaces(str, parse_i);
 		return (true);
 	}
-	if (str[(*parse_i)++] != '.')
+	if (str[*parse_i] != '.' || !ft_isdigit(str[++(*parse_i)]))
 		return (false);
 	decimal_len = *parse_i;
 	if (!longlong_parse(str, parse_i, &decimal) || decimal < 0)
