@@ -12,6 +12,15 @@
 
 #include "minirt.h"
 
+/**
+ * @param relative_pos	The object-space position for which to calculate
+ * 						the corresponding material
+ *
+ * @param mats			The object's own material and its pattern material
+ *
+ * @returns	The material at the provided position
+ * 			according to our candy pattern
+ */
 t_material	mat_by_pattern_candy(
 				t_vec4 relative_pos, t_pattern_mats mats)
 {
@@ -34,6 +43,15 @@ t_material	mat_by_pattern_candy(
 	return (mats.pat_mat);
 }
 
+/**
+ * @param relative_pos	The object-space position for which to calculate
+ * 						the corresponding material
+ *
+ * @param mats			The object's own material and its pattern material
+ *
+ * @returns	The material at the provided position
+ * 			according to our circus pattern
+ */
 t_material	mat_by_pattern_circus(
 				t_vec4 relative_pos, t_pattern_mats mats)
 {
@@ -55,6 +73,15 @@ t_material	mat_by_pattern_circus(
 	return (mats.pat_mat);
 }
 
+/**
+ * @param relative_pos	The object-space position for which to calculate
+ * 						the corresponding material
+ *
+ * @param mats			The object's own material and its pattern material
+ *
+ * @returns	The material at the provided position
+ * 			according to our lines pattern
+ */
 t_material	mat_by_pattern_lines(t_vec4 relative_pos, t_pattern_mats mats)
 {
 	relative_pos = percentagize_vec(relative_pos);
@@ -69,6 +96,15 @@ t_material	mat_by_pattern_lines(t_vec4 relative_pos, t_pattern_mats mats)
 	return (mats.pat_mat);
 }
 
+/**
+ * @param relative_pos	The object-space position for which to calculate
+ * 						the corresponding material
+ *
+ * @param mats			The object's own material and its pattern material
+ *
+ * @returns	The material at the provided position
+ * 			according to our angel pattern
+ */
 t_material	mat_by_pattern_angel(t_vec4 relative_pos, t_pattern_mats mats)
 {
 	relative_pos = percentagize_vec(relative_pos);
