@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-static inline bool	pattern_name_match_and_skip_i(
+static bool	pattern_name_match_and_skip_i(
 						char *str, size_t *parse_i, char *pattern_name)
 {
 	const size_t	name_len = ft_strlen(pattern_name);
