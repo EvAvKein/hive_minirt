@@ -68,17 +68,17 @@ static t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 	if (rxo->obj_type == SPHERE)
 	{
 		p->normal = sphere_normal_at(*(t_sphere *)rxo->obj, p->pos);
-		p->mat = ((t_sphere *)rxo->obj)->material;
+		p->mat = material_at_hit_on_sphere(&p->pos, (t_sphere *)p->obj_hit);
 	}
 	if (rxo->obj_type == PLANE)
 	{
-		p->normal = (*(t_plane *)rxo->obj).orientation;
-		p->mat = ((t_plane *)rxo->obj)->material;
+		p->normal = ((t_plane *)rxo->obj)->orientation;
+		p->mat = material_at_hit_on_plane(&p->pos, (t_plane *)p->obj_hit);
 	}
 	if (rxo->obj_type == CYLINDER)
 	{
 		p->normal = cylinder_normal_at(*(t_cylinder *)rxo->obj, p->pos);
-		p->mat = ((t_cylinder *)rxo->obj)->material;
+		p->mat = material_at_hit_on_cylinder(&p->pos, (t_cylinder *)p->obj_hit);
 	}
 	return (let_there_be_light(p));
 }

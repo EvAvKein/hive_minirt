@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/21 10:45:50 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/27 16:11:34 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void			print_vec(t_vec4 vec);
 // vectors/vectors_03.c
 t_vec4			opposite_vec(t_vec4 vec);
 t_vec4			cross(t_vec4 v1, t_vec4 v2);
+t_vec4			percentagize_vec(t_vec4 vec);
 
 // matrices/matrices_01.c
 t_m4x4			mult_m4x4(t_m4x4 m4x4_1, t_m4x4 m4x4_2);
@@ -194,9 +195,29 @@ typedef struct s_phong_helper
 	t_flt				camera_reflection_alignment;
 }						t_phong_helper;
 
+typedef enum e_pattern
+{
+	SOLID = 0,
+	CHECKERBOARD,
+	CANDY,
+	CIRCUS,
+	LINES,
+	ANGEL,
+	BEAMS
+}	t_pattern;
+
+typedef struct s_pattern_mats
+{
+	t_material	obj_mat;
+	t_material	pat_mat;
+}				t_pattern_mats;
+
 // objects/materials_01.c
 t_material		material(t_flt r, t_flt g, t_flt b);
+t_material		mat_of_pattern(t_pattern pattern_name);
 t_material		default_material(void);
+t_material		pattern_mat_with_color(
+					t_pattern pattern_name, t_8bit_color color);
 
 /* ----------------------------------------------------------------- LIGHTING */
 
@@ -325,6 +346,8 @@ typedef struct s_sphere
 	t_m4x4			transform;
 	t_m4x4			inverse;
 	t_material		material;
+	t_pattern		pattern;
+	t_8bit_color	pattern_color;
 	struct s_sphere	*next;
 }					t_sphere;
 
@@ -336,6 +359,8 @@ typedef struct s_plane
 	t_m4x4			transform;
 	t_m4x4			inverse;
 	t_material		material;
+	t_pattern		pattern;
+	t_8bit_color	pattern_color;
 	struct s_plane	*next;
 }					t_plane;
 
@@ -349,6 +374,8 @@ typedef struct s_cylinder
 	t_m4x4				transform;
 	t_m4x4				inverse;
 	t_material			material;
+	t_pattern			pattern;
+	t_8bit_color		pattern_color;
 	struct s_cylinder	*next;
 }						t_cylinder;
 
@@ -452,6 +479,12 @@ bool			parse_scene(char *file_path);
 bool			flt_parse(char *str, size_t *parse_i, t_flt *dest);
 bool			uint8_parse(char *str, size_t *parse_i, uint8_t *dest);
 
+// parsing/parse_pattern.c
+bool			optional_pattern_name_parse(char *str, size_t *parse_i,
+					t_pattern *dest);
+bool			optional_pattern_color_parse(char *str, size_t *parse_i,
+					t_pattern pattern_name, t_8bit_color *dest);
+
 // parsing/parse_segment.c
 bool			rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest);
 bool			vec4_parse(char *str, size_t *parse_i, t_vec4 *dest,
@@ -462,9 +495,13 @@ bool			ambient_light_parse(char *str, size_t *parse_i);
 bool			camera_parse(char *str, size_t *parse_i);
 bool			light_parse(char *str, size_t *parse_i);
 
-// parsing/parse_shapes.c
+// parsing/parse_sphere.c
 bool			sphere_parse(char *str, size_t *parse_i);
+
+// parsing/parse_plane.c
 bool			plane_parse(char *str, size_t *parse_i);
+
+// parsing/parse_cylinder.c
 bool			cylinder_parse(char *str, size_t *parse_i);
 
 // parsing/utils.c
@@ -510,6 +547,40 @@ t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 void			xinit_ray_intersections(t_ray *ray);
 void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 void			empty_intersections(t_ray *ray);
+
+/* ----------------------------------------------------------------- PATTERNS */
+
+// color/material_at_pos_of_obj.c
+t_material		material_at_hit_on_sphere(
+					t_vec4 *hit_pos, t_sphere *sphere);
+t_material		material_at_hit_on_plane(
+					t_vec4 *hit_pos, t_plane *plane);
+t_material		material_at_hit_on_cylinder(
+					t_vec4 *hit_pos, t_cylinder *cylinder);
+
+// color/obj_pattern_mats.c
+t_pattern_mats	sp_pattern_mats(t_pattern pattern_name, t_sphere *sphere);
+t_pattern_mats	pl_pattern_mats(t_pattern pattern_name, t_plane *plane);
+t_pattern_mats	cy_pattern_mats(t_pattern pattern_name, t_cylinder *cylinder);
+
+// color/pattern_checkerboard.c
+t_material		mat_by_pattern_checkerboard(t_vec4 relative_pos,
+					t_pattern_mats mats, t_obj_type obj_type, t_flt obj_height);
+t_material		mat_by_pattern_checkerboard(
+					t_vec4 relative_pos, t_pattern_mats mats,
+					t_obj_type obj_type, t_flt obj_height);
+
+// color/patterns.c
+t_material		mat_by_pattern_candy(
+					t_vec4 relative_pos, t_pattern_mats mats);
+t_material		mat_by_pattern_circus(
+					t_vec4 relative_pos, t_pattern_mats mats);
+t_material		mat_by_pattern_lines(
+					t_vec4 relative_pos, t_pattern_mats mats);
+t_material		mat_by_pattern_angel(
+					t_vec4 relative_pos, t_pattern_mats mats);
+t_material		mat_by_pattern_beams(t_vec4 relative_pos,
+					t_pattern_mats mats, t_flt obj_height);
 
 /* --------------------------------------------------------- MEMORY & CLEANUP */
 
@@ -559,6 +630,7 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 // utils/utils_02.c
 void			write_pixel_rays_to_file(const char *str);
 t_color			vec4_to_color(t_vec4 vec);
+t_vec4			color_8bit_to_vec4(t_8bit_color color_8bit);
 t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
 

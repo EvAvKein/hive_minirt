@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 13:36:10 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/22 10:49:16 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/28 10:15:33 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,16 @@ t_vec4	cross(t_vec4 v1, t_vec4 v2)
 		.z = v1.x * v2.y - v1.y * v2.x,
 		.w = v1.w
 	});
+}
+
+/**
+ * @param vec	Vector to normalize to the range 0-100
+ *
+ * @returns		A 0-100 normalized version of the provided vector
+ */
+t_vec4	percentagize_vec(t_vec4 vec)
+{
+	vec = unit_vec(vec);
+	vec = scaled_vec(vec, 100);
+	return (vec);
 }

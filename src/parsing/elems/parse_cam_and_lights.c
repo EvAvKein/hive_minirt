@@ -117,7 +117,7 @@ bool	light_parse(char *str, size_t *parse_i)
 		|| !rgb_parse(str, parse_i, &light.color.bit))
 		return (print_err("invalid light color"));
 	if (str[*parse_i])
-		return (print_err("invalid data after light color"));
+		return (print_err("invalid light data after color"));
 	light.next = NULL;
 	ptr_to_next = &get_data()->elems.lights;
 	while (*ptr_to_next && (*ptr_to_next)->next)
