@@ -18,14 +18,14 @@
  */
 void	init_camera_transform(t_camera *cam)
 {
-	t_flt		*angles;
+	t_vec2	angles;
 
 	if (vecs_are_equal(cam->orientation, (t_vec4){0}))
 		cam->orientation = (t_vec4){.z = 1};
 	cam->orientation = unit_vec(cam->orientation);
 	angles = cam_pitch_and_yaw(cam);
-	cam->transform = x_rotation_m4x4(-angles[0]);
-	cam->transform = mult_m4x4(y_rotation_m4x4(angles[1]), cam->transform);
+	cam->transform = x_rotation_m4x4(-angles.x);
+	cam->transform = mult_m4x4(y_rotation_m4x4(angles.y), cam->transform);
 	cam->transform = mult_m4x4(translation_m4x4(cam->pos), cam->transform);
 	cam->inverse = inverse_m4x4(cam->transform);
 }
@@ -45,14 +45,14 @@ void	init_sphere_transform(t_sphere *sp)
  */
 void	init_plane_transform(t_plane *pl)
 {
-	t_flt		*angles;
+	t_vec2	angles;
 
 	if (vecs_are_equal(pl->orientation, (t_vec4){0}))
 		pl->orientation = (t_vec4){.y = 1};
 	pl->orientation = unit_vec(pl->orientation);
 	angles = plane_pitch_and_yaw(*pl);
-	pl->transform = x_rotation_m4x4(angles[0]);
-	pl->transform = mult_m4x4(y_rotation_m4x4(angles[1]), pl->transform);
+	pl->transform = x_rotation_m4x4(angles.x);
+	pl->transform = mult_m4x4(y_rotation_m4x4(angles.y), pl->transform);
 	pl->transform = mult_m4x4(translation_m4x4(pl->pos), pl->transform);
 	pl->inverse = inverse_m4x4(pl->transform);
 }
@@ -63,7 +63,7 @@ void	init_plane_transform(t_plane *pl)
  */
 void	init_cylinder_transform(t_cylinder *cyl)
 {
-	t_flt	*angles;
+	t_vec2	angles;
 	t_plane	pl;
 
 	if (vecs_are_equal(cyl->orientation, (t_vec4){0}))
@@ -71,8 +71,8 @@ void	init_cylinder_transform(t_cylinder *cyl)
 	cyl->orientation = unit_vec(cyl->orientation);
 	pl.orientation = cyl->orientation;
 	angles = plane_pitch_and_yaw(pl);
-	cyl->transform = x_rotation_m4x4(angles[0]);
-	cyl->transform = mult_m4x4(y_rotation_m4x4(angles[1]), cyl->transform);
+	cyl->transform = x_rotation_m4x4(angles.x);
+	cyl->transform = mult_m4x4(y_rotation_m4x4(angles.y), cyl->transform);
 	cyl->transform = mult_m4x4(translation_m4x4(cyl->pos), cyl->transform);
 	cyl->inverse = inverse_m4x4(cyl->transform);
 }

@@ -19,16 +19,16 @@
  *
  * @returns	Float array containing the pitch and yaw angles
  */
-t_flt	*cam_pitch_and_yaw(t_camera *cam)
+t_vec2	cam_pitch_and_yaw(t_camera *cam)
 {
-	static t_flt	angles[2];
-	t_vec4			h;
+	t_vec2	angles;
+	t_vec4	h;
 
-	ft_bzero(angles, sizeof(t_flt) * 2);
-	angles[0] = atan2(cam->orientation.y, vec_len(point(cam->orientation.x,
+	angles = (t_vec2){};
+	angles.x = atan2(cam->orientation.y, vec_len(point(cam->orientation.x,
 					0, cam->orientation.z)));
 	h = unit_vec(vector(cam->orientation.x, 0, cam->orientation.z));
-	angles[1] = atan2(h.x, h.z);
+	angles.y = atan2(h.x, h.z);
 	return (angles);
 }
 
@@ -39,15 +39,15 @@ t_flt	*cam_pitch_and_yaw(t_camera *cam)
  *
  * @returns	Float array containing the pitch and yaw angles
  */
-t_flt	*plane_pitch_and_yaw(t_plane pl)
+t_vec2	plane_pitch_and_yaw(t_plane pl)
 {
-	static t_flt	angles[2];
-	t_vec4			h;
+	t_vec2	angles;
+	t_vec4	h;
 
-	ft_bzero(angles, sizeof(t_flt) * 2);
+	angles = (t_vec2){};
 	h = pl.orientation;
-	angles[0] = atan2(vec_len(point(h.x, 0, h.z)), h.y);
+	angles.x = atan2(vec_len(point(h.x, 0, h.z)), h.y);
 	h = unit_vec(vector(pl.orientation.x, 0, pl.orientation.z));
-	angles[1] = atan2(h.x, h.z);
+	angles.y = atan2(h.x, h.z);
 	return (angles);
 }

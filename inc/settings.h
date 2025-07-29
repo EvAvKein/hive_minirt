@@ -28,4 +28,9 @@
 # ifndef THREADS
 #  define THREADS	8
 # endif
+
+# ifndef TICK
+#  define TICK	500
+# endif
+
 #endif

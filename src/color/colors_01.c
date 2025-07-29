@@ -74,9 +74,9 @@ t_float_color	lerp_color(t_float_color c1, t_float_color c2, float amount)
 {
 	t_float_color	between;
 
-	if (amount < 0)
+	if (amount <= 0)
 		return (c1);
-	if (amount > 1)
+	if (amount >= 1)
 		return (c2);
 	between.r = c1.r + (c2.r - c1.r) * amount;
 	between.g = c1.g + (c2.g - c1.g) * amount;

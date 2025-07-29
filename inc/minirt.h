@@ -27,7 +27,7 @@
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
-typedef double	t_flt;
+typedef float	t_flt;
 
 typedef enum e_error
 {
@@ -106,6 +106,12 @@ typedef struct s_vec4
 	t_flt	z;
 	t_flt	w;
 }			t_vec4;
+
+typedef struct s_vec2
+{
+	t_flt	x;
+	t_flt	y;
+}			t_vec2;
 
 typedef struct t_m4x4
 {
@@ -549,8 +555,8 @@ void			init_cylinder_transform(t_cylinder *cyl);
 void			init_camera_transform(t_camera *cam);
 
 // objects/transform_angle_calculation.c
-t_flt			*cam_pitch_and_yaw(t_camera *cam);
-t_flt			*plane_pitch_and_yaw(t_plane pl);
+t_vec2			cam_pitch_and_yaw(t_camera *cam);
+t_vec2			plane_pitch_and_yaw(t_plane pl);
 
 /* -------------------------------------------------------------------- UTILS */
 

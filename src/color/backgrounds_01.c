@@ -41,8 +41,7 @@ void	set_horizontal_gradient(mlx_image_t *img, t_float_color colors[2])
  */
 void	set_vertical_gradient(mlx_image_t *img, t_float_color colors[2])
 {
-	t_float_color	between_flt;
-	t_8bit_color	between_8bit;
+	t_color			col;
 	size_t			pixel_count;
 	size_t			i;
 	t_flt			zero_to_one_vertical;
@@ -51,10 +50,10 @@ void	set_vertical_gradient(mlx_image_t *img, t_float_color colors[2])
 	i = -1;
 	while (++i < pixel_count)
 	{
-		zero_to_one_vertical = (t_flt)(i / RES_X) / RES_Y;
-		between_flt = lerp_color(colors[0], colors[1], zero_to_one_vertical);
-		between_8bit = color_float_to_8bit(between_flt);
-		ft_memcpy(img->pixels + i * 4, &between_8bit.rgba, sizeof(uint32_t));
+		zero_to_one_vertical = (t_flt)(i / img->width) / img->height;
+		col.flt = lerp_color(colors[0], colors[1], zero_to_one_vertical);
+		col.bit = color_float_to_8bit(col.flt);
+		ft_memcpy(img->pixels + i * 4, &col.bit.rgba, sizeof(uint32_t));
 	}
 }
 
