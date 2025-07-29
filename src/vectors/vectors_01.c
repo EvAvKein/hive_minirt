@@ -40,7 +40,7 @@ t_vec4	unit_vec(t_vec4 vec)
 	vec.w = 0;
 	len = vec_len(vec);
 	if (len == 0)
-		return ((t_vec4){0});
+		return ((t_vec4){});
 	len_div = 1 / len;
 	return (scaled_vec(vec, len_div));
 }

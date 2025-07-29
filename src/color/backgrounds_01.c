@@ -81,6 +81,9 @@ void	set_uv(mlx_image_t *img)
 	}
 }
 
+/**
+ * TODO: Write more in depth documentation and link up to sky texture
+ */
 t_color	get_sky_color(t_ray ray)
 {
 	t_vec2		uv;

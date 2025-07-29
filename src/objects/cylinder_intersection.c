@@ -51,7 +51,7 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl)
 	ray = transformed_ray(ray, cyl->inverse);
 	q = solve_cylinder_quadratic(ray, *cyl);
 	if (floats_are_equal(q.a, 0) || q.discr < 0)
-		return ((t_ray_x_objs){0});
+		return ((t_ray_x_objs){});
 	t1 = (-q.b - sqrt(q.discr)) / (2 * q.a);
 	t2 = (-q.b + sqrt(q.discr)) / (2 * q.a);
 	y_component = ray_position(ray, t1).y;
@@ -143,7 +143,7 @@ static t_quad	solve_cylinder_quadratic(t_ray ray, t_cylinder cyl)
 
 	q.a = pow(ray.dir.x, 2) + pow(ray.dir.z, 2);
 	if (floats_are_equal(q.a, 0))
-		return ((t_quad){0});
+		return ((t_quad){});
 	q.b = 2 * ray.orig.x * ray.dir.x + 2 * ray.orig.z * ray.dir.z;
 	q.c = pow(ray.orig.x, 2) + pow(ray.orig.z, 2) - pow(cyl.diam / 2, 2);
 	q.discr = q.b * q.b - 4 * q.a * q.c;

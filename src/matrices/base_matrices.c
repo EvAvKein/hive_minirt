@@ -90,7 +90,7 @@ t_m4x4	inverse_m4x4(t_m4x4 m4x4)
 
 	det = det_m4x4(m4x4);
 	if (det == 0)
-		return ((t_m4x4){0});
+		return ((t_m4x4){});
 	i = -1;
 	while (++i < 16)
 		inverse._[i % 4][i / 4] = cofactor_m4x4(m4x4, i / 4, i % 4) / det;

@@ -26,9 +26,9 @@ t_ray_x_obj	ray_x_plane(t_ray ray, t_plane const *pl)
 
 	divisor = dot(ray.dir, pl->orientation);
 	if (floats_are_equal(divisor, 0))
-		return ((t_ray_x_obj){0});
+		return ((t_ray_x_obj){});
 	t = dot(vec_sub(pl->pos, ray.orig), pl->orientation) / divisor;
 	if (t < 0)
-		return ((t_ray_x_obj){0});
+		return ((t_ray_x_obj){});
 	return ((t_ray_x_obj){.t = t, .obj = (void *)pl, .obj_type = PLANE});
 }

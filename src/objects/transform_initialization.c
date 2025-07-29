@@ -20,7 +20,7 @@ void	init_camera_transform(t_camera *cam)
 {
 	t_vec2	angles;
 
-	if (vecs_are_equal(cam->orientation, (t_vec4){0}))
+	if (vecs_are_equal(cam->orientation, (t_vec4){}))
 		cam->orientation = (t_vec4){.z = 1};
 	cam->orientation = unit_vec(cam->orientation);
 	angles = cam_pitch_and_yaw(cam);
@@ -47,7 +47,7 @@ void	init_plane_transform(t_plane *pl)
 {
 	t_vec2	angles;
 
-	if (vecs_are_equal(pl->orientation, (t_vec4){0}))
+	if (vecs_are_equal(pl->orientation, (t_vec4){}))
 		pl->orientation = (t_vec4){.y = 1};
 	pl->orientation = unit_vec(pl->orientation);
 	angles = plane_pitch_and_yaw(*pl);
@@ -66,7 +66,7 @@ void	init_cylinder_transform(t_cylinder *cyl)
 	t_vec2	angles;
 	t_plane	pl;
 
-	if (vecs_are_equal(cyl->orientation, (t_vec4){0}))
+	if (vecs_are_equal(cyl->orientation, (t_vec4){}))
 		cyl->orientation = (t_vec4){.y = 1};
 	cyl->orientation = unit_vec(cyl->orientation);
 	pl.orientation = cyl->orientation;

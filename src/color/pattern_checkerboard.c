@@ -61,7 +61,7 @@ static t_vec4	point_to_uv(t_obj_type type, t_vec4 point, t_flt obj_height)
 		return (plane_point_to_uv(point));
 	if (type == CYLINDER)
 		return (cylinder_point_to_uv(point, obj_height));
-	return ((t_vec4){0});
+	return ((t_vec4){});
 }
 
 /**
