@@ -35,7 +35,7 @@ t_color	get_sky_color(t_ray ray)
 	uv.y = (unsigned)(uv.y * 16);
 	uv.x /= 32;
 	uv.y /= 16;
-	col.flt = (t_float_color){.r = uv.x, .g = uv.y, .a = 1};
+	col.flt = (t_flt_color){.r = uv.x, .g = uv.y, .a = 1};
 	col.bit = color_float_to_8bit(col.flt);
 	return (col);
 }
@@ -162,9 +162,9 @@ int	main(int argc, char **argv)
 		return (print_err("Couldn't initialize mutex"));
 	if (data_init_successful() == false)
 		return (data->error);
-	set_vertical_gradient(data->img, (t_float_color[2]){
-		(t_float_color){.r = .1, .g = .8, .b = 1, .a = 1},
-		(t_float_color){.r = 1, .g = 1, .b = 1, .a = 1}
+	set_vertical_gradient(data->img, (t_flt_color[2]){
+		(t_flt_color){.r = .1, .g = .8, .b = 1, .a = 1},
+		(t_flt_color){.r = 1, .g = 1, .b = 1, .a = 1}
 	});
 	setup_pixel_rays();
 	run_threads(data);

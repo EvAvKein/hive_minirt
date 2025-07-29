@@ -16,9 +16,9 @@
  * Sets pixel buffer to horizontal gradient, defined by the colors in the colors
  * array.
  */
-void	set_horizontal_gradient(mlx_image_t *img, t_float_color colors[2])
+void	set_horizontal_gradient(mlx_image_t *img, t_flt_color colors[2])
 {
-	t_float_color	between_flt;
+	t_flt_color		between_flt;
 	t_8bit_color	between_8bit;
 	size_t			pixel_count;
 	size_t			i;
@@ -39,7 +39,7 @@ void	set_horizontal_gradient(mlx_image_t *img, t_float_color colors[2])
  * Sets pixel buffer to vertical gradient, defined by the colors in the colors
  * array.
  */
-void	set_vertical_gradient(mlx_image_t *img, t_float_color colors[2])
+void	set_vertical_gradient(mlx_image_t *img, t_flt_color colors[2])
 {
 	t_color			col;
 	size_t			pixel_count;

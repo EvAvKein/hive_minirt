@@ -38,74 +38,28 @@ typedef enum e_error
 	ERROR_ALLOC,
 }	t_error;
 
-/* ------------------------------------------------------------------- COLORS */
-
-typedef struct s_channels
-{
-	uint8_t	r;
-	uint8_t	g;
-	uint8_t	b;
-	uint8_t	a;
-}			t_channels;
-
-enum e_channel_type
-{
-	R,
-	G,
-	B,
-	A,
-};
-
-typedef union u_8bit_color
-{
-	uint32_t	rgba;
-	struct
-	{
-		uint8_t	r;
-		uint8_t	g;
-		uint8_t	b;
-		uint8_t	a;
-	};
-}				t_8bit_color;
-
-typedef struct s_float_color
-{
-	t_flt	r;
-	t_flt	g;
-	t_flt	b;
-	t_flt	a;
-}			t_float_color;
-
-typedef struct s_color
-{
-	t_8bit_color	bit;
-	t_float_color	flt;
-}					t_color;
-
-// color/colors_01.c
-void			set_pixel_color(size_t pixel_i, t_color color);
-t_color			color_from_uint32(uint32_t c);
-t_float_color	color_8bit_to_float(t_8bit_color c);
-t_8bit_color	color_float_to_8bit(t_float_color c);
-t_float_color	lerp_color(t_float_color c1, t_float_color c2, float amount);
-
-/* -------------------------------------------------------------- BACKGROUNDS */
-
-void			set_horizontal_gradient(mlx_image_t *img,
-					t_float_color colors[2]);
-void			set_vertical_gradient(mlx_image_t *img,
-					t_float_color colors[2]);
-void			set_uv(mlx_image_t *img);
-
 /* ----------------------------------------------------- VECTORS AND MATRICES */
 
 typedef struct s_vec4
 {
-	t_flt	x;
-	t_flt	y;
-	t_flt	z;
-	t_flt	w;
-}			t_vec4;
+	union
+	{
+		struct
+		{
+			t_flt	x;
+			t_flt	y;
+			t_flt	z;
+			t_flt	w;
+		};
+		struct
+		{
+			t_flt	r;
+			t_flt	g;
+			t_flt	b;
+			t_flt	a;
+		};
+	};
+}					t_vec4;
 
 typedef struct s_vec2
 {
@@ -166,6 +120,51 @@ t_m4x4			scaling_m4x4(t_vec4 vec);
 t_m4x4			x_rotation_m4x4(t_flt rad);
 t_m4x4			y_rotation_m4x4(t_flt rad);
 t_m4x4			z_rotation_m4x4(t_flt rad);
+
+/* ------------------------------------------------------------------- COLORS */
+
+typedef struct s_channels
+{
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+	uint8_t	a;
+}			t_channels;
+
+typedef union u_8bit_color
+{
+	uint32_t	rgba;
+	struct
+	{
+		uint8_t	r;
+		uint8_t	g;
+		uint8_t	b;
+		uint8_t	a;
+	};
+}				t_8bit_color;
+
+typedef t_vec4	t_flt_color;
+
+typedef struct s_color
+{
+	t_8bit_color	bit;
+	t_flt_color		flt;
+}					t_color;
+
+// color/colors_01.c
+void			set_pixel_color(size_t pixel_i, t_color color);
+t_color			color_from_uint32(uint32_t c);
+t_flt_color		color_8bit_to_float(t_8bit_color c);
+t_8bit_color	color_float_to_8bit(t_flt_color c);
+t_flt_color		lerp_color(t_flt_color c1, t_flt_color c2, float amount);
+
+/* -------------------------------------------------------------- BACKGROUNDS */
+
+void			set_horizontal_gradient(mlx_image_t *img,
+					t_flt_color colors[2]);
+void			set_vertical_gradient(mlx_image_t *img,
+					t_flt_color colors[2]);
+void			set_uv(mlx_image_t *img);
 
 /* ---------------------------------------------------------------- MATERIALS */
 
