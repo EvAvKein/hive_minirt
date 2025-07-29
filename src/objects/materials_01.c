@@ -38,7 +38,7 @@ t_material	material(t_flt r, t_flt g, t_flt b)
 t_material	mat_of_pattern(t_pattern pattern_name)
 {
 	static const t_material	default_mats[] = {
-	[SOLID] = {.color = (t_vec4){.x = 0, .y = 0, .z = 0, .w = 0},
+	[SOLID] = {.color = (t_vec4){.x = 0, .y = 0, .z = 0, .w = 1},
 		.ambient = 0.2, .diffuse = 1, .specular = 1, .shininess = 100},
 	[CHECKERBOARD] = {.color = (t_vec4){.x = 0, .y = 0, .z = 0, .w = 1},
 		.ambient = 0.2, .diffuse = 1, .specular = 1, .shininess = 100},
