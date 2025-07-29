@@ -6,17 +6,21 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/07/27 15:58:22 by ekeinan          ###   ########.fr        #
+#    Updated: 2025/07/29 10:47:37 by ekeinan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME			:= miniRT
+NAME				:= miniRT
 
-CC				:= cc
-COMPILE_FLAGS	:= -Wall -Wextra -Werror
-MLX_FLAGS		:= -Iinclude -ldl -lglfw -pthread -lm
+CC					:= cc
+COMPILE_FLAGS		:= -Wall -Wextra -Werror
+MLX_FLAGS			:= -Iinclude -ldl -lglfw -pthread -lm
+
 # ---------------------------------------------------------------------------- #
+
+OPTIMIZATION_FLAGS	:= -O3 -ffast-math -flto -march=native
 DEBUG_FLAGS := -g
+
 # ---------------------------------------------------------------------------- #
 LIBFT_DIR := libft_plus
 LIBFT_LIB := $(LIBFT_DIR)/libft_plus.a
@@ -114,9 +118,12 @@ fclean: clean
 
 re: fclean all
 
+# ---------------------------------------------------------------------------- #
 neat: all clean
 	clear
-
+# ---------------------------------------------------------------------------- #
+optimized: COMPILE_FLAGS += $(OPTIMIZATION_FLAGS)
+optimized: re
 # ---------------------------------------------------------------------------- #
 debug: COMPILE_FLAGS += $(DEBUG_FLAGS)
 debug: re
