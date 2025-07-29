@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:11:04 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/22 10:22:47 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/22 12:57:00 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,30 @@ t_color	vec4_to_color(t_vec4 vec)
 	col.flt.a = vec.w;
 	col.bit = color_float_to_8bit(col.flt);
 	return (col);
+}
+
+/**
+ * Helper function for converting an 8-bit color object into a vec4.
+ * Converts the 8-bit values to float colors first using a different helper.
+ *
+ * @param color_8bit	8-bit color to convert into a vec4
+ *
+ * @returns	Vec4 based on the 8-bit color parameter, with the following mapping:
+ *			r = x
+ *			g = y
+ *			b = z
+ *			a = w
+ */
+t_vec4	color_8bit_to_vec4(t_8bit_color color_8bit)
+{
+	const t_float_color	color_float = color_8bit_to_float(color_8bit);
+	t_vec4				vec;
+
+	vec.x = color_float.r;
+	vec.y = color_float.g;
+	vec.z = color_float.b;
+	vec.w = color_float.a;
+	return (vec);
 }
 
 /**

@@ -6,17 +6,21 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/07/23 16:27:38 by jvarila          ###   ########.fr        #
+#    Updated: 2025/07/29 10:47:37 by ekeinan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME			:= miniRT
+NAME				:= miniRT
 
-CC				:= cc
-COMPILE_FLAGS	:= -Wall -Wextra -Werror
-MLX_FLAGS		:= -Iinclude -ldl -lglfw -pthread -lm
+CC					:= cc
+COMPILE_FLAGS		:= -Wall -Wextra -Werror
+MLX_FLAGS			:= -Iinclude -ldl -lglfw -pthread -lm
+
 # ---------------------------------------------------------------------------- #
+
+OPTIMIZATION_FLAGS	:= -O3 -ffast-math -flto -march=native
 DEBUG_FLAGS := -g
+
 # ---------------------------------------------------------------------------- #
 LIBFT_DIR := libft_plus
 LIBFT_LIB := $(LIBFT_DIR)/libft_plus.a
@@ -35,10 +39,13 @@ SRC		:=	main.c									\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
 			parsing/elems/parse_cam_and_lights.c	\
-			parsing/elems/parse_shapes.c			\
+			parsing/elems/sphere_parse.c			\
+			parsing/elems/plane_parse.c				\
+			parsing/elems/cylinder_parse.c			\
 			parsing/parse_scene.c					\
 			parsing/parse_segment.c					\
 			parsing/parse_value.c					\
+			parsing/parse_pattern.c					\
 			parsing/utils.c							\
 			utils/errors.c							\
 			utils/utils_01.c						\
@@ -55,6 +62,10 @@ SRC		:=	main.c									\
 			rays/ray_at_obj.c						\
 			color/colors_01.c						\
 			color/backgrounds_01.c					\
+			color/patterns.c						\
+			color/obj_pattern_mats.c				\
+			color/pattern_checkerboard.c			\
+			color/material_at_pos_of_obj.c			\
 			objects/sphere_intersection.c			\
 			objects/plane_intersection.c			\
 			objects/cylinder_intersection.c			\
@@ -107,9 +118,12 @@ fclean: clean
 
 re: fclean all
 
+# ---------------------------------------------------------------------------- #
 neat: all clean
 	clear
-
+# ---------------------------------------------------------------------------- #
+optimized: COMPILE_FLAGS += $(OPTIMIZATION_FLAGS)
+optimized: re
 # ---------------------------------------------------------------------------- #
 debug: COMPILE_FLAGS += $(DEBUG_FLAGS)
 debug: re
