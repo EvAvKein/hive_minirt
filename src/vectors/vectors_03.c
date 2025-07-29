@@ -61,3 +61,15 @@ t_vec4	percentagize_vec(t_vec4 vec)
 	vec = scaled_vec(vec, 100);
 	return (vec);
 }
+
+/**
+ * @param vec	Vector to normalize to the range 0-100
+ *
+ * @returns		A 0-100 normalized version of the provided vector
+ */
+t_vec4	percentagize_vec(t_vec4 vec)
+{
+	vec = unit_vec(vec);
+	vec = scaled_vec(vec, 100);
+	return (vec);
+}
