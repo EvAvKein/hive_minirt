@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/07/29 10:47:37 by ekeinan          ###   ########.fr        #
+#    Updated: 2025/07/29 11:14:10 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,11 @@ MLX_LIB			:= $(MLX_BUILD_DIR)/libmlx42.a
 SRC_DIR	:=	src
 SRC		:=	main.c									\
 			image_to_file.c							\
-			keyhook.c								\
+			ui/keyhook.c							\
+			ui/close_hook.c							\
 			initialization_01.c						\
 			initialization_02.c						\
+			initialization_03.c						\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
 			parsing/elems/parse_cam_and_lights.c	\
@@ -74,7 +76,8 @@ SRC		:=	main.c									\
 			objects/transform_angle_calculation.c	\
 			intersections/intersections_01.c		\
 			intersections/quicksort.c				\
-			lighting/lighting_01.c
+			lighting/lighting_01.c					\
+			threading/threading_01.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
 INC_FILES		:= minirt.h settings.h

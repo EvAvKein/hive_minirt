@@ -38,35 +38,6 @@ bool	data_init_successful(void)
 	return (true);
 }
 
-void	setup_pixel_grid(void)
-{
-	t_data *const		data = get_data();
-	t_pixel_grid *const	g = &data->pixel_grid;
-
-	g->fov_h = data->elems.camera->fov * RADIANS_PER_DEGREE;
-	g->width = 2 * sin(g->fov_h / 2);
-	g->pixel_width = g->width / data->img->width;
-	g->height = g->pixel_width * data->img->height;
-}
-
-t_ray	ray_for_pixel(size_t i)
-{
-	t_data *const		data = get_data();
-	t_pixel_grid *const	g = &data->pixel_grid;
-	t_vec4				pixel_pos;
-	size_t				idx[2];
-
-	idx[0] = i % data->img->width;
-	idx[1] = i / data->img->width;
-	pixel_pos.x = (-g->width + g->pixel_width) / 2 + (idx[0]) * g->pixel_width;
-	pixel_pos.y = (g->height - g->pixel_width) / 2 - (idx[1]) * g->pixel_width;
-	pixel_pos.z = cos(g->fov_h / 2);
-	pixel_pos.w = 0;
-	return (transformed_ray((t_ray){
-			.orig = point(0, 0, 0),
-			. dir = unit_vec(pixel_pos)}, data->elems.camera->transform));
-}
-
 /**
  * Calculates unit vectors for each ray that is being cast at a specific pixel.
  * Also applies camera transform.
@@ -93,7 +64,7 @@ static bool	mlx_init_successful(void)
 	t_data	*data;
 
 	data = get_data();
-	data->mlx = mlx_init(RES_X, RES_Y, "miniRT", 1);
+	data->mlx = mlx_init(RES_X, RES_Y, "miniRT", true);
 	if (data->mlx == NULL)
 		return (set_error_return_false(ERROR_MLX_INIT));
 	data->img = mlx_new_image(data->mlx, RES_X, RES_Y);

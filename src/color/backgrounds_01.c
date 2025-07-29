@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:53:24 by jvarila           #+#    #+#             */
-/*   Updated: 2025/06/25 23:30:39 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:58:09 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,16 @@ void	set_uv(mlx_image_t *img)
 		color.r = (uint8_t)(zero_to_one_horizontal * 0xff);
 		ft_memcpy(img->pixels + i * 4, &color.rgba, sizeof(uint32_t));
 	}
+}
+
+t_color	get_sky_color(t_ray ray)
+{
+	t_vec2		uv;
+	t_color		col;
+
+	uv.x = 0.5 - atan2(ray.dir.z, ray.dir.x) / (2 * M_PI);
+	uv.y = 0.5 - asin(ray.dir.y) / M_PI;
+	col.flt = (t_flt_color){.r = uv.x, .g = uv.y, .a = 1};
+	col.bit = color_float_to_8bit(col.flt);
+	return (col);
 }

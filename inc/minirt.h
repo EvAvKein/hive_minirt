@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/27 16:11:34 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/29 17:35:30 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef enum e_error
 	ERROR_MLX_INIT = 3,
 	ERROR_MLX_NEW_IMAGE,
 	ERROR_MLX_IMAGE_TO_WINDOW,
+	ERROR_MLX_RESIZE_IMAGE,
 	ERROR_PROBLEM_WITH_RESOLUTION,
 	ERROR_ALLOC,
 }	t_error;
@@ -161,18 +162,21 @@ t_flt_color		lerp_color(t_flt_color c1, t_flt_color c2, float amount);
 
 /* -------------------------------------------------------------- BACKGROUNDS */
 
+typedef struct s_ray\
+				t_ray;
+
 void			set_horizontal_gradient(mlx_image_t *img,
 					t_flt_color colors[2]);
 void			set_vertical_gradient(mlx_image_t *img,
 					t_flt_color colors[2]);
 void			set_uv(mlx_image_t *img);
+t_color			get_sky_color(t_ray ray);
 
 /* ---------------------------------------------------------------- MATERIALS */
 
 typedef struct s_material
 {
 	t_vec4	color;
-	t_flt	ambient;
 	t_flt	diffuse;
 	t_flt	specular;
 	t_flt	shininess;
@@ -448,6 +452,8 @@ typedef struct s_data
 	_Atomic size_t	active_threads;
 	_Atomic size_t	threads_waiting;
 	_Atomic bool	stop;
+	_Atomic bool	pause;
+	_Atomic bool	work_to_be_done;
 	size_t			pixel_count;
 	size_t			object_count;
 	size_t			intersection_count;
@@ -539,6 +545,7 @@ t_vec4			ray_position(t_ray ray, t_flt t);
 t_ray_x_obj		hit(t_ray_x_objs intersections);
 void			cast_rays(void);
 t_ray_x_obj		*closest_rxo(t_ray_x_obj_array *array);
+t_color			color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
 
 // rays/ray_at_obj.c
 void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
@@ -611,12 +618,13 @@ void			dealloc_cylinders(t_cylinder *cylinder);
 // initialization_01.c
 void			setup_pixel_rays(void);
 bool			data_init_successful(void);
-void			keyhook(mlx_key_data_t key_data, void *param);
-void			setup_pixel_grid(void);
-t_ray			ray_for_pixel(size_t i);
 
 // initialization_02.c
 void			init_object_data(void);
+
+// initialization_03.c
+void			setup_pixel_grid(void);
+t_ray			ray_for_pixel(size_t i);
 
 // objects/transform_initialization.c
 void			init_sphere_transform(t_sphere *sp);
@@ -627,6 +635,18 @@ void			init_camera_transform(t_camera *cam);
 // objects/transform_angle_calculation.c
 t_vec2			cam_pitch_and_yaw(t_camera *cam);
 t_vec2			plane_pitch_and_yaw(t_plane pl);
+
+/* --------------------------------------------------------------- HOOKS & UI */
+
+// src/keyhook.c
+void			keyhook(mlx_key_data_t key_data, void *param);
+
+// ui/close_hook.c
+void			close_hook(void *param);
+
+/* ---------------------------------------------------------------- THREADING */
+
+bool			run_threads(t_data *data);
 
 /* -------------------------------------------------------------------- UTILS */
 
