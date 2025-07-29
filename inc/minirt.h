@@ -638,7 +638,7 @@ t_vec2			plane_pitch_and_yaw(t_plane pl);
 
 /* --------------------------------------------------------------- HOOKS & UI */
 
-// src/keyhook.c
+// ui/keyhook.c
 void			keyhook(mlx_key_data_t key_data, void *param);
 
 // ui/close_hook.c
