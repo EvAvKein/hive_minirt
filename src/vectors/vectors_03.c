@@ -6,40 +6,48 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 13:36:10 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/28 10:15:33 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/29 17:56:20 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 /**
- * @param vec	Vector to create opposite from
+ * @param x	Float to be used as the x axis of the vector
+ * @param y	Float to be used as the y axis of the vector
+ * @param z	Float to be used as the z axis of the vector
  *
- * @returns	Vector pointing in the opposite direction than vec
+ * @returns	New t_vec4 struct with the given floats as dimensions, w set to 0
  */
-t_vec4	opposite_vec(t_vec4 vec)
+t_vec4	vector(t_flt x, t_flt y, t_flt z)
 {
-	vec.x = -vec.x;
-	vec.y = -vec.y;
-	vec.z = -vec.z;
-	return (vec);
+	return ((t_vec4){
+		.x = x,
+		.y = y,
+		.z = z,
+		.w = 0});
 }
 
 /**
- * @param v1	LHS vector to be used in cross product
- * @param v2	RHS vector to be used in cross product
+ * @param x	Float to be used as the x axis of the position
+ * @param y	Float to be used as the y axis of the position
+ * @param z	Float to be used as the z axis of the position
  *
- * @returns	Left handed cross product of vectors v1 and v2, so a perpendicular
- *			vector to both v1 and v2
+ * @returns	New t_vec4 struct with the given floats as dimensions, w set to 1
  */
-t_vec4	cross(t_vec4 v1, t_vec4 v2)
+t_vec4	point(t_flt x, t_flt y, t_flt z)
 {
 	return ((t_vec4){
-		.x = v1.y * v2.z - v1.z * v2.y,
-		.y = v1.z * v2.x - v1.x * v2.z,
-		.z = v1.x * v2.y - v1.y * v2.x,
-		.w = v1.w
-	});
+		.x = x,
+		.y = y,
+		.z = z,
+		.w = 1});
+}
+
+void	print_vec(t_vec4 vec)
+{
+	printf("Vec:	x = %f	y = %f	z = %f	w = %f\n",
+		vec.x, vec.y, vec.z, vec.w);
 }
 
 /**

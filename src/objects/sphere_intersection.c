@@ -31,7 +31,7 @@ t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp)
 	ray = transformed_ray(ray, sp->inverse);
 	q = solve_sphere_quadratic(ray, *sp);
 	if (q.discr < 0)
-		return ((t_ray_x_objs){0});
+		return ((t_ray_x_objs){});
 	t1 = (-q.b + sqrt(q.discr)) / (2 * q.a);
 	t2 = (-q.b - sqrt(q.discr)) / (2 * q.a);
 	return ((t_ray_x_objs){

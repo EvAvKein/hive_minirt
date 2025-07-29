@@ -19,10 +19,9 @@
  */
 bool	free_data(void)
 {
-	t_data	*data;
-	size_t	i;
+	t_data *const	data = get_data();
+	size_t			i;
 
-	data = get_data();
 	free(data->elems.ambient_light);
 	free(data->elems.camera);
 	dealloc_lights(data->elems.lights);
@@ -33,5 +32,6 @@ bool	free_data(void)
 	while (++i < data->pixel_count)
 		free(data->pixel_rays[i].intersections._);
 	free(data->pixel_rays);
+	pthread_mutex_destroy(&data->lock);
 	return (true);
 }

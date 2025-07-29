@@ -14,9 +14,13 @@
 
 void	keyhook(mlx_key_data_t key_data, void *param)
 {
-	(void) param;
+	t_data *const	data = param;
+
 	if (key_data.key == MLX_KEY_ESCAPE)
 	{
+		data->stop = true;
+		while (data->active_threads > 0)
+			usleep(500);
 		mlx_terminate(get_data()->mlx);
 		free_data();
 		exit(EXIT_SUCCESS);

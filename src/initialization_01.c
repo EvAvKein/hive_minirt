@@ -44,30 +44,13 @@ bool	data_init_successful(void)
  */
 void	setup_pixel_rays(void)
 {
-	t_data *const		data = get_data();
-	t_pixel_grid *const	g = &data->pixel_grid;
-	t_vec4				pixel;
-	size_t				idx[3];
-	t_ray				ray;
+	t_data *const	data = get_data();
+	size_t			i;
 
-	g->fov_h = data->elems.camera->fov * RADIANS_PER_DEGREE;
-	g->fov_v = 2 * atan(tan(g->fov_h / 2) * RES_Y / RES_X);
-	g->width = 2 * sin(g->fov_h / 2);
-	g->pixel_width = g->width / RES_X;
-	g->height = g->pixel_width * RES_Y;
-	pixel.z = cos(g->fov_h / 2);
-	pixel.w = 0;
-	idx[0] = -1;
-	while (++idx[0] < data->pixel_count)
-	{
-		idx[1] = idx[0] % RES_X;
-		idx[2] = idx[0] / RES_X;
-		pixel.x = (-g->width + g->pixel_width) / 2 + idx[1] * g->pixel_width;
-		pixel.y = (g->height - g->pixel_width) / 2 - idx[2] * g->pixel_width;
-		ray = (t_ray){.orig = point(0, 0, 0), .dir = unit_vec(pixel)};
-		ray = transformed_ray(ray, data->elems.camera->transform);
-		data->pixel_rays[idx[0]] = ray;
-	}
+	setup_pixel_grid();
+	i = -1;
+	while (++i < data->pixel_count)
+		data->pixel_rays[i] = ray_for_pixel(i);
 }
 
 /**
@@ -81,7 +64,7 @@ static bool	mlx_init_successful(void)
 	t_data	*data;
 
 	data = get_data();
-	data->mlx = mlx_init(RES_X, RES_Y, "miniRT", 1);
+	data->mlx = mlx_init(RES_X, RES_Y, "miniRT", true);
 	if (data->mlx == NULL)
 		return (set_error_return_false(ERROR_MLX_INIT));
 	data->img = mlx_new_image(data->mlx, RES_X, RES_Y);

@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/27 16:11:34 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/07/29 17:35:30 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <math.h>			// pow(), fabs()
 # include <float.h>			// FLT_MAX & DBL_MAX
 # include <stdio.h>			// printf()
+# include <pthread.h>		// pthread_create()
 # include "libft_plus.h"
 # include "MLX42.h"
 # include "settings.h"
@@ -26,76 +27,46 @@
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
-typedef double	t_flt;
+typedef float	t_flt;
 
 typedef enum e_error
 {
 	ERROR_MLX_INIT = 3,
 	ERROR_MLX_NEW_IMAGE,
 	ERROR_MLX_IMAGE_TO_WINDOW,
+	ERROR_MLX_RESIZE_IMAGE,
 	ERROR_PROBLEM_WITH_RESOLUTION,
 	ERROR_ALLOC,
 }	t_error;
-
-/* ------------------------------------------------------------------- COLORS */
-
-typedef struct s_channels
-{
-	uint8_t	r;
-	uint8_t	g;
-	uint8_t	b;
-	uint8_t	a;
-}			t_channels;
-
-enum e_channel_type
-{
-	R,
-	G,
-	B,
-	A,
-};
-
-typedef union u_8bit_color
-{
-	uint32_t	rgba;
-	struct
-	{
-		uint8_t	r;
-		uint8_t	g;
-		uint8_t	b;
-		uint8_t	a;
-	};
-}				t_8bit_color;
-
-typedef struct s_float_color
-{
-	t_flt	r;
-	t_flt	g;
-	t_flt	b;
-	t_flt	a;
-}			t_float_color;
-
-typedef struct s_color
-{
-	t_8bit_color	bit;
-	t_float_color	flt;
-}					t_color;
-
-void			set_pixel_color(size_t pixel_i, t_color color);
-t_color			color_from_uint32(uint32_t c);
-t_float_color	color_8bit_to_float(t_8bit_color c);
-t_8bit_color	color_float_to_8bit(t_float_color c);
-t_float_color	lerp_color(t_float_color c1, t_float_color c2, float amount);
 
 /* ----------------------------------------------------- VECTORS AND MATRICES */
 
 typedef struct s_vec4
 {
+	union
+	{
+		struct
+		{
+			t_flt	x;
+			t_flt	y;
+			t_flt	z;
+			t_flt	w;
+		};
+		struct
+		{
+			t_flt	r;
+			t_flt	g;
+			t_flt	b;
+			t_flt	a;
+		};
+	};
+}					t_vec4;
+
+typedef struct s_vec2
+{
 	t_flt	x;
 	t_flt	y;
-	t_flt	z;
-	t_flt	w;
-}			t_vec4;
+}			t_vec2;
 
 typedef struct t_m4x4
 {
@@ -116,51 +87,96 @@ typedef struct t_m2x2
 t_flt			vec_len(t_vec4 vec);
 t_vec4			unit_vec(t_vec4 vec);
 t_vec4			scaled_vec(t_vec4 vec, t_flt scalar);
-t_vec4			vector(t_flt x, t_flt y, t_flt z);
-t_vec4			point(t_flt x, t_flt y, t_flt z);
+t_vec4			vec_sum(t_vec4 v1, t_vec4 v2);
+t_vec4			vec_sub(t_vec4 v1, t_vec4 v2);
 
 // vectors/vectors_02.c
 t_flt			dot(t_vec4 v1, t_vec4 v2);
-t_vec4			vec_sum(t_vec4 v1, t_vec4 v2);
-t_vec4			vec_sub(t_vec4 v1, t_vec4 v2);
+t_vec4			cross(t_vec4 v1, t_vec4 v2);
 t_vec4			transformed_vec(t_vec4 vec, t_m4x4 t);
-void			print_vec(t_vec4 vec);
+t_vec4			opposite_vec(t_vec4 vec);
 
 // vectors/vectors_03.c
-t_vec4			opposite_vec(t_vec4 vec);
-t_vec4			cross(t_vec4 v1, t_vec4 v2);
+t_vec4			vector(t_flt x, t_flt y, t_flt z);
+t_vec4			point(t_flt x, t_flt y, t_flt z);
+void			print_vec(t_vec4 vec);
 t_vec4			percentagize_vec(t_vec4 vec);
 
-// matrices/matrices_01.c
+// matrices/base_matrices.c
+t_m4x4			identity_m4x4(void);
 t_m4x4			mult_m4x4(t_m4x4 m4x4_1, t_m4x4 m4x4_2);
-void			print_m4x4(t_m4x4 m4x4);
+t_m4x4			transpose_m4x4(t_m4x4 m4x4);
+t_m4x4			inverse_m4x4(t_m4x4 m4x4);
 
-// matrices/matrices_02.c
-t_m2x2			sub_m3x3(t_m3x3 m3x3, size_t row, size_t col);
+// matrices/utility_matrices.c
 t_m3x3			sub_m4x4(t_m4x4 m4x4, size_t row, size_t col);
-t_flt			det_m2x2(t_m2x2 m2x2);
 t_flt			det_m3x3(t_m3x3 m3x3);
 t_flt			det_m4x4(t_m4x4 m4x4);
 
-// matrices/matrices_03.c
-t_m4x4			identity_m4x4(void);
-t_m4x4			transpose_m4x4(t_m4x4 m4x4);
-t_flt			cofactor_m4x4(t_m4x4 m4x4, size_t row, size_t col);
-t_m4x4			inverse_m4x4(t_m4x4 m4x4);
+// matrices/print_m4x4.c
+void			print_m4x4(t_m4x4 m4x4);
 
-// matrices/transforms_01.c
+// matrices/transform_matrices.c
 t_m4x4			translation_m4x4(t_vec4 vec);
 t_m4x4			scaling_m4x4(t_vec4 vec);
 t_m4x4			x_rotation_m4x4(t_flt rad);
 t_m4x4			y_rotation_m4x4(t_flt rad);
 t_m4x4			z_rotation_m4x4(t_flt rad);
 
+/* ------------------------------------------------------------------- COLORS */
+
+typedef struct s_channels
+{
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+	uint8_t	a;
+}			t_channels;
+
+typedef union u_8bit_color
+{
+	uint32_t	rgba;
+	struct
+	{
+		uint8_t	r;
+		uint8_t	g;
+		uint8_t	b;
+		uint8_t	a;
+	};
+}				t_8bit_color;
+
+typedef t_vec4	t_flt_color;
+
+typedef struct s_color
+{
+	t_8bit_color	bit;
+	t_flt_color		flt;
+}					t_color;
+
+// color/colors_01.c
+void			set_pixel_color(size_t pixel_i, t_color color);
+t_color			color_from_uint32(uint32_t c);
+t_flt_color		color_8bit_to_float(t_8bit_color c);
+t_8bit_color	color_float_to_8bit(t_flt_color c);
+t_flt_color		lerp_color(t_flt_color c1, t_flt_color c2, float amount);
+
+/* -------------------------------------------------------------- BACKGROUNDS */
+
+typedef struct s_ray\
+				t_ray;
+
+void			set_horizontal_gradient(mlx_image_t *img,
+					t_flt_color colors[2]);
+void			set_vertical_gradient(mlx_image_t *img,
+					t_flt_color colors[2]);
+void			set_uv(mlx_image_t *img);
+t_color			get_sky_color(t_ray ray);
+
 /* ---------------------------------------------------------------- MATERIALS */
 
 typedef struct s_material
 {
 	t_vec4	color;
-	t_flt	ambient;
 	t_flt	diffuse;
 	t_flt	specular;
 	t_flt	shininess;
@@ -423,7 +439,6 @@ typedef struct s_ray
 typedef struct s_pixel_grid
 {
 	t_flt	fov_h;
-	t_flt	fov_v;
 	t_flt	width;
 	t_flt	height;
 	t_flt	pixel_width;
@@ -434,9 +449,16 @@ typedef struct s_data
 	t_elems			elems;
 	t_pixel_grid	pixel_grid;
 	t_ray			*pixel_rays;
+	_Atomic size_t	active_threads;
+	_Atomic size_t	threads_waiting;
+	_Atomic bool	stop;
+	_Atomic bool	pause;
+	_Atomic bool	work_to_be_done;
 	size_t			pixel_count;
 	size_t			object_count;
 	size_t			intersection_count;
+	pthread_t		threads[THREADS];
+	pthread_mutex_t	lock;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	t_error			error;
@@ -523,6 +545,7 @@ t_vec4			ray_position(t_ray ray, t_flt t);
 t_ray_x_obj		hit(t_ray_x_objs intersections);
 void			cast_rays(void);
 t_ray_x_obj		*closest_rxo(t_ray_x_obj_array *array);
+t_color			color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
 
 // rays/ray_at_obj.c
 void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
@@ -590,23 +613,18 @@ void			dealloc_spheres(t_sphere *sphere);
 void			dealloc_planes(t_plane *plane);
 void			dealloc_cylinders(t_cylinder *cylinder);
 
-/* -------------------------------------------------------------- BACKGROUNDS */
-
-void			set_horizontal_gradient(mlx_image_t *img,
-					t_float_color colors[2]);
-void			set_vertical_gradient(mlx_image_t *img,
-					t_float_color colors[2]);
-void			set_uv(mlx_image_t *img);
-
 /* ---------------------------------------------- DATA SETUP & INITIALIZATION */
 
 // initialization_01.c
 void			setup_pixel_rays(void);
 bool			data_init_successful(void);
-void			keyhook(mlx_key_data_t key_data, void *param);
 
 // initialization_02.c
 void			init_object_data(void);
+
+// initialization_03.c
+void			setup_pixel_grid(void);
+t_ray			ray_for_pixel(size_t i);
 
 // objects/transform_initialization.c
 void			init_sphere_transform(t_sphere *sp);
@@ -615,8 +633,20 @@ void			init_cylinder_transform(t_cylinder *cyl);
 void			init_camera_transform(t_camera *cam);
 
 // objects/transform_angle_calculation.c
-t_flt			*cam_pitch_and_yaw(t_camera *cam);
-t_flt			*plane_pitch_and_yaw(t_plane pl);
+t_vec2			cam_pitch_and_yaw(t_camera *cam);
+t_vec2			plane_pitch_and_yaw(t_plane pl);
+
+/* --------------------------------------------------------------- HOOKS & UI */
+
+// ui/keyhook.c
+void			keyhook(mlx_key_data_t key_data, void *param);
+
+// ui/close_hook.c
+void			close_hook(void *param);
+
+/* ---------------------------------------------------------------- THREADING */
+
+bool			run_threads(t_data *data);
 
 /* -------------------------------------------------------------------- UTILS */
 

@@ -46,5 +46,5 @@ void	empty_intersections(t_ray *ray)
 		ray->intersections.idx = 0;
 		return ;
 	}
-	ray->intersections = (t_ray_x_obj_array){0};
+	ray->intersections = (t_ray_x_obj_array){};
 }

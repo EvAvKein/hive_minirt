@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/04 10:51:26 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/22 10:26:47 by jvarila          ###   ########.fr       */
+/*   Created: 2025/07/15 13:36:10 by jvarila           #+#    #+#             */
+/*   Updated: 2025/07/24 10:38:59 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,20 @@ inline t_flt	dot(t_vec4 v1, t_vec4 v2)
 }
 
 /**
- * @param v1	First vector to use in addition
- * @param v2	Second vector to use in addition
+ * @param v1	LHS vector to be used in cross product
+ * @param v2	RHS vector to be used in cross product
  *
- * @returns	Vector whose three first dimensions are the sums of the
- *			corresponding dimensions of v1 and v2, the fourth dimension
- *			is left as is from v1
+ * @returns	Left handed cross product of vectors v1 and v2, so a perpendicular
+ *			vector to both v1 and v2
  */
-t_vec4	vec_sum(t_vec4 v1, t_vec4 v2)
+t_vec4	cross(t_vec4 v1, t_vec4 v2)
 {
-	v1.x += v2.x;
-	v1.y += v2.y;
-	v1.z += v2.z;
-	return (v1);
-}
-
-/**
- * @param v1	Vector to subtract from
- * @param v2	Vector to subtract with
- *
- * @returns	Vector whose three first dimensions are the differences of the
- *			corresponding dimensions of v1 and v2, the fourth dimension
- *			is left as is from v1
- */
-t_vec4	vec_sub(t_vec4 v1, t_vec4 v2)
-{
-	v1.x -= v2.x;
-	v1.y -= v2.y;
-	v1.z -= v2.z;
-	return (v1);
+	return ((t_vec4){
+		.x = v1.y * v2.z - v1.z * v2.y,
+		.y = v1.z * v2.x - v1.x * v2.z,
+		.z = v1.x * v2.y - v1.y * v2.x,
+		.w = v1.w
+	});
 }
 
 /**
@@ -87,8 +72,15 @@ t_vec4	transformed_vec(t_vec4 vec, t_m4x4 t)
 	return (transformed);
 }
 
-void	print_vec(t_vec4 vec)
+/**
+ * @param vec	Vector to create opposite from
+ *
+ * @returns	Vector pointing in the opposite direction than vec
+ */
+t_vec4	opposite_vec(t_vec4 vec)
 {
-	printf("Vec:	x = %f	y = %f	z = %f	w = %f\n",
-		vec.x, vec.y, vec.z, vec.w);
+	vec.x = -vec.x;
+	vec.y = -vec.y;
+	vec.z = -vec.z;
+	return (vec);
 }

@@ -77,7 +77,7 @@ t_color	vec4_to_color(t_vec4 vec)
  */
 t_vec4	color_8bit_to_vec4(t_8bit_color color_8bit)
 {
-	const t_float_color	color_float = color_8bit_to_float(color_8bit);
+	const t_flt_color	color_float = color_8bit_to_float(color_8bit);
 	t_vec4				vec;
 
 	vec.x = color_float.r;

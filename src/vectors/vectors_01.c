@@ -40,7 +40,7 @@ t_vec4	unit_vec(t_vec4 vec)
 	vec.w = 0;
 	len = vec_len(vec);
 	if (len == 0)
-		return ((t_vec4){0});
+		return ((t_vec4){});
 	len_div = 1 / len;
 	return (scaled_vec(vec, len_div));
 }
@@ -61,33 +61,33 @@ t_vec4	scaled_vec(t_vec4 vec, t_flt scalar)
 }
 
 /**
- * @param x	Float to be used as the x axis of the vector
- * @param y	Float to be used as the y axis of the vector
- * @param z	Float to be used as the z axis of the vector
+ * @param v1	First vector to use in addition
+ * @param v2	Second vector to use in addition
  *
- * @returns	New t_vec4 struct with the given floats as dimensions, w set to 0
+ * @returns	Vector whose three first dimensions are the sums of the
+ *			corresponding dimensions of v1 and v2, the fourth dimension
+ *			is left as is from v1
  */
-t_vec4	vector(t_flt x, t_flt y, t_flt z)
+t_vec4	vec_sum(t_vec4 v1, t_vec4 v2)
 {
-	return ((t_vec4){
-		.x = x,
-		.y = y,
-		.z = z,
-		.w = 0});
+	v1.x += v2.x;
+	v1.y += v2.y;
+	v1.z += v2.z;
+	return (v1);
 }
 
 /**
- * @param x	Float to be used as the x axis of the position
- * @param y	Float to be used as the y axis of the position
- * @param z	Float to be used as the z axis of the position
+ * @param v1	Vector to subtract from
+ * @param v2	Vector to subtract with
  *
- * @returns	New t_vec4 struct with the given floats as dimensions, w set to 1
+ * @returns	Vector whose three first dimensions are the differences of the
+ *			corresponding dimensions of v1 and v2, the fourth dimension
+ *			is left as is from v1
  */
-t_vec4	point(t_flt x, t_flt y, t_flt z)
+t_vec4	vec_sub(t_vec4 v1, t_vec4 v2)
 {
-	return ((t_vec4){
-		.x = x,
-		.y = y,
-		.z = z,
-		.w = 1});
+	v1.x -= v2.x;
+	v1.y -= v2.y;
+	v1.z -= v2.z;
+	return (v1);
 }

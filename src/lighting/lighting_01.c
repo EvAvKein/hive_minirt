@@ -37,8 +37,8 @@ t_color	let_there_be_light(t_phong_helper *p)
 		calculate_diffuse_and_specular(p);
 	else
 	{
-		p->diffuse = (t_vec4){0};
-		p->specular = (t_vec4){0};
+		p->diffuse = (t_vec4){};
+		p->specular = (t_vec4){};
 	}
 	p->combined = vec_sum(vec_sum(p->ambient, p->diffuse), p->specular);
 	free(shadow_ray.intersections._);
@@ -56,8 +56,8 @@ static void	calculate_diffuse_and_specular(t_phong_helper *p)
 	p->surface_light_alignment = dot(p->to_light, p->normal);
 	if (p->surface_light_alignment < 0)
 	{
-		p->diffuse = (t_vec4){0};
-		p->specular = (t_vec4){0};
+		p->diffuse = (t_vec4){};
+		p->specular = (t_vec4){};
 		return ;
 	}
 	p->effective_color = scaled_vec(p->mat.color, p->light->brightness);
@@ -80,7 +80,7 @@ static void	calculate_specular(t_phong_helper *p)
 	p->camera_reflection_alignment = dot(p->to_cam, p->ref);
 	if (p->camera_reflection_alignment < 0)
 	{
-		p->specular = (t_vec4){0};
+		p->specular = (t_vec4){};
 		return ;
 	}
 	p->scaled_light = (t_vec4){

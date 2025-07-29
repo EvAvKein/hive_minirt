@@ -42,9 +42,9 @@ t_color	color_from_uint32(uint32_t c)
 /**
  * @returns	Float color converted from 8 bit color c
  */
-t_float_color	color_8bit_to_float(t_8bit_color c)
+t_flt_color	color_8bit_to_float(t_8bit_color c)
 {
-	t_float_color	d;
+	t_flt_color	d;
 
 	d.r = c.r / 255.0f;
 	d.g = c.g / 255.0f;
@@ -56,7 +56,7 @@ t_float_color	color_8bit_to_float(t_8bit_color c)
 /**
  * @returns	8 bit color converted from float color parameter c
  */
-t_8bit_color	color_float_to_8bit(t_float_color c)
+t_8bit_color	color_float_to_8bit(t_flt_color c)
 {
 	t_8bit_color	d;
 
@@ -70,13 +70,13 @@ t_8bit_color	color_float_to_8bit(t_float_color c)
 /**
  * @returns	Color that sits between c1 and c2, defined by the amount [0, 1]
  */
-t_float_color	lerp_color(t_float_color c1, t_float_color c2, float amount)
+t_flt_color	lerp_color(t_flt_color c1, t_flt_color c2, float amount)
 {
-	t_float_color	between;
+	t_flt_color	between;
 
-	if (amount < 0)
+	if (amount <= 0)
 		return (c1);
-	if (amount > 1)
+	if (amount >= 1)
 		return (c2);
 	between.r = c1.r + (c2.r - c1.r) * amount;
 	between.g = c1.g + (c2.g - c1.g) * amount;
