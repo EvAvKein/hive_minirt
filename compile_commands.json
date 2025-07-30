@@ -83,24 +83,6 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/parsing/elems/parse_shapes.c",
-   "-o",
-   "obj/parsing/elems/parse_shapes.o"
-  ],
-  "file": "src/parsing/elems/parse_shapes.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
    "src/parsing/parse_scene.c",
    "-o",
    "obj/parsing/parse_scene.o"
@@ -407,24 +389,6 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/keyhook.c",
-   "-o",
-   "obj/keyhook.o"
-  ],
-  "file": "src/keyhook.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
    "src/initialization_02.c",
    "-o",
    "obj/initialization_02.o"
@@ -664,5 +628,221 @@
    "obj/objects/transform_angle_calculation.o"
   ],
   "file": "src/objects/transform_angle_calculation.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/ui/keyhook.c",
+   "-o",
+   "obj/ui/keyhook.o"
+  ],
+  "file": "src/ui/keyhook.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/ui/close_hook.c",
+   "-o",
+   "obj/ui/close_hook.o"
+  ],
+  "file": "src/ui/close_hook.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/initialization_03.c",
+   "-o",
+   "obj/initialization_03.o"
+  ],
+  "file": "src/initialization_03.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/parsing/elems/sphere_parse.c",
+   "-o",
+   "obj/parsing/elems/sphere_parse.o"
+  ],
+  "file": "src/parsing/elems/sphere_parse.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/parsing/elems/plane_parse.c",
+   "-o",
+   "obj/parsing/elems/plane_parse.o"
+  ],
+  "file": "src/parsing/elems/plane_parse.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/parsing/elems/cylinder_parse.c",
+   "-o",
+   "obj/parsing/elems/cylinder_parse.o"
+  ],
+  "file": "src/parsing/elems/cylinder_parse.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/parsing/parse_pattern.c",
+   "-o",
+   "obj/parsing/parse_pattern.o"
+  ],
+  "file": "src/parsing/parse_pattern.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/color/patterns.c",
+   "-o",
+   "obj/color/patterns.o"
+  ],
+  "file": "src/color/patterns.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/color/obj_pattern_mats.c",
+   "-o",
+   "obj/color/obj_pattern_mats.o"
+  ],
+  "file": "src/color/obj_pattern_mats.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/color/pattern_checkerboard.c",
+   "-o",
+   "obj/color/pattern_checkerboard.o"
+  ],
+  "file": "src/color/pattern_checkerboard.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/color/material_at_pos_of_obj.c",
+   "-o",
+   "obj/color/material_at_pos_of_obj.o"
+  ],
+  "file": "src/color/material_at_pos_of_obj.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/threading/threading_01.c",
+   "-o",
+   "obj/threading/threading_01.o"
+  ],
+  "file": "src/threading/threading_01.c"
  }
 ]

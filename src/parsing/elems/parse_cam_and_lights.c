@@ -120,7 +120,7 @@ bool	light_parse(char *str, size_t *parse_i)
 		return (print_err("invalid light data after color"));
 	light.next = NULL;
 	ptr_to_next = &get_data()->elems.lights;
-	while (*ptr_to_next && (*ptr_to_next)->next)
+	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_light));
 	if (!*ptr_to_next)
