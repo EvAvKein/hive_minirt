@@ -21,13 +21,13 @@ void	single_plane_test(void)
 	t_plane	pl;
 	t_light	light;
 
-	pl.pos = position(0, 10, 0);
+	pl.pos = point(0, 10, 0);
 	pl.orientation = vector(0, -1, -0.1);
 	pl.transform = translation_m4x4(pl.pos);
 	pl.inverse = inverse_m4x4(pl.transform);
 	pl.material = default_material();
-	pl.material.color = position(0, 0, 1);
-	light.pos = position(20, 80, -10);
+	pl.material.color = point(0, 0, 1);
+	light.pos = point(20, 80, -10);
 	light.color = (t_color){.bit = (t_8bit_color){.rgba = 0xffffffff}};
 	light.color.flt = color_8bit_to_float(light.color.bit);
 	light.brightness = 1;
