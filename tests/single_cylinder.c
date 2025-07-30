@@ -21,15 +21,15 @@ void	single_cylinder_test(void)
 	t_cylinder	cyl;
 	t_light		light;
 
-	cyl.pos = position(0, 0, 20);
+	cyl.pos = point(0, 0, 20);
 	cyl.diam = 10;
 	cyl.height = 10;
 	cyl.orientation = vector(0, 0.9, 1);
 	cyl.material = default_material();
 	cyl.material.shininess = 200;
-	cyl.material.color = position(1, 0, 1);
+	cyl.material.color = point(1, 0, 1);
 	init_cylinder_transform(&cyl);
-	light.pos = position(0, 10, 20);
+	light.pos = point(0, 10, 20);
 	light.color = (t_color){.bit = (t_8bit_color){.rgba = 0xffffffff}};
 	light.color.flt = color_8bit_to_float(light.color.bit);
 	light.brightness = 1;

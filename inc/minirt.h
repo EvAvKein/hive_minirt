@@ -255,28 +255,6 @@ typedef enum e_obj_type
 /**
  * TODO: Remember to remove before evaluation/use in code
  */
-// Example 1 of generic object struct with all possible data, not very
-// efficient, some risk of using members when they're not valid/initialized.
-typedef struct s_obj
-{
-	t_obj_type	type;
-	t_vec4		pos;
-	t_vec4		orientation;
-	t_m4x4		transform;
-	t_m4x4		inverse;
-	t_material	material;
-	uint8_t		fov;
-	t_flt		brightness;
-	t_flt		radius;
-	t_flt		diam;
-	t_flt		height;
-	t_color		color;
-	void		*next;
-}				t_obj;
-
-/**
- * TODO: Remember to remove before evaluation/use in code
- */
 // Example 2 of generic object struct, has struct within a union for all
 // possible sets of object properties. Slightly more memory efficient than
 // example 1, but more verbose. Verbosity serves as reminder of underlying
@@ -288,43 +266,24 @@ typedef struct s_obj2
 	t_vec4		orie;
 	t_m4x4		transf;
 	t_m4x4		inv;
+	t_flt_color	col;
+	t_material	mat;
 	union
 	{
 		struct
 		{
-			uint8_t	fov;
+			t_flt			radius;
+			struct s_sphere	*sp_next;
 		};
 		struct
 		{
-			t_vec4	amb_bright;
-			t_color	amb_color;
-		};
-		struct
-		{
-			t_flt			light_bright;
-			t_color			light_color;
-			struct s_light	*light_next;
-		};
-		struct
-		{
-			t_flt			sph_radius;
-			t_color			sph_color;
-			t_material		sph_mat;
-			struct s_sphere	*sph_next;
-		};
-		struct
-		{
-			t_color			pln_color;
-			t_material		pln_mat;
-			struct s_plane	*pln_next;
-		};
-		struct
-		{
-			t_flt				cyl_diam;
-			t_flt				cyl_height;
-			t_color				cyl_color;
-			t_material			cyl_mat;
+			t_flt				diam;
+			t_flt				height;
 			struct s_cylinder	*cyl_next;
+		};
+		struct
+		{
+			struct s_plane	*pl_next;
 		};
 	};
 }	t_obj2;
