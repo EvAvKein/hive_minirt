@@ -30,6 +30,9 @@ void	init_object_data(void)
 
 static void	init_lights(t_light *light)
 {
+	t_ambient_light *const	amb = get_data()->elems.ambient_light;
+
+	amb->color.flt = color_8bit_to_float(amb->color.bit);
 	while (light)
 	{
 		light->transform = identity_m4x4();
