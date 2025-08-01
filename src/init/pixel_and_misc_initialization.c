@@ -1,30 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization_03.c                                :+:      :+:    :+:   */
+/*   pixel_and_misc_initialization.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 11:10:57 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/29 11:11:22 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/08 17:14:59 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-/**
- * Calculates unit vectors for each ray that is being cast at a specific pixel.
- * Also applies camera transform.
- */
-void	setup_pixel_rays(void)
-{
-	size_t			i;
-
-	setup_pixel_grid();
-	i = -1;
-	while (++i < g_data.pixel_count)
-		g_data.pixel_rays[i] = ray_for_pixel(i);
-}
 
 /**
  * Calculates pixel grid variables based on camera fov and the image buffer's
