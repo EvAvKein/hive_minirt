@@ -64,7 +64,9 @@ static inline bool	sphere_parse_latter_half(t_sphere *sphere,
 	if (!optional_pattern_color_parse(str, parse_i,
 			sphere->pattern, &sphere->pattern_color))
 		return (print_err("invalid sphere pattern color"));
+	if (!optional_asset_parse(str, parse_i, &sphere->bump_map))
+		return (print_err("invalid bump map path"));
 	if (str[*parse_i])
-		return (print_err("invalid sphere data after pattern color"));
+		return (print_err("invalid sphere data after bump map path"));
 	return (true);
 }

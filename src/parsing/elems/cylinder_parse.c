@@ -71,7 +71,9 @@ static inline bool	cylinder_parse_latter_half(t_cylinder *cylinder,
 	if (!optional_pattern_color_parse(str, parse_i,
 			cylinder->pattern, &cylinder->pattern_color))
 		return (print_err("invalid cylinder pattern color"));
+	if (!optional_asset_parse(str, parse_i, &cylinder->bump_map))
+		return (print_err("invalid bump map path"));
 	if (str[*parse_i])
-		return (print_err("invalid cylinder data after pattern color"));
+		return (print_err("invalid cylinder data after bump map path"));
 	return (true);
 }

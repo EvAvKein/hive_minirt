@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:16:54 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/26 11:24:12 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/07/30 11:50:02 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,12 @@ static bool	parsing_loop(int fd)
 	}
 }
 
+static void terminate_and_null_mlx(void)
+{
+	mlx_terminate(get_data()->mlx);
+	get_data()->mlx = NULL;
+}
+
 /**
  * 
  * @param file_path	The file path for the scene file to be parsed.
@@ -105,19 +111,18 @@ bool	parse_scene(char *file_path)
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
 		return (print_err("Failed to open the provided file"), false);
+	mlx_set_setting(MLX_HEADLESS, 1);
+	get_data()->mlx = mlx_init(1, 1, "Loading potential images", false);
+	if (!get_data()->mlx)
+		return (close(fd), print_err("Failed to initialize MLX"), false);
 	if (!parsing_loop(fd))
-	{
-		close(fd);
-		return (false);
-	}
+		return (terminate_and_null_mlx(), close(fd), false);
+	terminate_and_null_mlx();
 	close(fd);
-	if (!get_data()->elems.ambient_light
-		|| !get_data()->elems.camera
+	mlx_set_setting(MLX_HEADLESS, 0);
+	if (!get_data()->elems.ambient_light || !get_data()->elems.camera
 		|| !get_data()->elems.lights)
-	{
-		print_err("Scene must have"
-			" an ambient light, a camera, and at least 1 light");
-		return (false);
-	}
+		return (print_err("Scene must have"
+			" an ambient light, a camera, and at least 1 light"), false);
 	return (true);
 }

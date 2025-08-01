@@ -68,6 +68,7 @@ SRC		:=	main.c									\
 			color/obj_pattern_mats.c				\
 			color/pattern_checkerboard.c			\
 			color/material_at_pos_of_obj.c			\
+			patterns/uv_mapping.c					\
 			objects/sphere_intersection.c			\
 			objects/plane_intersection.c			\
 			objects/cylinder_intersection.c			\

@@ -86,3 +86,38 @@ bool	optional_pattern_color_parse(char *str, size_t *parse_i,
 	skip_spaces(str, parse_i);
 	return (true);
 }
+
+/**
+ *
+ * @param str			The string being parsed.
+ *
+ * @param parse_i		The parsing index.
+ *
+ * @param dest			The destination for the asset image.
+ *
+ * @returns Whether parsing was successful.
+ *
+ */
+bool	optional_asset_parse(char *str, size_t *parse_i, mlx_image_t **dest)
+{
+	mlx_texture_t	*texture;
+	size_t			path_i;
+	bool			manually_terminated_str;
+
+	*dest = NULL;
+	if (!str[*parse_i])
+		return (true);
+	path_i = 0;
+	while (str[*parse_i + path_i] && !is_space(str[*parse_i + path_i]))
+		path_i++;
+	manually_terminated_str = is_space(str[*parse_i + path_i]);
+	if (manually_terminated_str)
+		str[*parse_i + path_i] = '\0';
+	texture = mlx_load_png(&str[*parse_i]);
+	if (!texture)
+		return (false);
+	*dest = mlx_texture_to_image(get_data()->mlx, texture);
+	mlx_delete_texture(texture);
+	parse_i += path_i + manually_terminated_str;
+	return (!!*dest);
+}

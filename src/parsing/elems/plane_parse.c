@@ -65,7 +65,9 @@ static inline bool	plane_parse_latter_half(
 	if (!optional_pattern_color_parse(str, parse_i,
 			plane->pattern, &plane->pattern_color))
 		return (print_err("invalid plane pattern color"));
+	if (!optional_asset_parse(str, parse_i, &plane->bump_map))
+		return (print_err("invalid bump map path"));
 	if (str[*parse_i])
-		return (print_err("invalid plane data after pattern color"));
+		return (print_err("invalid plane data after bump map path"));
 	return (true);
 }

@@ -31,10 +31,12 @@ void	dealloc_lights(t_light *light)
 	}
 }
 
+// TODO: Test potential crash if `get_data()->mlx` is NULL
+
 /**
  *
  * Deallocate all the spheres in the provided linked list from the heap.
- * 
+ *
  * @param sphere	First node in sphere linked list
  *
  */
@@ -44,6 +46,11 @@ void	dealloc_spheres(t_sphere *sphere)
 
 	while (sphere)
 	{
+		if (sphere->bump_map)
+		{
+			mlx_delete_image(get_data()->mlx, sphere->bump_map);
+			sphere->bump_map = NULL;
+		}
 		next = sphere->next;
 		free(sphere);
 		sphere = next;
@@ -63,6 +70,11 @@ void	dealloc_planes(t_plane *plane)
 
 	while (plane)
 	{
+		if (plane->bump_map)
+		{
+			mlx_delete_image(get_data()->mlx, plane->bump_map);
+			plane->bump_map = NULL;
+		}
 		next = plane->next;
 		free(plane);
 		plane = next;
@@ -82,6 +94,11 @@ void	dealloc_cylinders(t_cylinder *cylinder)
 
 	while (cylinder)
 	{
+		if (cylinder->bump_map)
+		{
+			mlx_delete_image(get_data()->mlx, cylinder->bump_map);
+			cylinder->bump_map = NULL;
+		}
 		next = cylinder->next;
 		free(cylinder);
 		cylinder = next;

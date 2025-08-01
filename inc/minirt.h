@@ -153,6 +153,8 @@ typedef struct s_color
 	t_flt_color		flt;
 }					t_color;
 
+// color/pixel_colors.c
+t_vec4	get_pixel_color(size_t pixel_i);
 // color/colors_01.c
 void			set_pixel_color(size_t pixel_i, t_color color);
 t_color			color_from_uint32(uint32_t c);
@@ -323,6 +325,7 @@ typedef struct s_sphere
 	t_material		material;
 	t_pattern		pattern;
 	t_8bit_color	pattern_color;
+	mlx_image_t		*bump_map;
 	struct s_sphere	*next;
 }					t_sphere;
 
@@ -336,6 +339,7 @@ typedef struct s_plane
 	t_material		material;
 	t_pattern		pattern;
 	t_8bit_color	pattern_color;
+	mlx_image_t		*bump_map;
 	struct s_plane	*next;
 }					t_plane;
 
@@ -351,6 +355,7 @@ typedef struct s_cylinder
 	t_material			material;
 	t_pattern			pattern;
 	t_8bit_color		pattern_color;
+	mlx_image_t			*bump_map;
 	struct s_cylinder	*next;
 }						t_cylinder;
 
@@ -465,6 +470,8 @@ bool			optional_pattern_name_parse(char *str, size_t *parse_i,
 					t_pattern *dest);
 bool			optional_pattern_color_parse(char *str, size_t *parse_i,
 					t_pattern pattern_name, t_8bit_color *dest);
+bool			optional_asset_parse(char *str, size_t *parse_i,
+					mlx_image_t **dest);
 
 // parsing/parse_segment.c
 bool			rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest);
