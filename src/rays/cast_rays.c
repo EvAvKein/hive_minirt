@@ -85,5 +85,10 @@ t_flt_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 		p->normal = cross(p->pos, (*(t_triangle *)rxo->obj).pos1);
 		p->mat = mat_at_hit_on_triangle(&p->pos, (t_triangle *)p->obj_hit);
 	}
+	if (rxo->obj_type == TRIANGLE)
+	{
+		p->normal = cross(p->pos, (*(t_triangle *)rxo->obj).pos1);
+		p->mat = material_at_hit_on_triangle(&p->pos, (t_triangle *)p->obj_hit);
+	}
 	return (let_there_be_light(p));
 }
