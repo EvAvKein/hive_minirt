@@ -83,32 +83,3 @@ t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 	return (let_there_be_light(p));
 }
 
-/**
- * Sets the image's pixel values by raytracing the scene
- */
-void	cast_rays(void)
-{
-	t_data *const	data = get_data();
-	size_t			i;
-	t_ray			*ray;
-	t_ray_x_obj		*rxo;
-	t_phong_helper	phong;
-
-	phong = (t_phong_helper){};
-	i = -1;
-	while (++i < data->pixel_count)
-	{
-		ray = &data->pixel_rays[i];
-		empty_intersections(ray);
-		cast_ray_at_objs(ray, &data->elems, NULL);
-		rxo = closest_rxo(&ray->intersections);
-		if (rxo == NULL)
-			continue ;
-		phong.light = data->elems.lights;
-		phong.ray = ray;
-		phong.pos = ray_position(*ray, rxo->t);
-		phong.to_cam = opposite_vec(ray->dir);
-		phong.obj_hit = rxo->obj;
-		set_pixel_color(i, color_at_obj_hit(rxo, &phong));
-	}
-}

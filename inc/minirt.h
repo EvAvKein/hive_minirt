@@ -502,7 +502,6 @@ t_vec4			ray_position(t_ray ray, t_flt t);
 
 // rays/cast_rays.c
 t_ray_x_obj		hit(t_ray_x_objs intersections);
-void			cast_rays(void);
 t_ray_x_obj		*closest_rxo(t_ray_x_obj_array *array);
 t_color			color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
 
