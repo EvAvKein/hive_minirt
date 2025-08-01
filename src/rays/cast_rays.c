@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:44:50 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/17 12:32:00 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/04 20:44:16 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,3 @@ t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 	}
 	return (let_there_be_light(p));
 }
-
