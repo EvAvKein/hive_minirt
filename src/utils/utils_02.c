@@ -22,7 +22,6 @@
 void	write_pixel_rays_to_file(const char *str)
 {
 	size_t	i;
-	t_data	*data;
 	int		fds[2];
 
 	fds[0] = open(str, O_CREAT | O_TRUNC | O_WRONLY, 0666);
@@ -30,10 +29,9 @@ void	write_pixel_rays_to_file(const char *str)
 		return ;
 	fds[1] = dup(STDOUT_FILENO);
 	dup2(fds[0], STDOUT_FILENO);
-	data = get_data();
 	i = -1;
-	while (++i < data->pixel_count)
-		print_vec(data->pixel_rays[i].dir);
+	while (++i < g_data.pixel_count)
+		print_vec(g_data.pixel_rays[i].dir);
 	fflush(stdout);
 	close(fds[0]);
 	dup2(fds[1], STDOUT_FILENO);
@@ -59,7 +57,7 @@ t_color	vec4_to_color(t_vec4 vec)
 	col.flt.g = vec.y;
 	col.flt.b = vec.z;
 	col.flt.a = vec.w;
-	col.bit = color_float_to_8bit(col.flt);
+	col.bit = color_flt_to_8bit(col.flt);
 	return (col);
 }
 
@@ -77,13 +75,13 @@ t_color	vec4_to_color(t_vec4 vec)
  */
 t_vec4	color_8bit_to_vec4(t_8bit_color color_8bit)
 {
-	const t_flt_color	color_float = color_8bit_to_float(color_8bit);
+	const t_flt_color	color_flt = color_8bit_to_flt(color_8bit);
 	t_vec4				vec;
 
-	vec.x = color_float.r;
-	vec.y = color_float.g;
-	vec.z = color_float.b;
-	vec.w = color_float.a;
+	vec.x = color_flt.r;
+	vec.y = color_flt.g;
+	vec.z = color_flt.b;
+	vec.w = color_flt.a;
 	return (vec);
 }
 
@@ -103,7 +101,7 @@ t_color	normal_to_color(t_vec4 normal)
 	col.bit.g = (normal.y * 0.5 + 0.5) * 255.999 * 1;
 	col.bit.b = (-normal.z * 0.5 + 0.5) * 255.999 * 1;
 	col.bit.a = 0xff;
-	col.flt = color_8bit_to_float(col.bit);
+	col.flt = color_8bit_to_flt(col.bit);
 	return (col);
 }
 

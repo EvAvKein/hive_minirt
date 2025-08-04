@@ -50,10 +50,10 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl)
 
 	ray = transformed_ray(ray, cyl->inverse);
 	q = solve_cylinder_quadratic(ray, *cyl);
-	if (floats_are_equal(q.a, 0) || q.discr < 0)
+	if (flts_are_equal(q.a, 0) || q.discr < 0)
 		return ((t_ray_x_objs){});
-	t1 = (-q.b - sqrt(q.discr)) / (2 * q.a);
-	t2 = (-q.b + sqrt(q.discr)) / (2 * q.a);
+	t1 = (-q.h - sqrt(q.discr)) / q.a;
+	t2 = (-q.h + sqrt(q.discr)) / q.a;
 	y_component = ray_position(ray, t1).y;
 	if (fabs(y_component) > cyl->height / 2)
 		t1 = 0;
@@ -115,7 +115,7 @@ t_vec4	cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos)
 	t_vec4	normal;
 
 	object_pos = transformed_vec(world_pos, cyl.inverse);
-	if (floats_are_equal(fabs(object_pos.y), cyl.height / 2))
+	if (flts_are_equal(fabs(object_pos.y), cyl.height / 2))
 	{
 		if (object_pos.y < 0)
 			return (opposite_vec(cyl.orientation));
@@ -142,10 +142,10 @@ static t_quad	solve_cylinder_quadratic(t_ray ray, t_cylinder cyl)
 	t_quad	q;
 
 	q.a = pow(ray.dir.x, 2) + pow(ray.dir.z, 2);
-	if (floats_are_equal(q.a, 0))
+	if (flts_are_equal(q.a, 0))
 		return ((t_quad){});
-	q.b = 2 * ray.orig.x * ray.dir.x + 2 * ray.orig.z * ray.dir.z;
+	q.h = ray.orig.x * ray.dir.x + ray.orig.z * ray.dir.z;
 	q.c = pow(ray.orig.x, 2) + pow(ray.orig.z, 2) - pow(cyl.diam / 2, 2);
-	q.discr = q.b * q.b - 4 * q.a * q.c;
+	q.discr = q.h * q.h - q.a * q.c;
 	return (q);
 }

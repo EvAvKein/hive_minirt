@@ -22,6 +22,7 @@ void	quicksort_ray_intersections(t_ray *ray)
 	quicksort(&ray->intersections, 0, ray->intersections.idx - 1);
 }
 
+// TODO: Consider removing this file before evaluation, not used
 static size_t	select_pivot(t_ray_x_obj_array const *arr, size_t lo, size_t hi)
 {
 	size_t	mid;

@@ -24,16 +24,16 @@ t_ray_x_obj	hit(t_ray_x_objs rxos)
 
 	t1 = rxos._[0].t;
 	t2 = rxos._[1].t;
-	if ((floats_are_equal(t1, 0) && floats_are_equal(t2, 0))
+	if ((flts_are_equal(t1, 0) && flts_are_equal(t2, 0))
 		|| (t1 < 0 && t2 < 0))
 		return ((t_ray_x_obj){});
 	if (t1 < 0)
 		return (rxos._[1]);
 	if (t2 < 0)
 		return (rxos._[0]);
-	if (floats_are_equal(t1, 0))
+	if (flts_are_equal(t1, 0))
 		return (rxos._[1]);
-	if (floats_are_equal(t2, 0))
+	if (flts_are_equal(t2, 0))
 		return (rxos._[0]);
 	if (rxos._[0].t > rxos._[1].t)
 		return (rxos._[1]);
@@ -88,7 +88,6 @@ t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
  */
 void	cast_rays(void)
 {
-	t_data *const	data = get_data();
 	size_t			i;
 	t_ray			*ray;
 	t_ray_x_obj		*rxo;
@@ -96,15 +95,15 @@ void	cast_rays(void)
 
 	phong = (t_phong_helper){};
 	i = -1;
-	while (++i < data->pixel_count)
+	while (++i < g_data.pixel_count)
 	{
-		ray = &data->pixel_rays[i];
+		ray = &g_data.pixel_rays[i];
 		empty_intersections(ray);
-		cast_ray_at_objs(ray, &data->elems, NULL);
+		cast_ray_at_objs(ray, &g_data.elems, NULL);
 		rxo = closest_rxo(&ray->intersections);
 		if (rxo == NULL)
 			continue ;
-		phong.light = data->elems.lights;
+		phong.light = g_data.elems.lights;
 		phong.ray = ray;
 		phong.pos = ray_position(*ray, rxo->t);
 		phong.to_cam = opposite_vec(ray->dir);

@@ -27,6 +27,9 @@
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
+extern struct s_data\
+				g_data;
+
 typedef float	t_flt;
 
 typedef enum e_error
@@ -156,9 +159,9 @@ typedef struct s_color
 // color/colors_01.c
 void			set_pixel_color(size_t pixel_i, t_color color);
 t_color			color_from_uint32(uint32_t c);
-t_flt_color		color_8bit_to_float(t_8bit_color c);
-t_8bit_color	color_float_to_8bit(t_flt_color c);
-t_flt_color		lerp_color(t_flt_color c1, t_flt_color c2, float amount);
+t_flt_color		color_8bit_to_flt(t_8bit_color c);
+t_8bit_color	color_flt_to_8bit(t_flt_color c);
+t_flt_color		lerp_color(t_flt_color c1, t_flt_color c2, t_flt amount);
 
 /* -------------------------------------------------------------- BACKGROUNDS */
 
@@ -170,7 +173,7 @@ void			set_horizontal_gradient(mlx_image_t *img,
 void			set_vertical_gradient(mlx_image_t *img,
 					t_flt_color colors[2]);
 void			set_uv(mlx_image_t *img);
-t_color			get_sky_color(t_ray ray);
+t_color			get_sky_color(t_ray ray, size_t i);
 
 /* ---------------------------------------------------------------- MATERIALS */
 
@@ -420,13 +423,14 @@ typedef struct s_data
 	pthread_mutex_t	lock;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
+	mlx_image_t		*sky_texture;
 	t_error			error;
 }					t_data;
 
 typedef struct s_quad
 {
 	t_flt	a;
-	t_flt	b;
+	t_flt	h;
 	t_flt	c;
 	t_flt	discr;
 }			t_quad;
@@ -444,8 +448,6 @@ typedef struct s_cap_helper
 	t_flt		top_dist;
 	t_flt		btm_dist;
 }				t_cap_helper;
-
-t_data			*get_data(void);
 
 void			image_to_file(const char *bmp_file_path);
 
@@ -496,7 +498,6 @@ bool			is_normalized_vec(t_vec4 vec);
 
 // rays/rays_01.c
 t_ray			transformed_ray(t_ray ray, t_m4x4 transform);
-t_ray			inverse_transformed_ray(t_ray ray, t_m4x4 transform);
 t_vec4			reflection(t_vec4 vec, t_vec4 normal);
 t_vec4			ray_position(t_ray ray, t_flt t);
 
@@ -526,7 +527,6 @@ t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
 t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 
 // intersections/intersections_01.c
-void			xinit_ray_intersections(t_ray *ray);
 void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 void			empty_intersections(t_ray *ray);
 
@@ -605,14 +605,14 @@ void			close_hook(void *param);
 
 /* ---------------------------------------------------------------- THREADING */
 
-bool			run_threads(t_data *data);
+bool			run_threads(void);
 
 /* -------------------------------------------------------------------- UTILS */
 
 // utils/utils_01.c
 t_flt			to_radians(t_flt degrees);
 t_flt			to_degrees(t_flt radians);
-bool			floats_are_equal(t_flt flt1, t_flt flt2);
+bool			flts_are_equal(t_flt flt1, t_flt flt2);
 bool			vecs_are_equal(t_vec4 vec1, t_vec4 vec2);
 bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 

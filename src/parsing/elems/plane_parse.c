@@ -44,7 +44,7 @@ bool	plane_parse(char *str, size_t *parse_i)
 	if (!plane_parse_latter_half(&plane, str, parse_i))
 		return (false);
 	plane.next = NULL;
-	ptr_to_next = &get_data()->elems.planes;
+	ptr_to_next = &g_data.elems.planes;
 	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_plane));

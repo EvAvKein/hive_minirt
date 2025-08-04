@@ -47,7 +47,7 @@ bool	cylinder_parse(char *str, size_t *parse_i)
 	if (!cylinder_parse_latter_half(&cylinder, str, parse_i))
 		return (false);
 	cylinder.next = NULL;
-	ptr_to_next = &get_data()->elems.cylinders;
+	ptr_to_next = &g_data.elems.cylinders;
 	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_cylinder));
