@@ -17,12 +17,10 @@
  */
 void	set_pixel_color(size_t pixel_i, t_color color)
 {
-	t_data *const	data = get_data();
-
-	data->img->pixels[pixel_i * 4 + 0] = color.bit.r;
-	data->img->pixels[pixel_i * 4 + 1] = color.bit.g;
-	data->img->pixels[pixel_i * 4 + 2] = color.bit.b;
-	data->img->pixels[pixel_i * 4 + 3] = 0xff;
+	g_data.img->pixels[pixel_i * 4 + 0] = color.bit.r;
+	g_data.img->pixels[pixel_i * 4 + 1] = color.bit.g;
+	g_data.img->pixels[pixel_i * 4 + 2] = color.bit.b;
+	g_data.img->pixels[pixel_i * 4 + 3] = 0xff;
 }
 
 /**
@@ -35,14 +33,14 @@ t_color	color_from_uint32(uint32_t c)
 	t_color	col;
 
 	col.bit.rgba = c;
-	col.flt = color_8bit_to_float(col.bit);
+	col.flt = color_8bit_to_flt(col.bit);
 	return (col);
 }
 
 /**
  * @returns	Float color converted from 8 bit color c
  */
-t_flt_color	color_8bit_to_float(t_8bit_color c)
+t_flt_color	color_8bit_to_flt(t_8bit_color c)
 {
 	t_flt_color	d;
 
@@ -56,7 +54,7 @@ t_flt_color	color_8bit_to_float(t_8bit_color c)
 /**
  * @returns	8 bit color converted from float color parameter c
  */
-t_8bit_color	color_float_to_8bit(t_flt_color c)
+t_8bit_color	color_flt_to_8bit(t_flt_color c)
 {
 	t_8bit_color	d;
 

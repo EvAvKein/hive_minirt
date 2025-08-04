@@ -19,19 +19,18 @@
  */
 bool	free_data(void)
 {
-	t_data *const	data = get_data();
 	size_t			i;
 
-	free(data->elems.ambient_light);
-	free(data->elems.camera);
-	dealloc_lights(data->elems.lights);
-	dealloc_spheres(data->elems.spheres);
-	dealloc_planes(data->elems.planes);
-	dealloc_cylinders(data->elems.cylinders);
+	free(g_data.elems.ambient_light);
+	free(g_data.elems.camera);
+	dealloc_lights(g_data.elems.lights);
+	dealloc_spheres(g_data.elems.spheres);
+	dealloc_planes(g_data.elems.planes);
+	dealloc_cylinders(g_data.elems.cylinders);
 	i = -1;
-	while (++i < data->pixel_count)
-		free(data->pixel_rays[i].intersections._);
-	free(data->pixel_rays);
-	pthread_mutex_destroy(&data->lock);
+	while (++i < g_data.pixel_count)
+		free(g_data.pixel_rays[i].intersections._);
+	free(g_data.pixel_rays);
+	pthread_mutex_destroy(&g_data.lock);
 	return (true);
 }

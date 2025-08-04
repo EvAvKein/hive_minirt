@@ -23,14 +23,11 @@ static bool	set_error_return_false(t_error error);
  */
 bool	data_init_successful(void)
 {
-	t_data	*data;
-
-	data = get_data();
 	if (problem_with_resolution())
 		return (set_error_return_false(ERROR_PROBLEM_WITH_RESOLUTION));
-	data->pixel_count = RES_X * RES_Y;
-	data->pixel_rays = ft_calloc(data->pixel_count, sizeof(t_ray));
-	if (data->pixel_rays == NULL)
+	g_data.pixel_count = RES_X * RES_Y;
+	g_data.pixel_rays = ft_calloc(g_data.pixel_count, sizeof(t_ray));
+	if (g_data.pixel_rays == NULL)
 		return (set_error_return_false(ERROR_ALLOC));
 	init_object_data();
 	if (mlx_init_successful() == false)
@@ -44,38 +41,34 @@ bool	data_init_successful(void)
  */
 void	setup_pixel_rays(void)
 {
-	t_data *const	data = get_data();
 	size_t			i;
 
 	setup_pixel_grid();
 	i = -1;
-	while (++i < data->pixel_count)
-		data->pixel_rays[i] = ray_for_pixel(i);
+	while (++i < g_data.pixel_count)
+		g_data.pixel_rays[i] = ray_for_pixel(i);
 }
 
 /**
  * Attempts to set up the mlx window and image buffer. If something goes wrong
- * sets data->error and terminates mlx.
+ * sets g_data.error and terminates mlx.
  *
  * @returns	true if mlx is initialized succesfully, false on error
  */
 static bool	mlx_init_successful(void)
 {
-	t_data	*data;
-
-	data = get_data();
-	data->mlx = mlx_init(RES_X, RES_Y, "miniRT", true);
-	if (data->mlx == NULL)
+	g_data.mlx = mlx_init(RES_X, RES_Y, "miniRT", true);
+	if (g_data.mlx == NULL)
 		return (set_error_return_false(ERROR_MLX_INIT));
-	data->img = mlx_new_image(data->mlx, RES_X, RES_Y);
-	if (data->img == NULL)
+	g_data.img = mlx_new_image(g_data.mlx, RES_X, RES_Y);
+	if (g_data.img == NULL)
 	{
-		mlx_terminate(data->mlx);
+		mlx_terminate(g_data.mlx);
 		return (set_error_return_false(ERROR_MLX_NEW_IMAGE));
 	}
-	if (mlx_image_to_window(data->mlx, data->img, 0, 0) < 0)
+	if (mlx_image_to_window(g_data.mlx, g_data.img, 0, 0) < 0)
 	{
-		mlx_terminate(data->mlx);
+		mlx_terminate(g_data.mlx);
 		return (set_error_return_false(ERROR_MLX_IMAGE_TO_WINDOW));
 	}
 	return (true);
@@ -108,6 +101,6 @@ static bool	problem_with_resolution(void)
  */
 static bool	set_error_return_false(t_error error)
 {
-	get_data()->error = error;
+	g_data.error = error;
 	return (false);
 }

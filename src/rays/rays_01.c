@@ -12,6 +12,9 @@
 
 #include "minirt.h"
 
+/**
+ * @returns	Ray transformed by transformation matrix
+ */
 t_ray	transformed_ray(t_ray ray, t_m4x4 transform)
 {
 	ray.dir = transformed_vec(ray.dir, transform);
@@ -19,25 +22,21 @@ t_ray	transformed_ray(t_ray ray, t_m4x4 transform)
 	return (ray);
 }
 
-t_ray	inverse_transformed_ray(t_ray ray, t_m4x4 transform)
-{
-	t_m4x4	inverse;
-
-	inverse = inverse_m4x4(transform);
-	ray.orig = transformed_vec(ray.orig, inverse);
-	ray.dir = transformed_vec(ray.dir, inverse);
-	return (ray);
-}
-
+/**
+ @returns	Vector reflected by normal
+ */
 t_vec4	reflection(t_vec4 vec, t_vec4 normal)
 {
-	t_vec4	ref;
+	t_vec4	reflected;
 
-	ref = scaled_vec(normal, 2 * dot(vec, normal));
-	ref = vec_sub(vec, ref);
-	return (ref);
+	reflected = scaled_vec(normal, 2 * dot(vec, normal));
+	reflected = vec_sub(vec, reflected);
+	return (reflected);
 }
 
+/**
+ @returns	Position along ray defined by distance value t
+ */
 inline t_vec4	ray_position(t_ray ray, t_flt t)
 {
 	return (vec_sum(ray.orig, scaled_vec(ray.dir, t)));
