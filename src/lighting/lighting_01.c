@@ -53,7 +53,7 @@ t_flt_color	let_there_be_light(t_phong_helper *p)
 static void	set_ambient(t_phong_helper *p)
 {
 	t_flt const			ab_intensity = g_data.elems.ambient_light->brightness;
-	t_flt_color const	ab_color = g_data.elems.ambient_light->color;
+	t_flt_color const	ab_color = g_data.elems.ambient_light->color.flt;
 
 	p->ambient = (t_flt_color){
 		.r = ab_intensity * p->mat.color.r * ab_color.r,

@@ -43,6 +43,7 @@ bool	cylinder_parse(char *str, size_t *parse_i)
 	if (!cylinder_parse_pt2(&cylinder, str, parse_i)
 		|| !cylinder_parse_pt3(&cylinder, str, parse_i))
 		return (false);
+	cylinder.next = NULL;
 	ptr_to_next = &g_data.elems.cylinders;
 	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;

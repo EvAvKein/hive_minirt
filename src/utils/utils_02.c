@@ -39,6 +39,73 @@ void	write_pixel_rays_to_file(const char *str)
 }
 
 /**
+ * Helper function for converting a vec4 into a color object.
+ *
+ * @param vec	Vec4 to convert into a color
+ *
+ * @returns	Color based on vec4 parameter vec, with the following mapping:
+ *			r = x
+ *			g = y
+ *			b = z
+ *			a = w
+ */
+t_color	vec4_to_color(t_vec4 vec)
+{
+	t_color	col;
+
+	col.flt.r = vec.x;
+	col.flt.g = vec.y;
+	col.flt.b = vec.z;
+	col.flt.a = vec.w;
+	col.bit = color_flt_to_8bit(col.flt);
+	return (col);
+}
+
+/**
+ * Helper function for converting an 8-bit color object into a vec4.
+ * Converts the 8-bit values to float colors first using a different helper.
+ *
+ * @param color_8bit	8-bit color to convert into a vec4
+ *
+ * @returns	Vec4 based on the 8-bit color parameter, with the following mapping:
+ *			r = x
+ *			g = y
+ *			b = z
+ *			a = w
+ */
+t_vec4	color_8bit_to_vec4(t_8bit_color color_8bit)
+{
+	const t_flt_color	color_flt = color_8bit_to_flt(color_8bit);
+	t_vec4				vec;
+
+	vec.x = color_flt.r;
+	vec.y = color_flt.g;
+	vec.z = color_flt.b;
+	vec.w = color_flt.a;
+	return (vec);
+}
+
+/**
+ * Converts a vec4 containing the normal of a surface into the corresponding
+ * color.
+ *
+ * @param normal	Normal vector to convert into a color
+ *
+ * @returns Color that corrensponds to vec4 parameter normal
+ */
+t_color	normal_to_color(t_vec4 normal)
+{
+	t_color	col;
+
+	col.bit.r = (normal.x * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.g = (normal.y * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.b = (-normal.z * 0.5 + 0.5) * 255.999 * 1;
+	col.bit.a = 0xff;
+	col.flt = color_8bit_to_flt(col.bit);
+	return (col);
+}
+
+/**
  * Attempts to calloc, frees data and exits program if calloc fails.
  *
  * @param nmemb	Number of members to allocate

@@ -138,17 +138,11 @@ typedef struct s_8bit_color
 typedef t_vec4	t_flt_color;
 
 // color/colors_01.c
-t_8bit_color	get_pixel_color(mlx_image_t const *img, size_t pixel_i);
-void			set_pixel_color(size_t pixel_i, t_8bit_color color);
+void			set_pixel_color(size_t pixel_i, t_color color);
+t_color			color_from_uint32(uint32_t c);
 t_flt_color		color_8bit_to_flt(t_8bit_color c);
 t_8bit_color	color_flt_to_8bit(t_flt_color c);
 t_flt_color		lerp_color(t_flt_color c1, t_flt_color c2, t_flt amount);
-
-typedef enum e_obj_type\
-				t_obj_type;
-
-// color/uv_mapping.c
-t_vec4			point_to_uv(t_obj_type type, t_vec4 point, t_flt obj_height);
 
 /* -------------------------------------------------------------- BACKGROUNDS */
 
@@ -160,7 +154,7 @@ void			set_horizontal_gradient(mlx_image_t *img,
 void			set_vertical_gradient(mlx_image_t *img,
 					t_flt_color colors[2]);
 void			set_uv(mlx_image_t *img);
-t_flt_color		get_sky_color(t_ray ray, size_t i);
+t_color			get_sky_color(t_ray ray, size_t i);
 
 /* ---------------------------------------------------------------- MATERIALS */
 
@@ -459,7 +453,7 @@ typedef struct s_data
 	pthread_mutex_t	lock;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
-	mlx_image_t		*sky_image;
+	mlx_image_t		*sky_texture;
 	t_error			error;
 }					t_data;
 

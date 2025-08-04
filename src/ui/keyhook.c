@@ -15,7 +15,7 @@
 static int	handle_rotation(t_data *data, struct mlx_key_data key_data,
 				t_flt move_speed, int *move_count)
 {
-	if (mlx_is_key_down(get_data()->mlx, KEYBIND_RREV))
+	if (mlx_is_key_down(g_data.mlx, KEYBIND_RREV))
 		move_speed = -move_speed;
 	if (key_data.key == KEYBIND_RX && ++move_count)
 		data->elems.camera->orientation.x += move_speed; // TODO:
@@ -44,6 +44,9 @@ static int	handle_movement(t_data *data, struct mlx_key_data key_data,
 	return (*move_count);
 }
 
+/**
+ * TODO: Write documentation
+ */
 void	keyhook(mlx_key_data_t key_data, void *param)
 {
 	t_data *const	data = param;
@@ -70,9 +73,9 @@ void	keyhook(mlx_key_data_t key_data, void *param)
 		|| handle_rotation(data, key_data, move_speed, &move_count))
 	{
 		write(STDIN_FILENO, "pos: ", 5);
-		print_vec(get_data()->elems.camera->pos);
+		print_vec(g_data.elems.camera->pos);
 		write(STDIN_FILENO, "orientation: ", 14);
-		print_vec(get_data()->elems.camera->orientation);
+		print_vec(g_data.elems.camera->orientation);
 	}
 	data->pause = false;
 }

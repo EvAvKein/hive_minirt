@@ -40,6 +40,7 @@ bool	plane_parse(char *str, size_t *parse_i)
 		return (print_err("invalid plane position"));
 	if (!plane_parse_pt2(&plane, str, parse_i))
 		return (false);
+	plane.next = NULL;
 	ptr_to_next = &g_data.elems.planes;
 	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
