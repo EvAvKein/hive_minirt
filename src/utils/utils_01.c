@@ -46,7 +46,7 @@ inline t_flt	to_degrees(t_flt radians)
  * @returns	true when the difference between the floats is less than EPSILON,
  *			false when the difference is equal or over
  */
-inline bool	floats_are_equal(t_flt flt1, t_flt flt2)
+inline bool	flts_are_equal(t_flt flt1, t_flt flt2)
 {
 	return (fabs(flt1 - flt2) < EPSILON);
 }
@@ -63,10 +63,10 @@ inline bool	floats_are_equal(t_flt flt1, t_flt flt2)
  */
 inline bool	vecs_are_equal(t_vec4 vec1, t_vec4 vec2)
 {
-	return (floats_are_equal(vec1.x, vec2.x)
-		&& floats_are_equal(vec1.y, vec2.y)
-		&& floats_are_equal(vec1.z, vec2.z)
-		&& floats_are_equal(vec1.w, vec2.w));
+	return (flts_are_equal(vec1.x, vec2.x)
+		&& flts_are_equal(vec1.y, vec2.y)
+		&& flts_are_equal(vec1.z, vec2.z)
+		&& flts_are_equal(vec1.w, vec2.w));
 }
 
 /**

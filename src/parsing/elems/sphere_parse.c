@@ -44,7 +44,7 @@ bool	sphere_parse(char *str, size_t *parse_i)
 	if (!sphere_parse_latter_half(&sphere, str, parse_i))
 		return (false);
 	sphere.next = NULL;
-	ptr_to_next = &get_data()->elems.spheres;
+	ptr_to_next = &g_data.elems.spheres;
 	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_sphere));

@@ -38,13 +38,12 @@ void	single_plane_test(void)
 
 static void	light_single_plane(t_plane *pl, t_light *light)
 {
-	t_data *const	data = get_data();
 	t_phong_helper	p;
 
 	p = (t_phong_helper){0};
 	p.mat = pl->material;
 	p.light = light;
-	cast_rays_at_plane(data, pl, &p);
+	cast_rays_at_plane(&g_data, pl, &p);
 }
 
 static void	cast_rays_at_plane(t_data *const data, t_plane const *pl,

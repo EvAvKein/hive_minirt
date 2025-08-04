@@ -32,8 +32,8 @@ t_ray_x_objs	ray_x_sphere(t_ray ray, t_sphere const *sp)
 	q = solve_sphere_quadratic(ray, *sp);
 	if (q.discr < 0)
 		return ((t_ray_x_objs){});
-	t1 = (-q.b + sqrt(q.discr)) / (2 * q.a);
-	t2 = (-q.b - sqrt(q.discr)) / (2 * q.a);
+	t1 = (-q.h + sqrt(q.discr)) / q.a;
+	t2 = (-q.h - sqrt(q.discr)) / q.a;
 	return ((t_ray_x_objs){
 		.count = 2,
 		._[0] = (t_ray_x_obj){.obj_type = SPHERE, .obj = (void *)sp, .t = t1},
@@ -52,9 +52,9 @@ static t_quad	solve_sphere_quadratic(t_ray ray, t_sphere sp)
 	t_quad	q;
 
 	q.a = dot(ray.dir, ray.dir);
-	q.b = 2 * dot(ray.dir, ray.orig);
+	q.h = dot(ray.dir, ray.orig);
 	q.c = dot(ray.orig, ray.orig) - sp.radius * sp.radius;
-	q.discr = q.b * q.b - 4 * q.a * q.c;
+	q.discr = q.h * q.h - q.a * q.c;
 	return (q);
 }
 

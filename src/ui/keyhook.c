@@ -12,6 +12,9 @@
 
 #include "minirt.h"
 
+/**
+ * TODO: Write documentation
+ */
 void	keyhook(mlx_key_data_t key_data, void *param)
 {
 	t_data *const	data = param;
@@ -21,7 +24,7 @@ void	keyhook(mlx_key_data_t key_data, void *param)
 		data->stop = true;
 		while (data->active_threads > 0)
 			usleep(500);
-		mlx_terminate(get_data()->mlx);
+		mlx_terminate(g_data.mlx);
 		free_data();
 		exit(EXIT_SUCCESS);
 	}
