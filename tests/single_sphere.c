@@ -39,13 +39,12 @@ void	single_sphere_test(void)
 
 static void	light_single_sphere(t_sphere const *sp, t_light const *light)
 {
-	t_data *const	data = get_data();
 	t_phong_helper	p;
 
 	p = (t_phong_helper){0};
-	p.mat = &sp->material;
+	p.mat = sp->material;
 	p.light = light;
-	cast_rays_at_sphere(data, sp, &p);
+	cast_rays_at_sphere(&g_data, sp, &p);
 }
 
 static void	cast_rays_at_sphere(t_data const *data, t_sphere const *sp,

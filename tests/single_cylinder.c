@@ -40,13 +40,12 @@ void	single_cylinder_test(void)
 
 static void	light_single_cylinder(t_cylinder const *cyl, t_light const *light)
 {
-	t_data *const	data = get_data();
 	t_phong_helper	p;
 
 	p = (t_phong_helper){0};
-	p.mat = &cyl->material;
+	p.mat = cyl->material;
 	p.light = light;
-	cast_rays_at_cylinder(data, cyl, &p);
+	cast_rays_at_cylinder(&g_data, cyl, &p);
 }
 
 static void	cast_rays_at_cylinder(t_data const *data, t_cylinder const *cyl,

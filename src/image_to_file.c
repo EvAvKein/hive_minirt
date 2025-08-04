@@ -85,10 +85,10 @@ static void	write_colors_to_file(int fd)
 	uint8_t		*color_channels;
 	t_channels	pixels_row[RES_X];
 
-	color_channels = get_data()->img->pixels;
+	color_channels = g_data.img->pixels;
 	if (!color_channels)
 		return ;
-	i = get_data()->pixel_count;
+	i = g_data.pixel_count;
 	while (i > 0)
 	{
 		row_i = RES_X + 1;
@@ -112,11 +112,9 @@ static void	write_colors_to_file(int fd)
  */
 void	image_to_file(const char *bmp_file_path)
 {
-	t_data	*data;
 	int		fd;
 
-	data = get_data();
-	if (!data->img)
+	if (!g_data.img)
 	{
 		print_err("Cannot save image to file - image unavailable");
 		return ;
@@ -127,7 +125,7 @@ void	image_to_file(const char *bmp_file_path)
 		print_err("Cannot save image to file - cannot create/access file");
 		return ;
 	}
-	if (write_header_to_file(fd, data->img->width, data->img->height))
+	if (write_header_to_file(fd, g_data.img->width, g_data.img->height))
 		write_colors_to_file(fd);
 	close(fd);
 }

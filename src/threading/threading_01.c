@@ -16,27 +16,33 @@ static void	*raycasting_routine(void *arg);
 static void	gradually_render(t_data *data, size_t i0, size_t precision);
 static void	cast_ray(t_data *data, size_t i, size_t precision);
 
-bool	run_threads(t_data *data)
+/**
+ * TODO: Write documentation
+ */
+bool	run_threads(void)
 {
 	size_t	i;
 
 	i = -1;
-	pthread_mutex_lock(&data->lock);
+	pthread_mutex_lock(&g_data.lock);
 	while (++i < THREADS)
 	{
-		if (pthread_create(&data->threads[i], NULL,
-				&raycasting_routine, (void *)data) != 0)
+		if (pthread_create(&g_data.threads[i], NULL,
+				&raycasting_routine, (void *)&g_data) != 0)
 		{
-			pthread_mutex_unlock(&data->lock);
+			pthread_mutex_unlock(&g_data.lock);
 			while (i--)
-				pthread_join(data->threads[i], NULL);
+				pthread_join(g_data.threads[i], NULL);
 			return (print_err("A thread failed to create"));
 		}
 	}
-	pthread_mutex_unlock(&data->lock);
+	pthread_mutex_unlock(&g_data.lock);
 	return (true);
 }
 
+/**
+ * TODO: Write documentation
+ */
 static void	*raycasting_routine(void *arg)
 {
 	t_data *const	data = arg;
@@ -63,6 +69,9 @@ static void	*raycasting_routine(void *arg)
 	return (NULL);
 }
 
+/**
+ * TODO: Write documentation
+ */
 static void	gradually_render(t_data *data, size_t i0, size_t precision)
 {
 	size_t	i;
@@ -90,6 +99,9 @@ static void	gradually_render(t_data *data, size_t i0, size_t precision)
 	--data->active_threads;
 }
 
+/**
+ * TODO: Write documentation
+ */
 static void	cast_ray(t_data *data, size_t i, size_t precision)
 {
 	t_ray *const	ray = &data->pixel_rays[i];
@@ -102,7 +114,7 @@ static void	cast_ray(t_data *data, size_t i, size_t precision)
 	cast_ray_at_objs(ray, &data->elems, NULL);
 	rxo = closest_rxo(&ray->intersections);
 	if (rxo == NULL)
-		col = get_sky_color(*ray);
+		col = get_sky_color(*ray, i);
 	else
 	{
 		p.light = data->elems.lights;
