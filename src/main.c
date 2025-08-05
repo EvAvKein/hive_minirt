@@ -12,8 +12,6 @@
 
 #include "minirt.h"
 
-t_data	g_data;
-
 int	main(int argc, char **argv)
 {
 	ft_bzero(&g_data, sizeof(t_data));
@@ -33,13 +31,4 @@ int	main(int argc, char **argv)
 	mlx_terminate(g_data.mlx);
 	free_data();
 	return (0);
-}
-
-static void	load_sky_texture(void)
-{
-	mlx_texture_t	*tex;
-
-	tex = mlx_load_png("textures/qwantani_dusk_2_puresky.png");
-	g_data.sky_texture = mlx_texture_to_image(g_data.mlx, tex);
-	mlx_delete_texture(tex);
 }
