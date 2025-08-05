@@ -124,17 +124,17 @@ t_color	get_sky_color(t_ray ray, size_t i)
 	sky_colors[1] = (t_flt_color){.r = 1, .g = 1, .b = 1, .a = 1};
 	uv.x = 0.5 - atan2(ray.dir.z, ray.dir.x) / (2 * M_PI);
 	uv.y = 0.5 - asin(ray.dir.y) / M_PI;
-	if (!g_data.sky_texture)
+	if (!g_data.sky_image)
 	{
 		uv.y = (t_flt)(i / g_data.img->width) / g_data.img->height;
 		color.flt = lerp_color(sky_colors[0], sky_colors[1], uv.y);
 		color.bit = color_flt_to_8bit(color.flt);
 		return (color);
 	}
-	idx[1] = round(uv.x * g_data.sky_texture->width);
-	idx[2] = round(uv.y * g_data.sky_texture->height);
-	idx[0] = g_data.sky_texture->width * idx[2] + idx[1];
-	return (get_image_pixel_color(g_data.sky_texture, idx[0]));
+	idx[1] = round(uv.x * g_data.sky_image->width);
+	idx[2] = round(uv.y * g_data.sky_image->height);
+	idx[0] = g_data.sky_image->width * idx[2] + idx[1];
+	return (get_image_pixel_color(g_data.sky_image, idx[0]));
 }
 
 /**
