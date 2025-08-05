@@ -32,6 +32,15 @@ bool	data_init_successful(void)
 	init_object_data();
 	if (mlx_init_successful() == false)
 		return (false);
+	if (g_data.elems.ambient_light->sky_texture)
+	{
+		g_data.sky_texture = mlx_texture_to_image(g_data.mlx,
+				g_data.elems.ambient_light->sky_texture);
+		mlx_delete_texture(g_data.elems.ambient_light->sky_texture);
+		g_data.elems.ambient_light->sky_texture = NULL;
+		if (!g_data.sky_texture)
+			return (print_err("Failed to convert sky texture to MLX image"));
+	}
 	return (true);
 }
 
