@@ -302,9 +302,10 @@ typedef struct s_camera
 
 typedef struct s_ambient_light
 {
-	t_flt	brightness;
-	t_color	color;
-}			t_ambient_light;
+	t_flt			brightness;
+	t_color			color;
+	mlx_texture_t	*sky_texture;
+}					t_ambient_light;
 
 typedef struct s_light
 {
@@ -423,7 +424,7 @@ typedef struct s_data
 	pthread_mutex_t	lock;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
-	mlx_image_t		*sky_texture;
+	mlx_image_t		*sky_image;
 	t_error			error;
 }					t_data;
 
@@ -467,6 +468,8 @@ bool			optional_pattern_name_parse(char *str, size_t *parse_i,
 					t_pattern *dest);
 bool			optional_pattern_color_parse(char *str, size_t *parse_i,
 					t_pattern pattern_name, t_8bit_color *dest);
+bool			optional_asset_parse(char *str, size_t *parse_i,
+					mlx_texture_t **dest);
 
 // parsing/parse_segment.c
 bool			rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest);
@@ -503,7 +506,6 @@ t_vec4			ray_position(t_ray ray, t_flt t);
 
 // rays/cast_rays.c
 t_ray_x_obj		hit(t_ray_x_objs intersections);
-void			cast_rays(void);
 t_ray_x_obj		*closest_rxo(t_ray_x_obj_array *array);
 t_color			color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
 

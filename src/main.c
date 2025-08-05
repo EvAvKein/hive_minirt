@@ -14,8 +14,6 @@
 
 t_data	g_data;
 
-static void	load_sky_texture(void);
-
 int	main(int argc, char **argv)
 {
 	ft_bzero(&g_data, sizeof(t_data));
@@ -27,7 +25,6 @@ int	main(int argc, char **argv)
 		return (print_err("Couldn't initialize mutex"));
 	if (data_init_successful() == false)
 		return (g_data.error);
-	load_sky_texture();
 	setup_pixel_rays();
 	run_threads();
 	mlx_close_hook(g_data.mlx, close_hook, &g_data);
@@ -36,13 +33,4 @@ int	main(int argc, char **argv)
 	mlx_terminate(g_data.mlx);
 	free_data();
 	return (0);
-}
-
-static void	load_sky_texture(void)
-{
-	mlx_texture_t	*tex;
-
-	tex = mlx_load_png("textures/qwantani_dusk_2_puresky.png");
-	g_data.sky_texture = mlx_texture_to_image(g_data.mlx, tex);
-	mlx_delete_texture(tex);
 }
