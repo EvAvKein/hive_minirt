@@ -312,7 +312,7 @@ typedef struct s_camera
 typedef struct s_ambient_light
 {
 	t_flt			brightness;
-	t_flt_color		color;
+	t_color			color;
 	mlx_texture_t	*sky_texture;
 }					t_ambient_light;
 
@@ -494,7 +494,7 @@ bool			uint8_parse(char *str, size_t *parse_i, uint8_t *dest);
 bool			optional_pattern_name_parse(char *str, size_t *parse_i,
 					t_pattern *dest);
 bool			optional_pattern_color_parse(char *str, size_t *parse_i,
-					t_pattern pattern_name, t_flt_color *dest);
+					t_pattern pattern_name, t_8bit_color *dest);
 bool			optional_asset_parse(char *str, size_t *parse_i,
 					mlx_texture_t **dest);
 

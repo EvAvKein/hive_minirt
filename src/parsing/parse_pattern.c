@@ -102,19 +102,19 @@ bool	optional_pattern_color_parse(char *str, size_t *parse_i,
 bool	optional_asset_parse(char *str, size_t *parse_i, mlx_texture_t **dest)
 {
 	size_t			path_i;
-	bool			skip_manual_null;
+	bool			manually_terminated_str;
 
 	*dest = NULL;
-	if (is_end(str[*parse_i]))
+	if (!str[*parse_i])
 		return (true);
 	path_i = 0;
-	while (!is_end(str[*parse_i + path_i]) && !is_space(str[*parse_i + path_i]))
+	while (str[*parse_i + path_i] && !is_space(str[*parse_i + path_i]))
 		path_i++;
-	skip_manual_null = is_space(str[*parse_i + path_i]);
-	if (skip_manual_null || is_end(str[*parse_i + path_i]))
+	manually_terminated_str = is_space(str[*parse_i + path_i]);
+	if (manually_terminated_str)
 		str[*parse_i + path_i] = '\0';
 	*dest = mlx_load_png(&str[*parse_i]);
 	if (*dest)
-		*parse_i += path_i + skip_manual_null;
+		*parse_i += path_i + manually_terminated_str;
 	return (!!*dest);
 }

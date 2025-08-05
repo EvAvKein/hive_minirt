@@ -36,13 +36,13 @@ bool	ambient_light_parse(char *str, size_t *parse_i)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid ambient light brightness"));
 	skip_spaces(str, parse_i);
-	if (!rgb_parse(str, parse_i, &ambient_light.color)
-		|| (!is_end(str[*parse_i]) && !is_space(str[*parse_i - 1])))
+	if (!rgb_parse(str, parse_i, &ambient_light.color.bit)
+		|| (str[*parse_i] && !is_space(str[*parse_i - 1])))
 		return (print_err("invalid ambient light color"));
 	if (!optional_asset_parse(str, parse_i, &ambient_light.sky_texture))
 		return (print_err("invalid sky texture path"));
 	skip_spaces(str, parse_i);
-	if (!is_end(str[*parse_i]))
+	if (str[*parse_i])
 		return (print_err("invalid ambient light data after sky texture"));
 	node = malloc(sizeof(t_ambient_light));
 	if (!node)
