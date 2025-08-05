@@ -66,6 +66,13 @@
 #  define MOVEMENT_MULT		20
 # endif
 
+# ifndef ROTATION_BASE
+#  define ROTATION_BASE		5 * RADIANS_PER_DEGREE
+# endif
+# ifndef ROTATION_MULT
+#  define ROTATION_MULT		3
+# endif
+
 // Screenshot
 # ifndef KEYBIND_SAVE
 #  define KEYBIND_SAVE		MLX_KEY_SPACE

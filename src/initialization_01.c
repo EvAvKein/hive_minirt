@@ -46,7 +46,14 @@ void	setup_pixel_rays(void)
 	setup_pixel_grid();
 	i = -1;
 	while (++i < g_data.pixel_count)
+	{
+		if (g_data.pixel_rays[i].intersections._)
+		{
+			free(g_data.pixel_rays[i].intersections._);
+			g_data.pixel_rays[i].intersections._ = NULL;
+		}
 		g_data.pixel_rays[i] = ray_for_pixel(i);
+	}
 }
 
 /**

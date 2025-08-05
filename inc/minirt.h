@@ -411,6 +411,7 @@ typedef struct s_data
 	t_elems			elems;
 	t_pixel_grid	pixel_grid;
 	t_ray			*pixel_rays;
+	_Atomic size_t	jobs_available;
 	_Atomic size_t	active_threads;
 	_Atomic size_t	threads_waiting;
 	_Atomic bool	stop;
