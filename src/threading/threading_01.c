@@ -36,6 +36,7 @@ bool	run_threads(void)
 			return (print_err("A thread failed to create"));
 		}
 	}
+	g_data.jobs_available = THREADS;
 	pthread_mutex_unlock(&g_data.lock);
 	return (true);
 }
@@ -62,8 +63,9 @@ static void	*raycasting_routine(void *arg)
 		precision /= 2;
 	while (!data->stop)
 	{
+		--data->jobs_available;
 		gradually_render(data, i0, precision);
-		while (!data->stop && !data->work_to_be_done)
+		while (!data->stop && data->jobs_available == 0)
 			usleep(10 * TICK);
 	}
 	return (NULL);
@@ -77,6 +79,8 @@ static void	gradually_render(t_data *data, size_t i0, size_t precision)
 	size_t	i;
 
 	++data->active_threads;
+	while (data->jobs_available != 0 && data->active_threads != THREADS)
+		usleep(TICK);
 	while (precision > 0 && !data->stop && !data->pause)
 	{
 		i = i0 * precision;
@@ -93,7 +97,7 @@ static void	gradually_render(t_data *data, size_t i0, size_t precision)
 			--data->threads_waiting;
 		if (data->stop || data->pause)
 			break ;
-		usleep(THREADS * TICK + 10);
+		usleep(data->threads_waiting * TICK + 10);
 		--data->threads_waiting;
 	}
 	--data->active_threads;
@@ -104,26 +108,27 @@ static void	gradually_render(t_data *data, size_t i0, size_t precision)
  */
 static void	cast_ray(t_data *data, size_t i, size_t precision)
 {
-	t_ray *const	ray = &data->pixel_rays[i];
+	t_ray			ray;
 	t_ray_x_obj		*rxo;
 	t_phong_helper	p;
 	t_flt_color		col;
 
+	ray = ray_for_pixel(i);
 	p = (t_phong_helper){};
-	empty_intersections(ray);
-	cast_ray_at_objs(ray, &data->elems, NULL);
-	rxo = closest_rxo(&ray->intersections);
+	cast_ray_at_objs(&ray, &data->elems, NULL);
+	rxo = closest_rxo(&ray.intersections);
 	if (rxo == NULL)
-		col = get_sky_color(*ray, i);
+		col = get_sky_color(ray, i);
 	else
 	{
 		p.light = data->elems.lights;
-		p.ray = ray;
-		p.pos = ray_position(*ray, rxo->t);
-		p.to_cam = opposite_vec(ray->dir);
+		p.ray = &ray;
+		p.pos = ray_position(ray, rxo->t);
+		p.to_cam = opposite_vec(ray.dir);
 		p.obj_hit = rxo->obj;
 		col = color_at_obj_hit(rxo, &p);
 	}
 	while (precision--)
-		set_pixel_color(i++, color_flt_to_8bit(col));
+		set_pixel_color(i++, col);
+	free(ray.intersections._);
 }
