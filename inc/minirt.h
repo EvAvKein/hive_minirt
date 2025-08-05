@@ -424,7 +424,7 @@ typedef struct s_data
 	pthread_mutex_t	lock;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
-	mlx_image_t		*sky_texture;
+	mlx_image_t		*sky_image;
 	t_error			error;
 }					t_data;
 
