@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+t_data	g_data;
+
 int	main(int argc, char **argv)
 {
 	ft_bzero(&g_data, sizeof(t_data));
