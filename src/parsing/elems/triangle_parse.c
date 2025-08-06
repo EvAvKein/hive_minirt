@@ -77,11 +77,11 @@ static inline bool	triangle_parse_latter_half(t_triangle *triangle,
 	return (true);
 }
 
-static inline bool invalid_pattern(char *str, size_t *parse_i)
+static inline bool	invalid_pattern(char *str, size_t *parse_i)
 {
 	return (pattern_name_match(str, parse_i, "checkerboard")
-			|| pattern_name_match(str, parse_i, "beams")
-			|| pattern_name_match(str, parse_i, "circus"));
+		|| pattern_name_match(str, parse_i, "beams")
+		|| pattern_name_match(str, parse_i, "circus"));
 }
 
 static inline bool	pattern_name_match(char *str, size_t *parse_i,
@@ -90,5 +90,5 @@ static inline bool	pattern_name_match(char *str, size_t *parse_i,
 	const size_t	len = ft_strlen(pattern_name);
 
 	return (!ft_strncmp(&str[*parse_i], pattern_name, len)
-			&& (!str[*parse_i + len] || is_space(str[*parse_i + len])));
+		&& (!str[*parse_i + len] || is_space(str[*parse_i + len])));
 }

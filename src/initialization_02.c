@@ -12,23 +12,7 @@
 
 #include "minirt.h"
 
-static void	init_lights(t_light *light);
-static void	init_spheres(t_sphere *sp);
-static void	init_planes(t_plane *pl);
-static void	init_cylinders(t_cylinder *cyl);
-static void	init_triangles(t_triangle *cyl);
-
-void	init_object_data(void)
-{
-	init_lights(g_data.elems.lights);
-	init_spheres(g_data.elems.spheres);
-	init_planes(g_data.elems.planes);
-	init_cylinders(g_data.elems.cylinders);
-	init_triangles(g_data.elems.triangles);
-	init_camera_transform(g_data.elems.camera);
-}
-
-static void	init_lights(t_light *light)
+void	init_lights(t_light *light)
 {
 	t_ambient_light *const	amb = g_data.elems.ambient_light;
 
@@ -41,7 +25,7 @@ static void	init_lights(t_light *light)
 	}
 }
 
-static void	init_spheres(t_sphere *sp)
+void	init_spheres(t_sphere *sp)
 {
 	while (sp)
 	{
@@ -54,7 +38,7 @@ static void	init_spheres(t_sphere *sp)
 	}
 }
 
-static void	init_planes(t_plane *pl)
+void	init_planes(t_plane *pl)
 {
 	while (pl)
 	{
@@ -67,7 +51,7 @@ static void	init_planes(t_plane *pl)
 	}
 }
 
-static void	init_cylinders(t_cylinder *cyl)
+void	init_cylinders(t_cylinder *cyl)
 {
 	while (cyl)
 	{
@@ -80,7 +64,7 @@ static void	init_cylinders(t_cylinder *cyl)
 	}
 }
 
-static void	init_triangles(t_triangle *tr)
+void	init_triangles(t_triangle *tr)
 {
 	while (tr)
 	{

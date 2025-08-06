@@ -603,9 +603,14 @@ void			dealloc_triangles(t_triangle *triangle);
 bool			data_init_successful(void);
 
 // initialization_02.c
-void			init_object_data(void);
+void			init_lights(t_light *light);
+void			init_spheres(t_sphere *sp);
+void			init_planes(t_plane *pl);
+void			init_cylinders(t_cylinder *cyl);
+void			init_triangles(t_triangle *cyl);
 
 // initialization_03.c
+void			init_object_data(void);
 void			setup_pixel_grid(size_t width, size_t height);
 t_ray			ray_for_pixel(size_t i);
 
