@@ -57,7 +57,7 @@ t_material	mat_at_hit_on_plane(t_vec4 *hit_pos, t_plane *pl)
 		return (pl->material);
 	else if (pl->pattern == CHECKERBOARD)
 		return (mat_by_pattern_checkerboard(relative_pos,
-				pl_pattern_mats(CHECKERBOARD, plane), PLANE, EPSILON));
+				pl_pattern_mats(CHECKERBOARD, plane), PLANE, -1));
 	else if (plane->pattern == CANDY)
 		return (mat_by_pattern_candy(relative_pos,
 				pl_pattern_mats(CANDY, pl)));
@@ -72,7 +72,7 @@ t_material	mat_at_hit_on_plane(t_vec4 *hit_pos, t_plane *pl)
 				pl_pattern_mats(ANGEL, pl)));
 	else if (pl->pattern == BEAMS)
 		return (mat_by_pattern_beams(relative_pos,
-				pl_pattern_mats(BEAMS, plane), EPSILON));
+				pl_pattern_mats(BEAMS, plane), -1));
 	return (plane->material);
 }
 
