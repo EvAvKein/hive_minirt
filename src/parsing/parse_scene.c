@@ -57,7 +57,15 @@ static bool	process_line(char *line, size_t *i)
 	}
 	if (line[*i] == 'L' && is_space(line[*i + 1]))
 		return (light_parse(line, i));
-	return (object_parse(line, i));
+	if (!ft_strncmp(&line[*i], "sp", 2) && is_space(line[*i + 2]))
+		return (sphere_parse(line, i));
+	if (!ft_strncmp(&line[*i], "pl", 2) && is_space(line[*i + 2]))
+		return (plane_parse(line, i));
+	if (!ft_strncmp(&line[*i], "cy", 2) && is_space(line[*i + 2]))
+		return (cylinder_parse(line, i));
+	if (!ft_strncmp(&line[*i], "tr", 2) && is_space(line[*i + 2]))
+		return (triangle_parse(line, i));
+	return (print_err("invalid object name"));
 }
 
 /**

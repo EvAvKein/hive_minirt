@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 16:33:26 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/05 18:46:34 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,10 +378,10 @@ typedef struct s_triangle
 	t_vec4				pos1;
 	t_vec4				pos2;
 	t_vec4				pos3;
-	t_flt_color			color;
+	t_color				color;
 	t_material			material;
 	t_pattern			pattern;
-	t_flt_color			pattern_color;
+	t_8bit_color		pattern_color;
 	struct s_triangle	*next;
 }						t_triangle;
 
@@ -520,8 +520,7 @@ bool			cylinder_parse(char *str, size_t *parse_i);
 // parsing/parse_triangle.c
 bool			triangle_parse(char *str, size_t *parse_i);
 
-// parsing/utils/char_checks_and_skips.c
-bool			is_end(char c);
+// parsing/utils.c
 bool			is_space(char c);
 void			skip_spaces(char *str, size_t *parse_i);
 void			skip_letters_and_trailing_spaces(char *str, size_t *parse_i);
@@ -570,6 +569,16 @@ void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 void			empty_intersections(t_ray *ray);
 
 /* ----------------------------------------------------------------- PATTERNS */
+
+// color/material_at_pos_of_obj.c
+t_material		material_at_hit_on_sphere(
+					t_vec4 *hit_pos, t_sphere *sphere);
+t_material		material_at_hit_on_plane(
+					t_vec4 *hit_pos, t_plane *plane);
+t_material		material_at_hit_on_cylinder(
+					t_vec4 *hit_pos, t_cylinder *cylinder);
+t_material		material_at_hit_on_triangle(
+					t_vec4 *hit_pos, t_triangle *triangle);
 
 // color/obj_pattern_mats.c
 t_pattern_mats	sp_pattern_mats(t_pattern pattern_name, t_sphere *sphere);

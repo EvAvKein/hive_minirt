@@ -27,6 +27,7 @@ bool	free_data(void)
 	dealloc_spheres(g_data.elems.spheres);
 	dealloc_planes(g_data.elems.planes);
 	dealloc_cylinders(g_data.elems.cylinders);
+	dealloc_triangles(g_data.elems.triangles);
 	i = -1;
 	while (++i < THREADS)
 		pthread_join(g_data.threads[i], NULL);

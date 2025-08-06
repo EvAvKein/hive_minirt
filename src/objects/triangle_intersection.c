@@ -12,9 +12,6 @@
 
 #include "minirt.h"
 
-static t_vec4	triangle_math_pt2(t_vec4 edge1, t_vec4 edge2,
-					t_vec4 ray_to_corner, t_vec4 q);
-
 /**
  * @param ray	Ray struct to cast at triangle
  * @param tr	Triangle struct pointer to cast ray at
@@ -24,28 +21,18 @@ static t_vec4	triangle_math_pt2(t_vec4 edge1, t_vec4 edge2,
  */
 t_ray_x_obj	ray_x_triangle(t_ray ray, t_triangle const *tr)
 {
-	const t_vec4	edge1 = vec_sub(tr->pos2, tr->pos1);
-	const t_vec4	edge2 = vec_sub(tr->pos3, tr->pos1);
-	const t_vec4	ray_to_corner = vec_sub(ray.orig, tr->pos1);
-	t_vec4			math;
+	t_vec4	v1v0 = vec_sub(tr->pos2, tr->pos1);
+	t_vec4	v2v0 = vec_sub(tr->pos3, tr->pos1);
+	t_vec4	rov0 = vec_sub(ray.orig, tr->pos1);
+	t_vec4	n = cross(v1v0, v2v0);
+	t_vec4	q = cross(rov0, ray.dir);
 
-	math = triangle_math_pt2(edge1, edge2,
-			ray_to_corner, ray.dir);
-	if (math.x < EPSILON || math.y < EPSILON || (math.x + math.y) > 1.0f)
-		math.z = 0;
-	return ((t_ray_x_obj){
-		.t = math.z, .obj = (void *)tr, .obj_type = TRIANGLE});
-}
+	t_flt	d = 1.0f / dot(ray.dir, n);
+	t_flt	u = d * dot(vec_sub((t_vec4){}, q), v2v0);
+	t_flt	v = d * dot(q, v1v0);
+	t_flt	t = d * dot(vec_sub((t_vec4){}, n), rov0);
 
-static t_vec4	triangle_math_pt2(t_vec4 edge1, t_vec4 edge2,
-					t_vec4 ray_to_corner, t_vec4 ray_dir)
-{
-	const t_vec4	q = cross(ray_to_corner, ray_dir);
-	const t_vec4	n = cross(edge1, edge2);
-	const t_flt		d = 1.0f / dot(ray_dir, n);
-
-	return ((t_vec4){
-		.x = d * dot(opposite_vec(q), edge2),
-		.y = d * dot(q, edge1),
-		.z = d * dot(opposite_vec(n), ray_to_corner)});
+	if (u < 0.0f || v < 0.0f || (u + v) > 1.0f)
+		t = -1.0f;
+	return ((t_ray_x_obj){.t = t, .obj = (void *)tr, .obj_type = TRIANGLE});
 }

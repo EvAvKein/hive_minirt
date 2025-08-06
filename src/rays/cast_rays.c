@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:44:50 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/04 20:44:16 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/06 09:19:19 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,34 +85,10 @@ t_flt_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 		p->normal = cross(p->pos, (*(t_triangle *)rxo->obj).pos1);
 		p->mat = mat_at_hit_on_triangle(&p->pos, (t_triangle *)p->obj_hit);
 	}
-	return (let_there_be_light(p));
-}
-
-/**
- * Sets the image's pixel values by raytracing the scene
- */
-void	cast_rays(void)
-{
-	size_t			i;
-	t_ray			*ray;
-	t_ray_x_obj		*rxo;
-	t_phong_helper	phong;
-
-	phong = (t_phong_helper){};
-	i = -1;
-	while (++i < g_data.pixel_count)
+	if (rxo->obj_type == TRIANGLE)
 	{
-		ray = &g_data.pixel_rays[i];
-		empty_intersections(ray);
-		cast_ray_at_objs(ray, &g_data.elems, NULL);
-		rxo = closest_rxo(&ray->intersections);
-		if (rxo == NULL)
-			continue ;
-		phong.light = g_data.elems.lights;
-		phong.ray = ray;
-		phong.pos = ray_position(*ray, rxo->t);
-		phong.to_cam = opposite_vec(ray->dir);
-		phong.obj_hit = rxo->obj;
-		set_pixel_color(i, color_at_obj_hit(rxo, &phong));
+		p->normal = cross(p->pos, (*(t_triangle*)rxo->obj).pos1);
+		p->mat = material_at_hit_on_triangle(&p->pos, (t_triangle *)p->obj_hit);
 	}
+	return (let_there_be_light(p));
 }

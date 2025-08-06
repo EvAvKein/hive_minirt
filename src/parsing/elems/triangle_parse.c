@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:25:20 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 16:46:58 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/05 18:50:02 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 static inline bool	triangle_parse_latter_half(
 						t_triangle *triangle, char *str, size_t *parse_i);
-static inline bool	invalid_pattern(char *str, size_t *parse_i);
-static inline bool	pattern_name_match(char *str, size_t *parse_i,
-						char *pattern_name);
 
 /**
  *
@@ -62,33 +59,15 @@ bool	triangle_parse(char *str, size_t *parse_i)
 static inline bool	triangle_parse_latter_half(t_triangle *triangle,
 						char *str, size_t *parse_i)
 {
-	if (!rgb_parse(str, parse_i, &triangle->color)
+	if (!rgb_parse(str, parse_i, &triangle->color.bit)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid triangle color"));
-	if (invalid_pattern(str, parse_i))
-		return (print_err("incompatible pattern for triangle"));
 	if (!optional_pattern_name_parse(str, parse_i, &triangle->pattern))
 		return (print_err("invalid triangle pattern name"));
 	if (!optional_pattern_color_parse(str, parse_i,
 			triangle->pattern, &triangle->pattern_color))
 		return (print_err("invalid triangle pattern color"));
-	if (!is_end(str[*parse_i]))
+	if (str[*parse_i])
 		return (print_err("invalid triangle data after pattern color"));
 	return (true);
-}
-
-static inline bool	invalid_pattern(char *str, size_t *parse_i)
-{
-	return (pattern_name_match(str, parse_i, "checkerboard")
-		|| pattern_name_match(str, parse_i, "beams")
-		|| pattern_name_match(str, parse_i, "circus"));
-}
-
-static inline bool	pattern_name_match(char *str, size_t *parse_i,
-						char *pattern_name)
-{
-	const size_t	len = ft_strlen(pattern_name);
-
-	return (!ft_strncmp(&str[*parse_i], pattern_name, len)
-		&& (!str[*parse_i + len] || is_space(str[*parse_i + len])));
 }
