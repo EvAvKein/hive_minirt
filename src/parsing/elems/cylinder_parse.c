@@ -41,7 +41,7 @@ bool	cylinder_parse(char *str, size_t *parse_i)
 		|| !is_normalized_vec(cylinder.orientation)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid cylinder orientation"));
-	if (!flt_parse(str, parse_i, &cylinder.diam)
+	if (!flt_parse(str, parse_i, &cylinder.diam) || cylinder.diam < EPSILON
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid cylinder diameter"));
 	if (!cylinder_parse_latter_half(&cylinder, str, parse_i))
@@ -61,7 +61,7 @@ static inline bool	cylinder_parse_latter_half(t_cylinder *cylinder,
 						char *str, size_t *parse_i)
 {
 	if (!flt_parse(str, parse_i, &cylinder->height)
-		|| !is_space(str[*parse_i - 1]))
+		|| cylinder->height < EPSILON || !is_space(str[*parse_i - 1]))
 		return (print_err("invalid cylinder height"));
 	if (!rgb_parse(str, parse_i, &cylinder->color.bit)
 		|| !is_space(str[*parse_i - 1]))

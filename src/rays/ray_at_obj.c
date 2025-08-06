@@ -18,6 +18,8 @@ static void	cast_ray_at_planes(t_ray *ray,
 				t_plane *planes, void const *obj_ignore);
 static void	cast_ray_at_cylinders(t_ray *ray,
 				t_cylinder *cylinders, void const *obj_ignore);
+static void	cast_ray_at_triangles(t_ray *ray,
+				t_triangle *triangles, void const *obj_ignore);
 
 /**
  *	checks if the provided ray intersects with any objects,
@@ -28,6 +30,7 @@ void	cast_ray_at_objs(t_ray *ray, t_elems *elems, void const *obj_ignore)
 	cast_ray_at_spheres(ray, elems->spheres, obj_ignore);
 	cast_ray_at_planes(ray, elems->planes, obj_ignore);
 	cast_ray_at_cylinders(ray, elems->cylinders, obj_ignore);
+	cast_ray_at_triangles(ray, elems->triangles, obj_ignore);
 }
 
 /**
@@ -105,5 +108,30 @@ static void	cast_ray_at_cylinders(t_ray *ray,
 		if (rxo.t > 0)
 			xadd_intersection(ray, rxo);
 		cylinder = cylinder->next;
+	}
+}
+
+/**
+ *	Checks if the provided ray intersects with any triangles,
+ *	adding any such intersections to the ray's array
+ */
+static void	cast_ray_at_triangles(t_ray *ray,
+					t_triangle *triangles, void const *obj_ignore)
+{
+	t_ray_x_obj		rxo;
+	t_triangle		*triangle;
+
+	triangle = triangles;
+	while (triangle)
+	{
+		if (triangle == obj_ignore)
+		{
+			triangle = triangle->next;
+			continue ;
+		}
+		rxo = ray_x_triangle(*ray, triangle);
+		if (rxo.t > 0)
+			xadd_intersection(ray, rxo);
+		triangle = triangle->next;
 	}
 }

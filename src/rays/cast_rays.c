@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:44:50 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/04 20:44:16 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/06 09:19:19 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ t_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 	{
 		p->normal = cylinder_normal_at(*(t_cylinder *)rxo->obj, p->pos);
 		p->mat = material_at_hit_on_cylinder(&p->pos, (t_cylinder *)p->obj_hit);
+	}
+	if (rxo->obj_type == TRIANGLE)
+	{
+		p->normal = cross(p->pos, (*(t_triangle *)rxo->obj).pos1);
+		p->mat = material_at_hit_on_triangle(&p->pos, (t_triangle *)p->obj_hit);
 	}
 	return (let_there_be_light(p));
 }

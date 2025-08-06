@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/29 17:35:30 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/05 18:46:34 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,7 @@ typedef enum e_obj_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	TRIANGLE,
 }	t_obj_type;
 
 /**
@@ -358,6 +359,18 @@ typedef struct s_cylinder
 	struct s_cylinder	*next;
 }						t_cylinder;
 
+typedef struct s_triangle
+{
+	t_vec4				pos1;
+	t_vec4				pos2;
+	t_vec4				pos3;
+	t_color				color;
+	t_material			material;
+	t_pattern			pattern;
+	t_8bit_color		pattern_color;
+	struct s_triangle	*next;
+}						t_triangle;
+
 typedef struct s_elems
 {
 	t_camera		*camera;
@@ -366,6 +379,7 @@ typedef struct s_elems
 	t_sphere		*spheres;
 	t_plane			*planes;
 	t_cylinder		*cylinders;
+	t_triangle		*triangles;
 }					t_elems;
 
 /* --------------------------------------------------------------------- RAYS */
@@ -490,6 +504,9 @@ bool			plane_parse(char *str, size_t *parse_i);
 // parsing/parse_cylinder.c
 bool			cylinder_parse(char *str, size_t *parse_i);
 
+// parsing/parse_triangle.c
+bool			triangle_parse(char *str, size_t *parse_i);
+
 // parsing/utils.c
 bool			is_space(char c);
 void			skip_spaces(char *str, size_t *parse_i);
@@ -528,6 +545,10 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl);
 t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
 t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 
+// objects/plane_intersection.c
+t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
+t_vec4			triangle_normal_at(t_triangle tr, t_vec4 world_pos);
+
 // intersections/intersections_01.c
 void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
 void			empty_intersections(t_ray *ray);
@@ -541,11 +562,14 @@ t_material		material_at_hit_on_plane(
 					t_vec4 *hit_pos, t_plane *plane);
 t_material		material_at_hit_on_cylinder(
 					t_vec4 *hit_pos, t_cylinder *cylinder);
+t_material		material_at_hit_on_triangle(
+					t_vec4 *hit_pos, t_triangle *triangle);
 
 // color/obj_pattern_mats.c
 t_pattern_mats	sp_pattern_mats(t_pattern pattern_name, t_sphere *sphere);
 t_pattern_mats	pl_pattern_mats(t_pattern pattern_name, t_plane *plane);
 t_pattern_mats	cy_pattern_mats(t_pattern pattern_name, t_cylinder *cylinder);
+t_pattern_mats	tr_pattern_mats(t_pattern pattern_name, t_triangle *triangle);
 
 // color/pattern_checkerboard.c
 t_material		mat_by_pattern_checkerboard(t_vec4 relative_pos,
@@ -573,6 +597,7 @@ void			dealloc_lights(t_light *light);
 void			dealloc_spheres(t_sphere *sphere);
 void			dealloc_planes(t_plane *plane);
 void			dealloc_cylinders(t_cylinder *cylinder);
+void			dealloc_triangles(t_triangle *triangle);
 
 /* ---------------------------------------------- DATA SETUP & INITIALIZATION */
 
@@ -581,9 +606,14 @@ void			setup_pixel_rays(void);
 bool			data_init_successful(void);
 
 // initialization_02.c
-void			init_object_data(void);
+void			init_lights(t_light *light);
+void			init_spheres(t_sphere *sp);
+void			init_planes(t_plane *pl);
+void			init_cylinders(t_cylinder *cyl);
+void			init_triangles(t_triangle *cyl);
 
 // initialization_03.c
+void			init_object_data(void);
 void			setup_pixel_grid(void);
 t_ray			ray_for_pixel(size_t i);
 
