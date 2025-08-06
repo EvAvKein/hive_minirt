@@ -36,8 +36,7 @@ static bool	pattern_name_match_and_skip_i(
  */
 bool	optional_pattern_name_parse(char *str, size_t *parse_i, t_pattern *dest)
 {
-	if (is_end(str[*parse_i])
-		|| pattern_name_match_and_skip_i(str, parse_i, "solid"))
+	if (!str[*parse_i] || pattern_name_match_and_skip_i(str, parse_i, "solid"))
 		*dest = SOLID;
 	else if (pattern_name_match_and_skip_i(str, parse_i, "checkerboard"))
 		*dest = CHECKERBOARD;
