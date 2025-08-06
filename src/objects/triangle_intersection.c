@@ -21,18 +21,18 @@
  */
 t_ray_x_obj	ray_x_triangle(t_ray ray, t_triangle const *tr)
 {
-	t_vec4	v1v0 = vec_sub(tr->pos2, tr->pos1);
-	t_vec4	v2v0 = vec_sub(tr->pos3, tr->pos1);
-	t_vec4	rov0 = vec_sub(ray.orig, tr->pos1);
-	t_vec4	n = cross(v1v0, v2v0);
-	t_vec4	q = cross(rov0, ray.dir);
+	t_vec4	edge1 = vec_sub(tr->pos2, tr->pos1);
+	t_vec4	edge2 = vec_sub(tr->pos3, tr->pos1);
+	t_vec4	ray_to_corner = vec_sub(ray.orig, tr->pos1);
+	t_vec4	n = cross(edge1, edge2);
+	t_vec4	q = cross(ray_to_corner, ray.dir);
 
 	t_flt	d = 1.0f / dot(ray.dir, n);
-	t_flt	u = d * dot(vec_sub((t_vec4){}, q), v2v0);
-	t_flt	v = d * dot(q, v1v0);
-	t_flt	t = d * dot(vec_sub((t_vec4){}, n), rov0);
+	t_flt	u = d * dot(opposite_vec(q), edge2);
+	t_flt	v = d * dot(q, edge1);
+	t_flt	t = d * dot(opposite_vec(n), ray_to_corner);
 
-	if (u < 0.0f || v < 0.0f || (u + v) > 1.0f)
-		t = -1.0f;
+	if (u < EPSILON || v < EPSILON || (u + v) > 1.0f)
+		t = 0;
 	return ((t_ray_x_obj){.t = t, .obj = (void *)tr, .obj_type = TRIANGLE});
 }
