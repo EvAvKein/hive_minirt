@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:25:20 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/22 09:35:07 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/05 15:11:48 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,24 @@ void	dealloc_cylinders(t_cylinder *cylinder)
 		next = cylinder->next;
 		free(cylinder);
 		cylinder = next;
+	}
+}
+
+/**
+ *
+ * Deallocate all the triangles in the provided linked list from the heap.
+ *
+ * @param triangle	First node in triangle linked list
+ *
+ */
+void	dealloc_triangles(t_triangle *triangle)
+{
+	t_triangle	*next;
+
+	while (triangle)
+	{
+		next = triangle->next;
+		free(triangle);
+		triangle = next;
 	}
 }

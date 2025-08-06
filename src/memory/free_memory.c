@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:48:51 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/25 17:02:06 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/06 13:57:13 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ bool	free_data(void)
 	dealloc_spheres(g_data.elems.spheres);
 	dealloc_planes(g_data.elems.planes);
 	dealloc_cylinders(g_data.elems.cylinders);
+	dealloc_triangles(g_data.elems.triangles);
 	i = -1;
 	while (++i < THREADS)
 		pthread_join(g_data.threads[i], NULL);
