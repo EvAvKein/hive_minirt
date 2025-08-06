@@ -40,8 +40,14 @@ bool	cylinder_parse(char *str, size_t *parse_i)
 	if (!vec4_parse(str, parse_i, &cylinder.pos, true)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid cylinder position"));
-	if (!cylinder_parse_pt2(&cylinder, str, parse_i)
-		|| !cylinder_parse_pt3(&cylinder, str, parse_i))
+	if (!vec4_parse(str, parse_i, &cylinder.orientation, false)
+		|| !is_normalized_vec(cylinder.orientation)
+		|| !is_space(str[*parse_i - 1]))
+		return (print_err("invalid cylinder orientation"));
+	if (!flt_parse(str, parse_i, &cylinder.diam) || cylinder.diam < EPSILON
+		|| !is_space(str[*parse_i - 1]))
+		return (print_err("invalid cylinder diameter"));
+	if (!cylinder_parse_latter_half(&cylinder, str, parse_i))
 		return (false);
 	cylinder.next = NULL;
 	ptr_to_next = &g_data.elems.cylinders;
@@ -61,13 +67,6 @@ bool	cylinder_parse(char *str, size_t *parse_i)
 static inline bool	cylinder_parse_pt2(t_cylinder *cylinder,
 						char *str, size_t *parse_i)
 {
-	if (!vec4_parse(str, parse_i, &cylinder->orientation, false)
-		|| !is_normalized_vec(cylinder->orientation)
-		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cylinder orientation"));
-	if (!flt_parse(str, parse_i, &cylinder->diam)
-		|| cylinder->diam < EPSILON || !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cylinder diameter"));
 	if (!flt_parse(str, parse_i, &cylinder->height)
 		|| cylinder->height < EPSILON || !is_space(str[*parse_i - 1]))
 		return (print_err("invalid cylinder height"));

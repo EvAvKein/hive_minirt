@@ -38,6 +38,9 @@ bool	sphere_parse(char *str, size_t *parse_i)
 	if (!vec4_parse(str, parse_i, &sphere.pos, true)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid sphere position"));
+	if (!flt_parse(str, parse_i, &sphere.radius) || sphere.radius < EPSILON
+		|| !is_space(str[*parse_i - 1]))
+		return (print_err("invalid sphere diameter"));
 	sphere.radius /= 2;
 	if (!sphere_parse_pt2(&sphere, str, parse_i))
 		return (false);
