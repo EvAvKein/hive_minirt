@@ -49,6 +49,8 @@ static bool	process_line(char *line, size_t *i)
 		return (plane_parse(line, i));
 	if (!ft_strncmp(&line[*i], "cy", 2) && is_space(line[*i + 2]))
 		return (cylinder_parse(line, i));
+	if (!ft_strncmp(&line[*i], "tr", 2) && is_space(line[*i + 2]))
+		return (triangle_parse(line, i));
 	return (print_err("invalid object name"));
 }
 

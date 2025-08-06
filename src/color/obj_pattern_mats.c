@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:29:31 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/27 13:31:27 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/05 16:49:21 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,13 @@ t_pattern_mats	cy_pattern_mats(t_pattern pattern_name, t_cylinder *cylinder)
 	return ((t_pattern_mats){
 		.obj_mat = cylinder->material,
 		.pat_mat = pattern_mat_with_color(pattern_name, cylinder->pattern_color)
+	});
+}
+
+t_pattern_mats	tr_pattern_mats(t_pattern pattern_name, t_triangle *triangle)
+{
+	return ((t_pattern_mats){
+		.obj_mat = triangle->material,
+		.pat_mat = pattern_mat_with_color(pattern_name, triangle->pattern_color)
 	});
 }

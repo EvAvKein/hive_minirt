@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 10:11:29 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/16 10:32:09 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/05 18:45:43 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	init_lights(t_light *light);
 static void	init_spheres(t_sphere *sp);
 static void	init_planes(t_plane *pl);
 static void	init_cylinders(t_cylinder *cyl);
+static void	init_triangles(t_triangle *cyl);
 
 void	init_object_data(void)
 {
@@ -23,6 +24,7 @@ void	init_object_data(void)
 	init_spheres(g_data.elems.spheres);
 	init_planes(g_data.elems.planes);
 	init_cylinders(g_data.elems.cylinders);
+	init_triangles(g_data.elems.triangles);
 	init_camera_transform(g_data.elems.camera);
 }
 
@@ -75,5 +77,17 @@ static void	init_cylinders(t_cylinder *cyl)
 		cyl->material.color = point(cyl->color.flt.r,
 				cyl->color.flt.g, cyl->color.flt.b);
 		cyl = cyl->next;
+	}
+}
+
+static void	init_triangles(t_triangle *tr)
+{
+	while (tr)
+	{
+		tr->material = default_material();
+		tr->color.flt = color_8bit_to_flt(tr->color.bit);
+		tr->material.color = point(tr->color.flt.r,
+				tr->color.flt.g, tr->color.flt.b);
+		tr = tr->next;
 	}
 }

@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/07/29 11:14:10 by jvarila          ###   ########.fr        #
+#    Updated: 2025/08/05 15:11:10 by ekeinan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC		:=	main.c									\
 			parsing/elems/sphere_parse.c			\
 			parsing/elems/plane_parse.c				\
 			parsing/elems/cylinder_parse.c			\
+			parsing/elems/triangle_parse.c			\
 			parsing/parse_scene.c					\
 			parsing/parse_segment.c					\
 			parsing/parse_value.c					\
@@ -71,6 +72,7 @@ SRC		:=	main.c									\
 			objects/sphere_intersection.c			\
 			objects/plane_intersection.c			\
 			objects/cylinder_intersection.c			\
+			objects/triangle_intersection.c			\
 			objects/materials_01.c					\
 			objects/transform_initialization.c		\
 			objects/transform_angle_calculation.c	\

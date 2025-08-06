@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:05:00 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/27 13:44:45 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/05 17:14:58 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_material	material_at_hit_on_plane(t_vec4 *hit_pos, t_plane *plane)
 		return (plane->material);
 	else if (plane->pattern == CHECKERBOARD)
 		return (mat_by_pattern_checkerboard(relative_pos,
-				pl_pattern_mats(CHECKERBOARD, plane), PLANE, 1));
+				pl_pattern_mats(CHECKERBOARD, plane), PLANE, EPSILON));
 	else if (plane->pattern == CANDY)
 		return (mat_by_pattern_candy(relative_pos,
 				pl_pattern_mats(CANDY, plane)));
@@ -70,7 +70,7 @@ t_material	material_at_hit_on_plane(t_vec4 *hit_pos, t_plane *plane)
 				pl_pattern_mats(ANGEL, plane)));
 	else if (plane->pattern == BEAMS)
 		return (mat_by_pattern_beams(relative_pos,
-				pl_pattern_mats(BEAMS, plane), 1));
+				pl_pattern_mats(BEAMS, plane), EPSILON));
 	return (plane->material);
 }
 
@@ -104,4 +104,37 @@ t_material	material_at_hit_on_cylinder(t_vec4 *hit_pos, t_cylinder *cylinder)
 				cy_pattern_mats(BEAMS, cylinder),
 				cylinder->height));
 	return (cylinder->material);
+}
+
+/**
+ * @returns The material at this position of the triangle
+ */
+t_material	material_at_hit_on_triangle(t_vec4 *hit_pos, t_triangle *triangle)
+{
+	// const t_vec4	relative_pos = transformed_vec(*hit_pos, triangle->inverse);
+	
+	(void) hit_pos;
+	if (triangle->pattern == SOLID)
+		return (triangle->material);
+	// else if (triangle->pattern == CHECKERBOARD)
+	// 	return (mat_by_pattern_checkerboard(relative_pos,
+	// 			tr_pattern_mats(CHECKERBOARD, triangle),
+	// 			TRIANGLE, EPSILON));
+	// else if (triangle->pattern == CANDY)
+	// 	return (mat_by_pattern_candy(relative_pos,
+	// 			tr_pattern_mats(BEAMS, triangle)));
+	// else if (triangle->pattern == CIRCUS)
+	// 	return (mat_by_pattern_circus(relative_pos,
+	// 			tr_pattern_mats(CIRCUS, triangle)));
+	// else if (triangle->pattern == LINES)
+	// 	return (mat_by_pattern_lines(relative_pos,
+	// 			tr_pattern_mats(LINES, triangle)));
+	// else if (triangle->pattern == ANGEL)
+	// 	return (mat_by_pattern_angel(relative_pos,
+	// 			tr_pattern_mats(ANGEL, triangle)));
+	// else if (triangle->pattern == BEAMS)
+	// 	return (mat_by_pattern_beams(relative_pos,
+	// 			tr_pattern_mats(BEAMS, triangle),
+	// 			EPSILON));
+	return (triangle->material);
 }
