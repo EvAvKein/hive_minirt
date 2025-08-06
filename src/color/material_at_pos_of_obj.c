@@ -141,7 +141,7 @@ t_material	mat_at_hit_on_triangle(t_vec4 *hit_pos, t_triangle *tr)
 t_material	material_at_hit_on_triangle(t_vec4 *hit_pos, t_triangle *triangle)
 {
 	const t_vec4	relative_pos = *hit_pos;
-	
+
 	if (triangle->pattern == SOLID)
 		return (triangle->material);
 	else if (triangle->pattern == CANDY)
