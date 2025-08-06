@@ -440,7 +440,6 @@ typedef struct s_data
 {
 	t_elems			elems;
 	t_pixel_grid	pixel_grid;
-	t_ray			*pixel_rays;
 	_Atomic size_t	jobs_available;
 	_Atomic size_t	active_threads;
 	_Atomic size_t	threads_waiting;
@@ -611,7 +610,6 @@ void			dealloc_triangles(t_triangle *triangle);
 /* ---------------------------------------------- DATA SETUP & INITIALIZATION */
 
 // initialization_01.c
-void			setup_pixel_rays(void);
 bool			data_init_successful(void);
 
 // initialization_02.c
@@ -642,7 +640,9 @@ t_vec2			plane_pitch_and_yaw(t_plane pl);
 /* --------------------------------------------------------------- HOOKS & UI */
 
 // ui/keyhook.c
-void			keyhook(mlx_key_data_t key_data, void *param);
+void			esc_and_screenshot_hook(mlx_key_data_t key_data, void *param);
+void			movement_hook(void *param);
+void			rotation_hook(void *param);
 
 // ui/close_hook.c
 void			close_hook(void *param);
@@ -661,7 +661,9 @@ bool			vecs_are_equal(t_vec4 vec1, t_vec4 vec2);
 bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 
 // utils/utils_02.c
-void			write_pixel_rays_to_file(const char *str);
+t_color			vec4_to_color(t_vec4 vec);
+t_vec4			color_8bit_to_vec4(t_8bit_color color_8bit);
+t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */

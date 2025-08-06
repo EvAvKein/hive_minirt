@@ -28,12 +28,8 @@ bool	free_data(void)
 	dealloc_planes(g_data.elems.planes);
 	dealloc_cylinders(g_data.elems.cylinders);
 	i = -1;
-	while (++i < g_data.pixel_count)
-		free(g_data.pixel_rays[i].intersections._);
-	i = -1;
 	while (++i < THREADS)
 		pthread_join(g_data.threads[i], NULL);
-	free(g_data.pixel_rays);
 	pthread_mutex_destroy(&g_data.lock);
 	return (true);
 }

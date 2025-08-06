@@ -13,32 +13,6 @@
 #include "minirt.h"
 
 /**
- * Used this function for debugging raycasting.
- *
- * @param str	String containing file name to write data into
- *
- * TODO: Remove function before eval or move to a debug source file
- */
-void	write_pixel_rays_to_file(const char *str)
-{
-	size_t	i;
-	int		fds[2];
-
-	fds[0] = open(str, O_CREAT | O_TRUNC | O_WRONLY, 0666);
-	if (fds[0] < 0)
-		return ;
-	fds[1] = dup(STDOUT_FILENO);
-	dup2(fds[0], STDOUT_FILENO);
-	i = -1;
-	while (++i < g_data.pixel_count)
-		print_vec(g_data.pixel_rays[i].dir);
-	fflush(stdout);
-	close(fds[0]);
-	dup2(fds[1], STDOUT_FILENO);
-	close(fds[1]);
-}
-
-/**
  * Helper function for converting a vec4 into a color object.
  *
  * @param vec	Vec4 to convert into a color

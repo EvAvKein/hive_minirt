@@ -26,36 +26,12 @@ bool	data_init_successful(void)
 	if (problem_with_resolution())
 		return (set_error_return_false(ERROR_PROBLEM_WITH_RESOLUTION));
 	g_data.pixel_count = RES_X * RES_Y;
-	g_data.pixel_rays = ft_calloc(g_data.pixel_count, sizeof(t_ray));
-	if (g_data.pixel_rays == NULL)
-		return (set_error_return_false(ERROR_ALLOC));
 	init_object_data();
 	if (mlx_init_successful() == false)
 		return (false);
 	if (mlx_asset_init_successful() == false)
 		return (false);
 	return (true);
-}
-
-/**
- * Calculates unit vectors for each ray that is being cast at a specific pixel.
- * Also applies camera transform.
- */
-void	setup_pixel_rays(void)
-{
-	size_t			i;
-
-	setup_pixel_grid();
-	i = -1;
-	while (++i < g_data.pixel_count)
-	{
-		if (g_data.pixel_rays[i].intersections._)
-		{
-			free(g_data.pixel_rays[i].intersections._);
-			g_data.pixel_rays[i].intersections._ = NULL;
-		}
-		g_data.pixel_rays[i] = ray_for_pixel(i);
-	}
 }
 
 /**
