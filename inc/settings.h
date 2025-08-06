@@ -29,25 +29,25 @@
 #  define KEYBIND_MBACKWARD	MLX_KEY_S
 # endif
 # ifndef KEYBIND_MUP
-#  define KEYBIND_MUP		MLX_KEY_R
+#  define KEYBIND_MUP		MLX_KEY_E
 # endif
 # ifndef KEYBIND_MDOWN
-#  define KEYBIND_MDOWN		MLX_KEY_F
+#  define KEYBIND_MDOWN		MLX_KEY_Q
 # endif
 
 // Rotation
 # ifndef KEYBIND_RX
-#  define KEYBIND_RX		MLX_KEY_X
+#  define KEYBIND_RX		MLX_KEY_UP
 # endif
 # ifndef KEYBIND_RY
-#  define KEYBIND_RY		MLX_KEY_Y
-# endif
-# ifndef KEYBIND_RZ
-#  define KEYBIND_RZ		MLX_KEY_Z
+#  define KEYBIND_RY		MLX_KEY_RIGHT
 # endif
 // Reverse rotation
-# ifndef KEYBIND_RREV
-#  define KEYBIND_RREV		MLX_KEY_LEFT_SHIFT
+# ifndef KEYBIND_RRX
+#  define KEYBIND_RRX		MLX_KEY_DOWN
+# endif
+# ifndef KEYBIND_RRY
+#  define KEYBIND_RRY		MLX_KEY_LEFT
 # endif
 
 // Control object
@@ -57,7 +57,7 @@
 
 // Move faster
 # ifndef KEYBIND_FAST
-#  define KEYBIND_FAST		MLX_KEY_LEFT_ALT
+#  define KEYBIND_FAST		MLX_KEY_LEFT_SHIFT
 # endif
 # ifndef MOVEMENT_BASE
 #  define MOVEMENT_BASE		1
@@ -67,7 +67,7 @@
 # endif
 
 # ifndef ROTATION_BASE
-#  define ROTATION_BASE		5 * RADIANS_PER_DEGREE
+#  define ROTATION_BASE		1 * RADIANS_PER_DEGREE
 # endif
 # ifndef ROTATION_MULT
 #  define ROTATION_MULT		3

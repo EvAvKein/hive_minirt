@@ -27,7 +27,10 @@ t_color	let_there_be_light(t_phong_helper *p)
 
 	p->light = g_data.elems.lights;
 	if (dot(p->to_cam, p->normal) < 0)
+	{
 		p->normal = opposite_vec(p->normal);
+		p->obj_hit = NULL;
+	}
 	set_ambient(p);
 	while (p->light)
 	{
