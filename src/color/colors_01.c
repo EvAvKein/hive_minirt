@@ -17,24 +17,13 @@
  */
 void	set_pixel_color(size_t pixel_i, t_color color)
 {
-	g_data.img->pixels[pixel_i * 4 + 0] = color.bit.r;
-	g_data.img->pixels[pixel_i * 4 + 1] = color.bit.g;
-	g_data.img->pixels[pixel_i * 4 + 2] = color.bit.b;
-	g_data.img->pixels[pixel_i * 4 + 3] = 0xff;
-}
-
-/**
- * Convenience function for easily creating colors
- *
- * @returns	t_color struct with colors set to match c
- */
-t_color	color_from_uint32(uint32_t c)
-{
-	t_color	col;
-
-	col.bit.rgba = c;
-	col.flt = color_8bit_to_flt(col.bit);
-	return (col);
+	if (pixel_i < g_data.pixel_count)
+	{
+		g_data.img->pixels[pixel_i * 4 + 0] = color.bit.r;
+		g_data.img->pixels[pixel_i * 4 + 1] = color.bit.g;
+		g_data.img->pixels[pixel_i * 4 + 2] = color.bit.b;
+		g_data.img->pixels[pixel_i * 4 + 3] = 0xff;
+	}
 }
 
 /**
