@@ -35,9 +35,9 @@ SRC		:=	main.c									\
 			image_to_file.c							\
 			ui/keyhook.c							\
 			ui/close_hook.c							\
-			initialization_01.c						\
-			initialization_02.c						\
-			initialization_03.c						\
+			initialization/initialization_01.c		\
+			initialization/initialization_02.c		\
+			initialization/initialization_03.c		\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
 			parsing/elems/parse_cam_and_lights.c	\
@@ -91,6 +91,7 @@ OBJ_DIR		:= obj
 OBJ			:= $(SRC:%.c=$(OBJ_DIR)/%.o)
 .SECONDARY	:= $(OBJ)
 # ---------------------------------------------------------------------------- #
+
 .DEFAULT = all
 
 all: $(NAME)

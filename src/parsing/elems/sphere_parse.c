@@ -57,7 +57,7 @@ bool	sphere_parse(char *str, size_t *parse_i)
 static inline bool	sphere_parse_latter_half(t_sphere *sphere,
 						char *str, size_t *parse_i)
 {
-	if (!rgb_parse(str, parse_i, &sphere->color.bit))
+	if (!rgb_parse(str, parse_i, &sphere->color))
 		return (print_err("invalid sphere color"));
 	if (!optional_pattern_name_parse(str, parse_i, &sphere->pattern))
 		return (print_err("invalid sphere pattern name"));

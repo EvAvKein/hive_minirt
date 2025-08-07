@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-static t_color	get_image_pixel_color(mlx_image_t const *img, size_t idx);
+static t_8bit_color	get_image_pixel_color(mlx_image_t const *img, size_t idx);
 
 /**
  * Sets pixel buffer to horizontal gradient, defined by the colors in the colors
@@ -23,7 +23,6 @@ static t_color	get_image_pixel_color(mlx_image_t const *img, size_t idx);
  */
 void	set_horizontal_gradient(mlx_image_t *img, t_flt_color colors[2])
 {
-	t_flt_color		between_flt;
 	t_8bit_color	between_8bit;
 	size_t			pixel_count;
 	size_t			i;
@@ -34,8 +33,8 @@ void	set_horizontal_gradient(mlx_image_t *img, t_flt_color colors[2])
 	while (++i < pixel_count)
 	{
 		zero_to_one_horizontal = (t_flt)(i % RES_X) / RES_X;
-		between_flt = lerp_color(colors[0], colors[1], zero_to_one_horizontal);
-		between_8bit = color_flt_to_8bit(between_flt);
+		between_8bit = color_flt_to_8bit(
+			lerp_color(colors[0], colors[1], zero_to_one_horizontal));
 		img->pixels[i * 4 + 0] = between_8bit.r;
 		img->pixels[i * 4 + 1] = between_8bit.g;
 		img->pixels[i * 4 + 2] = between_8bit.b;
@@ -52,7 +51,7 @@ void	set_horizontal_gradient(mlx_image_t *img, t_flt_color colors[2])
  */
 void	set_vertical_gradient(mlx_image_t *img, t_flt_color colors[2])
 {
-	t_color			col;
+	t_8bit_color	color;
 	size_t			pixel_count;
 	size_t			i;
 	t_flt			zero_to_one_vertical;
@@ -62,11 +61,11 @@ void	set_vertical_gradient(mlx_image_t *img, t_flt_color colors[2])
 	while (++i < pixel_count)
 	{
 		zero_to_one_vertical = (t_flt)(i / img->width) / img->height;
-		col.flt = lerp_color(colors[0], colors[1], zero_to_one_vertical);
-		col.bit = color_flt_to_8bit(col.flt);
-		img->pixels[i * 4 + 0] = col.bit.r;
-		img->pixels[i * 4 + 1] = col.bit.g;
-		img->pixels[i * 4 + 2] = col.bit.b;
+		color = color_flt_to_8bit(
+			lerp_color(colors[0], colors[1], zero_to_one_vertical));
+		img->pixels[i * 4 + 0] = color.r;
+		img->pixels[i * 4 + 1] = color.g;
+		img->pixels[i * 4 + 2] = color.b;
 		img->pixels[i * 4 + 3] = 0xff;
 	}
 }
@@ -110,12 +109,12 @@ void	set_uv(mlx_image_t *img)
  *
  * @returns	Color of sky pixel
  */
-t_color	get_sky_color(t_ray ray, size_t i)
+t_8bit_color	get_sky_color(t_ray ray, size_t i)
 {
 	t_vec2				uv;
 	size_t				idx[3];
 	static t_flt_color	sky_colors[2];
-	t_color				color;
+	t_8bit_color		color;
 
 	sky_colors[0] = (t_flt_color){.r = .1, .g = .8, .b = 1, .a = 1};
 	sky_colors[1] = (t_flt_color){.r = 1, .g = 1, .b = 1, .a = 1};
@@ -124,8 +123,8 @@ t_color	get_sky_color(t_ray ray, size_t i)
 	if (!g_data.sky_image)
 	{
 		uv.y = (t_flt)(i / g_data.img->width) / g_data.img->height;
-		color.flt = lerp_color(sky_colors[0], sky_colors[1], uv.y);
-		color.bit = color_flt_to_8bit(color.flt);
+		color = color_flt_to_8bit(
+			lerp_color(sky_colors[0], sky_colors[1], uv.y));
 		return (color);
 	}
 	idx[1] = round(uv.x * g_data.sky_image->width);
@@ -142,14 +141,13 @@ t_color	get_sky_color(t_ray ray, size_t i)
  *
  * @returns	Color of pixel at index idx
  */
-static t_color	get_image_pixel_color(mlx_image_t const *img, size_t idx)
+static t_8bit_color	get_image_pixel_color(mlx_image_t const *img, size_t idx)
 {
-	t_color	color;
+	t_8bit_color	color;
 
-	color.bit.r = img->pixels[4 * idx + 0];
-	color.bit.g = img->pixels[4 * idx + 1];
-	color.bit.b = img->pixels[4 * idx + 2];
-	color.bit.a = 0xff;
-	color.flt = color_8bit_to_flt(color.bit);
+	color.r = img->pixels[4 * idx + 0];
+	color.g = img->pixels[4 * idx + 1];
+	color.b = img->pixels[4 * idx + 2];
+	color.a = 0xff;
 	return (color);
 }

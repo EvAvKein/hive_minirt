@@ -36,7 +36,7 @@ bool	ambient_light_parse(char *str, size_t *parse_i)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid ambient light brightness"));
 	skip_spaces(str, parse_i);
-	if (!rgb_parse(str, parse_i, &ambient_light.color.bit)
+	if (!rgb_parse(str, parse_i, &ambient_light.color)
 		|| (str[*parse_i] && !is_space(str[*parse_i - 1])))
 		return (print_err("invalid ambient light color"));
 	if (!optional_asset_parse(str, parse_i, &ambient_light.sky_texture))
@@ -114,10 +114,10 @@ bool	light_parse(char *str, size_t *parse_i)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid light position"));
 	if (!flt_parse(str, parse_i, &light.brightness)
-		|| !in_flt_range(light.brightness, 0.f, 1.f))
+		|| !in_flt_range(light.brightness, 0.f, 1.f)
+		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid light brightness"));
-	if (!is_space(str[*parse_i - 1])
-		|| !rgb_parse(str, parse_i, &light.color.bit))
+	if (!rgb_parse(str, parse_i, &light.color))
 		return (print_err("invalid light color"));
 	if (str[*parse_i])
 		return (print_err("invalid light data after color"));

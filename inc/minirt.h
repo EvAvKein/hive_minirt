@@ -128,37 +128,18 @@ t_m4x4			z_rotation_m4x4(t_flt rad);
 
 /* ------------------------------------------------------------------- COLORS */
 
-typedef struct s_channels
+typedef struct s_8bit_color
 {
 	uint8_t	r;
 	uint8_t	g;
 	uint8_t	b;
 	uint8_t	a;
-}			t_channels;
-
-typedef union u_8bit_color
-{
-	uint32_t	rgba;
-	struct
-	{
-		uint8_t	r;
-		uint8_t	g;
-		uint8_t	b;
-		uint8_t	a;
-	};
-}				t_8bit_color;
+}			t_8bit_color;
 
 typedef t_vec4	t_flt_color;
 
-typedef struct s_color
-{
-	t_8bit_color	bit;
-	t_flt_color		flt;
-}					t_color;
-
 // color/colors_01.c
-void			set_pixel_color(size_t pixel_i, t_color color);
-t_color			color_from_uint32(uint32_t c);
+void			set_pixel_color(size_t pixel_i, t_8bit_color color);
 t_flt_color		color_8bit_to_flt(t_8bit_color c);
 t_8bit_color	color_flt_to_8bit(t_flt_color c);
 t_flt_color		lerp_color(t_flt_color c1, t_flt_color c2, t_flt amount);
@@ -173,7 +154,7 @@ void			set_horizontal_gradient(mlx_image_t *img,
 void			set_vertical_gradient(mlx_image_t *img,
 					t_flt_color colors[2]);
 void			set_uv(mlx_image_t *img);
-t_color			get_sky_color(t_ray ray, size_t i);
+t_8bit_color		get_sky_color(t_ray ray, size_t i);
 
 /* ---------------------------------------------------------------- MATERIALS */
 
@@ -236,11 +217,11 @@ t_material		material(t_flt r, t_flt g, t_flt b);
 t_material		mat_of_pattern(t_pattern pattern_name);
 t_material		default_material(void);
 t_material		pattern_mat_with_color(
-					t_pattern pattern_name, t_8bit_color color);
+					t_pattern pattern_name, t_flt_color color);
 
 /* ----------------------------------------------------------------- LIGHTING */
 
-t_color			let_there_be_light(t_phong_helper *p);
+t_8bit_color	let_there_be_light(t_phong_helper *p);
 
 /* ------------------------------------------------------------ SCENE OBJECTS */
 
@@ -304,7 +285,7 @@ typedef struct s_camera
 typedef struct s_ambient_light
 {
 	t_flt			brightness;
-	t_color			color;
+	t_flt_color		color;
 	mlx_texture_t	*sky_texture;
 }					t_ambient_light;
 
@@ -312,7 +293,7 @@ typedef struct s_light
 {
 	t_vec4			pos;
 	t_flt			brightness;
-	t_color			color;
+	t_flt_color		color;
 	t_m4x4			transform;
 	t_m4x4			inverse;
 	struct s_light	*next;
@@ -322,12 +303,12 @@ typedef struct s_sphere
 {
 	t_vec4			pos;
 	t_flt			radius;
-	t_color			color;
+	t_flt_color		color;
 	t_m4x4			transform;
 	t_m4x4			inverse;
 	t_material		material;
 	t_pattern		pattern;
-	t_8bit_color	pattern_color;
+	t_flt_color		pattern_color;
 	struct s_sphere	*next;
 }					t_sphere;
 
@@ -335,12 +316,12 @@ typedef struct s_plane
 {
 	t_vec4			pos;
 	t_vec4			orientation;
-	t_color			color;
+	t_flt_color		color;
 	t_m4x4			transform;
 	t_m4x4			inverse;
 	t_material		material;
 	t_pattern		pattern;
-	t_8bit_color	pattern_color;
+	t_flt_color		pattern_color;
 	struct s_plane	*next;
 }					t_plane;
 
@@ -350,12 +331,12 @@ typedef struct s_cylinder
 	t_vec4				orientation;
 	t_flt				diam;
 	t_flt				height;
-	t_color				color;
+	t_flt_color			color;
 	t_m4x4				transform;
 	t_m4x4				inverse;
 	t_material			material;
 	t_pattern			pattern;
-	t_8bit_color		pattern_color;
+	t_flt_color			pattern_color;
 	struct s_cylinder	*next;
 }						t_cylinder;
 
@@ -364,10 +345,10 @@ typedef struct s_triangle
 	t_vec4				pos1;
 	t_vec4				pos2;
 	t_vec4				pos3;
-	t_color				color;
+	t_flt_color				color;
 	t_material			material;
 	t_pattern			pattern;
-	t_8bit_color		pattern_color;
+	t_flt_color		pattern_color;
 	struct s_triangle	*next;
 }						t_triangle;
 
@@ -481,12 +462,12 @@ bool			uint8_parse(char *str, size_t *parse_i, uint8_t *dest);
 bool			optional_pattern_name_parse(char *str, size_t *parse_i,
 					t_pattern *dest);
 bool			optional_pattern_color_parse(char *str, size_t *parse_i,
-					t_pattern pattern_name, t_8bit_color *dest);
+					t_pattern pattern_name, t_flt_color *dest);
 bool			optional_asset_parse(char *str, size_t *parse_i,
 					mlx_texture_t **dest);
 
 // parsing/parse_segment.c
-bool			rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest);
+bool			rgb_parse(char *str, size_t *parse_i, t_flt_color *dest);
 bool			vec4_parse(char *str, size_t *parse_i, t_vec4 *dest,
 					bool is_point);
 
@@ -524,7 +505,7 @@ t_vec4			ray_position(t_ray ray, t_flt t);
 // rays/cast_rays.c
 t_ray_x_obj		hit(t_ray_x_objs intersections);
 t_ray_x_obj		*closest_rxo(t_ray_x_obj_array *array);
-t_color			color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
+t_8bit_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
 
 // rays/ray_at_obj.c
 void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
@@ -650,9 +631,6 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 
 // utils/utils_02.c
 void			write_pixel_rays_to_file(const char *str);
-t_color			vec4_to_color(t_vec4 vec);
-t_vec4			color_8bit_to_vec4(t_8bit_color color_8bit);
-t_color			normal_to_color(t_vec4 normal);
 void			*xcalloc(size_t nmemb, size_t size);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */

@@ -107,7 +107,7 @@ static void	cast_ray(t_data *data, size_t i, size_t precision)
 	t_ray *const	ray = &data->pixel_rays[i];
 	t_ray_x_obj		*rxo;
 	t_phong_helper	p;
-	t_color			col;
+	t_8bit_color	col;
 
 	p = (t_phong_helper){};
 	empty_intersections(ray);

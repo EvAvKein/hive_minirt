@@ -74,11 +74,11 @@ bool	optional_pattern_name_parse(char *str, size_t *parse_i, t_pattern *dest)
  *
  */
 bool	optional_pattern_color_parse(char *str, size_t *parse_i,
-			t_pattern pattern_name, t_8bit_color *dest)
+			t_pattern pattern_name, t_flt_color *dest)
 {
 	if (!str[*parse_i])
 	{
-		*dest = vec4_to_color(mat_of_pattern(pattern_name).color).bit;
+		*dest = mat_of_pattern(pattern_name).color;
 		return (true);
 	}
 	else if (!rgb_parse(str, parse_i, dest))

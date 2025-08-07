@@ -57,7 +57,7 @@ bool	plane_parse(char *str, size_t *parse_i)
 static inline bool	plane_parse_latter_half(
 			t_plane *plane, char *str, size_t *parse_i)
 {
-	if (!rgb_parse(str, parse_i, &plane->color.bit)
+	if (!rgb_parse(str, parse_i, &plane->color)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid plane color"));
 	if (!optional_pattern_name_parse(str, parse_i, &plane->pattern))
