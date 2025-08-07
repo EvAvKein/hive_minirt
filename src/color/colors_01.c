@@ -15,13 +15,13 @@
 /**
  * @returns	Color of pixel at index pixel_i
  */
-t_8bit_color	get_pixel_color(mlx_image_t const *img, size_t pixel_i)
+void	set_pixel_color(size_t pixel_i, t_8bit_color color)
 {
 	if (pixel_i < g_data.pixel_count)
 	{
-		g_data.img->pixels[pixel_i * 4 + 0] = color.bit.r;
-		g_data.img->pixels[pixel_i * 4 + 1] = color.bit.g;
-		g_data.img->pixels[pixel_i * 4 + 2] = color.bit.b;
+		g_data.img->pixels[pixel_i * 4 + 0] = color.r;
+		g_data.img->pixels[pixel_i * 4 + 1] = color.g;
+		g_data.img->pixels[pixel_i * 4 + 2] = color.b;
 		g_data.img->pixels[pixel_i * 4 + 3] = 0xff;
 	}
 }

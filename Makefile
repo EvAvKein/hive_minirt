@@ -32,9 +32,9 @@ SRC		:=	main.c									\
 			image_to_file.c							\
 			ui/hooks_01.c							\
 			ui/hooks_02.c							\
-			initialization_01.c						\
-			initialization_02.c						\
-			initialization_03.c						\
+			initialization/initialization_01.c		\
+			initialization/initialization_02.c		\
+			initialization/initialization_03.c		\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
 			parsing/elems/cam_and_lights_parse.c	\

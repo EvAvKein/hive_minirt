@@ -36,7 +36,7 @@ bool	ambient_light_parse(char *str, size_t *parse_i)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid ambient light brightness"));
 	skip_spaces(str, parse_i);
-	if (!rgb_parse(str, parse_i, &ambient_light.color.bit)
+	if (!rgb_parse(str, parse_i, &ambient_light.color)
 		|| (str[*parse_i] && !is_space(str[*parse_i - 1])))
 		return (print_err("invalid ambient light color"));
 	if (!optional_asset_parse(str, parse_i, &ambient_light.sky_texture))

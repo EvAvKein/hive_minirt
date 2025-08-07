@@ -62,7 +62,7 @@ bool	triangle_parse(char *str, size_t *parse_i)
 static inline bool	triangle_parse_latter_half(t_triangle *triangle,
 						char *str, size_t *parse_i)
 {
-	if (!rgb_parse(str, parse_i, &triangle->color.bit)
+	if (!rgb_parse(str, parse_i, &triangle->color)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid triangle color"));
 	if (invalid_pattern(str, parse_i))

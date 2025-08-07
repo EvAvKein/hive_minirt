@@ -58,10 +58,6 @@ bool	plane_parse(char *str, size_t *parse_i)
 static inline bool	plane_parse_pt2(
 			t_plane *plane, char *str, size_t *parse_i)
 {
-	if (!vec4_parse(str, parse_i, &plane->orientation, false)
-		|| !is_normalized_vec(plane->orientation)
-		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid plane orientation"));
 	if (!rgb_parse(str, parse_i, &plane->color)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid plane color"));

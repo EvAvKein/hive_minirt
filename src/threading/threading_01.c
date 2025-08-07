@@ -132,7 +132,7 @@ static void	cast_ray(t_data *data, size_t i, uint16_t precision)
 {
 	t_ray			ray;
 	t_phong_helper	p;
-	t_flt_color		col;
+	t_8bit_color	col;
 
 	ray = ray_for_pixel(i);
 	p = (t_phong_helper){};
