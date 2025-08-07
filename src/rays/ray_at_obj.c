@@ -129,8 +129,8 @@ static void	cast_ray_at_triangles(t_ray *ray,
 			continue ;
 		}
 		rxo = ray_x_triangle(*ray, triangle);
-		if (rxo.t > 0)
-			xadd_intersection(ray, rxo);
+		if (rxo.t > EPSILON && rxo.t < ray->closest_hit.t)
+			ray->closest_hit = rxo;
 		triangle = triangle->next;
 	}
 }

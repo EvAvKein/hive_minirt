@@ -560,13 +560,9 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl);
 t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
 t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 
-// objects/plane_intersection.c
+// objects/triangle_intersections.c
 t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
 t_vec4			triangle_normal_at(t_triangle tr, t_vec4 world_pos);
-
-// intersections/intersections_01.c
-void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
-void			empty_intersections(t_ray *ray);
 
 /* ----------------------------------------------------------------- PATTERNS */
 
