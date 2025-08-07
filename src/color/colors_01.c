@@ -27,20 +27,6 @@ t_8bit_color	get_pixel_color(mlx_image_t const *img, size_t pixel_i)
 }
 
 /**
- * Convenience function for easily creating colors
- *
- * @returns	t_color struct with colors set to match c
- */
-t_color	color_from_uint32(uint32_t c)
-{
-	t_color	col;
-
-	col.bit.rgba = c;
-	col.flt = color_8bit_to_flt(col.bit);
-	return (col);
-}
-
-/**
  * @returns	Float color converted from 8 bit color c
  */
 t_flt_color	color_8bit_to_flt(t_8bit_color c)
