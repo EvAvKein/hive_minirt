@@ -30,14 +30,15 @@ void	setup_pixel_rays(void)
  * Calculates pixel grid variables based on camera fov and the image buffer's
  * dimensions.
  */
-void	setup_pixel_grid(void)
+void	setup_pixel_grid(size_t width, size_t height)
 {
 	t_pixel_grid *const	g = &g_data.pixel_grid;
 
+	g_data.pixel_count = width * height;
 	g->fov_h = g_data.elems.camera->fov * RADIANS_PER_DEGREE;
 	g->width = 2 * sin(g->fov_h / 2);
-	g->pixel_width = g->width / g_data.img->width;
-	g->height = g->pixel_width * g_data.img->height;
+	g->pixel_width = g->width / width;
+	g->height = g->pixel_width * height;
 }
 
 /**
@@ -61,7 +62,8 @@ t_ray	ray_for_pixel(size_t i)
 	pixel_pos.w = 0;
 	return (transformed_ray((t_ray){
 			.orig = point(0, 0, 0),
-			.dir = unit_vec(pixel_pos)}, g_data.elems.camera->transform));
+			.dir = unit_vec(pixel_pos),
+			.closest_hit.t = MAX_DIST}, g_data.elems.camera->transform));
 }
 
 void	init_object_data(void)

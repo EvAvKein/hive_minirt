@@ -139,7 +139,6 @@ typedef t_vec4	t_flt_color;
 
 // color/colors_01.c
 void			set_pixel_color(size_t pixel_i, t_color color);
-t_color			color_from_uint32(uint32_t c);
 t_flt_color		color_8bit_to_flt(t_8bit_color c);
 t_8bit_color	color_flt_to_8bit(t_flt_color c);
 t_flt_color		lerp_color(t_flt_color c1, t_flt_color c2, t_flt amount);
@@ -423,7 +422,7 @@ typedef struct s_ray
 {
 	t_vec4				dir;
 	t_vec4				orig;
-	t_ray_x_obj_array	intersections;
+	t_ray_x_obj			closest_hit;
 }						t_ray;
 
 /* -------------------------------------------------------------------------- */
@@ -440,15 +439,14 @@ typedef struct s_data
 {
 	t_elems			elems;
 	t_pixel_grid	pixel_grid;
+	_Atomic size_t	pixel_count;
 	_Atomic size_t	jobs_available;
 	_Atomic size_t	active_threads;
 	_Atomic size_t	threads_waiting;
-	_Atomic bool	stop;
-	_Atomic bool	pause;
+	_Atomic bool	stop_threads;
+	_Atomic bool	pause_threads;
 	_Atomic bool	work_to_be_done;
-	size_t			pixel_count;
-	size_t			object_count;
-	size_t			intersection_count;
+	_Atomic bool	resizing;
 	pthread_t		threads[THREADS];
 	pthread_mutex_t	lock;
 	mlx_t			*mlx;
@@ -620,8 +618,7 @@ void			init_cylinders(t_cylinder *cyl);
 void			init_triangles(t_triangle *cyl);
 
 // initialization_03.c
-void			init_object_data(void);
-void			setup_pixel_grid(void);
+void			setup_pixel_grid(size_t width, size_t height);
 t_ray			ray_for_pixel(size_t i);
 
 // initialization_04.c
@@ -639,13 +636,15 @@ t_vec2			plane_pitch_and_yaw(t_plane pl);
 
 /* --------------------------------------------------------------- HOOKS & UI */
 
-// ui/keyhook.c
-void			esc_and_screenshot_hook(mlx_key_data_t key_data, void *param);
+// ui/hooks_01.c
 void			movement_hook(void *param);
 void			rotation_hook(void *param);
+void			wait_for_threads_and_restart(void);
 
-// ui/close_hook.c
+// ui/hooks_02.c
 void			close_hook(void *param);
+void			exit_and_screenshot_hook(mlx_key_data_t key_data, void *param);
+void			resize_hook(int32_t width, int32_t height, void *param);
 
 /* ---------------------------------------------------------------- THREADING */
 

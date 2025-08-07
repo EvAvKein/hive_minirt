@@ -67,7 +67,7 @@
 # endif
 
 # ifndef ROTATION_BASE
-#  define ROTATION_BASE		1 * RADIANS_PER_DEGREE
+#  define ROTATION_BASE		RADIANS_PER_DEGREE
 # endif
 # ifndef ROTATION_MULT
 #  define ROTATION_MULT		3
@@ -83,12 +83,15 @@
 #  define KEYBIND_QUIT		MLX_KEY_ESCAPE
 # endif
 
+# ifndef MAX_DIST
+#  define MAX_DIST	1000000
+# endif
 // Resolution
 # ifndef RES_X
-#  define RES_X		1920	// 3840	1920	1280
+#  define RES_X		3899	// 3840	1920	1280
 # endif
 # ifndef RES_Y
-#  define RES_Y		1080	// 2160	1080	720
+#  define RES_Y		2233	// 2160	1080	720
 # endif
 
 # ifndef THREADS

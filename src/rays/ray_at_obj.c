@@ -54,9 +54,8 @@ static void	cast_ray_at_spheres(t_ray *ray,
 		}
 		rxos = ray_x_sphere(*ray, sphere);
 		rxo = hit(rxos);
-		if (rxo.t > EPSILON)
-			while (rxos.count--)
-				xadd_intersection(ray, rxos._[rxos.count]);
+		if (rxo.t > EPSILON && rxo.t < ray->closest_hit.t)
+			ray->closest_hit = rxo;
 		sphere = sphere->next;
 	}
 }
@@ -80,8 +79,8 @@ static void	cast_ray_at_planes(t_ray *ray,
 			continue ;
 		}
 		rxo = ray_x_plane(*ray, plane);
-		if (rxo.t > EPSILON)
-			xadd_intersection(ray, rxo);
+		if (rxo.t > EPSILON && rxo.t < ray->closest_hit.t)
+			ray->closest_hit = rxo;
 		plane = plane->next;
 	}
 }
@@ -105,8 +104,8 @@ static void	cast_ray_at_cylinders(t_ray *ray,
 			continue ;
 		}
 		rxo = ray_hit_cylinder(*ray, cylinder);
-		if (rxo.t > 0)
-			xadd_intersection(ray, rxo);
+		if (rxo.t > EPSILON && rxo.t < ray->closest_hit.t)
+			ray->closest_hit = rxo;
 		cylinder = cylinder->next;
 	}
 }

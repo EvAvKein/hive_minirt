@@ -35,13 +35,13 @@ t_flt_color	let_there_be_light(t_phong_helper *p)
 	while (p->light)
 	{
 		p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
-		shadow_ray = (t_ray){.orig = p->pos, .dir = p->to_light};
+		shadow_ray = (t_ray){.orig = p->pos, .dir = p->to_light,
+			.closest_hit.t = MAX_DIST};
 		cast_ray_at_objs(&shadow_ray, &g_data.elems, p->obj_hit);
 		p->dist_to_light = vec_len(vec_sub(p->light->pos, p->pos));
-		if (shadow_ray.intersections.idx == 0
-			|| closest_rxo(&shadow_ray.intersections)->t > p->dist_to_light)
+		if (shadow_ray.closest_hit.t == MAX_DIST
+			|| shadow_ray.closest_hit.t > p->dist_to_light)
 			calculate_diffuse_and_specular(p);
-		free(shadow_ray.intersections._);
 		p->light = p->light->next;
 	}
 	p->combined = vec_sum(p->ambient, vec_sum(p->diffuse, p->specular));
