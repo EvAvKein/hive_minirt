@@ -25,22 +25,20 @@
  */
 bool	rgb_parse(char *str, size_t *parse_i, t_flt_color *dest)
 {
-	uint8_t	parsed;
+	t_8bit_color	parsed;
 
-	if (!uint8_parse(str, parse_i, &parsed)
+	if (!uint8_parse(str, parse_i, &parsed.r)
 		|| is_space(str[(*parse_i) - 1])
 		|| str[(*parse_i)++] != ',')
 		return (false);
-	dest->r = (t_flt)parsed / 255;
-	if (!uint8_parse(str, parse_i, &parsed)
+	if (!uint8_parse(str, parse_i, &parsed.g)
 		|| is_space(str[(*parse_i) - 1])
 		|| str[(*parse_i)++] != ',')
 		return (false);
-	dest->g = (t_flt)parsed / 255;
-	if (!uint8_parse(str, parse_i, &parsed))
+	if (!uint8_parse(str, parse_i, &parsed.b))
 		return (false);
-	dest->b = (t_flt)parsed / 255;
-	dest->a = UINT8_MAX;
+	parsed.a = UINT8_MAX;
+	*dest = color_8bit_to_flt(parsed);
 	return (true);
 }
 
