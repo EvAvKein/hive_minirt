@@ -74,11 +74,11 @@ t_material	default_material(void)
  * @returns				The material of the provided pattern,
  * 						with its color set to the converted provided color
  */
-t_material	pattern_mat_with_color(t_pattern pattern_name, t_8bit_color color)
+t_material	pattern_mat_with_color(t_pattern pattern_name, t_flt_color color)
 {
 	t_material	mat;
 
 	mat = mat_of_pattern(pattern_name);
-	mat.color = color_8bit_to_vec4(color);
+	mat.color = color;
 	return (mat);
 }

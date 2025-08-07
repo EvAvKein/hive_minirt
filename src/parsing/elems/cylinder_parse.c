@@ -63,7 +63,7 @@ static inline bool	cylinder_parse_latter_half(t_cylinder *cylinder,
 	if (!flt_parse(str, parse_i, &cylinder->height)
 		|| cylinder->height < EPSILON || !is_space(str[*parse_i - 1]))
 		return (print_err("invalid cylinder height"));
-	if (!rgb_parse(str, parse_i, &cylinder->color.bit)
+	if (!rgb_parse(str, parse_i, &cylinder->color)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid cylinder color"));
 	if (!optional_pattern_name_parse(str, parse_i, &cylinder->pattern))

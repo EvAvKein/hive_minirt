@@ -23,18 +23,23 @@
  * @returns Whether parsing was successful.
  * 
  */
-bool	rgb_parse(char *str, size_t *parse_i, t_8bit_color *dest)
+bool	rgb_parse(char *str, size_t *parse_i, t_flt_color *dest)
 {
-	if (!uint8_parse(str, parse_i, &dest->r)
+	uint8_t	parsed;
+
+	if (!uint8_parse(str, parse_i, &parsed)
 		|| is_space(str[(*parse_i) - 1])
 		|| str[(*parse_i)++] != ',')
 		return (false);
-	if (!uint8_parse(str, parse_i, &dest->g)
+	dest->r = (t_flt)parsed / 255;
+	if (!uint8_parse(str, parse_i, &parsed)
 		|| is_space(str[(*parse_i) - 1])
 		|| str[(*parse_i)++] != ',')
 		return (false);
-	if (!uint8_parse(str, parse_i, &dest->b))
+	dest->g = (t_flt)parsed / 255;
+	if (!uint8_parse(str, parse_i, &parsed))
 		return (false);
+	dest->b = (t_flt)parsed / 255;
 	dest->a = UINT8_MAX;
 	return (true);
 }
