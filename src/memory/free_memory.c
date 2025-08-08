@@ -23,7 +23,7 @@ bool	free_data(void)
 
 	if (g_data.elems.ambient_light
 		&& g_data.elems.ambient_light->sky_texture)
-	mlx_delete_texture(g_data.elems.ambient_light->sky_texture);
+		mlx_delete_texture(g_data.elems.ambient_light->sky_texture);
 	free(g_data.elems.ambient_light);
 	free(g_data.elems.camera);
 	dealloc_lights(g_data.elems.lights);

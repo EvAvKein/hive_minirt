@@ -100,7 +100,7 @@ static void	calculate_specular(t_phong_helper *p)
 	if (p->camera_reflection_alignment < 0)
 		return ;
 	p->scaled_light = point(
-		p->light->color.r, p->light->color.g, p->light->color.g);
+			p->light->color.r, p->light->color.g, p->light->color.g);
 	p->scaled_light = scaled_vec(p->scaled_light, p->light->brightness);
 	f = pow(p->camera_reflection_alignment, p->mat.shininess);
 	p->specular = vec_sum(p->specular, scaled_vec(p->scaled_light,
