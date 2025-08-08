@@ -16,6 +16,7 @@
 # include <limits.h>		// LLONG_MAX
 # include <fcntl.h>			// open()
 # include <math.h>			// pow(), fabs()
+# include <float.h>			// FLT_MAX & DBL_MAX
 # include <pthread.h>		// pthread_create()
 # include <stdio.h>			// fflush TODO: Remove before eval
 # include "libft_plus.h"
@@ -254,7 +255,7 @@ t_material		mat_at_hit_on_triangle(
 
 /* ----------------------------------------------------------------- LIGHTING */
 
-t_flt_color	let_there_be_light(t_phong_helper *p);
+t_flt_color		let_there_be_light(t_phong_helper *p);
 
 /* ------------------------------------------------------------ SCENE OBJECTS */
 
