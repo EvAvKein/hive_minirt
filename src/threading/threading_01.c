@@ -132,7 +132,7 @@ static void	cast_ray(t_data *data, size_t i, uint16_t precision)
 {
 	t_ray			ray;
 	t_phong_helper	p;
-	t_8bit_color	col;
+	t_flt_color	col;
 
 	ray = ray_for_pixel(i);
 	p = (t_phong_helper){};
@@ -149,5 +149,5 @@ static void	cast_ray(t_data *data, size_t i, uint16_t precision)
 		col = color_at_obj_hit(&ray.closest_hit, &p);
 	}
 	while (precision--)
-		set_pixel_color(i++, col);
+		set_pixel_color(i++, color_flt_to_8bit(col));
 }

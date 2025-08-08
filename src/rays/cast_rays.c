@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:44:50 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/07 20:17:15 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 15:29:19 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_ray_x_obj	*closest_rxo(t_ray_x_obj_array *array)
 /**
  * @returns The color at the provided intersection
  */
-t_8bit_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
+t_flt_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 {
 	if (rxo->obj_type == SPHERE)
 	{

@@ -21,7 +21,7 @@ static void	set_ambient(t_phong_helper *p);
  *
  * @returns	Color defined by phong helper p
  */
-t_8bit_color	let_there_be_light(t_phong_helper *p)
+t_flt_color	let_there_be_light(t_phong_helper *p)
 {
 	t_ray		shadow_ray;
 
@@ -45,7 +45,7 @@ t_8bit_color	let_there_be_light(t_phong_helper *p)
 		p->light = p->light->next;
 	}
 	p->combined = vec_sum(p->ambient, vec_sum(p->diffuse, p->specular));
-	return (color_flt_to_8bit(p->combined));
+	return (p->combined);
 }
 
 /**

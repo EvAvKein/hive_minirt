@@ -160,7 +160,7 @@ void			set_horizontal_gradient(mlx_image_t *img,
 void			set_vertical_gradient(mlx_image_t *img,
 					t_flt_color colors[2]);
 void			set_uv(mlx_image_t *img);
-t_8bit_color	get_sky_color(t_ray ray, size_t i);
+t_flt_color		get_sky_color(t_ray ray, size_t i);
 
 /* ---------------------------------------------------------------- MATERIALS */
 
@@ -255,7 +255,7 @@ t_material		mat_at_hit_on_triangle(
 
 /* ----------------------------------------------------------------- LIGHTING */
 
-t_8bit_color	let_there_be_light(t_phong_helper *p);
+t_flt_color	let_there_be_light(t_phong_helper *p);
 
 /* ------------------------------------------------------------ SCENE OBJECTS */
 
@@ -548,7 +548,7 @@ t_vec4			ray_position(t_ray ray, t_flt t);
 // rays/cast_rays.c
 t_ray_x_obj		hit(t_ray_x_objs intersections);
 t_ray_x_obj		*closest_rxo(t_ray_x_obj_array *array);
-t_8bit_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
+t_flt_color		color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
 
 // rays/ray_at_obj.c
 void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
