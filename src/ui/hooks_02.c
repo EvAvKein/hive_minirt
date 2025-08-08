@@ -43,11 +43,10 @@ void	handle_camera_fov_input(void)
  */
 void	close_hook(void *param)
 {
-	t_data *const	data = param;
-
-	data->stop_threads = true;
-	while (data->active_threads > 0)
-		usleep(TICK * 10);
+	(void)param;
+	g_data.stop_threads = true;
+	while (g_data.active_threads > 0)
+		usleep(TICK);
 }
 
 /**
@@ -100,16 +99,8 @@ void	resize_hook(int32_t width, int32_t height, void *param)
  */
 void	reset_rendering_threads(void)
 {
-	size_t	i;
-
-	i = -1;
-	while (++i < THREADS)
-		dat()->thread_can_proceed[i] = false;
-	while (dat()->active_threads != 0)
+	while (g_data.active_threads != 0)
 		usleep(TICK);
-	i = -1;
-	while (++i < THREADS)
-		dat()->thread_can_proceed[i] = true;
-	dat()->jobs_available = THREADS;
-	dat()->pause_threads = false;
+	g_data.jobs_available = THREADS;
+	g_data.pause_threads = false;
 }

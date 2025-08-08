@@ -12,10 +12,10 @@
 
 #include "minirt.h"
 
-static void	*raycasting_routine(void *arg);
-static void	gradually_render(size_t i0, uint16_t precision);
-static void	cast_rays(size_t i0, uint16_t precision);
-static void	cast_ray(size_t i, uint16_t precision);
+static void			*raycasting_routine(void *arg);
+static void			gradually_render(size_t i0, size_t width);
+static t_flt_color	sample_ray(size_t i);
+static bool			thread_can_continue(void);
 
 /**
  * Creates threads, sets up initial jobs available to THREADS. Threads can't
@@ -29,10 +29,7 @@ bool	run_threads(void)
 	size_t	i;
 
 	i = -1;
-	pthread_mutex_lock(&dat()->lock);
-	if (pthread_create(&dat()->monitor_thread, NULL,
-			&monitor_thread, NULL) != 0)
-		return (print_err("The monitor thread failed to create"));
+	pthread_mutex_lock(&g_data.lock);
 	while (++i < THREADS)
 	{
 		if (pthread_create(&dat()->threads[i], NULL,
@@ -59,27 +56,25 @@ bool	run_threads(void)
  */
 static void	*raycasting_routine(void *arg)
 {
-	t_data *const	data = arg;
-	size_t			i0;
+	size_t			idx[2];
+	size_t			width;
 	pthread_t		id;
-	uint16_t		precision;
 
-	pthread_mutex_lock(&data->lock);
-	pthread_mutex_unlock(&data->lock);
+	(void)arg;
+	pthread_mutex_lock(&g_data.lock);
+	pthread_mutex_unlock(&g_data.lock);
 	id = pthread_self();
-	i0 = 0;
-	while (id != data->threads[i0])
-		++i0;
-	while (!data->stop_threads)
+	idx[0] = 0;
+	while (id != g_data.threads[idx[0]])
+		++idx[0];
+	while (!g_data.stop_threads)
 	{
-		precision = STARTING_PRECISION;
-		while ((precision >= data->img->width || precision >= data->img->height)
-			&& precision >= 2)
-			precision /= 2;
-		--dat()->jobs_available;
-		gradually_render(i0, precision);
-		while (!data->stop_threads
-			&& (dat()->jobs_available == 0 || dat()->pause_threads))
+		width = g_data.pixel_count / THREADS;
+		idx[1] = idx[0] * width;
+		--g_data.jobs_available;
+		gradually_render(idx[1], width);
+		while (!g_data.stop_threads
+			&& (g_data.jobs_available == 0 || g_data.pause_threads))
 			usleep(10 * TICK);
 	}
 	return (NULL);
@@ -88,51 +83,34 @@ static void	*raycasting_routine(void *arg)
 /**
  * Controls how a thread casts rays in sync with the other threads.
  *
- * @param i0		Thread's index in range [0, THREADS - 1]
+ * @param i0		Starting index
  * @param precision	Amount of pixels to color by one sample initially
  */
-static void	gradually_render(size_t i0, uint16_t precision)
+static void	gradually_render(size_t i0, size_t width)
 {
-	++dat()->active_threads;
-	while (!dat()->stop_threads && !dat()->pause_threads
-		&& dat()->active_threads != THREADS)
-		usleep(TICK);
-	while (precision > 0 && !dat()->stop_threads && !dat()->pause_threads)
+	t_8bit_color	col;
+	size_t			precision;
+	size_t			i;
+	size_t			j;
+
+	++g_data.active_threads;
+	precision = g_data.img->width / (2 * THREADS);
+	if (precision <= 0)
+		precision = 2;
+	while (thread_can_continue() && precision > 0)
 	{
-		cast_rays(i0, precision);
 		precision /= 2;
-		++dat()->threads_waiting;
-		while (!dat()->stop_threads && !dat()->pause_threads
-			&& !dat()->thread_can_proceed[i0])
-			usleep(TICK);
-		dat()->thread_can_proceed[i0] = false;
-		--dat()->threads_waiting;
-		if (dat()->stop_threads || dat()->pause_threads)
-			break ;
+		i = 0;
+		while (thread_can_continue() && i < width)
+		{
+			col = color_flt_to_8bit(sample_ray(i0 + i));
+			j = -1;
+			while (thread_can_continue() && ++j < precision)
+				set_pixel_color(i0 + i + j, col);
+			i += precision;
+		}
 	}
 	--dat()->active_threads;
-}
-
-/**
- * Loops through the assigned render regions of the thread, casting rays as
- * it goes. A thread renders precision pixels starting at its own index
- * times precision, then it moves forward by THREADS * precision to render
- * an unrendered region that no other thread is accessing.
- *
- * @param i0		Thread's index in range [0, THREADS - 1]
- * @param precision	Amount of pixels to color by one sample initially
- */
-static void	cast_rays(size_t i0, uint16_t precision)
-{
-	size_t	i;
-
-	i = i0 * precision;
-	while (i < dat()->pixel_count
-		&& !dat()->stop_threads && !dat()->pause_threads)
-	{
-		cast_ray(i, precision);
-		i += THREADS * precision;
-	}
 }
 
 /**
@@ -142,7 +120,7 @@ static void	cast_rays(size_t i0, uint16_t precision)
  * @param i			Index of pixel to sample for
  * @param precision	Pixels to color by ray sample result
  */
-static void	cast_ray(size_t i, uint16_t precision)
+static t_flt_color	sample_ray(size_t i)
 {
 	t_ray			ray;
 	t_phong_helper	p;
@@ -162,6 +140,10 @@ static void	cast_ray(size_t i, uint16_t precision)
 		p.obj_hit = ray.closest_hit.obj;
 		col = color_at_obj_hit(&ray.closest_hit, &p);
 	}
-	while (precision--)
-		set_pixel_color(i++, color_flt_to_8bit(col));
+	return (col);
+}
+
+static inline bool	thread_can_continue(void)
+{
+	return (!g_data.stop_threads && !g_data.pause_threads);
 }
