@@ -256,7 +256,7 @@ t_material		mat_at_hit_on_triangle(
 
 /* ----------------------------------------------------------------- LIGHTING */
 
-t_flt_color	let_there_be_light(t_phong_helper *p);
+t_flt_color		let_there_be_light(t_phong_helper *p);
 
 /* ------------------------------------------------------------ SCENE OBJECTS */
 
@@ -668,7 +668,7 @@ bool			vecs_are_equal(t_vec4 vec1, t_vec4 vec2);
 bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 
 // utils/utils_02.c
-void			*xcalloc(size_t nmemb, size_t size);
+t_8bit_color	normal_to_color(t_vec4 normal);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

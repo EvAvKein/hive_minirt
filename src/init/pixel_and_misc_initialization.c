@@ -12,7 +12,6 @@
 
 #include "minirt.h"
 
-
 /**
  * Calculates pixel grid variables based on camera fov and the image buffer's
  * dimensions.
