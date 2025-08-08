@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:43:16 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/28 10:13:36 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 16:45:27 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ bool	flt_parse(char *str, size_t *parse_i, t_flt *dest)
 
 	if (!longlong_parse(str, parse_i, &integer))
 		return (false);
-	if (!str[*parse_i] || is_space(str[*parse_i]) || str[*parse_i] == ',')
+	if (is_end(str[*parse_i]) || is_space(str[*parse_i]) || str[*parse_i] == ',')
 	{
 		*dest = integer;
 		skip_spaces(str, parse_i);

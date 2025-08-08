@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 11:50:14 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 16:33:26 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -529,10 +529,13 @@ bool			cylinder_parse(char *str, size_t *parse_i);
 // parsing/parse_triangle.c
 bool			triangle_parse(char *str, size_t *parse_i);
 
-// parsing/utils.c
+// parsing/utils/char_checks_and_skips.c
+bool			is_end(char c);
 bool			is_space(char c);
 void			skip_spaces(char *str, size_t *parse_i);
 void			skip_letters_and_trailing_spaces(char *str, size_t *parse_i);
+
+// parsing/utils/range_checks.c
 bool			in_flt_range(t_flt checked, t_flt min, t_flt max);
 bool			is_normalized_vec(t_vec4 vec);
 

@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/08/07 20:19:14 by ekeinan          ###   ########.fr        #
+#    Updated: 2025/08/08 17:22:43 by ekeinan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRC		:=	main.c									\
 			init/pixel_and_misc_initialization.c	\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
-			parsing/elems/parse_cam_and_lights.c	\
+			parsing/elems/cam_and_lights_parse.c	\
 			parsing/elems/sphere_parse.c			\
 			parsing/elems/plane_parse.c				\
 			parsing/elems/cylinder_parse.c			\
@@ -50,7 +50,8 @@ SRC		:=	main.c									\
 			parsing/parse_segment.c					\
 			parsing/parse_value.c					\
 			parsing/parse_pattern.c					\
-			parsing/utils.c							\
+			parsing/utils/range_checks.c			\
+			parsing/utils/char_checks_and_skips.c	\
 			utils/errors.c							\
 			utils/utils_01.c						\
 			utils/utils_02.c						\

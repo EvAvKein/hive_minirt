@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cam_and_lights.c                             :+:      :+:    :+:   */
+/*   cam_and_lights_parse.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:32:44 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/06/26 11:26:58 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/08 17:42:20 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
  * Parses the line's ambient light data,
  * adding to to program's data structure if successful
  * (or printing an error on failure).
- *  
+ *
  * @param str		The string being parsed.
- * 
+ *
  * @param parse_i	The parsing index.
- * 
+ *
  * @returns Whether parsing was successful.
- * 
+ *
  */
 bool	ambient_light_parse(char *str, size_t *parse_i)
 {
@@ -37,12 +37,12 @@ bool	ambient_light_parse(char *str, size_t *parse_i)
 		return (print_err("invalid ambient light brightness"));
 	skip_spaces(str, parse_i);
 	if (!rgb_parse(str, parse_i, &ambient_light.color)
-		|| (str[*parse_i] && !is_space(str[*parse_i - 1])))
+		|| (!is_end(str[*parse_i]) && !is_space(str[*parse_i - 1])))
 		return (print_err("invalid ambient light color"));
 	if (!optional_asset_parse(str, parse_i, &ambient_light.sky_texture))
 		return (print_err("invalid sky texture path"));
 	skip_spaces(str, parse_i);
-	if (str[*parse_i])
+	if (!is_end(str[*parse_i]))
 		return (print_err("invalid ambient light data after sky texture"));
 	node = malloc(sizeof(t_ambient_light));
 	if (!node)
@@ -81,7 +81,7 @@ bool	camera_parse(char *str, size_t *parse_i)
 	if (!uint8_parse(str, parse_i, &camera.fov)
 		|| camera.fov > 180)
 		return (print_err("invalid camera field of view"));
-	if (str[*parse_i])
+	if (!is_end(str[*parse_i]))
 		return (print_err("invalid camera data after field of view"));
 	node = malloc(sizeof(t_camera));
 	if (!node)
@@ -119,7 +119,7 @@ bool	light_parse(char *str, size_t *parse_i)
 		return (print_err("invalid light brightness"));
 	if (!rgb_parse(str, parse_i, &light.color))
 		return (print_err("invalid light color"));
-	if (str[*parse_i])
+	if (!is_end(str[*parse_i]))
 		return (print_err("invalid light data after color"));
 	light.next = NULL;
 	ptr_to_next = &g_data.elems.lights;
