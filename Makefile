@@ -74,7 +74,8 @@ SRC		:=	main.c									\
 			objects/transform_initialization.c		\
 			objects/transform_angle_calculation.c	\
 			lighting/lighting_01.c					\
-			threading/threading_01.c
+			threading/threading_01.c				\
+			threading/threading_02.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
 INC_FILES		:= minirt.h settings.h

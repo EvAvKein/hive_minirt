@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:11:06 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/07 10:37:25 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/08 14:45:57 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,36 @@
 
 static void	move_camera(t_vec4 move_vec);
 static void	update_camera_rotation(t_vec2 axes);
+static void	handle_camera_rotation_input(void);
+static void	handle_camera_translation_input(void);
+
+void	every_frame(void *param)
+{
+	(void)param;
+	handle_camera_rotation_input();
+	handle_camera_translation_input();
+	handle_camera_fov_input();
+	if (g_data.resized)
+	{
+		g_data.resized = false;
+		g_data.pause_threads = true;
+		while (g_data.active_threads != 0)
+			usleep(TICK * 10);
+		mlx_resize_image(g_data.img, g_data.mlx->width, g_data.mlx->height);
+		setup_pixel_grid(g_data.img->width, g_data.img->height);
+		reset_rendering_threads();
+	}
+}
 
 /**
  * Checks for rotation user inputs and activates camera rotation function when
  * necessary.
  */
-void	rotation_hook(void *param)
+static void	handle_camera_rotation_input(void)
 {
 	t_flt	rotation_speed;
 	t_vec2	axes;
 
-	(void)param;
 	axes = (t_vec2){};
 	rotation_speed = ROTATION_BASE;
 	if (mlx_is_key_down(g_data.mlx, KEYBIND_FAST))
@@ -67,20 +86,19 @@ static void	update_camera_rotation(t_vec2 axes)
 	cam->transform = mult_m4x4(translation_m4x4(cam->pos), cam->transform);
 	cam->inverse = inverse_m4x4(cam->transform);
 	cam->orientation = transformed_vec(new_orientation, cam->transform);
-	wait_for_threads_and_restart();
+	reset_rendering_threads();
 }
 
 /**
  * Cheks for movement keypresses and activates camera moving function when
  * necessary.
  */
-void	movement_hook(void *param)
+static void	handle_camera_translation_input(void)
 {
-	t_camera *const	cam = ((t_data *)param)->elems.camera;
+	t_camera *const	cam = g_data.elems.camera;
 	t_vec4 const	camera_right = unit_vec(cross(vector(0, 1, 0),
 				cam->orientation));
-	t_vec4 const	camera_up = unit_vec(cross(cam->orientation,
-				camera_right));
+	t_vec4 const	camera_up = unit_vec(cross(cam->orientation, camera_right));
 	t_vec4			move_vec;
 
 	move_vec = (t_vec4){0};
@@ -113,17 +131,5 @@ static void	move_camera(t_vec4 move_vec)
 	g_data.pause_threads = true;
 	g_data.elems.camera->pos = vec_sum(g_data.elems.camera->pos, move_vec);
 	init_camera_transform(g_data.elems.camera);
-	wait_for_threads_and_restart();
-}
-
-/**
- * Waits for threads to pause, sets the jobs counter, active threads and
- * unpauses when ready.
- */
-void	wait_for_threads_and_restart(void)
-{
-	while (g_data.active_threads != 0)
-		usleep(TICK);
-	g_data.jobs_available = THREADS;
-	g_data.pause_threads = false;
+	reset_rendering_threads();
 }
