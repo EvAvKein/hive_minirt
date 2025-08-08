@@ -13,8 +13,6 @@
 #ifndef SETTINGS_H
 # define SETTINGS_H
 
-# include "MLX42.h"
-
 /* ---------------------------------------------------------------- PRECISION */
 
 # ifndef EPSILON
