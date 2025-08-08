@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/08/05 15:11:10 by ekeinan          ###   ########.fr        #
+#    Updated: 2025/08/07 20:19:14 by ekeinan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,10 @@ SRC		:=	main.c									\
 			image_to_file.c							\
 			ui/hooks_01.c							\
 			ui/hooks_02.c							\
-			initialization/initialization_01.c		\
-			initialization/initialization_02.c		\
-			initialization/initialization_03.c		\
+			init/obj_initialization.c				\
+			init/mlx_initialization.c				\
+			init/asset_initialization.c				\
+			init/pixel_and_misc_initialization.c	\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
 			parsing/elems/cam_and_lights_parse.c	\

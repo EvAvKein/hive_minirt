@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 22:37:02 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 16:46:23 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/07 21:08:56 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,9 @@ bool	sphere_parse(char *str, size_t *parse_i)
 	if (!vec4_parse(str, parse_i, &sphere.pos, true)
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("invalid sphere position"));
-	if (!flt_parse(str, parse_i, &sphere.radius) || sphere.radius < EPSILON
-		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid sphere diameter"));
 	sphere.radius /= 2;
 	if (!sphere_parse_pt2(&sphere, str, parse_i))
 		return (false);
-	sphere.next = NULL;
 	ptr_to_next = &g_data.elems.spheres;
 	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
@@ -62,6 +58,10 @@ bool	sphere_parse(char *str, size_t *parse_i)
 static inline bool	sphere_parse_pt2(t_sphere *sphere,
 						char *str, size_t *parse_i)
 {
+	if (!flt_parse(str, parse_i, &sphere->radius)
+		|| sphere->radius < EPSILON || !is_space(str[*parse_i - 1]))
+		return (print_err("invalid sphere diameter"));
+	sphere->radius /= 2;
 	if (!rgb_parse(str, parse_i, &sphere->color))
 		return (print_err("invalid sphere color"));
 	if (!optional_pattern_name_parse(str, parse_i, &sphere->pattern)
@@ -70,7 +70,7 @@ static inline bool	sphere_parse_pt2(t_sphere *sphere,
 	if (!sphere->texture && !optional_pattern_color_parse(str, parse_i,
 			sphere->pattern, &sphere->pattern_color))
 		return (print_err("invalid sphere pattern color"));
-	if (!is_end(str[*parse_i]))
+	if (str[*parse_i])
 	{
 		if (!sphere->texture)
 			return (print_err("invalid sphere data after pattern color"));

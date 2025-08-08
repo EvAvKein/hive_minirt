@@ -138,10 +138,17 @@ typedef struct s_8bit_color
 typedef t_vec4	t_flt_color;
 
 // color/colors_01.c
+t_8bit_color	get_pixel_color(mlx_image_t const *img, size_t pixel_i);
 void			set_pixel_color(size_t pixel_i, t_8bit_color color);
 t_flt_color		color_8bit_to_flt(t_8bit_color c);
 t_8bit_color	color_flt_to_8bit(t_flt_color c);
 t_flt_color		lerp_color(t_flt_color c1, t_flt_color c2, t_flt amount);
+
+typedef enum e_obj_type\
+				t_obj_type;
+
+// color/uv_mapping.c
+t_vec4			point_to_uv(t_obj_type type, t_vec4 point, t_flt obj_height);
 
 /* -------------------------------------------------------------- BACKGROUNDS */
 
@@ -153,7 +160,7 @@ void			set_horizontal_gradient(mlx_image_t *img,
 void			set_vertical_gradient(mlx_image_t *img,
 					t_flt_color colors[2]);
 void			set_uv(mlx_image_t *img);
-t_8bit_color		get_sky_color(t_ray ray, size_t i);
+t_8bit_color	get_sky_color(t_ray ray, size_t i);
 
 /* ---------------------------------------------------------------- MATERIALS */
 
@@ -217,6 +224,34 @@ t_material		mat_of_pattern(t_pattern pattern_name);
 t_material		default_material(void);
 t_material		pattern_mat_with_color(
 					t_pattern pattern_name, t_flt_color color);
+
+typedef struct s_sphere\
+				t_sphere;
+typedef struct s_plane\
+				t_plane;
+typedef struct s_cylinder\
+				t_cylinder;
+typedef struct s_triangle\
+				t_triangle;
+
+// color/mat_by_texture.c
+t_material		mat_by_texture(t_vec4 uv_pos, mlx_image_t *image);
+t_material		mat_by_texture_sphere(
+					t_vec4 relative_pos, t_sphere *sp);
+t_material		mat_by_texture_plane(
+					t_vec4 relative_pos, t_plane *pl);
+t_material		mat_by_texture_cylinder(
+					t_vec4 relative_pos, t_cylinder *cyl);
+
+// color/mat_at_pos_of_obj.c
+t_material		mat_at_hit_on_sphere(
+					t_vec4 *hit_pos, t_sphere *sp);
+t_material		mat_at_hit_on_plane(
+					t_vec4 *hit_pos, t_plane *pl);
+t_material		mat_at_hit_on_cylinder(
+					t_vec4 *hit_pos, t_cylinder *cyl);
+t_material		mat_at_hit_on_triangle(
+					t_vec4 *hit_pos, t_triangle *tr);
 
 /* ----------------------------------------------------------------- LIGHTING */
 
@@ -350,10 +385,10 @@ typedef struct s_triangle
 	t_vec4				pos1;
 	t_vec4				pos2;
 	t_vec4				pos3;
-	t_flt_color				color;
+	t_flt_color			color;
 	t_material			material;
 	t_pattern			pattern;
-	t_flt_color		pattern_color;
+	t_flt_color			pattern_color;
 	struct s_triangle	*next;
 }						t_triangle;
 
@@ -539,16 +574,6 @@ t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
 t_vec4			triangle_normal_at(t_triangle tr, t_vec4 world_pos);
 
 /* ----------------------------------------------------------------- PATTERNS */
-
-// color/material_at_pos_of_obj.c
-t_material		material_at_hit_on_sphere(
-					t_vec4 *hit_pos, t_sphere *sphere);
-t_material		material_at_hit_on_plane(
-					t_vec4 *hit_pos, t_plane *plane);
-t_material		material_at_hit_on_cylinder(
-					t_vec4 *hit_pos, t_cylinder *cylinder);
-t_material		material_at_hit_on_triangle(
-					t_vec4 *hit_pos, t_triangle *triangle);
 
 // color/obj_pattern_mats.c
 t_pattern_mats	sp_pattern_mats(t_pattern pattern_name, t_sphere *sphere);

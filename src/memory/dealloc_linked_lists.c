@@ -96,11 +96,9 @@ void	dealloc_cylinders(t_cylinder *cylinder)
 }
 
 /**
- *
  * Deallocate all the triangles in the provided linked list from the heap.
  *
  * @param triangle	First node in triangle linked list
- *
  */
 void	dealloc_triangles(t_triangle *triangle)
 {

@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:05:00 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/05 17:14:58 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/07 17:13:00 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ t_material	mat_at_hit_on_plane(t_vec4 *hit_pos, t_plane *pl)
 		return (pl->material);
 	else if (pl->pattern == CHECKERBOARD)
 		return (mat_by_pattern_checkerboard(relative_pos,
-				pl_pattern_mats(CHECKERBOARD, plane), PLANE, -1));
-	else if (plane->pattern == CANDY)
+				pl_pattern_mats(CHECKERBOARD, pl), PLANE, -1));
+	else if (pl->pattern == CANDY)
 		return (mat_by_pattern_candy(relative_pos,
 				pl_pattern_mats(CANDY, pl)));
 	else if (pl->pattern == CIRCUS)
@@ -72,8 +72,8 @@ t_material	mat_at_hit_on_plane(t_vec4 *hit_pos, t_plane *pl)
 				pl_pattern_mats(ANGEL, pl)));
 	else if (pl->pattern == BEAMS)
 		return (mat_by_pattern_beams(relative_pos,
-				pl_pattern_mats(BEAMS, plane), -1));
-	return (plane->material);
+				pl_pattern_mats(BEAMS, pl), -1));
+	return (pl->material);
 }
 
 /**
@@ -130,28 +130,4 @@ t_material	mat_at_hit_on_triangle(t_vec4 *hit_pos, t_triangle *tr)
 		return (mat_by_pattern_angel(relative_pos,
 				tr_pattern_mats(ANGEL, tr)));
 	return (tr->material);
-}
-
-/**
- * @returns The material at this position of the triangle
- *
- * (Some patterns are absent because we consider them invalid for triangles,
- *  those get rejected during parsing)
- */
-t_material	material_at_hit_on_triangle(t_vec4 *hit_pos, t_triangle *triangle)
-{
-	const t_vec4	relative_pos = *hit_pos;
-
-	if (triangle->pattern == SOLID)
-		return (triangle->material);
-	else if (triangle->pattern == CANDY)
-		return (mat_by_pattern_candy(relative_pos,
-				tr_pattern_mats(BEAMS, triangle)));
-	else if (triangle->pattern == LINES)
-		return (mat_by_pattern_lines(relative_pos,
-				tr_pattern_mats(LINES, triangle)));
-	else if (triangle->pattern == ANGEL)
-		return (mat_by_pattern_angel(relative_pos,
-				tr_pattern_mats(ANGEL, triangle)));
-	return (triangle->material);
 }
