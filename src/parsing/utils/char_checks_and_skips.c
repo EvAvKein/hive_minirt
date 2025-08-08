@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:52:34 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 17:43:22 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:55:04 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,3 @@ void	skip_letters_and_trailing_spaces(char *str, size_t *parse_i)
 		(*parse_i)++;
 	skip_spaces(str, parse_i);
 }
-
