@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:25:20 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/05 18:50:02 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 16:46:58 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static inline bool	triangle_parse_latter_half(t_triangle *triangle,
 	if (!optional_pattern_color_parse(str, parse_i,
 			triangle->pattern, &triangle->pattern_color))
 		return (print_err("invalid triangle pattern color"));
-	if (str[*parse_i])
+	if (!is_end(str[*parse_i]))
 		return (print_err("invalid triangle data after pattern color"));
 	return (true);
 }

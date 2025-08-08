@@ -529,7 +529,8 @@ bool			cylinder_parse(char *str, size_t *parse_i);
 // parsing/parse_triangle.c
 bool			triangle_parse(char *str, size_t *parse_i);
 
-// parsing/utils.c
+// parsing/utils/char_checks_and_skips.c
+bool			is_end(char c);
 bool			is_space(char c);
 void			skip_spaces(char *str, size_t *parse_i);
 void			skip_letters_and_trailing_spaces(char *str, size_t *parse_i);

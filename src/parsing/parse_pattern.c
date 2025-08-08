@@ -36,7 +36,8 @@ static bool	pattern_name_match_and_skip_i(
  */
 bool	optional_pattern_name_parse(char *str, size_t *parse_i, t_pattern *dest)
 {
-	if (!str[*parse_i] || pattern_name_match_and_skip_i(str, parse_i, "solid"))
+	if (is_end(str[*parse_i])
+		|| pattern_name_match_and_skip_i(str, parse_i, "solid"))
 		*dest = SOLID;
 	else if (pattern_name_match_and_skip_i(str, parse_i, "checkerboard"))
 		*dest = CHECKERBOARD;
@@ -101,19 +102,19 @@ bool	optional_pattern_color_parse(char *str, size_t *parse_i,
 bool	optional_asset_parse(char *str, size_t *parse_i, mlx_texture_t **dest)
 {
 	size_t			path_i;
-	bool			manually_terminated_str;
+	bool			skip_manual_null;
 
 	*dest = NULL;
-	if (!str[*parse_i])
+	if (is_end(str[*parse_i]))
 		return (true);
 	path_i = 0;
-	while (str[*parse_i + path_i] && !is_space(str[*parse_i + path_i]))
+	while (!is_end(str[*parse_i + path_i]) && !is_space(str[*parse_i + path_i]))
 		path_i++;
-	manually_terminated_str = is_space(str[*parse_i + path_i]);
-	if (manually_terminated_str)
+	skip_manual_null = is_space(str[*parse_i + path_i]);
+	if (skip_manual_null || is_end(str[*parse_i + path_i]))
 		str[*parse_i + path_i] = '\0';
 	*dest = mlx_load_png(&str[*parse_i]);
 	if (*dest)
-		*parse_i += path_i + manually_terminated_str;
+		*parse_i += path_i + skip_manual_null;
 	return (!!*dest);
 }

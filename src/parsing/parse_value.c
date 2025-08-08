@@ -70,8 +70,7 @@ bool	flt_parse(char *str, size_t *parse_i, t_flt *dest)
 
 	if (!longlong_parse(str, parse_i, &num_pt[0]))
 		return (false);
-	if (is_end(str[*parse_i])
-		|| is_space(str[*parse_i]) || str[*parse_i] == ',')
+	if (is_end(str[*parse_i]) || is_space(str[*parse_i]) || str[*parse_i] == ',')
 	{
 		*dest = num_pt[0];
 		skip_spaces(str, parse_i);

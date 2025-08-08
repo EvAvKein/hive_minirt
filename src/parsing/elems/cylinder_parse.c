@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:25:20 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/07 20:39:18 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 16:46:05 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static inline bool	cylinder_parse_pt3(t_cylinder *cylinder,
 	if (!cylinder->texture && !optional_pattern_color_parse(str, parse_i,
 			cylinder->pattern, &cylinder->pattern_color))
 		return (print_err("invalid cylinder pattern color"));
-	if (str[*parse_i])
+	if (!is_end(str[*parse_i]))
 	{
 		if (!cylinder->texture)
 			return (print_err("invalid cylinder data after pattern color"));
