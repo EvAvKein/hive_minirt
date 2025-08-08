@@ -12,14 +12,18 @@
 
 #include "minirt.h"
 
-void	init_object_data(void)
+/**
+ * Calculates unit vectors for each ray that is being cast at a specific pixel.
+ * Also applies camera transform.
+ */
+void	setup_pixel_rays(void)
 {
-	init_lights(g_data.elems.lights);
-	init_spheres(g_data.elems.spheres);
-	init_planes(g_data.elems.planes);
-	init_cylinders(g_data.elems.cylinders);
-	init_triangles(g_data.elems.triangles);
-	init_camera_transform(g_data.elems.camera);
+	size_t			i;
+
+	setup_pixel_grid();
+	i = -1;
+	while (++i < g_data.pixel_count)
+		g_data.pixel_rays[i] = ray_for_pixel(i);
 }
 
 /**
@@ -60,4 +64,14 @@ t_ray	ray_for_pixel(size_t i)
 			.orig = point(0, 0, 0),
 			.dir = unit_vec(pixel_pos),
 			.closest_hit.t = MAX_DIST}, g_data.elems.camera->transform));
+}
+
+void	init_object_data(void)
+{
+	init_lights(g_data.elems.lights);
+	init_spheres(g_data.elems.spheres);
+	init_planes(g_data.elems.planes);
+	init_cylinders(g_data.elems.cylinders);
+	init_triangles(g_data.elems.triangles);
+	init_camera_transform(g_data.elems.camera);
 }

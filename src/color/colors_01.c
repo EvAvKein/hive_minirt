@@ -6,11 +6,25 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:22:10 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/17 10:54:12 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/07 17:09:54 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+/**
+ * @returns	Color of pixel at index pixel_i
+ */
+t_8bit_color	get_pixel_color(mlx_image_t const *img, size_t pixel_i)
+{
+	t_8bit_color	color;
+
+	color.r = img->pixels[4 * pixel_i + 0];
+	color.g = img->pixels[4 * pixel_i + 1];
+	color.b = img->pixels[4 * pixel_i + 2];
+	color.a = 0xff;
+	return (color);
+}
 
 /**
  * Sets the color at the provided pixel index to the provided color

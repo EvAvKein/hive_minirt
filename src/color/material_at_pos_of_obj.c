@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   material_at_pos_of_obj.c                           :+:      :+:    :+:   */
+/*   mat_at_pos_of_obj.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:05:00 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/05 17:14:58 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/07 17:13:00 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,95 +15,97 @@
 /**
  * @returns The material at this position of the sphere
  */
-t_material	material_at_hit_on_sphere(t_vec4 *hit_pos, t_sphere *sphere)
+t_material	mat_at_hit_on_sphere(t_vec4 *hit_pos, t_sphere *sp)
 {
-	const t_vec4	relative_pos = transformed_vec(*hit_pos, sphere->inverse);
+	const t_vec4	relative_pos = transformed_vec(*hit_pos, sp->inverse);
 
-	if (sphere->pattern == SOLID)
-		return (sphere->material);
-	else if (sphere->pattern == CHECKERBOARD)
+	if (sp->image)
+		return (mat_by_texture_sphere(relative_pos, sp));
+	else if (sp->pattern == SOLID)
+		return (sp->material);
+	else if (sp->pattern == CHECKERBOARD)
 		return (mat_by_pattern_checkerboard(relative_pos,
-				sp_pattern_mats(CHECKERBOARD, sphere),
-				SPHERE, sphere->radius * 2));
-	else if (sphere->pattern == CANDY)
+				sp_pattern_mats(CHECKERBOARD, sp), SPHERE, sp->radius * 2));
+	else if (sp->pattern == CANDY)
 		return (mat_by_pattern_candy(relative_pos,
-				sp_pattern_mats(CANDY, sphere)));
-	else if (sphere->pattern == CIRCUS)
+				sp_pattern_mats(CANDY, sp)));
+	else if (sp->pattern == CIRCUS)
 		return (mat_by_pattern_circus(relative_pos,
-				sp_pattern_mats(CIRCUS, sphere)));
-	else if (sphere->pattern == LINES)
+				sp_pattern_mats(CIRCUS, sp)));
+	else if (sp->pattern == LINES)
 		return (mat_by_pattern_lines(relative_pos,
-				sp_pattern_mats(LINES, sphere)));
-	else if (sphere->pattern == ANGEL)
+				sp_pattern_mats(LINES, sp)));
+	else if (sp->pattern == ANGEL)
 		return (mat_by_pattern_angel(relative_pos,
-				sp_pattern_mats(ANGEL, sphere)));
-	else if (sphere->pattern == BEAMS)
+				sp_pattern_mats(ANGEL, sp)));
+	else if (sp->pattern == BEAMS)
 		return (mat_by_pattern_beams(relative_pos,
-				sp_pattern_mats(BEAMS, sphere),
-				sphere->radius * 2));
-	return (sphere->material);
+				sp_pattern_mats(BEAMS, sp), sp->radius * 2));
+	return (sp->material);
 }
 
 /**
  * @returns The material at this position of the plane
  */
-t_material	material_at_hit_on_plane(t_vec4 *hit_pos, t_plane *plane)
+t_material	mat_at_hit_on_plane(t_vec4 *hit_pos, t_plane *pl)
 {
-	const t_vec4	relative_pos = transformed_vec(*hit_pos, plane->inverse);
+	const t_vec4	relative_pos = transformed_vec(*hit_pos, pl->inverse);
 
-	if (plane->pattern == SOLID)
-		return (plane->material);
-	else if (plane->pattern == CHECKERBOARD)
+	if (pl->image)
+		return (mat_by_texture_plane(relative_pos, pl));
+	else if (pl->pattern == SOLID)
+		return (pl->material);
+	else if (pl->pattern == CHECKERBOARD)
 		return (mat_by_pattern_checkerboard(relative_pos,
-				pl_pattern_mats(CHECKERBOARD, plane), PLANE, -1));
-	else if (plane->pattern == CANDY)
+				pl_pattern_mats(CHECKERBOARD, pl), PLANE, -1));
+	else if (pl->pattern == CANDY)
 		return (mat_by_pattern_candy(relative_pos,
-				pl_pattern_mats(CANDY, plane)));
-	else if (plane->pattern == CIRCUS)
+				pl_pattern_mats(CANDY, pl)));
+	else if (pl->pattern == CIRCUS)
 		return (mat_by_pattern_circus(relative_pos,
-				pl_pattern_mats(CIRCUS, plane)));
-	else if (plane->pattern == LINES)
+				pl_pattern_mats(CIRCUS, pl)));
+	else if (pl->pattern == LINES)
 		return (mat_by_pattern_lines(relative_pos,
-				pl_pattern_mats(LINES, plane)));
-	else if (plane->pattern == ANGEL)
+				pl_pattern_mats(LINES, pl)));
+	else if (pl->pattern == ANGEL)
 		return (mat_by_pattern_angel(relative_pos,
-				pl_pattern_mats(ANGEL, plane)));
-	else if (plane->pattern == BEAMS)
+				pl_pattern_mats(ANGEL, pl)));
+	else if (pl->pattern == BEAMS)
 		return (mat_by_pattern_beams(relative_pos,
-				pl_pattern_mats(BEAMS, plane), -1));
-	return (plane->material);
+				pl_pattern_mats(BEAMS, pl), -1));
+	return (pl->material);
 }
 
 /**
  * @returns The material at this position of the cylinder
  */
-t_material	material_at_hit_on_cylinder(t_vec4 *hit_pos, t_cylinder *cylinder)
+t_material	mat_at_hit_on_cylinder(t_vec4 *hit_pos, t_cylinder *cyl)
 {
-	const t_vec4	relative_pos = transformed_vec(*hit_pos, cylinder->inverse);
+	const t_vec4	relative_pos = transformed_vec(*hit_pos, cyl->inverse);
 
-	if (cylinder->pattern == SOLID)
-		return (cylinder->material);
-	else if (cylinder->pattern == CHECKERBOARD)
+	if (cyl->image)
+		return (mat_by_texture_cylinder(relative_pos, cyl));
+	else if (cyl->pattern == SOLID)
+		return (cyl->material);
+	else if (cyl->pattern == CHECKERBOARD)
 		return (mat_by_pattern_checkerboard(relative_pos,
-				cy_pattern_mats(CHECKERBOARD, cylinder),
-				CYLINDER, cylinder->height));
-	else if (cylinder->pattern == CANDY)
+				cy_pattern_mats(CHECKERBOARD, cyl), CYLINDER, cyl->height));
+	else if (cyl->pattern == CANDY)
 		return (mat_by_pattern_candy(relative_pos,
-				cy_pattern_mats(BEAMS, cylinder)));
-	else if (cylinder->pattern == CIRCUS)
+				cy_pattern_mats(BEAMS, cyl)));
+	else if (cyl->pattern == CIRCUS)
 		return (mat_by_pattern_circus(relative_pos,
-				cy_pattern_mats(CIRCUS, cylinder)));
-	else if (cylinder->pattern == LINES)
+				cy_pattern_mats(CIRCUS, cyl)));
+	else if (cyl->pattern == LINES)
 		return (mat_by_pattern_lines(relative_pos,
-				cy_pattern_mats(LINES, cylinder)));
-	else if (cylinder->pattern == ANGEL)
+				cy_pattern_mats(LINES, cyl)));
+	else if (cyl->pattern == ANGEL)
 		return (mat_by_pattern_angel(relative_pos,
-				cy_pattern_mats(ANGEL, cylinder)));
-	else if (cylinder->pattern == BEAMS)
+				cy_pattern_mats(ANGEL, cyl)));
+	else if (cyl->pattern == BEAMS)
 		return (mat_by_pattern_beams(relative_pos,
-				cy_pattern_mats(BEAMS, cylinder),
-				cylinder->height));
-	return (cylinder->material);
+				cy_pattern_mats(BEAMS, cyl), cyl->height));
+	return (cyl->material);
 }
 
 /**
@@ -112,20 +114,20 @@ t_material	material_at_hit_on_cylinder(t_vec4 *hit_pos, t_cylinder *cylinder)
  * (Some patterns are absent because we consider them invalid for triangles,
  *  those get rejected during parsing)
  */
-t_material	material_at_hit_on_triangle(t_vec4 *hit_pos, t_triangle *triangle)
+t_material	mat_at_hit_on_triangle(t_vec4 *hit_pos, t_triangle *tr)
 {
 	const t_vec4	relative_pos = *hit_pos;
 
-	if (triangle->pattern == SOLID)
-		return (triangle->material);
-	else if (triangle->pattern == CANDY)
+	if (tr->pattern == SOLID)
+		return (tr->material);
+	else if (tr->pattern == CANDY)
 		return (mat_by_pattern_candy(relative_pos,
-				tr_pattern_mats(BEAMS, triangle)));
-	else if (triangle->pattern == LINES)
+				tr_pattern_mats(BEAMS, tr)));
+	else if (tr->pattern == LINES)
 		return (mat_by_pattern_lines(relative_pos,
-				tr_pattern_mats(LINES, triangle)));
-	else if (triangle->pattern == ANGEL)
+				tr_pattern_mats(LINES, tr)));
+	else if (tr->pattern == ANGEL)
 		return (mat_by_pattern_angel(relative_pos,
-				tr_pattern_mats(ANGEL, triangle)));
-	return (triangle->material);
+				tr_pattern_mats(ANGEL, tr)));
+	return (tr->material);
 }

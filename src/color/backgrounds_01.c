@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:53:24 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/29 11:58:09 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/07 17:03:54 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static t_8bit_color	get_image_pixel_color(mlx_image_t const *img, size_t idx);
 
 /**
+ * TODO: Remove unused func?
+ *
  * Sets pixel buffer to horizontal gradient, defined by the colors in the colors
  * array.
  *
@@ -34,7 +36,7 @@ void	set_horizontal_gradient(mlx_image_t *img, t_flt_color colors[2])
 	{
 		zero_to_one_horizontal = (t_flt)(i % RES_X) / RES_X;
 		between_8bit = color_flt_to_8bit(
-			lerp_color(colors[0], colors[1], zero_to_one_horizontal));
+				lerp_color(colors[0], colors[1], zero_to_one_horizontal));
 		img->pixels[i * 4 + 0] = between_8bit.r;
 		img->pixels[i * 4 + 1] = between_8bit.g;
 		img->pixels[i * 4 + 2] = between_8bit.b;
@@ -43,6 +45,8 @@ void	set_horizontal_gradient(mlx_image_t *img, t_flt_color colors[2])
 }
 
 /**
+ * TODO: Remove unused func?
+ *
  * Sets pixel buffer to vertical gradient, defined by the colors in the colors
  * array.
  *
@@ -62,7 +66,7 @@ void	set_vertical_gradient(mlx_image_t *img, t_flt_color colors[2])
 	{
 		zero_to_one_vertical = (t_flt)(i / img->width) / img->height;
 		color = color_flt_to_8bit(
-			lerp_color(colors[0], colors[1], zero_to_one_vertical));
+				lerp_color(colors[0], colors[1], zero_to_one_vertical));
 		img->pixels[i * 4 + 0] = color.r;
 		img->pixels[i * 4 + 1] = color.g;
 		img->pixels[i * 4 + 2] = color.b;
@@ -71,6 +75,8 @@ void	set_vertical_gradient(mlx_image_t *img, t_flt_color colors[2])
 }
 
 /**
+ * TODO: Remove unused func?
+ *
  * Sets pixel buffer to uv coordinates (view space).
  *
  * @param img	Pointer to mlx image
@@ -124,7 +130,7 @@ t_8bit_color	get_sky_color(t_ray ray, size_t i)
 	{
 		uv.y = (t_flt)(i / g_data.img->width) / g_data.img->height;
 		color = color_flt_to_8bit(
-			lerp_color(sky_colors[0], sky_colors[1], uv.y));
+				lerp_color(sky_colors[0], sky_colors[1], uv.y));
 		return (color);
 	}
 	idx[1] = round(uv.x * g_data.sky_image->width);
