@@ -15,7 +15,7 @@
 static void	*raycasting_routine(void *arg);
 static void	gradually_render(size_t i0, uint16_t precision);
 static void	cast_rays(size_t i0, uint16_t precision);
-static void	cast_ray(t_data *data, size_t i, uint16_t precision);
+static void	cast_ray(size_t i, uint16_t precision);
 
 /**
  * Creates threads, sets up initial jobs available to THREADS. Threads can't
@@ -54,7 +54,8 @@ bool	run_threads(void)
  * The raycasting routine finds out the thread's number and runs the rendering
  * loop. The loop gradually renders with higher accuracy (the precision number
  * tells how many pixels get a copy of the same color sample, so the smaller
- * the precision the more accurate the render).
+ * the precision the more accurate the render). Waits for events when done with
+ * rendering.
  */
 static void	*raycasting_routine(void *arg)
 {
@@ -85,7 +86,10 @@ static void	*raycasting_routine(void *arg)
 }
 
 /**
- * Renders image in steps
+ * Controls how a thread casts rays in sync with the other threads.
+ *
+ * @param i0		Thread's index in range [0, THREADS - 1]
+ * @param precision	Amount of pixels to color by one sample initially
  */
 static void	gradually_render(size_t i0, uint16_t precision)
 {
@@ -110,7 +114,13 @@ static void	gradually_render(size_t i0, uint16_t precision)
 }
 
 /**
- * TODO: Write documentation
+ * Loops through the assigned render regions of the thread, casting rays as
+ * it goes. A thread renders precision pixels starting at its own index
+ * times precision, then it moves forward by THREADS * precision to render
+ * an unrendered region that no other thread is accessing.
+ *
+ * @param i0		Thread's index in range [0, THREADS - 1]
+ * @param precision	Amount of pixels to color by one sample initially
  */
 static void	cast_rays(size_t i0, uint16_t precision)
 {
@@ -120,28 +130,32 @@ static void	cast_rays(size_t i0, uint16_t precision)
 	while (i < g_data.pixel_count
 		&& !g_data.stop_threads && !g_data.pause_threads)
 	{
-		cast_ray(&g_data, i, precision);
+		cast_ray(i, precision);
 		i += THREADS * precision;
 	}
 }
 
 /**
- * TODO: Write documentation
+ * Casts a ray for pixel i and assigns the result color based on the color
+ * sampled by that ray to precision amount of pixels.
+ *
+ * @param i			Index of pixel to sample for
+ * @param precision	Pixels to color by ray sample result
  */
-static void	cast_ray(t_data *data, size_t i, uint16_t precision)
+static void	cast_ray(size_t i, uint16_t precision)
 {
 	t_ray			ray;
 	t_phong_helper	p;
-	t_flt_color	col;
+	t_flt_color		col;
 
 	ray = ray_for_pixel(i);
 	p = (t_phong_helper){};
-	cast_ray_at_objs(&ray, &data->elems, NULL);
+	cast_ray_at_objs(&ray, &g_data.elems, NULL);
 	if (ray.closest_hit.t == MAX_DIST)
 		col = get_sky_color(ray, i);
 	else
 	{
-		p.light = data->elems.lights;
+		p.light = g_data.elems.lights;
 		p.ray = &ray;
 		p.pos = ray_position(ray, ray.closest_hit.t);
 		p.to_cam = opposite_vec(ray.dir);

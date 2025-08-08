@@ -12,7 +12,6 @@
 
 #include "minirt.h"
 
-
 /**
  * Calculates unit vectors for each ray that is being cast at a specific pixel.
  * Also applies camera transform.

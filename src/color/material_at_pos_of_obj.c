@@ -131,36 +131,3 @@ t_material	mat_at_hit_on_triangle(t_vec4 *hit_pos, t_triangle *tr)
 				tr_pattern_mats(ANGEL, tr)));
 	return (tr->material);
 }
-
-/**
- * @returns The material at this position of the triangle
- */
-t_material	material_at_hit_on_triangle(t_vec4 *hit_pos, t_triangle *triangle)
-{
-	// const t_vec4	relative_pos = transformed_vec(*hit_pos, triangle->inverse);
-	
-	(void) hit_pos;
-	if (triangle->pattern == SOLID)
-		return (triangle->material);
-	// else if (triangle->pattern == CHECKERBOARD)
-	// 	return (mat_by_pattern_checkerboard(relative_pos,
-	// 			tr_pattern_mats(CHECKERBOARD, triangle),
-	// 			TRIANGLE, EPSILON));
-	// else if (triangle->pattern == CANDY)
-	// 	return (mat_by_pattern_candy(relative_pos,
-	// 			tr_pattern_mats(BEAMS, triangle)));
-	// else if (triangle->pattern == CIRCUS)
-	// 	return (mat_by_pattern_circus(relative_pos,
-	// 			tr_pattern_mats(CIRCUS, triangle)));
-	// else if (triangle->pattern == LINES)
-	// 	return (mat_by_pattern_lines(relative_pos,
-	// 			tr_pattern_mats(LINES, triangle)));
-	// else if (triangle->pattern == ANGEL)
-	// 	return (mat_by_pattern_angel(relative_pos,
-	// 			tr_pattern_mats(ANGEL, triangle)));
-	// else if (triangle->pattern == BEAMS)
-	// 	return (mat_by_pattern_beams(relative_pos,
-	// 			tr_pattern_mats(BEAMS, triangle),
-	// 			EPSILON));
-	return (triangle->material);
-}

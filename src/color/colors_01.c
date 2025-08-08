@@ -71,7 +71,7 @@ t_8bit_color	color_flt_to_8bit(t_flt_color c)
 /**
  * @returns	Color that sits between c1 and c2, defined by the amount [0, 1]
  */
-t_flt_color	lerp_color(t_flt_color c1, t_flt_color c2, float amount)
+t_flt_color	lerp_color(t_flt_color c1, t_flt_color c2, t_flt amount)
 {
 	t_flt_color	between;
 
