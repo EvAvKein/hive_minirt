@@ -16,6 +16,7 @@
 # include <limits.h>		// LLONG_MAX
 # include <fcntl.h>			// open()
 # include <math.h>			// pow(), fabs()
+# include <float.h>			// FLT_MAX & DBL_MAX
 # include <pthread.h>		// pthread_create()
 # include <stdio.h>			// fflush TODO: Remove before eval
 # include "libft_plus.h"
