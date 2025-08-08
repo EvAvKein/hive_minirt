@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:09:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/03 12:20:36 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 15:17:09 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,17 @@
 #  define MOVEMENT_MULT		20
 # endif
 
+// FOV changing
+# ifndef KEYBIND_FOV_INC
+#  define KEYBIND_FOV_INC	MLX_KEY_R
+# endif
+# ifndef KEYBIND_FOV_DEC
+#  define KEYBIND_FOV_DEC	MLX_KEY_F
+# endif
+# ifndef FOV_DELTA
+#  define FOV_DELTA			1
+# endif
+
 # ifndef ROTATION_BASE
 #  define ROTATION_BASE		RADIANS_PER_DEGREE
 # endif
@@ -94,8 +105,12 @@
 #  define RES_Y		2233	// 2160	1080	720
 # endif
 
+# ifndef STARTING_PRECISION
+#  define STARTING_PRECISION	64
+# endif
+
 # ifndef THREADS
-#  define THREADS	8
+#  define THREADS	5
 # endif
 
 # ifndef TICK

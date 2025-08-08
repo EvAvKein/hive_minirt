@@ -6,11 +6,37 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 17:33:47 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/07 10:37:44 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/08 14:46:49 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+/**
+ * Checks for FOV change input and updates the camera and pixel grid if
+ * necessary.
+ */
+void	handle_camera_fov_input(void)
+{
+	t_flt	fov_delta;
+
+	fov_delta = 0;
+	if (mlx_is_key_down(g_data.mlx, KEYBIND_FOV_INC))
+		fov_delta = FOV_DELTA;
+	else if (mlx_is_key_down(g_data.mlx, KEYBIND_FOV_DEC))
+		fov_delta = -FOV_DELTA;
+	if (mlx_is_key_down(g_data.mlx, KEYBIND_FAST))
+		fov_delta *= 2;
+	if (fov_delta != 0
+		&& g_data.elems.camera->fov + fov_delta <= 180
+		&& g_data.elems.camera->fov + fov_delta >= 1)
+	{
+		g_data.pause_threads = true;
+		g_data.elems.camera->fov += fov_delta;
+		setup_pixel_grid(g_data.img->width, g_data.img->height);
+		reset_rendering_threads();
+	}
+}
 
 /**
  * Hook for stopping the threads before closing the mlx window.
@@ -48,12 +74,34 @@ void	exit_and_screenshot_hook(mlx_key_data_t key_data, void *param)
 	}
 }
 
+/**
+ * Sets g_data.resized to true when a window resize event happens,
+ * the every_frame hook function takes care of resizing.
+ */
 void	resize_hook(int32_t width, int32_t height, void *param)
 {
-	((t_data *)param)->pause_threads = true;
+	(void)param;
+	(void)height;
+	(void)width;
+	g_data.resized = true;
+}
+
+/**
+ * Waits for threads to pause, sets the jobs counter, active threads and
+ * unpauses when ready.
+ */
+void	reset_rendering_threads(void)
+{
+	size_t	i;
+
+	i = -1;
+	while (++i < THREADS)
+		g_data.thread_can_proceed[i] = false;
 	while (g_data.active_threads != 0)
-		usleep (TICK);
-	mlx_resize_image(g_data.img, width, height);
-	setup_pixel_grid(width, height);
-	wait_for_threads_and_restart();
+		usleep(TICK);
+	i = -1;
+	while (++i < THREADS)
+		g_data.thread_can_proceed[i] = true;
+	g_data.jobs_available = THREADS;
+	g_data.pause_threads = false;
 }

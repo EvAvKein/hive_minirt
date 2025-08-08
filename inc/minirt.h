@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/05 18:46:34 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 14:45:22 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -446,8 +446,10 @@ typedef struct s_data
 	_Atomic bool	stop_threads;
 	_Atomic bool	pause_threads;
 	_Atomic bool	work_to_be_done;
-	_Atomic bool	resizing;
+	_Atomic bool	resized;
+	_Atomic bool	thread_can_proceed[THREADS];
 	pthread_t		threads[THREADS];
+	pthread_t		monitor_thread;
 	pthread_mutex_t	lock;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
@@ -643,18 +645,22 @@ t_vec2			plane_pitch_and_yaw(t_plane pl);
 /* --------------------------------------------------------------- HOOKS & UI */
 
 // ui/hooks_01.c
-void			movement_hook(void *param);
-void			rotation_hook(void *param);
-void			wait_for_threads_and_restart(void);
+void			every_frame(void *param);
 
 // ui/hooks_02.c
+void			handle_camera_fov_input(void);
 void			close_hook(void *param);
 void			exit_and_screenshot_hook(mlx_key_data_t key_data, void *param);
 void			resize_hook(int32_t width, int32_t height, void *param);
+void			reset_rendering_threads(void);
 
 /* ---------------------------------------------------------------- THREADING */
 
+// threading/threading_01.c
 bool			run_threads(void);
+
+// threading/threading_02.c
+void			*monitor_thread(void *param);
 
 /* -------------------------------------------------------------------- UTILS */
 
