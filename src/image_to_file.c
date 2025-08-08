@@ -80,10 +80,10 @@ static bool	write_header_to_file(int fd,
  */
 static void	write_colors_to_file(int fd)
 {
-	size_t		i;
-	size_t		row_i;
-	uint8_t		*color_channels;
-	t_channels	pixels_row[RES_X];
+	size_t			i;
+	size_t			row_i;
+	uint8_t			*color_channels;
+	t_8bit_color	pixels_row[RES_X];
 
 	color_channels = g_data.img->pixels;
 	if (!color_channels)

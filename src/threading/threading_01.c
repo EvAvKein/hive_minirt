@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 11:53:37 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/29 17:30:20 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/08 15:32:51 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static void	cast_ray(t_data *data, size_t i, size_t precision)
 	t_ray *const	ray = &data->pixel_rays[i];
 	t_ray_x_obj		*rxo;
 	t_phong_helper	p;
-	t_color			col;
+	t_flt_color	col;
 
 	p = (t_phong_helper){};
 	empty_intersections(ray);
@@ -125,5 +125,5 @@ static void	cast_ray(t_data *data, size_t i, size_t precision)
 		col = color_at_obj_hit(rxo, &p);
 	}
 	while (precision--)
-		set_pixel_color(i++, col);
+		set_pixel_color(i++, color_flt_to_8bit(col));
 }

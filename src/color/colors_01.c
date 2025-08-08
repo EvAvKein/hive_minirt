@@ -6,35 +6,35 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:22:10 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/17 10:54:12 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/07 17:09:54 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 /**
- * Sets the color at the provided pixel index to the provided color
+ * @returns	Color of pixel at index pixel_i
  */
-void	set_pixel_color(size_t pixel_i, t_color color)
+t_8bit_color	get_pixel_color(mlx_image_t const *img, size_t pixel_i)
 {
-	g_data.img->pixels[pixel_i * 4 + 0] = color.bit.r;
-	g_data.img->pixels[pixel_i * 4 + 1] = color.bit.g;
-	g_data.img->pixels[pixel_i * 4 + 2] = color.bit.b;
-	g_data.img->pixels[pixel_i * 4 + 3] = 0xff;
+	t_8bit_color	color;
+
+	color.r = img->pixels[4 * pixel_i + 0];
+	color.g = img->pixels[4 * pixel_i + 1];
+	color.b = img->pixels[4 * pixel_i + 2];
+	color.a = 0xff;
+	return (color);
 }
 
 /**
- * Convenience function for easily creating colors
- *
- * @returns	t_color struct with colors set to match c
+ * Sets the color at the provided pixel index to the provided color
  */
-t_color	color_from_uint32(uint32_t c)
+void	set_pixel_color(size_t pixel_i, t_8bit_color color)
 {
-	t_color	col;
-
-	col.bit.rgba = c;
-	col.flt = color_8bit_to_flt(col.bit);
-	return (col);
+	g_data.img->pixels[pixel_i * 4 + 0] = color.r;
+	g_data.img->pixels[pixel_i * 4 + 1] = color.g;
+	g_data.img->pixels[pixel_i * 4 + 2] = color.b;
+	g_data.img->pixels[pixel_i * 4 + 3] = 0xff;
 }
 
 /**

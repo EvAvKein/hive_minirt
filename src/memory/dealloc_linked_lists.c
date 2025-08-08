@@ -13,11 +13,9 @@
 #include "minirt.h"
 
 /**
- *
  * Deallocate all the lights in the provided linked list from the heap.
  *
  * @param light	First node in light linked list
- * 
  */
 void	dealloc_lights(t_light *light)
 {
@@ -32,11 +30,10 @@ void	dealloc_lights(t_light *light)
 }
 
 /**
- *
- * Deallocate all the spheres in the provided linked list from the heap.
+ * Deallocate all spheres in the provided linked list from the heap,
+ * also freeing any associated MLX assets.
  * 
  * @param sphere	First node in sphere linked list
- *
  */
 void	dealloc_spheres(t_sphere *sphere)
 {
@@ -44,6 +41,10 @@ void	dealloc_spheres(t_sphere *sphere)
 
 	while (sphere)
 	{
+		if (sphere->texture)
+			mlx_delete_texture(sphere->texture);
+		if (sphere->image)
+			mlx_delete_image(g_data.mlx, sphere->image);
 		next = sphere->next;
 		free(sphere);
 		sphere = next;
@@ -51,11 +52,10 @@ void	dealloc_spheres(t_sphere *sphere)
 }
 
 /**
- *
- * Deallocate all the planes in the provided linked list from the heap.
+ * Deallocate all the planes in the provided linked list from the heap,
+ * also freeing any associated MLX assets.
  * 
  * @param plane	First node in plane linked list
- *
  */
 void	dealloc_planes(t_plane *plane)
 {
@@ -63,6 +63,10 @@ void	dealloc_planes(t_plane *plane)
 
 	while (plane)
 	{
+		if (plane->texture)
+			mlx_delete_texture(plane->texture);
+		if (plane->image)
+			mlx_delete_image(g_data.mlx, plane->image);
 		next = plane->next;
 		free(plane);
 		plane = next;
@@ -70,11 +74,10 @@ void	dealloc_planes(t_plane *plane)
 }
 
 /**
- *
- * Deallocate all the cylinders in the provided linked list from the heap.
+ * Deallocate all the cylinders in the provided linked list from the heap,
+ * also freeing any associated MLX assets.
  * 
  * @param cylinder	First node in cylinder linked list
- *
  */
 void	dealloc_cylinders(t_cylinder *cylinder)
 {
@@ -82,6 +85,10 @@ void	dealloc_cylinders(t_cylinder *cylinder)
 
 	while (cylinder)
 	{
+		if (cylinder->texture)
+			mlx_delete_texture(cylinder->texture);
+		if (cylinder->image)
+			mlx_delete_image(g_data.mlx, cylinder->image);
 		next = cylinder->next;
 		free(cylinder);
 		cylinder = next;
@@ -89,11 +96,9 @@ void	dealloc_cylinders(t_cylinder *cylinder)
 }
 
 /**
- *
  * Deallocate all the triangles in the provided linked list from the heap.
  *
  * @param triangle	First node in triangle linked list
- *
  */
 void	dealloc_triangles(t_triangle *triangle)
 {
