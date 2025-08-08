@@ -15,12 +15,9 @@ NAME				:= miniRT
 CC					:= cc
 COMPILE_FLAGS		:= -Wall -Wextra -Werror
 MLX_FLAGS			:= -Iinclude -ldl -lglfw -pthread -lm
-
 # ---------------------------------------------------------------------------- #
-
 OPTIMIZATION_FLAGS	:= -O3 -ffast-math -flto -march=native
 DEBUG_FLAGS := -g
-
 # ---------------------------------------------------------------------------- #
 LIBFT_DIR := libft_plus
 LIBFT_LIB := $(LIBFT_DIR)/libft_plus.a
@@ -33,8 +30,8 @@ MLX_LIB			:= $(MLX_BUILD_DIR)/libmlx42.a
 SRC_DIR	:=	src
 SRC		:=	main.c									\
 			image_to_file.c							\
-			ui/keyhook.c							\
-			ui/close_hook.c							\
+			ui/hooks_01.c							\
+			ui/hooks_02.c							\
 			init/obj_initialization.c				\
 			init/mlx_initialization.c				\
 			init/asset_initialization.c				\
@@ -79,10 +76,9 @@ SRC		:=	main.c									\
 			objects/materials_01.c					\
 			objects/transform_initialization.c		\
 			objects/transform_angle_calculation.c	\
-			intersections/intersections_01.c		\
-			intersections/quicksort.c				\
 			lighting/lighting_01.c					\
-			threading/threading_01.c
+			threading/threading_01.c				\
+			threading/threading_02.c
 # ---------------------------------------------------------------------------- #
 INC_DIR			:= inc
 INC_FILES		:= minirt.h settings.h
@@ -114,9 +110,7 @@ $(MLX_LIB):
 		git clone $(MLX_REPO) $(MLX_DIR);\
 	fi;
 	@cd $(MLX_DIR) && cmake -B build && cmake --build build -j4
-
 # ---------------------------------------------------------------------------- #
-
 clean:
 	@make -C $(LIBFT_DIR) $@ --no-print-directory
 	rm -rf $(OBJ_DIR)
@@ -126,7 +120,6 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
-
 # ---------------------------------------------------------------------------- #
 neat: all clean
 	clear

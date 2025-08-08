@@ -173,24 +173,6 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/initialization_01.c",
-   "-o",
-   "obj/initialization_01.o"
-  ],
-  "file": "src/initialization_01.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
    "src/utils/errors.c",
    "-o",
    "obj/utils/errors.o"
@@ -389,24 +371,6 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/initialization_02.c",
-   "-o",
-   "obj/initialization_02.o"
-  ],
-  "file": "src/initialization_02.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
    "src/vectors/vectors_03.c",
    "-o",
    "obj/vectors/vectors_03.o"
@@ -479,24 +443,6 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/intersections/intersections_01.c",
-   "-o",
-   "obj/intersections/intersections_01.o"
-  ],
-  "file": "src/intersections/intersections_01.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
    "src/rays/ray_at_obj.c",
    "-o",
    "obj/rays/ray_at_obj.o"
@@ -520,24 +466,6 @@
    "obj/objects/cylinder_intersection.o"
   ],
   "file": "src/objects/cylinder_intersection.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/intersections/quicksort.c",
-   "-o",
-   "obj/intersections/quicksort.o"
-  ],
-  "file": "src/intersections/quicksort.c"
  },
  {
   "directory": "/home/jvarila/Repos/minirt",
@@ -628,60 +556,6 @@
    "obj/objects/transform_angle_calculation.o"
   ],
   "file": "src/objects/transform_angle_calculation.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/ui/keyhook.c",
-   "-o",
-   "obj/ui/keyhook.o"
-  ],
-  "file": "src/ui/keyhook.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/ui/close_hook.c",
-   "-o",
-   "obj/ui/close_hook.o"
-  ],
-  "file": "src/ui/close_hook.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/initialization_03.c",
-   "-o",
-   "obj/initialization_03.o"
-  ],
-  "file": "src/initialization_03.c"
  },
  {
   "directory": "/home/jvarila/Repos/minirt",
@@ -844,5 +718,203 @@
    "obj/threading/threading_01.o"
   ],
   "file": "src/threading/threading_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/ui/hooks_01.c",
+   "-o",
+   "obj/ui/hooks_01.o"
+  ],
+  "file": "src/ui/hooks_01.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/ui/hooks_02.c",
+   "-o",
+   "obj/ui/hooks_02.o"
+  ],
+  "file": "src/ui/hooks_02.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/init/obj_initialization.c",
+   "-o",
+   "obj/init/obj_initialization.o"
+  ],
+  "file": "src/init/obj_initialization.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/init/mlx_initialization.c",
+   "-o",
+   "obj/init/mlx_initialization.o"
+  ],
+  "file": "src/init/mlx_initialization.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/init/asset_initialization.c",
+   "-o",
+   "obj/init/asset_initialization.o"
+  ],
+  "file": "src/init/asset_initialization.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/init/pixel_and_misc_initialization.c",
+   "-o",
+   "obj/init/pixel_and_misc_initialization.o"
+  ],
+  "file": "src/init/pixel_and_misc_initialization.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/parsing/elems/triangle_parse.c",
+   "-o",
+   "obj/parsing/elems/triangle_parse.o"
+  ],
+  "file": "src/parsing/elems/triangle_parse.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/color/uv_mapping.c",
+   "-o",
+   "obj/color/uv_mapping.o"
+  ],
+  "file": "src/color/uv_mapping.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/color/mat_by_texture.c",
+   "-o",
+   "obj/color/mat_by_texture.o"
+  ],
+  "file": "src/color/mat_by_texture.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/objects/triangle_intersection.c",
+   "-o",
+   "obj/objects/triangle_intersection.o"
+  ],
+  "file": "src/objects/triangle_intersection.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/threading/threading_02.c",
+   "-o",
+   "obj/threading/threading_02.o"
+  ],
+  "file": "src/threading/threading_02.c"
  }
 ]

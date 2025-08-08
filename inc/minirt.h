@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 11:50:14 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 14:45:22 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,7 @@ t_material		mat_at_hit_on_triangle(
 
 /* ----------------------------------------------------------------- LIGHTING */
 
-t_flt_color	let_there_be_light(t_phong_helper *p);
+t_flt_color		let_there_be_light(t_phong_helper *p);
 
 /* ------------------------------------------------------------ SCENE OBJECTS */
 
@@ -430,7 +430,7 @@ typedef struct s_ray
 {
 	t_vec4				dir;
 	t_vec4				orig;
-	t_ray_x_obj_array	intersections;
+	t_ray_x_obj			closest_hit;
 }						t_ray;
 
 /* -------------------------------------------------------------------------- */
@@ -447,16 +447,17 @@ typedef struct s_data
 {
 	t_elems			elems;
 	t_pixel_grid	pixel_grid;
-	t_ray			*pixel_rays;
+	_Atomic size_t	pixel_count;
+	_Atomic size_t	jobs_available;
 	_Atomic size_t	active_threads;
 	_Atomic size_t	threads_waiting;
-	_Atomic bool	stop;
-	_Atomic bool	pause;
+	_Atomic bool	stop_threads;
+	_Atomic bool	pause_threads;
 	_Atomic bool	work_to_be_done;
-	size_t			pixel_count;
-	size_t			object_count;
-	size_t			intersection_count;
+	_Atomic bool	resized;
+	_Atomic bool	thread_can_proceed[THREADS];
 	pthread_t		threads[THREADS];
+	pthread_t		monitor_thread;
 	pthread_mutex_t	lock;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
@@ -567,13 +568,9 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl);
 t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
 t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 
-// objects/plane_intersection.c
+// objects/triangle_intersections.c
 t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
 t_vec4			triangle_normal_at(t_triangle tr, t_vec4 world_pos);
-
-// intersections/intersections_01.c
-void			xadd_intersection(t_ray *ray, t_ray_x_obj intersection);
-void			empty_intersections(t_ray *ray);
 
 /* ----------------------------------------------------------------- PATTERNS */
 
@@ -614,7 +611,6 @@ void			dealloc_triangles(t_triangle *triangle);
 /* ---------------------------------------------- DATA SETUP & INITIALIZATION */
 
 // initialization_01.c
-void			setup_pixel_rays(void);
 bool			data_init_successful(void);
 
 // initialization_02.c
@@ -626,7 +622,7 @@ void			init_triangles(t_triangle *cyl);
 
 // initialization_03.c
 void			init_object_data(void);
-void			setup_pixel_grid(void);
+void			setup_pixel_grid(size_t width, size_t height);
 t_ray			ray_for_pixel(size_t i);
 
 // initialization_04.c
@@ -644,15 +640,23 @@ t_vec2			plane_pitch_and_yaw(t_plane pl);
 
 /* --------------------------------------------------------------- HOOKS & UI */
 
-// ui/keyhook.c
-void			keyhook(mlx_key_data_t key_data, void *param);
+// ui/hooks_01.c
+void			every_frame(void *param);
 
-// ui/close_hook.c
+// ui/hooks_02.c
+void			handle_camera_fov_input(void);
 void			close_hook(void *param);
+void			exit_and_screenshot_hook(mlx_key_data_t key_data, void *param);
+void			resize_hook(int32_t width, int32_t height, void *param);
+void			reset_rendering_threads(void);
 
 /* ---------------------------------------------------------------- THREADING */
 
+// threading/threading_01.c
 bool			run_threads(void);
+
+// threading/threading_02.c
+void			*monitor_thread(void *param);
 
 /* -------------------------------------------------------------------- UTILS */
 
@@ -664,8 +668,7 @@ bool			vecs_are_equal(t_vec4 vec1, t_vec4 vec2);
 bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 
 // utils/utils_02.c
-void			write_pixel_rays_to_file(const char *str);
-void			*xcalloc(size_t nmemb, size_t size);
+t_8bit_color	normal_to_color(t_vec4 normal);
 
 /* ------------------------------------------------------ IMAGE FILE CREATION */
 

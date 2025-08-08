@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:22 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/29 12:03:04 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/08 10:49:57 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ int	main(int argc, char **argv)
 		return (print_err("Couldn't initialize mutex"));
 	if (data_init_successful() == false)
 		return (g_data.error);
-	setup_pixel_rays();
+	setup_pixel_grid(g_data.img->width, g_data.img->height);
 	run_threads();
 	mlx_close_hook(g_data.mlx, close_hook, &g_data);
-	mlx_key_hook(g_data.mlx, keyhook, &g_data);
+	mlx_key_hook(g_data.mlx, exit_and_screenshot_hook, &g_data);
+	mlx_loop_hook(g_data.mlx, every_frame, &g_data);
+	mlx_resize_hook(g_data.mlx, resize_hook, &g_data);
 	mlx_loop(g_data.mlx);
 	mlx_terminate(g_data.mlx);
 	free_data();

@@ -32,9 +32,9 @@ bool	free_data(void)
 	dealloc_cylinders(g_data.elems.cylinders);
 	dealloc_triangles(g_data.elems.triangles);
 	i = -1;
-	while (++i < g_data.pixel_count)
-		free(g_data.pixel_rays[i].intersections._);
-	free(g_data.pixel_rays);
+	while (++i < THREADS)
+		pthread_join(g_data.threads[i], NULL);
+	pthread_join(g_data.monitor_thread, NULL);
 	pthread_mutex_destroy(&g_data.lock);
 	return (true);
 }

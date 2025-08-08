@@ -13,50 +13,20 @@
 #include "minirt.h"
 
 /**
- * Used this function for debugging raycasting.
+ * Converts a vec4 containing the normal of a surface into the corresponding
+ * 8 bit color.
  *
- * @param str	String containing file name to write data into
+ * @param normal	Normal vector to convert into a color
  *
- * TODO: Remove function before eval or move to a debug source file
+ * @returns Color that corrensponds to vec4 parameter normal
  */
-void	write_pixel_rays_to_file(const char *str)
+t_8bit_color	normal_to_color(t_vec4 normal)
 {
-	size_t	i;
-	int		fds[2];
+	t_8bit_color	col;
 
-	fds[0] = open(str, O_CREAT | O_TRUNC | O_WRONLY, 0666);
-	if (fds[0] < 0)
-		return ;
-	fds[1] = dup(STDOUT_FILENO);
-	dup2(fds[0], STDOUT_FILENO);
-	i = -1;
-	while (++i < g_data.pixel_count)
-		print_vec(g_data.pixel_rays[i].dir);
-	fflush(stdout);
-	close(fds[0]);
-	dup2(fds[1], STDOUT_FILENO);
-	close(fds[1]);
-}
-
-/**
- * Attempts to calloc, frees data and exits program if calloc fails.
- *
- * @param nmemb	Number of members to allocate
- * @param size	Size of members to allocate
- *
- * @returns	Void pointer to allocated memory block
- */
-void	*xcalloc(size_t nmemb, size_t size)
-{
-	void	*mem;
-
-	mem = ft_calloc(nmemb, size);
-	if (mem == NULL)
-	{
-		ft_putendl_fd("ERROR: xcalloc: couldn't allocate memory",
-			STDERR_FILENO);
-		free_data();
-		exit(ERROR_ALLOC);
-	}
-	return (mem);
+	col.r = (normal.x * 0.5 + 0.5) * 255.999;
+	col.g = (normal.y * 0.5 + 0.5) * 255.999;
+	col.b = (-normal.z * 0.5 + 0.5) * 255.999;
+	col.a = 0xff;
+	return (col);
 }

@@ -26,9 +26,6 @@ bool	data_init_successful(void)
 	if (problem_with_resolution())
 		return (set_error_return_false(ERROR_PROBLEM_WITH_RESOLUTION));
 	g_data.pixel_count = RES_X * RES_Y;
-	g_data.pixel_rays = ft_calloc(g_data.pixel_count, sizeof(t_ray));
-	if (g_data.pixel_rays == NULL)
-		return (set_error_return_false(ERROR_ALLOC));
 	init_object_data();
 	if (mlx_init_successful() == false)
 		return (false);
