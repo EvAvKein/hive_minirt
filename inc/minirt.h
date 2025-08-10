@@ -462,6 +462,7 @@ typedef struct s_data
 	mlx_image_t		*img;
 	mlx_image_t		*sky_image;
 	t_error			error;
+	bool			no_cap;
 }					t_data;
 
 typedef struct s_quad
@@ -648,7 +649,8 @@ void			every_frame(void *param);
 // ui/hooks_02.c
 void			handle_camera_fov_input(void);
 void			close_hook(void *param);
-void			exit_and_screenshot_hook(mlx_key_data_t key_data, void *param);
+void			exit_and_screenshot_and_capping_hook(
+					mlx_key_data_t key_data, void *param);
 void			resize_hook(int32_t width, int32_t height, void *param);
 void			reset_rendering_threads(void);
 

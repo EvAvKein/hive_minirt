@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 	setup_pixel_grid(g_data.img->width, g_data.img->height);
 	run_threads();
 	mlx_close_hook(g_data.mlx, close_hook, &g_data);
-	mlx_key_hook(g_data.mlx, exit_and_screenshot_hook, &g_data);
+	mlx_key_hook(g_data.mlx, exit_and_screenshot_and_capping_hook, &g_data);
 	mlx_loop_hook(g_data.mlx, every_frame, &g_data);
 	mlx_resize_hook(g_data.mlx, resize_hook, &g_data);
 	mlx_loop(g_data.mlx);

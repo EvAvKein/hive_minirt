@@ -51,9 +51,9 @@ void	close_hook(void *param)
 }
 
 /**
- * Checks for exit and screenshot keypresses.
+ * Checks for exit and screenshot and cap-toggling keypresses.
  */
-void	exit_and_screenshot_hook(mlx_key_data_t key_data, void *param)
+void	exit_and_screenshot_and_capping_hook(mlx_key_data_t key_data, void *param)
 {
 	t_data *const	data = param;
 
@@ -66,6 +66,12 @@ void	exit_and_screenshot_hook(mlx_key_data_t key_data, void *param)
 		mlx_terminate(g_data.mlx);
 		free_data();
 		exit(EXIT_SUCCESS);
+	}
+	if (mlx_is_key_down(data->mlx, KEYBIND_NO_CAP))
+	{
+		g_data.no_cap = !g_data.no_cap;
+		reset_rendering_threads();
+		return ;
 	}
 	if (mlx_is_key_down(data->mlx, KEYBIND_SAVE))
 	{

@@ -27,10 +27,15 @@ t_ray_x_obj	ray_hit_cylinder(t_ray ray, t_cylinder const *cyl)
 	t_ray_x_objs	combined;
 	t_ray_x_obj		primary_hit;
 
-	shell = ray_x_cylinder_shell(ray, cyl);
-	caps = ray_x_cylinder_caps(ray, cyl);
-	combined = (t_ray_x_objs){._[0] = hit(shell), ._[1] = hit(caps)};
-	primary_hit = hit(combined);
+	if (g_data.no_cap)
+		primary_hit = hit(ray_x_cylinder_shell(ray, cyl));
+	else
+	{
+		shell = ray_x_cylinder_shell(ray, cyl);
+		caps = ray_x_cylinder_caps(ray, cyl);
+		combined = (t_ray_x_objs){._[0] = hit(shell), ._[1] = hit(caps)};
+		primary_hit = hit(combined);
+	}
 	return (primary_hit);
 }
 

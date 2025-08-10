@@ -23,6 +23,7 @@ static bool	set_error_return_false(t_error error);
  */
 bool	data_init_successful(void)
 {
+	g_data.no_cap = false;
 	if (problem_with_resolution())
 		return (set_error_return_false(ERROR_PROBLEM_WITH_RESOLUTION));
 	g_data.pixel_count = RES_X * RES_Y;
