@@ -13,20 +13,6 @@
 #include "minirt.h"
 
 /**
- * Calculates unit vectors for each ray that is being cast at a specific pixel.
- * Also applies camera transform.
- */
-void	setup_pixel_rays(void)
-{
-	size_t			i;
-
-	setup_pixel_grid();
-	i = -1;
-	while (++i < g_data.pixel_count)
-		g_data.pixel_rays[i] = ray_for_pixel(i);
-}
-
-/**
  * Calculates pixel grid variables based on camera fov and the image buffer's
  * dimensions.
  */
