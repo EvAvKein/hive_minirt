@@ -6,15 +6,14 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:58:09 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/15 15:23:08 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/10 11:45:03 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 static void	light_single_sphere(t_sphere const *sp, t_light const *light);
-static void	cast_rays_at_sphere(t_data const *data, t_sphere const *sp,
-				t_phong_helper *p);
+static void	cast_rays_at_sphere(t_sphere const *sp, t_phong_helper *p);
 
 void	single_sphere_test(void)
 {
@@ -29,8 +28,7 @@ void	single_sphere_test(void)
 	sp.material = default_material();
 	sp.material.color = point(1, 0, 1);
 	light.pos = point(0, 7, 20);
-	light.color = (t_color){.bit = (t_8bit_color){.rgba = 0xffffffff}};
-	light.color.flt = color_8bit_to_float(light.color.bit);
+	light.color = (t_flt_color){.r = 1, .g = 1, .b = 1};
 	light.brightness = 1;
 	light.transform = translation_m4x4(light.pos);
 	light.inverse = inverse_m4x4(light.transform);
@@ -44,30 +42,27 @@ static void	light_single_sphere(t_sphere const *sp, t_light const *light)
 	p = (t_phong_helper){0};
 	p.mat = sp->material;
 	p.light = light;
-	cast_rays_at_sphere(&g_data, sp, &p);
+	cast_rays_at_sphere(sp, &p);
 }
 
-static void	cast_rays_at_sphere(t_data const *data, t_sphere const *sp,
-				t_phong_helper *p)
+static void	cast_rays_at_sphere(t_sphere const *sp, t_phong_helper *p)
 {
-	t_ray_x_objs	rxos;
 	t_ray_x_obj		rxo;
 	t_ray			ray;
-	t_color			color;
+	t_flt_color		color;
 	size_t			i;
 
 	i = -1;
-	while (++i < data->pixel_count)
+	while (++i < g_data.pixel_count)
 	{
-		ray = data->pixel_rays[i];
-		rxos = ray_x_sphere(ray, sp);
-		rxo = hit(rxos);
+		ray = ray_for_pixel(i);
+		rxo = hit(ray_x_sphere(ray, sp));
 		if (rxo.t <= 0)
 			continue ;
 		p->pos = ray_position(ray, rxo.t);
 		p->normal = sphere_normal_at(*sp, p->pos);
 		p->to_cam = opposite_vec(ray.dir);
 		color = let_there_be_light(p);
-		set_pixel_color(i, color);
+		set_pixel_color(i, color_flt_to_8bit(color));
 	}
 }

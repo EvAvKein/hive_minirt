@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 11:10:57 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/08 17:14:59 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/11 10:42:45 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,16 @@ t_ray	ray_for_pixel(size_t i)
 			.closest_hit.t = MAX_DIST}, dat()->elems.camera->transform));
 }
 
+/**
+ * TODO: Implement init_cones
+ */
 void	init_object_data(void)
 {
-	init_lights(dat()->elems.lights);
-	init_spheres(dat()->elems.spheres);
-	init_planes(dat()->elems.planes);
-	init_cylinders(dat()->elems.cylinders);
-	init_triangles(dat()->elems.triangles);
-	init_camera_transform(dat()->elems.camera);
+	init_lights(g_data.elems.lights);
+	init_spheres(g_data.elems.spheres);
+	init_planes(g_data.elems.planes);
+	init_cylinders(g_data.elems.cylinders);
+	// init_cones(g_data.elems.cones);
+	init_triangles(g_data.elems.triangles);
+	init_camera_transform(g_data.elems.camera);
 }

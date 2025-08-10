@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:27:40 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/23 16:27:54 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/11 11:27:54 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	init_camera_transform(t_camera *cam)
 {
 	t_vec2	angles;
 
+	if (!cam)
+		return ;
 	if (vecs_are_equal(cam->orientation, (t_vec4){}))
 		cam->orientation = (t_vec4){.z = 1};
 	cam->orientation = unit_vec(cam->orientation);

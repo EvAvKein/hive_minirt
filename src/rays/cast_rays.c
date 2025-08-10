@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:44:50 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 15:29:19 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/09 16:40:59 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,6 @@ t_ray_x_obj	hit(t_ray_x_objs rxos)
 	if (rxos._[0].t > rxos._[1].t)
 		return (rxos._[1]);
 	return (rxos._[0]);
-}
-
-/**
- * @returns The closest intersection in the provided intersections array
- */
-t_ray_x_obj	*closest_rxo(t_ray_x_obj_array *array)
-{
-	t_ray_x_obj	*rxo;
-	size_t		i;
-	t_flt		t;
-
-	rxo = NULL;
-	i = -1;
-	while (++i < array->idx)
-	{
-		t = array->_[i].t;
-		if (t > EPSILON && (!rxo || t < rxo->t))
-			rxo = &array->_[i];
-	}
-	return (rxo);
 }
 
 /**
