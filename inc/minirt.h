@@ -416,7 +416,7 @@ typedef struct s_ray_x_objs
 {
 	size_t		count;
 	t_ray_x_obj	_[2];
-}			t_ray_x_objs;
+}				t_ray_x_objs;
 
 typedef struct s_ray_x_obj_array
 {
@@ -486,8 +486,6 @@ typedef struct s_cap_helper
 	t_flt		top_dist;
 	t_flt		btm_dist;
 }				t_cap_helper;
-
-void			image_to_file(const char *bmp_file_path);
 
 bool			print_err(char *error);
 
@@ -674,7 +672,9 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 // utils/utils_02.c
 t_8bit_color	normal_to_color(t_vec4 normal);
 
-/* ------------------------------------------------------ IMAGE FILE CREATION */
+/* -------------------------------------------------------- IMAGE FILE SAVING */
+
+void			image_to_file(const char *bmp_file_path);
 
 /**
  *
