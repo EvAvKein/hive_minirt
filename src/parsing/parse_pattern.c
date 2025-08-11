@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 14:58:41 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/28 10:11:34 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 17:07:57 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	pattern_name_match_and_skip_i(
 	if (ft_strncmp(&str[*parse_i], pattern_name, name_len))
 		return (false);
 	*parse_i += name_len;
-	return (is_space(str[*parse_i]) || !str[*parse_i]);
+	return (is_space(str[*parse_i]) || is_end(str[*parse_i]));
 }
 
 /**
@@ -36,7 +36,8 @@ static bool	pattern_name_match_and_skip_i(
  */
 bool	optional_pattern_name_parse(char *str, size_t *parse_i, t_pattern *dest)
 {
-	if (!str[*parse_i] || pattern_name_match_and_skip_i(str, parse_i, "solid"))
+	if (is_end(str[*parse_i])
+		|| pattern_name_match_and_skip_i(str, parse_i, "solid"))
 		*dest = SOLID;
 	else if (pattern_name_match_and_skip_i(str, parse_i, "checkerboard"))
 		*dest = CHECKERBOARD;
@@ -52,7 +53,7 @@ bool	optional_pattern_name_parse(char *str, size_t *parse_i, t_pattern *dest)
 		*dest = BEAMS;
 	else
 		return (false);
-	if (str[*parse_i] && !is_space(str[*parse_i]))
+	if (!is_end(str[*parse_i]) && !is_space(str[*parse_i]))
 		return (false);
 	skip_spaces(str, parse_i);
 	return (true);
@@ -76,7 +77,7 @@ bool	optional_pattern_name_parse(char *str, size_t *parse_i, t_pattern *dest)
 bool	optional_pattern_color_parse(char *str, size_t *parse_i,
 			t_pattern pattern_name, t_flt_color *dest)
 {
-	if (!str[*parse_i])
+	if (is_end(str[*parse_i]))
 	{
 		*dest = mat_of_pattern(pattern_name).color;
 		return (true);
@@ -101,19 +102,19 @@ bool	optional_pattern_color_parse(char *str, size_t *parse_i,
 bool	optional_asset_parse(char *str, size_t *parse_i, mlx_texture_t **dest)
 {
 	size_t			path_i;
-	bool			manually_terminated_str;
+	bool			skip_manual_null;
 
 	*dest = NULL;
-	if (!str[*parse_i])
+	if (is_end(str[*parse_i]))
 		return (true);
 	path_i = 0;
-	while (str[*parse_i + path_i] && !is_space(str[*parse_i + path_i]))
+	while (!is_end(str[*parse_i + path_i]) && !is_space(str[*parse_i + path_i]))
 		path_i++;
-	manually_terminated_str = is_space(str[*parse_i + path_i]);
-	if (manually_terminated_str)
+	skip_manual_null = is_space(str[*parse_i + path_i]);
+	if (skip_manual_null || is_end(str[*parse_i + path_i]))
 		str[*parse_i + path_i] = '\0';
 	*dest = mlx_load_png(&str[*parse_i]);
 	if (*dest)
-		*parse_i += path_i + manually_terminated_str;
+		*parse_i += path_i + skip_manual_null;
 	return (!!*dest);
 }

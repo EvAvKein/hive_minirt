@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 18:21:58 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/07 20:38:56 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 16:46:42 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static inline bool	plane_parse_pt2(
 	if (!plane->texture && !optional_pattern_color_parse(str, parse_i,
 			plane->pattern, &plane->pattern_color))
 		return (print_err("invalid plane pattern color"));
-	if (str[*parse_i])
+	if (!is_end(str[*parse_i]))
 	{
 		if (!plane->texture)
 			return (print_err("invalid plane data after pattern color"));

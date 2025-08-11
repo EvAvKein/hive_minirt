@@ -13,13 +13,12 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include <stdbool.h>		// bool
 # include <limits.h>		// LLONG_MAX
 # include <fcntl.h>			// open()
 # include <math.h>			// pow(), fabs()
 # include <float.h>			// FLT_MAX & DBL_MAX
-# include <stdio.h>			// printf()
 # include <pthread.h>		// pthread_create()
+# include <stdio.h>			// fflush TODO: Remove before eval
 # include "libft_plus.h"
 # include "MLX42.h"
 # include "settings.h"
@@ -417,7 +416,7 @@ typedef struct s_ray_x_objs
 {
 	size_t		count;
 	t_ray_x_obj	_[2];
-}			t_ray_x_objs;
+}				t_ray_x_objs;
 
 typedef struct s_ray_x_obj_array
 {
@@ -463,6 +462,7 @@ typedef struct s_data
 	mlx_image_t		*img;
 	mlx_image_t		*sky_image;
 	t_error			error;
+	bool			no_cap;
 }					t_data;
 
 typedef struct s_quad
@@ -486,8 +486,6 @@ typedef struct s_cap_helper
 	t_flt		top_dist;
 	t_flt		btm_dist;
 }				t_cap_helper;
-
-void			image_to_file(const char *bmp_file_path);
 
 bool			print_err(char *error);
 
@@ -530,10 +528,13 @@ bool			cylinder_parse(char *str, size_t *parse_i);
 // parsing/parse_triangle.c
 bool			triangle_parse(char *str, size_t *parse_i);
 
-// parsing/utils.c
+// parsing/utils/char_checks_and_skips.c
+bool			is_end(char c);
 bool			is_space(char c);
 void			skip_spaces(char *str, size_t *parse_i);
 void			skip_letters_and_trailing_spaces(char *str, size_t *parse_i);
+
+// parsing/utils/range_checks.c
 bool			in_flt_range(t_flt checked, t_flt min, t_flt max);
 bool			is_normalized_vec(t_vec4 vec);
 
@@ -646,7 +647,8 @@ void			every_frame(void *param);
 // ui/hooks_02.c
 void			handle_camera_fov_input(void);
 void			close_hook(void *param);
-void			exit_and_screenshot_hook(mlx_key_data_t key_data, void *param);
+void			exit_and_screenshot_and_capping_hook(
+					mlx_key_data_t key_data, void *param);
 void			resize_hook(int32_t width, int32_t height, void *param);
 void			reset_rendering_threads(void);
 
@@ -670,7 +672,9 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 // utils/utils_02.c
 t_8bit_color	normal_to_color(t_vec4 normal);
 
-/* ------------------------------------------------------ IMAGE FILE CREATION */
+/* -------------------------------------------------------- IMAGE FILE SAVING */
+
+void			image_to_file(const char *bmp_file_path);
 
 /**
  *
