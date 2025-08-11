@@ -53,6 +53,8 @@ void	close_hook(void *param)
 /**
  * Checks for exit and screenshot and cap-toggling keypresses.
  */
+void			exit_and_screenshot_and_capping_hook(
+					mlx_key_data_t key_data, void *param)
 {
 	t_data *const	data = param;
 
