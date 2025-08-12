@@ -31,6 +31,7 @@ void	cast_ray_at_objs(t_ray *ray, t_elems *elems, void const *obj_ignore)
 	cast_ray_at_planes(ray, elems->planes, obj_ignore);
 	cast_ray_at_cylinders(ray, elems->cylinders, obj_ignore);
 	cast_ray_at_triangles(ray, elems->triangles, obj_ignore);
+	cast_ray_at_cones(ray, elems->cones, obj_ignore);
 }
 
 /**
