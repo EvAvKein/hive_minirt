@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 17:33:47 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/08 14:46:49 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/11 17:54:06 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	exit_and_screenshot_and_capping_hook(
 	}
 	if (mlx_is_key_down(data->mlx, KEYBIND_SAVE))
 	{
-		image_to_file("miniRT.bmp");
+		image_to_file();
 		return ;
 	}
 }
