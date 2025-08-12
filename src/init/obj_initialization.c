@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 10:11:29 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 17:15:48 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/12 19:51:06 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	init_triangles(t_triangle *tr)
 {
 	while (tr)
 	{
-		tr->normal = cross(
-				unit_vec(vec_sub(tr->pos2, (tr->pos1))),
-				unit_vec(vec_sub(tr->pos3, (tr->pos1))));
+		tr->normal = unit_vec(cross(
+				vec_sub(tr->pos2, (tr->pos1)),
+				vec_sub(tr->pos3, (tr->pos1))));
 		tr->material = default_material();
 		tr->material.color = point(tr->color.r, tr->color.g, tr->color.b);
 		tr = tr->next;
