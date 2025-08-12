@@ -71,7 +71,7 @@ static void cast_rays_at_cylinder(t_cylinder const *cyl, t_phong_helper *p)
 	t_ray_x_obj	rxo;
 	t_flt_color	color;
 	size_t		i;
-	
+
 	i = -1;
 	while (++i < g_data.pixel_count) {
 		p->diffuse = (t_vec4){};
