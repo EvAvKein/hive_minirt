@@ -45,13 +45,13 @@ static bool	process_line(char *line, size_t *i)
 		return (true);
 	if (line[*i] == 'A' && is_space(line[*i + 1]))
 	{
-		if (g_data.elems.ambient_light)
+		if (dat()->elems.ambient_light)
 			return (print_err("excess ambient light"));
 		return (ambient_light_parse(line, i));
 	}
 	if (line[*i] == 'C' && is_space(line[*i + 1]))
 	{
-		if (g_data.elems.camera)
+		if (dat()->elems.camera)
 			return (print_err("excess camera"));
 		return (camera_parse(line, i));
 	}
@@ -119,9 +119,9 @@ bool	parse_scene(char *file_path)
 		return (false);
 	}
 	close(fd);
-	if (!g_data.elems.ambient_light
-		|| !g_data.elems.camera
-		|| !g_data.elems.lights)
+	if (!dat()->elems.ambient_light
+		|| !dat()->elems.camera
+		|| !dat()->elems.lights)
 	{
 		print_err("Scene must have"
 			" an ambient light, a camera, and at least 1 light");

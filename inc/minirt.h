@@ -26,9 +26,6 @@
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
-extern struct s_data\
-				g_data;
-
 typedef float	t_flt;
 
 typedef enum e_error
@@ -385,6 +382,7 @@ typedef struct s_triangle
 	t_vec4				pos1;
 	t_vec4				pos2;
 	t_vec4				pos3;
+	t_vec4				normal;
 	t_flt_color			color;
 	t_material			material;
 	t_pattern			pattern;
@@ -486,6 +484,8 @@ typedef struct s_cap_helper
 	t_flt		top_dist;
 	t_flt		btm_dist;
 }				t_cap_helper;
+
+t_data			*dat(void);
 
 bool			print_err(char *error);
 

@@ -74,18 +74,18 @@ static bool	write_header_to_file(int fd,
  */
 static bool	write_colors_to_file(int fd)
 {
-	const uint8_t	*color_channels = g_data.img->pixels;
+	const uint8_t	*color_channels = dat()->img->pixels;
 	size_t			i;
 	size_t			row_i;
 	t_8bit_color	*pixels_row;
 
-	pixels_row = ft_calloc(g_data.img->width, sizeof(t_8bit_color));
+	pixels_row = ft_calloc(dat()->img->width, sizeof(t_8bit_color));
 	if (!pixels_row)
 		return (print_err("Image saving failed to buffer allocation failure"));
-	i = g_data.pixel_count;
+	i = dat()->pixel_count;
 	while (i > 0)
 	{
-		row_i = g_data.img->width + 1;
+		row_i = dat()->img->width + 1;
 		while (--row_i > 0)
 		{
 			pixels_row[row_i - 1].r = color_channels[(i - 1) * 4 + 2];
@@ -94,7 +94,7 @@ static bool	write_colors_to_file(int fd)
 			pixels_row[row_i - 1].a = 0xff;
 			--i;
 		}
-		if (write(fd, pixels_row, g_data.img->width * sizeof(t_8bit_color)) < 0)
+		if (write(fd, pixels_row, dat()->img->width * sizeof(t_8bit_color)) < 0)
 			return (free(pixels_row),
 				print_err("Failed to write colors into image file"));
 	}
@@ -109,7 +109,7 @@ void	image_to_file(void)
 	int		fd;
 	char	*file_name;
 
-	if (!g_data.img)
+	if (!dat()->img)
 		return ((void) print_err("Image unavailable, unable to save to file"));
 	file_name = get_available_file_name();
 	if (!file_name)
@@ -121,7 +121,7 @@ void	image_to_file(void)
 		print_err("Cannot save image to file - cannot create/access file");
 		return ;
 	}
-	if (write_header_to_file(fd, g_data.img->width, g_data.img->height)
+	if (write_header_to_file(fd, dat()->img->width, dat()->img->height)
 		&& write_colors_to_file(fd))
 		ft_dprintf(STDIN_FILENO,
 			"Screenshot saved to file \"%s\"\n", file_name);

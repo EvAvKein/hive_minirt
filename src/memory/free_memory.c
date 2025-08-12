@@ -21,20 +21,20 @@ bool	free_data(void)
 {
 	size_t			i;
 
-	if (g_data.elems.ambient_light
-		&& g_data.elems.ambient_light->sky_texture)
-		mlx_delete_texture(g_data.elems.ambient_light->sky_texture);
-	free(g_data.elems.ambient_light);
-	free(g_data.elems.camera);
-	dealloc_lights(g_data.elems.lights);
-	dealloc_spheres(g_data.elems.spheres);
-	dealloc_planes(g_data.elems.planes);
-	dealloc_cylinders(g_data.elems.cylinders);
-	dealloc_triangles(g_data.elems.triangles);
+	if (dat()->elems.ambient_light
+		&& dat()->elems.ambient_light->sky_texture)
+		mlx_delete_texture(dat()->elems.ambient_light->sky_texture);
+	free(dat()->elems.ambient_light);
+	free(dat()->elems.camera);
+	dealloc_lights(dat()->elems.lights);
+	dealloc_spheres(dat()->elems.spheres);
+	dealloc_planes(dat()->elems.planes);
+	dealloc_cylinders(dat()->elems.cylinders);
+	dealloc_triangles(dat()->elems.triangles);
 	i = -1;
 	while (++i < THREADS)
-		pthread_join(g_data.threads[i], NULL);
-	pthread_join(g_data.monitor_thread, NULL);
-	pthread_mutex_destroy(&g_data.lock);
+		pthread_join(dat()->threads[i], NULL);
+	pthread_join(dat()->monitor_thread, NULL);
+	pthread_mutex_destroy(&dat()->lock);
 	return (true);
 }

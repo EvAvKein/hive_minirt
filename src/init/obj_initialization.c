@@ -58,6 +58,9 @@ void	init_triangles(t_triangle *tr)
 {
 	while (tr)
 	{
+		tr->normal = cross(
+				unit_vec(vec_sub(tr->pos2, (tr->pos1))),
+				unit_vec(vec_sub(tr->pos3, (tr->pos1))));
 		tr->material = default_material();
 		tr->material.color = point(tr->color.r, tr->color.g, tr->color.b);
 		tr = tr->next;

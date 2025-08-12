@@ -17,15 +17,15 @@ void	*monitor_thread(void *arg)
 	size_t	i;
 
 	(void)arg;
-	pthread_mutex_lock(&g_data.lock);
-	pthread_mutex_unlock(&g_data.lock);
-	while (!g_data.stop_threads)
+	pthread_mutex_lock(&dat()->lock);
+	pthread_mutex_unlock(&dat()->lock);
+	while (!dat()->stop_threads)
 	{
-		if (g_data.threads_waiting == g_data.active_threads)
+		if (dat()->threads_waiting == dat()->active_threads)
 		{
 			i = -1;
 			while (++i < THREADS)
-				g_data.thread_can_proceed[i] = true;
+				dat()->thread_can_proceed[i] = true;
 		}
 		else
 			usleep(TICK * 100);
