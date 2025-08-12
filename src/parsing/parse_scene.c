@@ -41,7 +41,7 @@ static bool	object_parse(char *line, size_t *i)
 static bool	process_line(char *line, size_t *i)
 {
 	skip_spaces(line, i);
-	if (line[*i] == '\0')
+	if (is_end(line[*i]))
 		return (true);
 	if (line[*i] == 'A' && is_space(line[*i + 1]))
 	{
