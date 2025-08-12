@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/11 13:55:03 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/12 15:49:49 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,6 +391,7 @@ typedef struct s_cone
 	t_m4x4			transform;
 	t_m4x4			inverse;
 	t_material		material;
+	bool			single;
 	struct s_cone	*next;
 }					t_cone;
 
@@ -414,6 +415,7 @@ typedef struct s_elems
 	t_sphere		*spheres;
 	t_plane			*planes;
 	t_cylinder		*cylinders;
+	t_cone			*cones;
 	t_triangle		*triangles;
 }					t_elems;
 
@@ -469,6 +471,7 @@ typedef struct s_data
 	_Atomic bool	work_to_be_done;
 	_Atomic bool	resized;
 	_Atomic bool	thread_can_proceed[THREADS];
+	_Atomic bool	no_cap;
 	pthread_t		threads[THREADS];
 	pthread_t		monitor_thread;
 	pthread_mutex_t	lock;
@@ -476,7 +479,6 @@ typedef struct s_data
 	mlx_image_t		*img;
 	mlx_image_t		*sky_image;
 	t_error			error;
-	bool			no_cap;
 }					t_data;
 
 typedef struct s_quad
@@ -567,6 +569,10 @@ t_flt_color		color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
 void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
 					void const *obj_ignore);
 
+// rays/ray_at_cone.c
+void			cast_ray_at_cones(t_ray *ray, t_cone *cones,
+					void const *obj_ignore);
+
 /* ------------------------------------------------------------ INTERSECTIONS */
 
 // objects/sphere_intersection.c
@@ -583,7 +589,9 @@ t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
 t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 
 // objects/cone_intersection.c
+t_ray_x_obj		ray_hit_cone(t_ray ray, t_cone const *cn);
 t_ray_x_objs	ray_x_cone_shell(t_ray ray, t_cone const *cn);
+t_ray_x_objs	ray_x_cone_caps(t_ray ray, t_cone const *cn);
 t_vec4			cone_normal_at(t_cone cn, t_vec4 world_pos);
 
 // objects/triangle_intersections.c

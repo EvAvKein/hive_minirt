@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 16:23:02 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/11 17:59:05 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/12 15:50:44 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	cast_rays_at_cone(t_cone const *cn, t_phong_helper *p)
 		p->diffuse = (t_vec4){};
 		p->specular = (t_vec4){};
 		ray = ray_for_pixel(i);
-		rxo = hit(ray_x_cone_shell(ray, cn));
+		rxo = ray_hit_cone(ray, cn);
 		if (rxo.t < EPSILON)
 			continue ;
 		p->ray = &ray;

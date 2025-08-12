@@ -6,7 +6,7 @@
 #    By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 10:27:18 by jvarila           #+#    #+#              #
-#    Updated: 2025/08/11 14:50:26 by jvarila          ###   ########.fr        #
+#    Updated: 2025/08/12 15:44:35 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRC		:=	\
 			init/pixel_and_misc_initialization.c	\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
-			parsing/elems/parse_cam_and_lights.c	\
+			parsing/elems/cam_and_lights_parse.c	\
 			parsing/elems/sphere_parse.c			\
 			parsing/elems/plane_parse.c				\
 			parsing/elems/cylinder_parse.c			\
@@ -48,7 +48,8 @@ SRC		:=	\
 			parsing/parse_segment.c					\
 			parsing/parse_value.c					\
 			parsing/parse_pattern.c					\
-			parsing/utils.c							\
+			parsing/utils/range_checks.c			\
+			parsing/utils/char_checks_and_skips.c	\
 			utils/errors.c							\
 			utils/utils_01.c						\
 			utils/utils_02.c						\
@@ -62,6 +63,7 @@ SRC		:=	\
 			rays/rays_01.c							\
 			rays/cast_rays.c						\
 			rays/ray_at_obj.c						\
+			rays/ray_at_cone.c						\
 			color/colors_01.c						\
 			color/uv_mapping.c						\
 			color/mat_by_texture.c					\

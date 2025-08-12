@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/08/08 17:22:43 by ekeinan          ###   ########.fr        #
+#    Updated: 2025/08/12 15:44:18 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRC		:=	main.c									\
 			rays/rays_01.c							\
 			rays/cast_rays.c						\
 			rays/ray_at_obj.c						\
+			rays/ray_at_cone.c						\
 			color/colors_01.c						\
 			color/uv_mapping.c						\
 			color/mat_by_texture.c					\

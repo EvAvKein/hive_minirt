@@ -15,6 +15,9 @@
 static t_quad	solve_cylinder_quadratic(t_ray ray, t_cylinder cyl);
 
 /**
+ * Returns the primary hit of a ray with a cylinder. When no cap mode is on the
+ * cap collisions are disregarded.
+ *
  * @param ray	Ray struct that is cast at the cylinder
  * @param cyl	Cylinder struct pointer to cast the ray at
  *

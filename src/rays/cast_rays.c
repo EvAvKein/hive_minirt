@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+static void	other_object_types(t_ray_x_obj *rxo, t_phong_helper *p);
+
 /**
  * @returns	Struct containing the smallest non-negative t-valued intersection
  *			in rxos (ray-object intersections), 0 struct when both t-values
@@ -50,20 +52,38 @@ t_flt_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 		p->normal = sphere_normal_at(*(t_sphere *)rxo->obj, p->pos);
 		p->mat = mat_at_hit_on_sphere(&p->pos, (t_sphere *)p->obj_hit);
 	}
-	if (rxo->obj_type == PLANE)
+	else if (rxo->obj_type == PLANE)
 	{
 		p->normal = ((t_plane *)rxo->obj)->orientation;
 		p->mat = mat_at_hit_on_plane(&p->pos, (t_plane *)p->obj_hit);
 	}
-	if (rxo->obj_type == CYLINDER)
+	else if (rxo->obj_type == CYLINDER)
 	{
 		p->normal = cylinder_normal_at(*(t_cylinder *)rxo->obj, p->pos);
 		p->mat = mat_at_hit_on_cylinder(&p->pos, (t_cylinder *)p->obj_hit);
 	}
-	if (rxo->obj_type == TRIANGLE)
+	else if (rxo->obj_type == TRIANGLE)
 	{
 		p->normal = cross(p->pos, (*(t_triangle *)rxo->obj).pos1);
 		p->mat = mat_at_hit_on_triangle(&p->pos, (t_triangle *)p->obj_hit);
 	}
+	else
+		other_object_types(rxo, p);
+	if (rxo->obj_type == UNKNOWN)
+		return ((t_flt_color){});
 	return (let_there_be_light(p));
+}
+
+/**
+ * TODO: Patterns for cones
+ */
+static void	other_object_types(t_ray_x_obj *rxo, t_phong_helper *p)
+{
+	if (rxo->obj_type == CONE)
+	{
+		p->normal = cone_normal_at(*(t_cone *)rxo->obj, p->pos);
+		p->mat = ((t_cone *)p->obj_hit)->material;
+	}
+	else
+		rxo->obj_type = UNKNOWN;
 }

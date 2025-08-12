@@ -54,6 +54,7 @@ t_ray	ray_for_pixel(size_t i)
 
 /**
  * TODO: Implement init_cones
+ * init_cones(g_data.elems.cones);
  */
 void	init_object_data(void)
 {
@@ -61,7 +62,6 @@ void	init_object_data(void)
 	init_spheres(g_data.elems.spheres);
 	init_planes(g_data.elems.planes);
 	init_cylinders(g_data.elems.cylinders);
-	// init_cones(g_data.elems.cones);
 	init_triangles(g_data.elems.triangles);
 	init_camera_transform(g_data.elems.camera);
 }
