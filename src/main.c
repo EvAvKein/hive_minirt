@@ -12,27 +12,34 @@
 
 #include "minirt.h"
 
-t_data	g_data;
+/**
+ * @returns The program's primary data struct
+ */
+t_data	*dat(void)
+{
+	static t_data	data;
+
+	return (&data);
+}
 
 int	main(int argc, char **argv)
 {
-	ft_bzero(&g_data, sizeof(t_data));
 	if (argc != 2)
 		return (print_err("program must be provided a single argument"));
 	if (!parse_scene(argv[1]))
 		return (free_data());
-	if (pthread_mutex_init(&g_data.lock, NULL) != 0)
+	if (pthread_mutex_init(&dat()->lock, NULL) != 0)
 		return (print_err("Couldn't initialize mutex"));
 	if (data_init_successful() == false)
-		return (g_data.error);
-	setup_pixel_grid(g_data.img->width, g_data.img->height);
+		return (dat()->error);
+	setup_pixel_grid(dat()->img->width, dat()->img->height);
 	run_threads();
-	mlx_close_hook(g_data.mlx, close_hook, &g_data);
-	mlx_key_hook(g_data.mlx, exit_and_screenshot_hook, &g_data);
-	mlx_loop_hook(g_data.mlx, every_frame, &g_data);
-	mlx_resize_hook(g_data.mlx, resize_hook, &g_data);
-	mlx_loop(g_data.mlx);
-	mlx_terminate(g_data.mlx);
+	mlx_close_hook(dat()->mlx, close_hook, dat());
+	mlx_key_hook(dat()->mlx, exit_and_screenshot_and_capping_hook, dat());
+	mlx_loop_hook(dat()->mlx, every_frame, dat());
+	mlx_resize_hook(dat()->mlx, resize_hook, dat());
+	mlx_loop(dat()->mlx);
+	mlx_terminate(dat()->mlx);
 	free_data();
 	return (0);
 }

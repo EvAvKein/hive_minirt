@@ -136,6 +136,11 @@
 #  define KEYBIND_QUIT		MLX_KEY_ESCAPE
 # endif
 
+// Toggle cylinder caps
+# ifndef KEYBIND_NO_CAP
+#  define KEYBIND_NO_CAP	MLX_KEY_O
+# endif
+
 // Screenshot
 # ifndef KEYBIND_SAVE
 #  define KEYBIND_SAVE		MLX_KEY_SPACE

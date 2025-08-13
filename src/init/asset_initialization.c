@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization_04.c                                :+:      :+:    :+:   */
+/*   asset_initialization.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 20:03:08 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/07 20:13:47 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 17:15:24 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ bool	mlx_asset_init_successful(void)
 
 static bool	sky_asset_init_successful(void)
 {
-	if (g_data.elems.ambient_light->sky_texture)
+	if (dat()->elems.ambient_light->sky_texture)
 	{
-		g_data.sky_image = mlx_texture_to_image(g_data.mlx,
-				g_data.elems.ambient_light->sky_texture);
-		mlx_delete_texture(g_data.elems.ambient_light->sky_texture);
-		g_data.elems.ambient_light->sky_texture = NULL;
-		if (!g_data.sky_image)
+		dat()->sky_image = mlx_texture_to_image(dat()->mlx,
+			dat()->elems.ambient_light->sky_texture);
+		mlx_delete_texture(dat()->elems.ambient_light->sky_texture);
+		dat()->elems.ambient_light->sky_texture = NULL;
+		if (!dat()->sky_image)
 			return (print_err("Failed to convert sky texture to MLX image"));
 	}
 	return (true);
@@ -43,7 +43,7 @@ static bool	sphere_asset_init_successful(void)
 {
 	t_sphere	*sphere;
 
-	sphere = g_data.elems.spheres;
+	sphere = dat()->elems.spheres;
 	while (sphere)
 	{
 		if (!sphere->texture)
@@ -51,7 +51,7 @@ static bool	sphere_asset_init_successful(void)
 			sphere = sphere->next;
 			continue ;
 		}
-		sphere->image = mlx_texture_to_image(g_data.mlx, sphere->texture);
+		sphere->image = mlx_texture_to_image(dat()->mlx, sphere->texture);
 		mlx_delete_texture(sphere->texture);
 		sphere->texture = NULL;
 		if (!sphere->image)
@@ -65,7 +65,7 @@ static bool	plane_asset_init_successful(void)
 {
 	t_plane	*plane;
 
-	plane = g_data.elems.planes;
+	plane = dat()->elems.planes;
 	while (plane)
 	{
 		if (!plane->texture)
@@ -73,7 +73,7 @@ static bool	plane_asset_init_successful(void)
 			plane = plane->next;
 			continue ;
 		}
-		plane->image = mlx_texture_to_image(g_data.mlx, plane->texture);
+		plane->image = mlx_texture_to_image(dat()->mlx, plane->texture);
 		mlx_delete_texture(plane->texture);
 		plane->texture = NULL;
 		if (!plane->image)
@@ -87,7 +87,7 @@ static bool	cylinder_asset_init_successful(void)
 {
 	t_cylinder	*cylinder;
 
-	cylinder = g_data.elems.cylinders;
+	cylinder = dat()->elems.cylinders;
 	while (cylinder)
 	{
 		if (!cylinder->texture)
@@ -95,7 +95,7 @@ static bool	cylinder_asset_init_successful(void)
 			cylinder = cylinder->next;
 			continue ;
 		}
-		cylinder->image = mlx_texture_to_image(g_data.mlx, cylinder->texture);
+		cylinder->image = mlx_texture_to_image(dat()->mlx, cylinder->texture);
 		mlx_delete_texture(cylinder->texture);
 		cylinder->texture = NULL;
 		if (!cylinder->image)

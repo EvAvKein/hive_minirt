@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization_01.c                                :+:      :+:    :+:   */
+/*   mlx_initialization.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:55:52 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/07 20:13:51 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 17:15:37 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	data_init_successful(void)
 {
 	if (problem_with_resolution())
 		return (set_error_return_false(ERROR_PROBLEM_WITH_RESOLUTION));
-	g_data.pixel_count = RES_X * RES_Y;
+	dat()->pixel_count = RES_X * RES_Y;
 	init_object_data();
 	if (mlx_init_successful() == false)
 		return (false);
@@ -36,24 +36,24 @@ bool	data_init_successful(void)
 
 /**
  * Attempts to set up the mlx window and image buffer. If something goes wrong
- * sets g_data.error and terminates mlx.
+ * sets dat()->error and terminates mlx.
  *
  * @returns	true if mlx is initialized succesfully, false on error
  */
 static bool	mlx_init_successful(void)
 {
-	g_data.mlx = mlx_init(RES_X, RES_Y, "miniRT", true);
-	if (g_data.mlx == NULL)
+	dat()->mlx = mlx_init(RES_X, RES_Y, "miniRT", true);
+	if (dat()->mlx == NULL)
 		return (set_error_return_false(ERROR_MLX_INIT));
-	g_data.img = mlx_new_image(g_data.mlx, RES_X, RES_Y);
-	if (g_data.img == NULL)
+	dat()->img = mlx_new_image(dat()->mlx, RES_X, RES_Y);
+	if (dat()->img == NULL)
 	{
-		mlx_terminate(g_data.mlx);
+		mlx_terminate(dat()->mlx);
 		return (set_error_return_false(ERROR_MLX_NEW_IMAGE));
 	}
-	if (mlx_image_to_window(g_data.mlx, g_data.img, 0, 0) < 0)
+	if (mlx_image_to_window(dat()->mlx, dat()->img, 0, 0) < 0)
 	{
-		mlx_terminate(g_data.mlx);
+		mlx_terminate(dat()->mlx);
 		return (set_error_return_false(ERROR_MLX_IMAGE_TO_WINDOW));
 	}
 	return (true);
@@ -86,6 +86,6 @@ static bool	problem_with_resolution(void)
  */
 static bool	set_error_return_false(t_error error)
 {
-	g_data.error = error;
+	dat()->error = error;
 	return (false);
 }

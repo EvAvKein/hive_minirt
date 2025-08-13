@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:43:16 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/28 10:13:36 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/08 16:45:27 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,28 @@ static bool	longlong_parse(char *str, size_t *parse_i, long long *dest)
 bool	flt_parse(char *str, size_t *parse_i, t_flt *dest)
 {
 	const bool	negative = (str[*parse_i] == '-');
-	long long	integer;
-	long long	decimal;
+	long long	num_pt[2];
 	size_t		decimal_len;
 
-	if (!longlong_parse(str, parse_i, &integer))
+	if (!longlong_parse(str, parse_i, &num_pt[0]))
 		return (false);
-	if (!str[*parse_i] || is_space(str[*parse_i]) || str[*parse_i] == ',')
+	if (is_end(str[*parse_i])
+		|| is_space(str[*parse_i]) || str[*parse_i] == ',')
 	{
-		*dest = integer;
+		*dest = num_pt[0];
 		skip_spaces(str, parse_i);
 		return (true);
 	}
 	if (str[*parse_i] != '.' || !ft_isdigit(str[++(*parse_i)]))
 		return (false);
 	decimal_len = *parse_i;
-	if (!longlong_parse(str, parse_i, &decimal) || decimal < 0)
+	if (!longlong_parse(str, parse_i, &num_pt[1]) || num_pt[1] < 0)
 		return (false);
 	decimal_len = *parse_i - decimal_len;
 	if (negative)
-		*dest = (t_flt)integer - ((t_flt)decimal / pow(10, decimal_len));
+		*dest = (t_flt)num_pt[0] - ((t_flt)num_pt[1] / pow(10, decimal_len));
 	else
-		*dest = (t_flt)integer + ((t_flt)decimal / pow(10, decimal_len));
+		*dest = (t_flt)num_pt[0] + ((t_flt)num_pt[1] / pow(10, decimal_len));
 	skip_spaces(str, parse_i);
 	return (true);
 }

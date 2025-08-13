@@ -6,17 +6,15 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:43:39 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/07/09 09:46:20 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/11 20:57:08 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 /**
- *
  * @returns	The total size of the file to be created,
  * 			or `0` if a file of the resulting size is not possible.
- *
  */
 static uint32_t	calc_file_size(uint32_t header_size,
 	uint32_t img_width, uint32_t img_height)
@@ -36,12 +34,10 @@ static uint32_t	calc_file_size(uint32_t header_size,
 }
 
 /**
- *
  * Write a bmp header to the provided file descriptor,
  * including the provided image width and height.
  *
  * @returns Whether writing was successful.
- *
  */
 static bool	write_header_to_file(int fd,
 	uint32_t img_width, uint32_t img_height)
@@ -74,58 +70,64 @@ static bool	write_header_to_file(int fd,
 }
 
 /**
- *
  * Write the current image's colors to the provided file descriptor.
- *
  */
-static void	write_colors_to_file(int fd)
+static bool	write_colors_to_file(int fd)
 {
+	const uint8_t	*color_channels = dat()->img->pixels;
 	size_t			i;
 	size_t			row_i;
-	uint8_t			*color_channels;
-	t_8bit_color	pixels_row[RES_X];
+	t_8bit_color	*pixels_row;
 
-	color_channels = g_data.img->pixels;
-	if (!color_channels)
-		return ;
-	i = g_data.pixel_count;
+	pixels_row = ft_calloc(dat()->img->width, sizeof(t_8bit_color));
+	if (!pixels_row)
+		return (print_err("Image saving failed to buffer allocation failure"));
+	i = dat()->pixel_count;
 	while (i > 0)
 	{
-		row_i = RES_X + 1;
+		row_i = dat()->img->width + 1;
 		while (--row_i > 0)
 		{
-			pixels_row[(row_i - 1)].r = color_channels[(i - 1) * 4 + 2];
-			pixels_row[(row_i - 1)].g = color_channels[(i - 1) * 4 + 1];
-			pixels_row[(row_i - 1)].b = color_channels[(i - 1) * 4];
-			pixels_row[(row_i - 1)].a = 0xff;
+			pixels_row[row_i - 1].r = color_channels[(i - 1) * 4 + 2];
+			pixels_row[row_i - 1].g = color_channels[(i - 1) * 4 + 1];
+			pixels_row[row_i - 1].b = color_channels[(i - 1) * 4];
+			pixels_row[row_i - 1].a = 0xff;
 			--i;
 		}
-		if (write(fd, pixels_row, sizeof(pixels_row)) < 0)
-			print_err("Failed to write colors into image file");
+		if (write(fd, pixels_row, dat()->img->width * sizeof(t_8bit_color)) < 0)
+			return (free(pixels_row),
+				print_err("Failed to write colors into image file"));
 	}
+	return (free(pixels_row), true);
 }
 
 /**
- *
  * Saves the currently rendered image to the provided path in a bitmap format.
- *
  */
-void	image_to_file(const char *bmp_file_path)
+void	image_to_file(void)
 {
 	int		fd;
+	char	*file_name;
 
-	if (!g_data.img)
-	{
-		print_err("Cannot save image to file - image unavailable");
+	if (!dat()->img)
+		return ((void) print_err("Image unavailable, unable to save to file"));
+	file_name = get_available_file_name();
+	if (!file_name)
 		return ;
-	}
-	fd = open(bmp_file_path, O_CREAT | O_TRUNC | O_WRONLY, 0666);
+	fd = open(file_name, O_CREAT | O_WRONLY, 0776);
 	if (fd < 0)
 	{
+		free(file_name);
 		print_err("Cannot save image to file - cannot create/access file");
 		return ;
 	}
-	if (write_header_to_file(fd, g_data.img->width, g_data.img->height))
-		write_colors_to_file(fd);
+	if (write_header_to_file(fd, dat()->img->width, dat()->img->height)
+		&& write_colors_to_file(fd))
+		ft_dprintf(STDIN_FILENO,
+			"Screenshot saved to file \"%s\"\n", file_name);
+	else
+		ft_dprintf(STDERR_FILENO,
+			"Error\nFailed to write image data to file \"%s\n", file_name);
+	free(file_name);
 	close(fd);
 }

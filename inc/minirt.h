@@ -6,29 +6,25 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 14:45:22 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/13 09:56:17 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include <stdbool.h>		// bool
 # include <limits.h>		// LLONG_MAX
 # include <fcntl.h>			// open()
 # include <math.h>			// pow(), fabs()
 # include <float.h>			// FLT_MAX & DBL_MAX
-# include <stdio.h>			// printf()
 # include <pthread.h>		// pthread_create()
+# include <stdio.h>			// fflush TODO: Remove before eval
 # include "libft_plus.h"
 # include "MLX42.h"
 # include "settings.h"
 
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
-
-extern struct s_data\
-				g_data;
 
 typedef float	t_flt;
 
@@ -269,6 +265,7 @@ typedef enum e_obj_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	CONE,
 	TRIANGLE,
 }	t_obj_type;
 
@@ -381,11 +378,26 @@ typedef struct s_cylinder
 	struct s_cylinder	*next;
 }						t_cylinder;
 
+typedef struct s_cone
+{
+	t_vec4			pos;
+	t_vec4			orientation;
+	t_flt			diam;
+	t_flt			height;
+	t_flt_color		color;
+	t_m4x4			transform;
+	t_m4x4			inverse;
+	t_material		material;
+	bool			single;
+	struct s_cone	*next;
+}					t_cone;
+
 typedef struct s_triangle
 {
 	t_vec4				pos1;
 	t_vec4				pos2;
 	t_vec4				pos3;
+	t_vec4				normal;
 	t_flt_color			color;
 	t_material			material;
 	t_pattern			pattern;
@@ -401,6 +413,7 @@ typedef struct s_elems
 	t_sphere		*spheres;
 	t_plane			*planes;
 	t_cylinder		*cylinders;
+	t_cone			*cones;
 	t_triangle		*triangles;
 }					t_elems;
 
@@ -417,7 +430,7 @@ typedef struct s_ray_x_objs
 {
 	size_t		count;
 	t_ray_x_obj	_[2];
-}			t_ray_x_objs;
+}				t_ray_x_objs;
 
 typedef struct s_ray_x_obj_array
 {
@@ -456,6 +469,7 @@ typedef struct s_data
 	_Atomic bool	work_to_be_done;
 	_Atomic bool	resized;
 	_Atomic bool	thread_can_proceed[THREADS];
+	_Atomic bool	no_cap;
 	pthread_t		threads[THREADS];
 	pthread_t		monitor_thread;
 	pthread_mutex_t	lock;
@@ -487,7 +501,7 @@ typedef struct s_cap_helper
 	t_flt		btm_dist;
 }				t_cap_helper;
 
-void			image_to_file(const char *bmp_file_path);
+t_data			*dat(void);
 
 bool			print_err(char *error);
 
@@ -530,10 +544,13 @@ bool			cylinder_parse(char *str, size_t *parse_i);
 // parsing/parse_triangle.c
 bool			triangle_parse(char *str, size_t *parse_i);
 
-// parsing/utils.c
+// parsing/utils/char_checks_and_skips.c
+bool			is_end(char c);
 bool			is_space(char c);
 void			skip_spaces(char *str, size_t *parse_i);
 void			skip_letters_and_trailing_spaces(char *str, size_t *parse_i);
+
+// parsing/utils/range_checks.c
 bool			in_flt_range(t_flt checked, t_flt min, t_flt max);
 bool			is_normalized_vec(t_vec4 vec);
 
@@ -546,11 +563,14 @@ t_vec4			ray_position(t_ray ray, t_flt t);
 
 // rays/cast_rays.c
 t_ray_x_obj		hit(t_ray_x_objs intersections);
-t_ray_x_obj		*closest_rxo(t_ray_x_obj_array *array);
 t_flt_color		color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
 
 // rays/ray_at_obj.c
 void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
+					void const *obj_ignore);
+
+// rays/ray_at_cone.c
+void			cast_ray_at_cones(t_ray *ray, t_cone *cones,
 					void const *obj_ignore);
 
 /* ------------------------------------------------------------ INTERSECTIONS */
@@ -567,6 +587,12 @@ t_ray_x_obj		ray_hit_cylinder(t_ray ray, t_cylinder const *cyl);
 t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl);
 t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
 t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
+
+// objects/cone_intersection.c
+t_ray_x_obj		ray_hit_cone(t_ray ray, t_cone const *cn);
+t_ray_x_objs	ray_x_cone_shell(t_ray ray, t_cone const *cn);
+t_ray_x_objs	ray_x_cone_caps(t_ray ray, t_cone const *cn);
+t_vec4			cone_normal_at(t_cone cn, t_vec4 world_pos);
 
 // objects/triangle_intersections.c
 t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
@@ -610,22 +636,22 @@ void			dealloc_triangles(t_triangle *triangle);
 
 /* ---------------------------------------------- DATA SETUP & INITIALIZATION */
 
-// initialization_01.c
+// init/mlx_initialization.c
 bool			data_init_successful(void);
 
-// initialization_02.c
+// init/obj_initialization.c
 void			init_lights(t_light *light);
 void			init_spheres(t_sphere *sp);
 void			init_planes(t_plane *pl);
 void			init_cylinders(t_cylinder *cyl);
 void			init_triangles(t_triangle *cyl);
 
-// initialization_03.c
-void			init_object_data(void);
+// init/pixel_and_misc_initialization.c
 void			setup_pixel_grid(size_t width, size_t height);
 t_ray			ray_for_pixel(size_t i);
+void			init_object_data(void);
 
-// initialization_04.c
+// asset_initialization.c
 bool			mlx_asset_init_successful(void);
 
 // objects/transform_initialization.c
@@ -633,6 +659,7 @@ void			init_sphere_transform(t_sphere *sp);
 void			init_plane_transform(t_plane *pl);
 void			init_cylinder_transform(t_cylinder *cyl);
 void			init_camera_transform(t_camera *cam);
+void			init_cone_transform(t_cone *cn);
 
 // objects/transform_angle_calculation.c
 t_vec2			cam_pitch_and_yaw(t_camera *cam);
@@ -646,7 +673,8 @@ void			every_frame(void *param);
 // ui/hooks_02.c
 void			handle_camera_fov_input(void);
 void			close_hook(void *param);
-void			exit_and_screenshot_hook(mlx_key_data_t key_data, void *param);
+void			exit_and_screenshot_and_capping_hook(
+					mlx_key_data_t key_data, void *param);
 void			resize_hook(int32_t width, int32_t height, void *param);
 void			reset_rendering_threads(void);
 
@@ -670,7 +698,10 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 // utils/utils_02.c
 t_8bit_color	normal_to_color(t_vec4 normal);
 
-/* ------------------------------------------------------ IMAGE FILE CREATION */
+/* -------------------------------------------------------- IMAGE FILE SAVING */
+
+void			image_to_file(void);
+char			*get_available_file_name(void);
 
 /**
  *

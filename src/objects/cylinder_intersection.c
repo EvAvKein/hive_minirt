@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 15:01:58 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/22 10:56:57 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/11 13:56:17 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 static t_quad	solve_cylinder_quadratic(t_ray ray, t_cylinder cyl);
 
 /**
+ * Returns the primary hit of a ray with a cylinder. When no cap mode is on the
+ * cap collisions are disregarded.
+ *
  * @param ray	Ray struct that is cast at the cylinder
  * @param cyl	Cylinder struct pointer to cast the ray at
  *
@@ -27,10 +30,15 @@ t_ray_x_obj	ray_hit_cylinder(t_ray ray, t_cylinder const *cyl)
 	t_ray_x_objs	combined;
 	t_ray_x_obj		primary_hit;
 
-	shell = ray_x_cylinder_shell(ray, cyl);
-	caps = ray_x_cylinder_caps(ray, cyl);
-	combined = (t_ray_x_objs){._[0] = hit(shell), ._[1] = hit(caps)};
-	primary_hit = hit(combined);
+	if (dat()->no_cap)
+		primary_hit = hit(ray_x_cylinder_shell(ray, cyl));
+	else
+	{
+		shell = ray_x_cylinder_shell(ray, cyl);
+		caps = ray_x_cylinder_caps(ray, cyl);
+		combined = (t_ray_x_objs){._[0] = hit(shell), ._[1] = hit(caps)};
+		primary_hit = hit(combined);
+	}
 	return (primary_hit);
 }
 
@@ -44,28 +52,27 @@ t_ray_x_obj	ray_hit_cylinder(t_ray ray, t_cylinder const *cyl)
 t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl)
 {
 	t_quad	q;
-	t_flt	t1;
-	t_flt	t2;
+	t_flt	t[2];
 	t_flt	y_component;
 
 	ray = transformed_ray(ray, cyl->inverse);
 	q = solve_cylinder_quadratic(ray, *cyl);
 	if (flts_are_equal(q.a, 0) || q.discr < 0)
 		return ((t_ray_x_objs){});
-	t1 = (-q.h - sqrt(q.discr)) / q.a;
-	t2 = (-q.h + sqrt(q.discr)) / q.a;
-	y_component = ray_position(ray, t1).y;
+	t[0] = (-q.h - sqrt(q.discr)) / q.a;
+	t[1] = (-q.h + sqrt(q.discr)) / q.a;
+	y_component = ray_position(ray, t[0]).y;
 	if (fabs(y_component) > cyl->height / 2)
-		t1 = 0;
-	y_component = ray_position(ray, t2).y;
+		t[0] = 0;
+	y_component = ray_position(ray, t[1]).y;
 	if (fabs(y_component) > cyl->height / 2)
-		t2 = 0;
+		t[1] = 0;
 	return ((t_ray_x_objs){
 		.count = 2,
 		._[0] = (t_ray_x_obj){
-		.obj_type = CYLINDER, .obj = (void *)cyl, .t = t1},
+		.obj_type = CYLINDER, .obj = (void *)cyl, .t = t[0]},
 		._[1] = (t_ray_x_obj){
-		.obj_type = CYLINDER, .obj = (void *)cyl, .t = t2}});
+		.obj_type = CYLINDER, .obj = (void *)cyl, .t = t[1]}});
 }
 
 /**
@@ -140,12 +147,15 @@ t_vec4	cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos)
 static t_quad	solve_cylinder_quadratic(t_ray ray, t_cylinder cyl)
 {
 	t_quad	q;
+	t_flt	r2;
 
-	q.a = pow(ray.dir.x, 2) + pow(ray.dir.z, 2);
+	r2 = cyl.diam / 2;
+	r2 *= r2;
+	q.a = ray.dir.x * ray.dir.x + ray.dir.z * ray.dir.z;
 	if (flts_are_equal(q.a, 0))
 		return ((t_quad){});
 	q.h = ray.orig.x * ray.dir.x + ray.orig.z * ray.dir.z;
-	q.c = pow(ray.orig.x, 2) + pow(ray.orig.z, 2) - pow(cyl.diam / 2, 2);
+	q.c = ray.orig.x * ray.orig.x + ray.orig.z * ray.orig.z - r2;
 	q.discr = q.h * q.h - q.a * q.c;
 	return (q);
 }
