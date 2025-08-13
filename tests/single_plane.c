@@ -52,7 +52,7 @@ static void	cast_rays_at_plane(t_plane const *pl, t_phong_helper *p)
 	size_t		i;
 
 	i = -1;
-	while (++i < g_data.pixel_count)
+	while (++i < dat()->pixel_count)
 	{
 		ray = ray_for_pixel(i);
 		rxo = ray_x_plane(ray, pl);
