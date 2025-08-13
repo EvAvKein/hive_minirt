@@ -80,7 +80,7 @@ bool	flt_parse(char *str, size_t *parse_i, t_flt *dest)
 	if (str[*parse_i] != '.' || !ft_isdigit(str[++(*parse_i)]))
 		return (false);
 	decimal_len = *parse_i;
-	if (!longlong_parse(str, parse_i, &num_pt[1]) || &num_pt[1] < 0)
+	if (!longlong_parse(str, parse_i, &num_pt[1]) || num_pt[1] < 0)
 		return (false);
 	decimal_len = *parse_i - decimal_len;
 	if (negative)
