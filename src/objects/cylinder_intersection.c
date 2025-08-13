@@ -27,7 +27,7 @@ t_ray_x_obj	ray_hit_cylinder(t_ray ray, t_cylinder const *cyl)
 	t_ray_x_objs	combined;
 	t_ray_x_obj		primary_hit;
 
-	if (g_data.no_cap)
+	if (dat()->no_cap)
 		primary_hit = hit(ray_x_cylinder_shell(ray, cyl));
 	else
 	{

@@ -49,7 +49,7 @@ bool	triangle_parse(char *str, size_t *parse_i)
 	if (!triangle_parse_latter_half(&triangle, str, parse_i))
 		return (false);
 	triangle.next = NULL;
-	ptr_to_next = &g_data.elems.triangles;
+	ptr_to_next = &dat()->elems.triangles;
 	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_triangle));

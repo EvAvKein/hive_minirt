@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 14:45:22 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/11 17:54:15 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@
 
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
-
-extern struct s_data\
-				g_data;
 
 typedef float	t_flt;
 
@@ -385,6 +382,7 @@ typedef struct s_triangle
 	t_vec4				pos1;
 	t_vec4				pos2;
 	t_vec4				pos3;
+	t_vec4				normal;
 	t_flt_color			color;
 	t_material			material;
 	t_pattern			pattern;
@@ -486,6 +484,8 @@ typedef struct s_cap_helper
 	t_flt		top_dist;
 	t_flt		btm_dist;
 }				t_cap_helper;
+
+t_data			*dat(void);
 
 bool			print_err(char *error);
 
@@ -674,7 +674,8 @@ t_8bit_color	normal_to_color(t_vec4 normal);
 
 /* -------------------------------------------------------- IMAGE FILE SAVING */
 
-void			image_to_file(const char *bmp_file_path);
+void			image_to_file(void);
+char			*get_available_file_name(void);
 
 /**
  *

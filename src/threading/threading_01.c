@@ -29,24 +29,24 @@ bool	run_threads(void)
 	size_t	i;
 
 	i = -1;
-	pthread_mutex_lock(&g_data.lock);
-	if (pthread_create(&g_data.monitor_thread, NULL,
+	pthread_mutex_lock(&dat()->lock);
+	if (pthread_create(&dat()->monitor_thread, NULL,
 			&monitor_thread, NULL) != 0)
 		return (print_err("The monitor thread failed to create"));
 	while (++i < THREADS)
 	{
-		if (pthread_create(&g_data.threads[i], NULL,
-				&raycasting_routine, (void *)&g_data) != 0)
+		if (pthread_create(&dat()->threads[i], NULL,
+				&raycasting_routine, (void *)dat()) != 0)
 		{
-			pthread_mutex_unlock(&g_data.lock);
+			pthread_mutex_unlock(&dat()->lock);
 			while (i--)
-				pthread_join(g_data.threads[i], NULL);
-			pthread_join(g_data.monitor_thread, NULL);
+				pthread_join(dat()->threads[i], NULL);
+			pthread_join(dat()->monitor_thread, NULL);
 			return (print_err("A rendering thread failed to create"));
 		}
 	}
-	g_data.jobs_available = THREADS;
-	pthread_mutex_unlock(&g_data.lock);
+	dat()->jobs_available = THREADS;
+	pthread_mutex_unlock(&dat()->lock);
 	return (true);
 }
 
@@ -76,10 +76,10 @@ static void	*raycasting_routine(void *arg)
 		while ((precision >= data->img->width || precision >= data->img->height)
 			&& precision >= 2)
 			precision /= 2;
-		--g_data.jobs_available;
+		--dat()->jobs_available;
 		gradually_render(i0, precision);
 		while (!data->stop_threads
-			&& (g_data.jobs_available == 0 || g_data.pause_threads))
+			&& (dat()->jobs_available == 0 || dat()->pause_threads))
 			usleep(10 * TICK);
 	}
 	return (NULL);
@@ -93,24 +93,24 @@ static void	*raycasting_routine(void *arg)
  */
 static void	gradually_render(size_t i0, uint16_t precision)
 {
-	++g_data.active_threads;
-	while (!g_data.stop_threads && !g_data.pause_threads
-		&& g_data.active_threads != THREADS)
+	++dat()->active_threads;
+	while (!dat()->stop_threads && !dat()->pause_threads
+		&& dat()->active_threads != THREADS)
 		usleep(TICK);
-	while (precision > 0 && !g_data.stop_threads && !g_data.pause_threads)
+	while (precision > 0 && !dat()->stop_threads && !dat()->pause_threads)
 	{
 		cast_rays(i0, precision);
 		precision /= 2;
-		++g_data.threads_waiting;
-		while (!g_data.stop_threads && !g_data.pause_threads
-			&& !g_data.thread_can_proceed[i0])
+		++dat()->threads_waiting;
+		while (!dat()->stop_threads && !dat()->pause_threads
+			&& !dat()->thread_can_proceed[i0])
 			usleep(TICK);
-		g_data.thread_can_proceed[i0] = false;
-		--g_data.threads_waiting;
-		if (g_data.stop_threads || g_data.pause_threads)
+		dat()->thread_can_proceed[i0] = false;
+		--dat()->threads_waiting;
+		if (dat()->stop_threads || dat()->pause_threads)
 			break ;
 	}
-	--g_data.active_threads;
+	--dat()->active_threads;
 }
 
 /**
@@ -127,8 +127,8 @@ static void	cast_rays(size_t i0, uint16_t precision)
 	size_t	i;
 
 	i = i0 * precision;
-	while (i < g_data.pixel_count
-		&& !g_data.stop_threads && !g_data.pause_threads)
+	while (i < dat()->pixel_count
+		&& !dat()->stop_threads && !dat()->pause_threads)
 	{
 		cast_ray(i, precision);
 		i += THREADS * precision;
@@ -150,12 +150,12 @@ static void	cast_ray(size_t i, uint16_t precision)
 
 	ray = ray_for_pixel(i);
 	p = (t_phong_helper){};
-	cast_ray_at_objs(&ray, &g_data.elems, NULL);
+	cast_ray_at_objs(&ray, &dat()->elems, NULL);
 	if (ray.closest_hit.t == MAX_DIST)
 		col = get_sky_color(ray, i);
 	else
 	{
-		p.light = g_data.elems.lights;
+		p.light = dat()->elems.lights;
 		p.ray = &ray;
 		p.pos = ray_position(ray, ray.closest_hit.t);
 		p.to_cam = opposite_vec(ray.dir);

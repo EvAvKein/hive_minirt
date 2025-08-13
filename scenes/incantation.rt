@@ -1,0 +1,13 @@
+#  Build the program with `make optimized` and resize window to generate different patterns! *_*
+
+A									0.2			255,255,255
+
+C	0,50,-20			0,-1,0			90
+
+L	5,1,-1							0.75		255,255,255
+L	-5,1,-1							0.75		255,255,255
+
+pl	0,-5,0			0,0,0						32,32,32	angel	255,255,255
+
+sp	0,0.35,0.35						1			0,0,0
+sp	0,0,0							0.5			0,0,0

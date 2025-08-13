@@ -41,7 +41,7 @@ bool	sphere_parse(char *str, size_t *parse_i)
 	sphere.radius /= 2;
 	if (!sphere_parse_pt2(&sphere, str, parse_i))
 		return (false);
-	ptr_to_next = &g_data.elems.spheres;
+	ptr_to_next = &dat()->elems.spheres;
 	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_sphere));

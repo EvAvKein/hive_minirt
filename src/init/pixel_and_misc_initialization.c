@@ -18,10 +18,10 @@
  */
 void	setup_pixel_grid(size_t width, size_t height)
 {
-	t_pixel_grid *const	g = &g_data.pixel_grid;
+	t_pixel_grid *const	g = &dat()->pixel_grid;
 
-	g_data.pixel_count = width * height;
-	g->fov_h = g_data.elems.camera->fov * RADIANS_PER_DEGREE;
+	dat()->pixel_count = width * height;
+	g->fov_h = dat()->elems.camera->fov * RADIANS_PER_DEGREE;
 	g->width = 2 * sin(g->fov_h / 2);
 	g->pixel_width = g->width / width;
 	g->height = g->pixel_width * height;
@@ -36,12 +36,12 @@ void	setup_pixel_grid(size_t width, size_t height)
  */
 t_ray	ray_for_pixel(size_t i)
 {
-	t_pixel_grid *const	g = &g_data.pixel_grid;
+	t_pixel_grid *const	g = &dat()->pixel_grid;
 	t_vec4				pixel_pos;
 	size_t				idx[2];
 
-	idx[0] = i % g_data.img->width;
-	idx[1] = i / g_data.img->width;
+	idx[0] = i % dat()->img->width;
+	idx[1] = i / dat()->img->width;
 	pixel_pos.x = (-g->width + g->pixel_width) / 2 + (idx[0]) * g->pixel_width;
 	pixel_pos.y = (g->height - g->pixel_width) / 2 - (idx[1]) * g->pixel_width;
 	pixel_pos.z = cos(g->fov_h / 2);
@@ -49,15 +49,15 @@ t_ray	ray_for_pixel(size_t i)
 	return (transformed_ray((t_ray){
 			.orig = point(0, 0, 0),
 			.dir = unit_vec(pixel_pos),
-			.closest_hit.t = MAX_DIST}, g_data.elems.camera->transform));
+			.closest_hit.t = MAX_DIST}, dat()->elems.camera->transform));
 }
 
 void	init_object_data(void)
 {
-	init_lights(g_data.elems.lights);
-	init_spheres(g_data.elems.spheres);
-	init_planes(g_data.elems.planes);
-	init_cylinders(g_data.elems.cylinders);
-	init_triangles(g_data.elems.triangles);
-	init_camera_transform(g_data.elems.camera);
+	init_lights(dat()->elems.lights);
+	init_spheres(dat()->elems.spheres);
+	init_planes(dat()->elems.planes);
+	init_cylinders(dat()->elems.cylinders);
+	init_triangles(dat()->elems.triangles);
+	init_camera_transform(dat()->elems.camera);
 }
