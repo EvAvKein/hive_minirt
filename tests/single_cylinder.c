@@ -16,21 +16,28 @@ static void	light_single_cylinder(t_cylinder const *cyl);
 static void	cast_rays_at_cylinder(t_cylinder const *cyl, t_phong_helper *p);
 static void	single_cylinder_test(void);
 
-t_data	g_data;
+/**
+ * @returns The program's primary data struct
+ */
+t_data	*dat(void)
+{
+	static t_data	data;
+
+	return (&data);
+}
 
 int	main(void)
 {
-	ft_bzero(&g_data, sizeof(t_data));
-	g_data.elems.camera = ft_calloc(1, sizeof(t_camera));
-	g_data.elems.camera->fov = 60;
-	g_data.elems.lights = ft_calloc(1, sizeof(t_light));
-	g_data.elems.ambient_light = ft_calloc(1, sizeof(t_ambient_light));
+	dat()->elems.camera = ft_calloc(1, sizeof(t_camera));
+	dat()->elems.camera->fov = 60;
+	dat()->elems.lights = ft_calloc(1, sizeof(t_light));
+	dat()->elems.ambient_light = ft_calloc(1, sizeof(t_ambient_light));
 	if (data_init_successful() == false)
-		return (g_data.error);
-	setup_pixel_grid(g_data.img->width, g_data.img->height);
+		return (dat()->error);
+	setup_pixel_grid(dat()->img->width, dat()->img->height);
 	single_cylinder_test();
-	mlx_loop(g_data.mlx);
-	mlx_terminate(g_data.mlx);
+	mlx_loop(dat()->mlx);
+	mlx_terminate(dat()->mlx);
 	free_data();
 	return (0);
 }
@@ -46,13 +53,13 @@ static void single_cylinder_test(void)
 	cyl.material = default_material();
 	cyl.material.color = point(1, 0, 1);
 	init_cylinder_transform(&cyl);
-	g_data.elems.lights->pos = point(-50, 0, 0);
-	g_data.elems.lights->color = (t_flt_color){.r = 1, .g = 1, .b = 1};
-	g_data.elems.lights->brightness = 1;
-	g_data.elems.lights->transform = translation_m4x4(g_data.elems.lights->pos);
-	g_data.elems.lights->inverse = inverse_m4x4(g_data.elems.lights->transform);
-	g_data.elems.ambient_light->color = (t_flt_color){.r = 1, .g = 1, .b = 1};
-	g_data.elems.ambient_light->brightness = 0.0;
+	dat()->elems.lights->pos = point(-50, 0, 0);
+	dat()->elems.lights->color = (t_flt_color){.r = 1, .g = 1, .b = 1};
+	dat()->elems.lights->brightness = 1;
+	dat()->elems.lights->transform = translation_m4x4(dat()->elems.lights->pos);
+	dat()->elems.lights->inverse = inverse_m4x4(dat()->elems.lights->transform);
+	dat()->elems.ambient_light->color = (t_flt_color){.r = 1, .g = 1, .b = 1};
+	dat()->elems.ambient_light->brightness = 0.0;
 	light_single_cylinder(&cyl);
 }
 
@@ -73,7 +80,7 @@ static void cast_rays_at_cylinder(t_cylinder const *cyl, t_phong_helper *p)
 	size_t		i;
 
 	i = -1;
-	while (++i < g_data.pixel_count) {
+	while (++i < dat()->pixel_count) {
 		p->diffuse = (t_vec4){};
 		p->specular = (t_vec4){};
 		ray = ray_for_pixel(i);

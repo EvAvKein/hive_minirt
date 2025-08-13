@@ -30,12 +30,14 @@ MLX_LIB			:= $(MLX_BUILD_DIR)/libmlx42.a
 # ---------------------------------------------------------------------------- #
 SRC_DIR	:=	../src
 SRC		:=	\
-			image_to_file.c							\
+			screenshot/image_to_file.c				\
+			screenshot/get_available_file_name.c	\
 			ui/hooks_01.c							\
 			ui/hooks_02.c							\
 			init/obj_initialization.c				\
 			init/mlx_initialization.c				\
 			init/asset_initialization.c				\
+			init/cone_initialization.c				\
 			init/pixel_and_misc_initialization.c	\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\
@@ -83,6 +85,7 @@ SRC		:=	\
 			lighting/lighting_01.c					\
 			threading/threading_01.c				\
 			threading/threading_02.c
+
 # ---------------------------------------------------------------------------- #
 INC_DIR			:=	../inc
 INC_FILES		:=	minirt.h settings.h
