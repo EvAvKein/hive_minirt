@@ -30,7 +30,7 @@ static bool	sky_asset_init_successful(void)
 	if (dat()->elems.ambient_light->sky_texture)
 	{
 		dat()->sky_image = mlx_texture_to_image(dat()->mlx,
-				dat()->elems.ambient_light->sky_texture);
+			dat()->elems.ambient_light->sky_texture);
 		mlx_delete_texture(dat()->elems.ambient_light->sky_texture);
 		dat()->elems.ambient_light->sky_texture = NULL;
 		if (!dat()->sky_image)

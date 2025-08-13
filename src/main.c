@@ -15,7 +15,7 @@
 /**
  * @returns The program's primary data struct
  */
-t_data			*dat(void)
+t_data	*dat(void)
 {
 	static t_data	data;
 

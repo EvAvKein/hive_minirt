@@ -128,8 +128,10 @@ static void	handle_camera_translation_input(void)
  */
 static void	move_camera(t_vec4 move_vec)
 {
-	dat()->pause_threads = true;
-	dat()->elems.camera->pos = vec_sum(dat()->elems.camera->pos, move_vec);
-	init_camera_transform(dat()->elems.camera);
+	t_data *const	data = dat();
+
+	data->pause_threads = true;
+	data->elems.camera->pos = vec_sum(data->elems.camera->pos, move_vec);
+	init_camera_transform(data->elems.camera);
 	reset_rendering_threads();
 }
