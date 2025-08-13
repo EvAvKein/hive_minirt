@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/08/12 15:44:18 by jvarila          ###   ########.fr        #
+#    Updated: 2025/08/13 09:57:42 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,14 @@ MLX_LIB			:= $(MLX_BUILD_DIR)/libmlx42.a
 # ---------------------------------------------------------------------------- #
 SRC_DIR	:=	src
 SRC		:=	main.c									\
-			image_to_file.c							\
+			screenshot/image_to_file.c				\
+			screenshot/get_available_file_name.c	\
 			ui/hooks_01.c							\
 			ui/hooks_02.c							\
 			init/obj_initialization.c				\
 			init/mlx_initialization.c				\
 			init/asset_initialization.c				\
+			init/cone_initialization.c				\
 			init/pixel_and_misc_initialization.c	\
 			memory/free_memory.c					\
 			memory/dealloc_linked_lists.c			\

@@ -48,7 +48,7 @@ bool	ambient_light_parse(char *str, size_t *parse_i)
 	if (!node)
 		return (print_err("failed to allocate memory for ambient light"));
 	*node = ambient_light;
-	g_data.elems.ambient_light = node;
+	dat()->elems.ambient_light = node;
 	return (true);
 }
 
@@ -87,7 +87,7 @@ bool	camera_parse(char *str, size_t *parse_i)
 	if (!node)
 		return (print_err("failed to allocate memory for camera"));
 	*node = camera;
-	g_data.elems.camera = node;
+	dat()->elems.camera = node;
 	return (true);
 }
 
@@ -122,7 +122,7 @@ bool	light_parse(char *str, size_t *parse_i)
 	if (!is_end(str[*parse_i]))
 		return (print_err("invalid light data after color"));
 	light.next = NULL;
-	ptr_to_next = &g_data.elems.lights;
+	ptr_to_next = &dat()->elems.lights;
 	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_light));

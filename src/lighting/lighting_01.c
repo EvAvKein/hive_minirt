@@ -25,7 +25,7 @@ t_flt_color	let_there_be_light(t_phong_helper *p)
 {
 	t_ray		shadow_ray;
 
-	p->light = g_data.elems.lights;
+	p->light = dat()->elems.lights;
 	if (dot(p->to_cam, p->normal) < 0)
 	{
 		p->normal = opposite_vec(p->normal);
@@ -37,7 +37,7 @@ t_flt_color	let_there_be_light(t_phong_helper *p)
 		p->to_light = unit_vec(vec_sub(p->light->pos, p->pos));
 		shadow_ray = (t_ray){.orig = p->pos, .dir = p->to_light,
 			.closest_hit.t = MAX_DIST};
-		cast_ray_at_objs(&shadow_ray, &g_data.elems, p->obj_hit);
+		cast_ray_at_objs(&shadow_ray, &dat()->elems, p->obj_hit);
 		p->dist_to_light = vec_len(vec_sub(p->light->pos, p->pos));
 		if (shadow_ray.closest_hit.t == MAX_DIST
 			|| shadow_ray.closest_hit.t > p->dist_to_light)
@@ -55,8 +55,8 @@ t_flt_color	let_there_be_light(t_phong_helper *p)
  */
 static void	set_ambient(t_phong_helper *p)
 {
-	t_flt const			ab_intensity = g_data.elems.ambient_light->brightness;
-	t_flt_color const	ab_color = g_data.elems.ambient_light->color;
+	t_flt const			ab_intensity = dat()->elems.ambient_light->brightness;
+	t_flt_color const	ab_color = dat()->elems.ambient_light->color;
 
 	p->ambient = (t_flt_color){
 		.r = ab_intensity * p->mat.color.r * ab_color.r,

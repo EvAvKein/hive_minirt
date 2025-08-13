@@ -44,7 +44,7 @@ void	dealloc_spheres(t_sphere *sphere)
 		if (sphere->texture)
 			mlx_delete_texture(sphere->texture);
 		if (sphere->image)
-			mlx_delete_image(g_data.mlx, sphere->image);
+			mlx_delete_image(dat()->mlx, sphere->image);
 		next = sphere->next;
 		free(sphere);
 		sphere = next;
@@ -66,7 +66,7 @@ void	dealloc_planes(t_plane *plane)
 		if (plane->texture)
 			mlx_delete_texture(plane->texture);
 		if (plane->image)
-			mlx_delete_image(g_data.mlx, plane->image);
+			mlx_delete_image(dat()->mlx, plane->image);
 		next = plane->next;
 		free(plane);
 		plane = next;
@@ -88,7 +88,7 @@ void	dealloc_cylinders(t_cylinder *cylinder)
 		if (cylinder->texture)
 			mlx_delete_texture(cylinder->texture);
 		if (cylinder->image)
-			mlx_delete_image(g_data.mlx, cylinder->image);
+			mlx_delete_image(dat()->mlx, cylinder->image);
 		next = cylinder->next;
 		free(cylinder);
 		cylinder = next;

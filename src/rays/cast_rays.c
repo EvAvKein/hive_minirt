@@ -64,7 +64,7 @@ t_flt_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 	}
 	else if (rxo->obj_type == TRIANGLE)
 	{
-		p->normal = cross(p->pos, (*(t_triangle *)rxo->obj).pos1);
+		p->normal = ((t_triangle *)rxo->obj)->normal;
 		p->mat = mat_at_hit_on_triangle(&p->pos, (t_triangle *)p->obj_hit);
 	}
 	else

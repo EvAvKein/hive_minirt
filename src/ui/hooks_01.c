@@ -23,14 +23,14 @@ void	every_frame(void *param)
 	handle_camera_rotation_input();
 	handle_camera_translation_input();
 	handle_camera_fov_input();
-	if (g_data.resized)
+	if (dat()->resized)
 	{
-		g_data.resized = false;
-		g_data.pause_threads = true;
-		while (g_data.active_threads != 0)
+		dat()->resized = false;
+		dat()->pause_threads = true;
+		while (dat()->active_threads != 0)
 			usleep(TICK * 10);
-		mlx_resize_image(g_data.img, g_data.mlx->width, g_data.mlx->height);
-		setup_pixel_grid(g_data.img->width, g_data.img->height);
+		mlx_resize_image(dat()->img, dat()->mlx->width, dat()->mlx->height);
+		setup_pixel_grid(dat()->img->width, dat()->img->height);
 		reset_rendering_threads();
 	}
 }
@@ -46,15 +46,15 @@ static void	handle_camera_rotation_input(void)
 
 	axes = (t_vec2){};
 	rotation_speed = ROTATION_BASE;
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_FAST))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_FAST))
 		rotation_speed *= ROTATION_MULT;
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_RX))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_RX))
 		axes.x = rotation_speed;
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_RRX))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_RRX))
 		axes.x = -rotation_speed;
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_RY))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_RY))
 		axes.y = rotation_speed;
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_RRY))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_RRY))
 		axes.y = -rotation_speed;
 	if (!flts_are_equal(axes.x, 0) || !flts_are_equal(axes.y, 0))
 		update_camera_rotation(axes);
@@ -69,16 +69,16 @@ static void	handle_camera_rotation_input(void)
  */
 static void	update_camera_rotation(t_vec2 axes)
 {
-	t_camera *const	cam = g_data.elems.camera;
+	t_camera *const	cam = dat()->elems.camera;
 	t_vec2			angles;
 	t_vec4			new_orientation;
 
-	angles = cam_pitch_and_yaw(g_data.elems.camera);
+	angles = cam_pitch_and_yaw(dat()->elems.camera);
 	if ((angles.x + axes.x < M_PI_2) && (angles.x + axes.x > -M_PI_2))
 		angles.x += axes.x;
 	else if (flts_are_equal(axes.y, 0))
 		return ;
-	g_data.pause_threads = true;
+	dat()->pause_threads = true;
 	angles.y += axes.y;
 	new_orientation = (t_vec4){.z = 1};
 	cam->transform = x_rotation_m4x4(-angles.x);
@@ -95,27 +95,27 @@ static void	update_camera_rotation(t_vec2 axes)
  */
 static void	handle_camera_translation_input(void)
 {
-	t_camera *const	cam = g_data.elems.camera;
+	t_camera *const	cam = dat()->elems.camera;
 	t_vec4 const	camera_right = unit_vec(cross(vector(0, 1, 0),
 				cam->orientation));
 	t_vec4 const	camera_up = unit_vec(cross(cam->orientation, camera_right));
 	t_vec4			move_vec;
 
 	move_vec = (t_vec4){0};
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_MUP))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_MUP))
 		move_vec = vec_sum(move_vec, camera_up);
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_MDOWN))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_MDOWN))
 		move_vec = vec_sum(move_vec, opposite_vec(camera_up));
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_MRIGHT))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_MRIGHT))
 		move_vec = vec_sum(move_vec, camera_right);
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_MLEFT))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_MLEFT))
 		move_vec = vec_sum(move_vec, opposite_vec(camera_right));
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_MFORWARD))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_MFORWARD))
 		move_vec = vec_sum(move_vec, cam->orientation);
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_MBACKWARD))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_MBACKWARD))
 		move_vec = vec_sum(move_vec, opposite_vec(cam->orientation));
 	move_vec = unit_vec(move_vec);
-	if (mlx_is_key_down(g_data.mlx, KEYBIND_FAST))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_FAST))
 		move_vec = scaled_vec(move_vec, MOVEMENT_MULT);
 	if (!vecs_are_equal(move_vec, vector(0, 0, 0)))
 		move_camera(move_vec);
@@ -128,8 +128,10 @@ static void	handle_camera_translation_input(void)
  */
 static void	move_camera(t_vec4 move_vec)
 {
-	g_data.pause_threads = true;
-	g_data.elems.camera->pos = vec_sum(g_data.elems.camera->pos, move_vec);
-	init_camera_transform(g_data.elems.camera);
+	t_data *const	data = dat();
+
+	data->pause_threads = true;
+	data->elems.camera->pos = vec_sum(data->elems.camera->pos, move_vec);
+	init_camera_transform(data->elems.camera);
 	reset_rendering_threads();
 }

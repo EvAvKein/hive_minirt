@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/12 15:49:49 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/13 09:56:17 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@
 
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
-
-extern struct s_data\
-				g_data;
 
 typedef float	t_flt;
 
@@ -400,6 +397,7 @@ typedef struct s_triangle
 	t_vec4				pos1;
 	t_vec4				pos2;
 	t_vec4				pos3;
+	t_vec4				normal;
 	t_flt_color			color;
 	t_material			material;
 	t_pattern			pattern;
@@ -502,6 +500,8 @@ typedef struct s_cap_helper
 	t_flt		top_dist;
 	t_flt		btm_dist;
 }				t_cap_helper;
+
+t_data			*dat(void);
 
 bool			print_err(char *error);
 
@@ -659,6 +659,7 @@ void			init_sphere_transform(t_sphere *sp);
 void			init_plane_transform(t_plane *pl);
 void			init_cylinder_transform(t_cylinder *cyl);
 void			init_camera_transform(t_camera *cam);
+void			init_cone_transform(t_cone *cn);
 
 // objects/transform_angle_calculation.c
 t_vec2			cam_pitch_and_yaw(t_camera *cam);
@@ -699,7 +700,8 @@ t_8bit_color	normal_to_color(t_vec4 normal);
 
 /* -------------------------------------------------------- IMAGE FILE SAVING */
 
-void			image_to_file(const char *bmp_file_path);
+void			image_to_file(void);
+char			*get_available_file_name(void);
 
 /**
  *

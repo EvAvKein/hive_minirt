@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:17:56 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/12 15:49:24 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/13 09:58:25 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_ray_x_obj	ray_hit_cone(t_ray ray, t_cone const *cn)
 	t_ray_x_objs	combined;
 	t_ray_x_obj		cone_hit;
 
-	if (g_data.no_cap)
+	if (dat()->no_cap)
 		cone_hit = hit(ray_x_cone_shell(ray, cn));
 	else
 	{
