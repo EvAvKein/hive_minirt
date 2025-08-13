@@ -6,14 +6,15 @@
 #    By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 10:27:18 by jvarila           #+#    #+#              #
-#    Updated: 2025/08/13 10:18:25 by jvarila          ###   ########.fr        #
+#    Updated: 2025/08/13 10:26:14 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 TESTS	:=	\
 			single_cone.out		\
 			single_cylinder.out	\
-			single_sphere.out
+			single_sphere.out	\
+			single_plane.out
 
 CC				:= cc
 COMPILE_FLAGS	:= -Wall -Wextra -Werror -g
