@@ -502,6 +502,7 @@ typedef struct s_data
 	t_mouse			mouse;
 	t_ray_x_obj		selected_obj;
 	t_error			error;
+	bool			no_cap;
 }					t_data;
 
 typedef struct s_quad

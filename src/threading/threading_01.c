@@ -29,7 +29,7 @@ bool	run_threads(void)
 	size_t	i;
 
 	i = -1;
-	pthread_mutex_lock(&g_data.lock);
+	pthread_mutex_lock(&dat()->lock);
 	while (++i < THREADS)
 	{
 		if (pthread_create(&dat()->threads[i], NULL,
@@ -61,20 +61,20 @@ static void	*raycasting_routine(void *arg)
 	pthread_t		id;
 
 	(void)arg;
-	pthread_mutex_lock(&g_data.lock);
-	pthread_mutex_unlock(&g_data.lock);
+	pthread_mutex_lock(&dat()->lock);
+	pthread_mutex_unlock(&dat()->lock);
 	id = pthread_self();
 	idx[0] = 0;
-	while (id != g_data.threads[idx[0]])
+	while (id != dat()->threads[idx[0]])
 		++idx[0];
-	while (!g_data.stop_threads)
+	while (!dat()->stop_threads)
 	{
-		width = g_data.pixel_count / THREADS;
+		width = dat()->pixel_count / THREADS;
 		idx[1] = idx[0] * width;
-		--g_data.jobs_available;
+		--dat()->jobs_available;
 		gradually_render(idx[1], width);
-		while (!g_data.stop_threads
-			&& (g_data.jobs_available == 0 || g_data.pause_threads))
+		while (!dat()->stop_threads
+			&& (dat()->jobs_available == 0 || dat()->pause_threads))
 			usleep(10 * TICK);
 	}
 	return (NULL);
@@ -93,8 +93,8 @@ static void	gradually_render(size_t i0, size_t width)
 	size_t			i;
 	size_t			j;
 
-	++g_data.active_threads;
-	precision = g_data.img->width / (2 * THREADS);
+	++dat()->active_threads;
+	precision = dat()->img->width / (2 * THREADS);
 	if (precision <= 0)
 		precision = 2;
 	while (thread_can_continue() && precision > 0)
@@ -145,5 +145,5 @@ static t_flt_color	sample_ray(size_t i)
 
 static inline bool	thread_can_continue(void)
 {
-	return (!g_data.stop_threads && !g_data.pause_threads);
+	return (!dat()->stop_threads && !dat()->pause_threads);
 }
