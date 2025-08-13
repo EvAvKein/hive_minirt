@@ -571,7 +571,6 @@ t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
 
 // objects/triangle_intersections.c
 t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
-t_vec4			triangle_normal_at(t_triangle tr, t_vec4 world_pos);
 
 /* ----------------------------------------------------------------- PATTERNS */
 
