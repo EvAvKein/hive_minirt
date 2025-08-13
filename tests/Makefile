@@ -3,32 +3,35 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
+#    By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/08/13 09:57:42 by jvarila          ###   ########.fr        #
+#    Created: 2025/07/07 10:27:18 by jvarila           #+#    #+#              #
+#    Updated: 2025/08/13 10:26:14 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME				:= miniRT
+TESTS	:=	\
+			single_cone.out		\
+			single_cylinder.out	\
+			single_sphere.out	\
+			single_plane.out
 
-CC					:= cc
-COMPILE_FLAGS		:= -Wall -Wextra -Werror
-MLX_FLAGS			:= -Iinclude -ldl -lglfw -pthread -lm
+CC				:= cc
+COMPILE_FLAGS	:= -Wall -Wextra -Werror -g
+MLX_FLAGS		:= -Iinclude -ldl -lglfw -pthread -lm
 # ---------------------------------------------------------------------------- #
-OPTIMIZATION_FLAGS	:= -O3 -ffast-math -flto -march=native
-DEBUG_FLAGS := -g
+DEBUG_FLAGS	:=	-g
 # ---------------------------------------------------------------------------- #
-LIBFT_DIR := libft_plus
-LIBFT_LIB := $(LIBFT_DIR)/libft_plus.a
+LIBFT_DIR	:=	../libft_plus
+LIBFT_LIB	:=	$(LIBFT_DIR)/libft_plus.a
 # ---------------------------------------------------------------------------- #
 MLX_REPO		:= https://github.com/codam-coding-college/MLX42.git
-MLX_DIR			:= MLX42
+MLX_DIR			:= ../MLX42
 MLX_BUILD_DIR	:= $(MLX_DIR)/build
 MLX_LIB			:= $(MLX_BUILD_DIR)/libmlx42.a
 # ---------------------------------------------------------------------------- #
-SRC_DIR	:=	src
-SRC		:=	main.c									\
+SRC_DIR	:=	../src
+SRC		:=	\
 			screenshot/image_to_file.c				\
 			screenshot/get_available_file_name.c	\
 			ui/hooks_01.c							\
@@ -84,38 +87,38 @@ SRC		:=	main.c									\
 			lighting/lighting_01.c					\
 			threading/threading_01.c				\
 			threading/threading_02.c
-# ---------------------------------------------------------------------------- #
-INC_DIR			:= inc
-INC_FILES		:= minirt.h settings.h
-HEADERS			:= $(INC_FILES:%=$(INC_DIR)/%)
-COMPILE_FLAGS	+= -I$(INC_DIR) -I$(LIBFT_DIR) -I$(LIBFT_DIR)/include \
-				   -I$(MLX_DIR)/include/MLX42
-# ---------------------------------------------------------------------------- #
-OBJ_DIR		:= obj
-OBJ			:= $(SRC:%.c=$(OBJ_DIR)/%.o)
-.SECONDARY	:= $(OBJ)
-# ---------------------------------------------------------------------------- #
 
+# ---------------------------------------------------------------------------- #
+INC_DIR			:=	../inc
+INC_FILES		:=	minirt.h settings.h
+HEADERS			:=	$(INC_FILES:%=$(INC_DIR)/%)
+COMPILE_FLAGS	+=	-I$(INC_DIR) -I$(LIBFT_DIR) -I$(LIBFT_DIR)/include \
+					-I$(MLX_DIR)/include/MLX42
+# ---------------------------------------------------------------------------- #
+OBJ_DIR		:=	obj
+OBJ			:=	$(SRC:%.c=$(OBJ_DIR)/%.o)
+.SECONDARY	:=	$(OBJ)
+# ---------------------------------------------------------------------------- #
 .DEFAULT = all
 
-all: $(NAME)
+all: $(TESTS)
 
-$(NAME): $(OBJ) $(LIBFT_LIB) $(MLX_LIB)
+$(TESTS): %.out: $(OBJ_DIR)/%.o $(OBJ) $(LIBFT_LIB) $(MLX_LIB)
 	$(CC) $(COMPILE_FLAGS) $^ $(MLX_FLAGS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(CC) $(COMPILE_FLAGS) -c $< -o $@
 
+$(OBJ_DIR)/%.o: %.c $(HEADERS)
+	@mkdir -p $(@D)
+	$(CC) $(COMPILE_FLAGS) -c $< -o $@
+
 $(LIBFT_LIB):
 	make -C $(LIBFT_DIR) -s --no-print-directory
 
-$(MLX_LIB):
-	if ! find . -maxdepth 1 -type d | grep MLX42; then\
-		git clone $(MLX_REPO) $(MLX_DIR);\
-	fi;
-	@cd $(MLX_DIR) && cmake -B build && cmake --build build -j4
 # ---------------------------------------------------------------------------- #
+
 clean:
 	@make -C $(LIBFT_DIR) $@ --no-print-directory
 	rm -rf $(OBJ_DIR)
@@ -125,12 +128,10 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
-# ---------------------------------------------------------------------------- #
+
 neat: all clean
 	clear
-# ---------------------------------------------------------------------------- #
-optimized: COMPILE_FLAGS += $(OPTIMIZATION_FLAGS)
-optimized: re
+
 # ---------------------------------------------------------------------------- #
 debug: COMPILE_FLAGS += $(DEBUG_FLAGS)
 debug: re

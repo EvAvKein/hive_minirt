@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:27:40 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/23 16:27:54 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/13 09:57:01 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	init_camera_transform(t_camera *cam)
 {
 	t_vec2	angles;
 
+	if (!cam)
+		return ;
 	if (vecs_are_equal(cam->orientation, (t_vec4){}))
 		cam->orientation = (t_vec4){.z = 1};
 	cam->orientation = unit_vec(cam->orientation);
@@ -75,4 +77,24 @@ void	init_cylinder_transform(t_cylinder *cyl)
 	cyl->transform = mult_m4x4(y_rotation_m4x4(angles.y), cyl->transform);
 	cyl->transform = mult_m4x4(translation_m4x4(cyl->pos), cyl->transform);
 	cyl->inverse = inverse_m4x4(cyl->transform);
+}
+
+/**
+ * Initializes cone's transform and inverse using the parsed orientation
+ * and position.
+ */
+void	init_cone_transform(t_cone *cn)
+{
+	t_vec2	angles;
+	t_plane	pl;
+
+	if (vecs_are_equal(cn->orientation, (t_vec4){}))
+		cn->orientation = (t_vec4){.y = 1};
+	cn->orientation = unit_vec(cn->orientation);
+	pl.orientation = cn->orientation;
+	angles = plane_pitch_and_yaw(pl);
+	cn->transform = x_rotation_m4x4(angles.x);
+	cn->transform = mult_m4x4(y_rotation_m4x4(angles.y), cn->transform);
+	cn->transform = mult_m4x4(translation_m4x4(cn->pos), cn->transform);
+	cn->inverse = inverse_m4x4(cn->transform);
 }

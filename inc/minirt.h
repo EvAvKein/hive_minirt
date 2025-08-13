@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/11 17:54:15 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/13 09:56:17 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,7 @@ typedef enum e_obj_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	CONE,
 	TRIANGLE,
 }	t_obj_type;
 
@@ -377,6 +378,20 @@ typedef struct s_cylinder
 	struct s_cylinder	*next;
 }						t_cylinder;
 
+typedef struct s_cone
+{
+	t_vec4			pos;
+	t_vec4			orientation;
+	t_flt			diam;
+	t_flt			height;
+	t_flt_color		color;
+	t_m4x4			transform;
+	t_m4x4			inverse;
+	t_material		material;
+	bool			single;
+	struct s_cone	*next;
+}					t_cone;
+
 typedef struct s_triangle
 {
 	t_vec4				pos1;
@@ -398,6 +413,7 @@ typedef struct s_elems
 	t_sphere		*spheres;
 	t_plane			*planes;
 	t_cylinder		*cylinders;
+	t_cone			*cones;
 	t_triangle		*triangles;
 }					t_elems;
 
@@ -453,6 +469,7 @@ typedef struct s_data
 	_Atomic bool	work_to_be_done;
 	_Atomic bool	resized;
 	_Atomic bool	thread_can_proceed[THREADS];
+	_Atomic bool	no_cap;
 	pthread_t		threads[THREADS];
 	pthread_t		monitor_thread;
 	pthread_mutex_t	lock;
@@ -460,7 +477,6 @@ typedef struct s_data
 	mlx_image_t		*img;
 	mlx_image_t		*sky_image;
 	t_error			error;
-	bool			no_cap;
 }					t_data;
 
 typedef struct s_quad
@@ -547,11 +563,14 @@ t_vec4			ray_position(t_ray ray, t_flt t);
 
 // rays/cast_rays.c
 t_ray_x_obj		hit(t_ray_x_objs intersections);
-t_ray_x_obj		*closest_rxo(t_ray_x_obj_array *array);
 t_flt_color		color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p);
 
 // rays/ray_at_obj.c
 void			cast_ray_at_objs(t_ray *ray, t_elems *elems,
+					void const *obj_ignore);
+
+// rays/ray_at_cone.c
+void			cast_ray_at_cones(t_ray *ray, t_cone *cones,
 					void const *obj_ignore);
 
 /* ------------------------------------------------------------ INTERSECTIONS */
@@ -568,6 +587,12 @@ t_ray_x_obj		ray_hit_cylinder(t_ray ray, t_cylinder const *cyl);
 t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl);
 t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl);
 t_vec4			cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos);
+
+// objects/cone_intersection.c
+t_ray_x_obj		ray_hit_cone(t_ray ray, t_cone const *cn);
+t_ray_x_objs	ray_x_cone_shell(t_ray ray, t_cone const *cn);
+t_ray_x_objs	ray_x_cone_caps(t_ray ray, t_cone const *cn);
+t_vec4			cone_normal_at(t_cone cn, t_vec4 world_pos);
 
 // objects/triangle_intersections.c
 t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
@@ -611,22 +636,22 @@ void			dealloc_triangles(t_triangle *triangle);
 
 /* ---------------------------------------------- DATA SETUP & INITIALIZATION */
 
-// initialization_01.c
+// init/mlx_initialization.c
 bool			data_init_successful(void);
 
-// initialization_02.c
+// init/obj_initialization.c
 void			init_lights(t_light *light);
 void			init_spheres(t_sphere *sp);
 void			init_planes(t_plane *pl);
 void			init_cylinders(t_cylinder *cyl);
 void			init_triangles(t_triangle *cyl);
 
-// initialization_03.c
-void			init_object_data(void);
+// init/pixel_and_misc_initialization.c
 void			setup_pixel_grid(size_t width, size_t height);
 t_ray			ray_for_pixel(size_t i);
+void			init_object_data(void);
 
-// initialization_04.c
+// asset_initialization.c
 bool			mlx_asset_init_successful(void);
 
 // objects/transform_initialization.c
@@ -634,6 +659,7 @@ void			init_sphere_transform(t_sphere *sp);
 void			init_plane_transform(t_plane *pl);
 void			init_cylinder_transform(t_cylinder *cyl);
 void			init_camera_transform(t_camera *cam);
+void			init_cone_transform(t_cone *cn);
 
 // objects/transform_angle_calculation.c
 t_vec2			cam_pitch_and_yaw(t_camera *cam);
