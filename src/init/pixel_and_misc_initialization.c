@@ -52,10 +52,6 @@ t_ray	ray_for_pixel(size_t i)
 			.closest_hit.t = MAX_DIST}, dat()->elems.camera->transform));
 }
 
-/**
- * TODO: Implement init_cones
- * init_cones(g_data.elems.cones);
- */
 void	init_object_data(void)
 {
 	init_lights(dat()->elems.lights);
