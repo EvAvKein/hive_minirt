@@ -58,10 +58,10 @@ t_ray	ray_for_pixel(size_t i)
  */
 void	init_object_data(void)
 {
-	init_lights(g_data.elems.lights);
-	init_spheres(g_data.elems.spheres);
-	init_planes(g_data.elems.planes);
-	init_cylinders(g_data.elems.cylinders);
-	init_triangles(g_data.elems.triangles);
-	init_camera_transform(g_data.elems.camera);
+	init_lights(dat()->elems.lights);
+	init_spheres(dat()->elems.spheres);
+	init_planes(dat()->elems.planes);
+	init_cylinders(dat()->elems.cylinders);
+	init_triangles(dat()->elems.triangles);
+	init_camera_transform(dat()->elems.camera);
 }
