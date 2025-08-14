@@ -388,6 +388,8 @@ typedef struct s_cone
 	t_m4x4			transform;
 	t_m4x4			inverse;
 	t_material		material;
+	t_pattern		pattern;
+	t_flt_color		pattern_color;
 	bool			single;
 	struct s_cone	*next;
 }					t_cone;
@@ -541,6 +543,9 @@ bool			plane_parse(char *str, size_t *parse_i);
 // parsing/parse_cylinder.c
 bool			cylinder_parse(char *str, size_t *parse_i);
 
+// parsing/parse_cone.c
+bool			cone_parse(char *str, size_t *parse_i);
+
 // parsing/parse_triangle.c
 bool			triangle_parse(char *str, size_t *parse_i);
 
@@ -643,6 +648,7 @@ void			init_lights(t_light *light);
 void			init_spheres(t_sphere *sp);
 void			init_planes(t_plane *pl);
 void			init_cylinders(t_cylinder *cyl);
+void			init_cones(t_cone *cn);
 void			init_triangles(t_triangle *cyl);
 
 // init/pixel_and_misc_initialization.c
