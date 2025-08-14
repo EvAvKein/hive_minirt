@@ -15,6 +15,7 @@
 static t_vec4	sphere_point_to_uv(t_vec4 vec);
 static t_vec4	plane_point_to_uv(t_vec4 vec);
 static t_vec4	cylinder_point_to_uv(t_vec4 vec, t_flt obj_height);
+static t_vec4	cone_point_to_uv(t_vec4 vec, t_flt obj_height);
 
 /**
  * Converts the provided object-space point coordinates' `x` and `y`
@@ -38,6 +39,8 @@ t_vec4	point_to_uv(t_obj_type type, t_vec4 point, t_flt obj_height)
 		return (plane_point_to_uv(point));
 	if (type == CYLINDER)
 		return (cylinder_point_to_uv(point, obj_height));
+	if (type == CONE)
+		return (cone_point_to_uv(point, obj_height));
 	return ((t_vec4){});
 }
 
@@ -62,6 +65,13 @@ static t_vec4	plane_point_to_uv(t_vec4 vec)
 }
 
 static t_vec4	cylinder_point_to_uv(t_vec4 vec, t_flt obj_height)
+{
+	vec.x = 0.5f + (atan2(vec.z, vec.x) / (2.0f * M_PI));
+	vec.y = 0.5f + (vec.y / obj_height);
+	return (vec);
+}
+
+static t_vec4	cone_point_to_uv(t_vec4 vec, t_flt obj_height)
 {
 	vec.x = 0.5f + (atan2(vec.z, vec.x) / (2.0f * M_PI));
 	vec.y = 0.5f + (vec.y / obj_height);

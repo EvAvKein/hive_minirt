@@ -74,15 +74,12 @@ t_flt_color	color_at_obj_hit(t_ray_x_obj *rxo, t_phong_helper *p)
 	return (let_there_be_light(p));
 }
 
-/**
- * TODO: Patterns for cones
- */
 static void	other_object_types(t_ray_x_obj *rxo, t_phong_helper *p)
 {
 	if (rxo->obj_type == CONE)
 	{
 		p->normal = cone_normal_at(*(t_cone *)rxo->obj, p->pos);
-		p->mat = ((t_cone *)p->obj_hit)->material;
+		p->mat = mat_at_hit_on_cone(&p->pos, (t_cone *)p->obj_hit);
 	}
 	else
 		rxo->obj_type = UNKNOWN;

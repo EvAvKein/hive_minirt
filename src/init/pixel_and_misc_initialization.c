@@ -58,6 +58,7 @@ void	init_object_data(void)
 	init_spheres(dat()->elems.spheres);
 	init_planes(dat()->elems.planes);
 	init_cylinders(dat()->elems.cylinders);
+	init_cones(dat()->elems.cones);
 	init_triangles(dat()->elems.triangles);
 	init_camera_transform(dat()->elems.camera);
 }
