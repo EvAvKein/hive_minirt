@@ -242,7 +242,7 @@ t_material		mat_by_texture_plane(
 t_material		mat_by_texture_cylinder(
 					t_vec4 relative_pos, t_cylinder *cyl);
 t_material		mat_by_texture_cone(
-						t_vec4 relative_pos, t_cone *cn);
+					t_vec4 relative_pos, t_cone *cn);
 
 // color/mat_at_pos_of_obj.c
 t_material		mat_at_hit_on_sphere(
