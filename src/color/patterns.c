@@ -57,7 +57,7 @@ t_material	mat_by_pattern_circus(
 {
 	t_flt				cross_axis;
 
-	relative_pos = percentagize_vec((relative_pos));
+	relative_pos = percentagize_vec(relative_pos);
 	if (relative_pos.x > relative_pos.z)
 		cross_axis = relative_pos.z;
 	else

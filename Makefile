@@ -44,6 +44,7 @@ SRC		:=	main.c									\
 			parsing/elems/sphere_parse.c			\
 			parsing/elems/plane_parse.c				\
 			parsing/elems/cylinder_parse.c			\
+			parsing/elems/cone_parse.c				\
 			parsing/elems/triangle_parse.c			\
 			parsing/parse_scene.c					\
 			parsing/parse_segment.c					\

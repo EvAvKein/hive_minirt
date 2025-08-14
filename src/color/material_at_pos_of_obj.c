@@ -109,6 +109,38 @@ t_material	mat_at_hit_on_cylinder(t_vec4 *hit_pos, t_cylinder *cyl)
 }
 
 /**
+ * @returns The material at this position of the cone
+ */
+t_material	mat_at_hit_on_cone(t_vec4 *hit_pos, t_cone *cn)
+{
+	const t_vec4	relative_pos = transformed_vec(*hit_pos, cn->inverse);
+
+	if (cn->image)
+		return (mat_by_texture_cone(relative_pos, cn));
+	else if (cn->pattern == SOLID)
+		return (cn->material);
+	else if (cn->pattern == CHECKERBOARD)
+		return (mat_by_pattern_checkerboard(relative_pos,
+				cn_pattern_mats(CHECKERBOARD, cn), CONE, cn->height));
+	else if (cn->pattern == CANDY)
+		return (mat_by_pattern_candy(relative_pos,
+				cn_pattern_mats(BEAMS, cn)));
+	else if (cn->pattern == CIRCUS)
+		return (mat_by_pattern_circus(relative_pos,
+				cn_pattern_mats(CIRCUS, cn)));
+	else if (cn->pattern == LINES)
+		return (mat_by_pattern_lines(relative_pos,
+				cn_pattern_mats(LINES, cn)));
+	else if (cn->pattern == ANGEL)
+		return (mat_by_pattern_angel(relative_pos,
+				cn_pattern_mats(ANGEL, cn)));
+	else if (cn->pattern == BEAMS)
+		return (mat_by_pattern_beams(relative_pos,
+				cn_pattern_mats(BEAMS, cn), cn->height));
+	return (cn->material);
+}
+
+/**
  * @returns The material at this position of the triangle
  *
  * (Some patterns are absent because we consider them invalid for triangles,
