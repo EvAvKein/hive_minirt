@@ -82,31 +82,31 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl)
  * @returns	Ray x objects struct containing the intersections with the cylinder
  *			caps
  */
-t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cl)
+t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl)
 {
 	t_cap_helper	c;
 
-	ray = transformed_ray(ray, cl->inverse);
+	ray = transformed_ray(ray, cyl->inverse);
 	c.top = (t_plane){
-		.pos = point(0, cl->height / 2, 0),
-		.inverse = translation_m4x4(point(0, -cl->height / 2, 0))};
+		.pos = point(0, cyl->height / 2, 0),
+		.inverse = translation_m4x4(point(0, -cyl->height / 2, 0))};
 	c.btm = (t_plane){
-		.pos = point(0, -cl->height / 2, 0),
-		.inverse = translation_m4x4(point(0, cl->height / 2, 0))};
+		.pos = point(0, -cyl->height / 2, 0),
+		.inverse = translation_m4x4(point(0, cyl->height / 2, 0))};
 	c.top_hit = ray_x_plane(ray, &c.top);
 	c.btm_hit = ray_x_plane(ray, &c.btm);
 	c.top_center_to_hit = vec_sub(ray_position(ray, c.top_hit.t), c.top.pos);
 	c.btm_center_to_hit = vec_sub(ray_position(ray, c.btm_hit.t), c.btm.pos);
 	c.top_dist = vec_len(c.top_center_to_hit);
 	c.btm_dist = vec_len(c.btm_center_to_hit);
-	if (c.top_dist > cl->diam / 2)
+	if (c.top_dist > cyl->diam / 2)
 		c.top_hit.t = 0;
-	if (c.btm_dist > cl->diam / 2)
+	if (c.btm_dist > cyl->diam / 2)
 		c.btm_hit.t = 0;
 	return ((t_ray_x_objs){.count = 2, ._[0] = (t_ray_x_obj){
-		.obj_type = CYLINDER, .obj = (void *)cl, .t = c.top_hit.t},
+		.obj_type = CYLINDER, .obj = (void *)cyl, .t = c.top_hit.t},
 		._[1] = (t_ray_x_obj){
-		.obj_type = CYLINDER, .obj = (void *)cl, .t = c.btm_hit.t}});
+		.obj_type = CYLINDER, .obj = (void *)cyl, .t = c.btm_hit.t}});
 }
 
 /**

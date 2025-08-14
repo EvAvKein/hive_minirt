@@ -26,8 +26,7 @@ t_ray_x_obj	ray_x_plane(t_ray ray, t_plane const *pl)
 	ray = transformed_ray(ray, pl->inverse);
 	if (flts_are_equal(ray.dir.y, 0))
 		return ((t_ray_x_obj){});
-
-	t = dot(vec_sub(point(0, 0, 0), ray.orig), vector(0, 1, 0)) / ray.dir.y;
+	t = -ray.orig.y / ray.dir.y;
 	if (t < EPSILON)
 		return ((t_ray_x_obj){});
 	return ((t_ray_x_obj){.t = t, .obj = (void *)pl, .obj_type = PLANE});

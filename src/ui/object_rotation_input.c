@@ -33,8 +33,8 @@ void	handle_object_rotation_input(void)
 	ob.inv = inverse_m4x4(ob.transf);
 	ob.orie = transformed_vec(vector(0, 1, 0), ob.transf);
 	update_selected_object(ob);
-		printf("Object orientation:	");
-		print_vec(ob.orie);
+	ft_putstr_fd("Object orientation:	", STDOUT_FILENO);
+	print_vec(ob.orie);
 	reset_rendering_threads();
 }
 

@@ -98,7 +98,7 @@ static void	handle_camera_rotation_input(void)
 	cam->transform = mult_m4x4(translation_m4x4(cam->pos), cam->transform);
 	cam->inverse = inverse_m4x4(cam->transform);
 	cam->orientation = transformed_vec(vector(0, 0, 1), cam->transform);
-	printf("Camera orientation:	");
+	ft_putstr_fd("Camera orientation:	", STDOUT_FILENO);
 	print_vec(cam->orientation);
 	reset_rendering_threads();
 }
@@ -147,7 +147,7 @@ static void	move_camera(t_vec4 move_vec)
 	data->pause_threads = true;
 	data->elems.camera->pos = vec_sum(data->elems.camera->pos, move_vec);
 	init_camera_transform(data->elems.camera);
-	printf("Camera position:	");
+	ft_putstr_fd("Camera position:	", STDOUT_FILENO);
 	print_vec(data->elems.camera->pos);
 	reset_rendering_threads();
 }
