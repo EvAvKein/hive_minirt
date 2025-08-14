@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 11:10:57 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/11 10:42:45 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/14 17:52:56 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,13 @@ void	init_object_data(void)
 	init_camera_transform(dat()->elems.camera);
 	dat()->elems.camera->initial_pos = dat()->elems.camera->pos;
 	dat()->elems.camera->initial_orientation = dat()->elems.camera->orientation;
+}
+
+bool	mlx_asset_init_successful(void)
+{
+	return (sky_asset_init_successful()
+		&& sphere_asset_init_successful()
+		&& plane_asset_init_successful()
+		&& cylinder_asset_init_successful()
+		&& cone_asset_init_successful());
 }
