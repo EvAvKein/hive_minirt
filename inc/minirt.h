@@ -275,13 +275,6 @@ typedef enum e_obj_type
 	TRIANGLE,
 }	t_obj_type;
 
-/**
- * TODO: Remember to remove before evaluation/use in code
- */
-// Example 2 of generic object struct, has struct within a union for all
-// possible sets of object properties. Slightly more memory efficient than
-// example 1, but more verbose. Verbosity serves as reminder of underlying
-// object type.
 typedef struct s_obj
 {
 	t_obj_type	type;
