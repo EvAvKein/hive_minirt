@@ -6,23 +6,35 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:11:06 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 14:45:57 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/13 17:28:32 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 static void	move_camera(t_vec4 move_vec);
-static void	update_camera_rotation(t_vec2 axes);
 static void	handle_camera_rotation_input(void);
 static void	handle_camera_translation_input(void);
 
+/**
+ * Function checks for user input and resize events every frame, handles those
+ * events, resizes the image buffer when necessary and triggers a rerender for
+ * the rendering threads.
+ */
 void	every_frame(void *param)
 {
 	(void)param;
-	handle_camera_rotation_input();
-	handle_camera_translation_input();
-	handle_camera_fov_input();
+	if (!mlx_is_key_down(dat()->mlx, KEYBIND_OBJ))
+	{
+		handle_camera_rotation_input();
+		handle_camera_translation_input();
+		handle_camera_fov_input();
+	}
+	else
+	{
+		handle_object_rotation_input();
+		handle_object_translation_input();
+	}
 	if (dat()->resized)
 	{
 		dat()->resized = false;
@@ -31,18 +43,19 @@ void	every_frame(void *param)
 			usleep(TICK * 10);
 		mlx_resize_image(dat()->img, dat()->mlx->width, dat()->mlx->height);
 		setup_pixel_grid(dat()->img->width, dat()->img->height);
+		printf("Image dimensions:	width: %u	height: %u\n",
+			dat()->img->width, dat()->img->height);
 		reset_rendering_threads();
 	}
 }
 
 /**
- * Checks for rotation user inputs and activates camera rotation function when
- * necessary.
+ * @returns	2D vector containing scalars for rotation deltas
  */
-static void	handle_camera_rotation_input(void)
+t_vec2	get_rotation_input_axes(void)
 {
-	t_flt	rotation_speed;
 	t_vec2	axes;
+	t_flt	rotation_speed;
 
 	axes = (t_vec2){};
 	rotation_speed = ROTATION_BASE;
@@ -56,23 +69,23 @@ static void	handle_camera_rotation_input(void)
 		axes.y = rotation_speed;
 	if (mlx_is_key_down(dat()->mlx, KEYBIND_RRY))
 		axes.y = -rotation_speed;
-	if (!flts_are_equal(axes.x, 0) || !flts_are_equal(axes.y, 0))
-		update_camera_rotation(axes);
+	return (axes);
 }
 
 /**
  * Calculates the current pitch and yaw of the camera and updates them based on
  * the values in axes. The x rotation (pitch) is limited to -pi/2 -> pi/2.
  * Function also notifies threads of the update.
- *
- * @param axes	The values for x and y axis rotation deltas packed into a t_vec2
  */
-static void	update_camera_rotation(t_vec2 axes)
+static void	handle_camera_rotation_input(void)
 {
 	t_camera *const	cam = dat()->elems.camera;
+	t_vec2			axes;
 	t_vec2			angles;
-	t_vec4			new_orientation;
 
+	axes = get_rotation_input_axes();
+	if (flts_are_equal(axes.x, 0) && flts_are_equal(axes.y, 0))
+		return ;
 	angles = cam_pitch_and_yaw(dat()->elems.camera);
 	if ((angles.x + axes.x < M_PI_2) && (angles.x + axes.x > -M_PI_2))
 		angles.x += axes.x;
@@ -80,12 +93,13 @@ static void	update_camera_rotation(t_vec2 axes)
 		return ;
 	dat()->pause_threads = true;
 	angles.y += axes.y;
-	new_orientation = (t_vec4){.z = 1};
 	cam->transform = x_rotation_m4x4(-angles.x);
 	cam->transform = mult_m4x4(y_rotation_m4x4(angles.y), cam->transform);
 	cam->transform = mult_m4x4(translation_m4x4(cam->pos), cam->transform);
 	cam->inverse = inverse_m4x4(cam->transform);
-	cam->orientation = transformed_vec(new_orientation, cam->transform);
+	cam->orientation = transformed_vec(vector(0, 0, 1), cam->transform);
+	ft_putstr_fd("Camera orientation:	", STDOUT_FILENO);
+	print_vec(cam->orientation);
 	reset_rendering_threads();
 }
 
@@ -114,7 +128,7 @@ static void	handle_camera_translation_input(void)
 		move_vec = vec_sum(move_vec, cam->orientation);
 	if (mlx_is_key_down(dat()->mlx, KEYBIND_MBACKWARD))
 		move_vec = vec_sum(move_vec, opposite_vec(cam->orientation));
-	move_vec = unit_vec(move_vec);
+	move_vec = scaled_vec(unit_vec(move_vec), MOVEMENT_BASE);
 	if (mlx_is_key_down(dat()->mlx, KEYBIND_FAST))
 		move_vec = scaled_vec(move_vec, MOVEMENT_MULT);
 	if (!vecs_are_equal(move_vec, vector(0, 0, 0)))
@@ -133,5 +147,7 @@ static void	move_camera(t_vec4 move_vec)
 	data->pause_threads = true;
 	data->elems.camera->pos = vec_sum(data->elems.camera->pos, move_vec);
 	init_camera_transform(data->elems.camera);
+	ft_putstr_fd("Camera position:	", STDOUT_FILENO);
+	print_vec(data->elems.camera->pos);
 	reset_rendering_threads();
 }

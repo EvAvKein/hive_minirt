@@ -242,7 +242,7 @@ t_material		mat_by_texture_plane(
 t_material		mat_by_texture_cylinder(
 					t_vec4 relative_pos, t_cylinder *cyl);
 t_material		mat_by_texture_cone(
-						t_vec4 relative_pos, t_cone *cn);
+					t_vec4 relative_pos, t_cone *cn);
 
 // color/mat_at_pos_of_obj.c
 t_material		mat_at_hit_on_sphere(
@@ -275,14 +275,7 @@ typedef enum e_obj_type
 	TRIANGLE,
 }	t_obj_type;
 
-/**
- * TODO: Remember to remove before evaluation/use in code
- */
-// Example 2 of generic object struct, has struct within a union for all
-// possible sets of object properties. Slightly more memory efficient than
-// example 1, but more verbose. Verbosity serves as reminder of underlying
-// object type.
-typedef struct s_obj2
+typedef struct s_obj
 {
 	t_obj_type	type;
 	t_vec4		pos;
@@ -309,10 +302,12 @@ typedef struct s_obj2
 			struct s_plane	*pl_next;
 		};
 	};
-}	t_obj2;
+}	t_obj;
 
 typedef struct s_camera
 {
+	t_vec4	initial_pos;
+	t_vec4	initial_orientation;
 	t_vec4	pos;
 	t_vec4	orientation;
 	uint8_t	fov;
@@ -339,7 +334,10 @@ typedef struct s_light
 
 typedef struct s_sphere
 {
+	t_vec4			initial_pos;
+	t_vec4			initial_orientation;
 	t_vec4			pos;
+	t_vec4			orientation;
 	t_flt			radius;
 	t_flt_color		color;
 	t_m4x4			transform;
@@ -354,6 +352,8 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
+	t_vec4			initial_pos;
+	t_vec4			initial_orientation;
 	t_vec4			pos;
 	t_vec4			orientation;
 	t_flt_color		color;
@@ -369,6 +369,8 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
+	t_vec4				initial_pos;
+	t_vec4				initial_orientation;
 	t_vec4				pos;
 	t_vec4				orientation;
 	t_flt				diam;
@@ -466,6 +468,12 @@ typedef struct s_pixel_grid
 	t_flt	pixel_width;
 }			t_pixel_grid;
 
+typedef struct s_mouse
+{
+	double	x;
+	double	y;
+}			t_mouse;
+
 typedef struct s_data
 {
 	t_elems			elems;
@@ -486,6 +494,8 @@ typedef struct s_data
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	mlx_image_t		*sky_image;
+	t_mouse			mouse;
+	t_ray_x_obj		selected_obj;
 	t_error			error;
 }					t_data;
 
@@ -503,10 +513,8 @@ typedef struct s_cap_helper
 	t_plane		btm;
 	t_ray_x_obj	top_hit;
 	t_ray_x_obj	btm_hit;
-	t_vec4		top_mid;
-	t_vec4		btm_mid;
-	t_vec4		top_mid_to_hit;
-	t_vec4		btm_mid_to_hit;
+	t_vec4		top_center_to_hit;
+	t_vec4		btm_center_to_hit;
 	t_flt		top_dist;
 	t_flt		btm_dist;
 }				t_cap_helper;
@@ -683,6 +691,7 @@ t_vec2			plane_pitch_and_yaw(t_plane pl);
 
 // ui/hooks_01.c
 void			every_frame(void *param);
+t_vec2			get_rotation_input_axes(void);
 
 // ui/hooks_02.c
 void			handle_camera_fov_input(void);
@@ -691,6 +700,19 @@ void			exit_and_screenshot_and_capping_hook(
 					mlx_key_data_t key_data, void *param);
 void			resize_hook(int32_t width, int32_t height, void *param);
 void			reset_rendering_threads(void);
+
+// ui/hooks_03.c
+void			mouse_pos_hook(double x, double y, void *param);
+void			select_obj_hook(mouse_key_t key, action_t action,
+					modifier_key_t modifier, void *param);
+
+// ui/object_rotation_input.c
+void			handle_object_rotation_input(void);
+t_obj			match_selected_object(void);
+void			update_selected_object(t_obj ob);
+
+// ui/object_translation_input.c
+void			handle_object_translation_input(void);
 
 /* ---------------------------------------------------------------- THREADING */
 

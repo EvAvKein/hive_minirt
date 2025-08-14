@@ -49,9 +49,10 @@ static void	single_cone_test(void)
 	cn.pos = point(0, 0, 20);
 	cn.diam = 3;
 	cn.height = 6;
-	cn.orientation = vector(1, 1, 1);
+	cn.orientation = vector(0, 0, 1);
 	cn.material = default_material();
 	cn.material.color = point(1, 0, 1);
+	cn.single = true;
 	init_cone_transform(&cn);
 	dat()->elems.lights->pos = point(-50, 0, 0);
 	dat()->elems.lights->color = (t_flt_color){.r = 1, .g = 1, .b = 1};

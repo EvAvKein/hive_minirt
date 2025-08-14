@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 10:11:29 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/12 19:51:06 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/13 13:33:36 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void	init_spheres(t_sphere *sp)
 	while (sp)
 	{
 		init_sphere_transform(sp);
+		sp->initial_pos = sp->pos;
+		sp->initial_orientation = vector(0, 1, 0);
+		sp->orientation = sp->initial_orientation;
 		sp->material = default_material();
 		sp->material.color = point(sp->color.r, sp->color.g, sp->color.b);
 		sp = sp->next;
@@ -36,6 +39,8 @@ void	init_planes(t_plane *pl)
 {
 	while (pl)
 	{
+		pl->initial_pos = pl->pos;
+		pl->initial_orientation = pl->orientation;
 		init_plane_transform(pl);
 		pl->material = default_material();
 		pl->material.color = point(pl->color.r, pl->color.g, pl->color.b);
@@ -47,6 +52,8 @@ void	init_cylinders(t_cylinder *cyl)
 {
 	while (cyl)
 	{
+		cyl->initial_pos = cyl->pos;
+		cyl->initial_orientation = cyl->orientation;
 		init_cylinder_transform(cyl);
 		cyl->material = default_material();
 		cyl->material.color = point(cyl->color.r, cyl->color.g, cyl->color.b);

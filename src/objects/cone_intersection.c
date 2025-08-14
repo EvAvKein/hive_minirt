@@ -44,9 +44,6 @@ t_ray_x_obj	ray_hit_cone(t_ray ray, t_cone const *cn)
 		combined = (t_ray_x_objs){._[0] = hit(shell), ._[1] = hit(caps)};
 		cone_hit = hit(combined);
 	}
-	if (cn->single)
-		if (transformed_vec(ray_position(ray, cone_hit.t), cn->inverse).y < 0)
-			cone_hit.t = 0;
 	return (cone_hit);
 }
 
@@ -70,10 +67,10 @@ t_ray_x_objs	ray_x_cone_shell(t_ray ray, t_cone const *cn)
 	t[0] = (-q.h - sqrt(q.discr)) / q.a;
 	t[1] = (-q.h + sqrt(q.discr)) / q.a;
 	y_component = ray_position(ray, t[0]).y;
-	if (fabs(y_component) > cn->height)
+	if (fabs(y_component) > cn->height || (cn->single && y_component < 0))
 		t[0] = 0;
 	y_component = ray_position(ray, t[1]).y;
-	if (fabs(y_component) > cn->height)
+	if (fabs(y_component) > cn->height || (cn->single && y_component < 0))
 		t[1] = 0;
 	return ((t_ray_x_objs){.count = 2,
 		._[0] = (t_ray_x_obj){.obj_type = CONE, .obj = (void *)cn, .t = t[0]},
@@ -106,6 +103,12 @@ t_ray_x_objs	ray_x_cone_caps(t_ray ray, t_cone const *cn)
 	cap_hits._[1].obj_type = CONE;
 	cap_hits._[0].obj = (void *)cn;
 	cap_hits._[1].obj = (void *)cn;
+	if (cn->single && transformed_vec(ray_position(ray, cap_hits._[0].t),
+			cn->inverse).y < 0)
+		cap_hits._[0].t = 0;
+	if (cn->single && transformed_vec(ray_position(ray, cap_hits._[1].t),
+			cn->inverse).y < 0)
+		cap_hits._[1].t = 0;
 	return (cap_hits);
 }
 

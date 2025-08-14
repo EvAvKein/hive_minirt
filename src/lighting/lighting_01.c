@@ -23,13 +23,15 @@ static void	set_ambient(t_phong_helper *p);
  */
 t_flt_color	let_there_be_light(t_phong_helper *p)
 {
-	t_ray		shadow_ray;
+	t_ray	shadow_ray;
 
 	p->light = dat()->elems.lights;
 	if (dot(p->to_cam, p->normal) < 0)
 	{
 		p->normal = opposite_vec(p->normal);
-		p->obj_hit = NULL;
+		if (p->ray->closest_hit.obj_type != PLANE
+			&& p->ray->closest_hit.obj_type != TRIANGLE)
+			p->obj_hit = NULL;
 	}
 	set_ambient(p);
 	while (p->light)
