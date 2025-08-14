@@ -228,6 +228,8 @@ typedef struct s_plane\
 				t_plane;
 typedef struct s_cylinder\
 				t_cylinder;
+typedef struct s_cone\
+				t_cone;
 typedef struct s_triangle\
 				t_triangle;
 
@@ -239,6 +241,8 @@ t_material		mat_by_texture_plane(
 					t_vec4 relative_pos, t_plane *pl);
 t_material		mat_by_texture_cylinder(
 					t_vec4 relative_pos, t_cylinder *cyl);
+t_material		mat_by_texture_cone(
+						t_vec4 relative_pos, t_cone *cn);
 
 // color/mat_at_pos_of_obj.c
 t_material		mat_at_hit_on_sphere(
@@ -247,6 +251,8 @@ t_material		mat_at_hit_on_plane(
 					t_vec4 *hit_pos, t_plane *pl);
 t_material		mat_at_hit_on_cylinder(
 					t_vec4 *hit_pos, t_cylinder *cyl);
+t_material		mat_at_hit_on_cone(
+					t_vec4 *hit_pos, t_cone *cn);
 t_material		mat_at_hit_on_triangle(
 					t_vec4 *hit_pos, t_triangle *tr);
 
@@ -388,6 +394,8 @@ typedef struct s_cone
 	t_m4x4			transform;
 	t_m4x4			inverse;
 	t_material		material;
+	mlx_texture_t	*texture;
+	mlx_image_t		*image;
 	t_pattern		pattern;
 	t_flt_color		pattern_color;
 	bool			single;
@@ -608,6 +616,7 @@ t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
 t_pattern_mats	sp_pattern_mats(t_pattern pattern_name, t_sphere *sphere);
 t_pattern_mats	pl_pattern_mats(t_pattern pattern_name, t_plane *plane);
 t_pattern_mats	cy_pattern_mats(t_pattern pattern_name, t_cylinder *cylinder);
+t_pattern_mats	cn_pattern_mats(t_pattern pattern_name, t_cone *cone);
 t_pattern_mats	tr_pattern_mats(t_pattern pattern_name, t_triangle *triangle);
 
 // color/pattern_checkerboard.c

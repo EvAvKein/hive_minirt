@@ -84,3 +84,19 @@ inline t_material	mat_by_texture_cylinder(
 			point_to_uv(CYLINDER, relative_pos, cyl->height),
 			cyl->image));
 }
+
+/**
+ * @param relative_pos	A hit point (in object space) on the provided cone
+ *
+ * @param sp			The cone being hit
+ *
+ * @returns	A material with the color
+ *			at the provided position based on the cone's image.
+ */
+inline t_material	mat_by_texture_cone(
+						t_vec4 relative_pos, t_cone *cn)
+{
+	return (mat_by_texture(
+			point_to_uv(CONE, relative_pos, cn->height),
+			cn->image));
+}

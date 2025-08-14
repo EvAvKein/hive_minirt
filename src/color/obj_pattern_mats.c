@@ -36,6 +36,14 @@ t_pattern_mats	cy_pattern_mats(t_pattern pattern_name, t_cylinder *cylinder)
 	});
 }
 
+t_pattern_mats	cn_pattern_mats(t_pattern pattern_name, t_cone *cone)
+{
+	return ((t_pattern_mats){
+		.obj_mat = cone->material,
+		.pat_mat = pattern_mat_with_color(pattern_name, cone->pattern_color)
+	});
+}
+
 t_pattern_mats	tr_pattern_mats(t_pattern pattern_name, t_triangle *triangle)
 {
 	return ((t_pattern_mats){
