@@ -88,7 +88,7 @@ inline t_material	mat_by_texture_cylinder(
 /**
  * @param relative_pos	A hit point (in object space) on the provided cone
  *
- * @param sp			The cone being hit
+ * @param cn			The cone being hit
  *
  * @returns	A material with the color
  *			at the provided position based on the cone's image.
