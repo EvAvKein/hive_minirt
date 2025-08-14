@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/13 09:56:17 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/13 17:27:32 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,8 +228,6 @@ typedef struct s_plane\
 				t_plane;
 typedef struct s_cylinder\
 				t_cylinder;
-typedef struct s_cone\
-				t_cone;
 typedef struct s_triangle\
 				t_triangle;
 
@@ -241,8 +239,6 @@ t_material		mat_by_texture_plane(
 					t_vec4 relative_pos, t_plane *pl);
 t_material		mat_by_texture_cylinder(
 					t_vec4 relative_pos, t_cylinder *cyl);
-t_material		mat_by_texture_cone(
-					t_vec4 relative_pos, t_cone *cn);
 
 // color/mat_at_pos_of_obj.c
 t_material		mat_at_hit_on_sphere(
@@ -251,8 +247,6 @@ t_material		mat_at_hit_on_plane(
 					t_vec4 *hit_pos, t_plane *pl);
 t_material		mat_at_hit_on_cylinder(
 					t_vec4 *hit_pos, t_cylinder *cyl);
-t_material		mat_at_hit_on_cone(
-					t_vec4 *hit_pos, t_cone *cn);
 t_material		mat_at_hit_on_triangle(
 					t_vec4 *hit_pos, t_triangle *tr);
 
@@ -282,7 +276,7 @@ typedef enum e_obj_type
 // possible sets of object properties. Slightly more memory efficient than
 // example 1, but more verbose. Verbosity serves as reminder of underlying
 // object type.
-typedef struct s_obj2
+typedef struct s_obj
 {
 	t_obj_type	type;
 	t_vec4		pos;
@@ -309,10 +303,12 @@ typedef struct s_obj2
 			struct s_plane	*pl_next;
 		};
 	};
-}	t_obj2;
+}	t_obj;
 
 typedef struct s_camera
 {
+	t_vec4	initial_pos;
+	t_vec4	initial_orientation;
 	t_vec4	pos;
 	t_vec4	orientation;
 	uint8_t	fov;
@@ -339,7 +335,10 @@ typedef struct s_light
 
 typedef struct s_sphere
 {
+	t_vec4			initial_pos;
+	t_vec4			initial_orientation;
 	t_vec4			pos;
+	t_vec4			orientation;
 	t_flt			radius;
 	t_flt_color		color;
 	t_m4x4			transform;
@@ -354,6 +353,8 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
+	t_vec4			initial_pos;
+	t_vec4			initial_orientation;
 	t_vec4			pos;
 	t_vec4			orientation;
 	t_flt_color		color;
@@ -369,6 +370,8 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
+	t_vec4				initial_pos;
+	t_vec4				initial_orientation;
 	t_vec4				pos;
 	t_vec4				orientation;
 	t_flt				diam;
@@ -394,10 +397,6 @@ typedef struct s_cone
 	t_m4x4			transform;
 	t_m4x4			inverse;
 	t_material		material;
-	mlx_texture_t	*texture;
-	mlx_image_t		*image;
-	t_pattern		pattern;
-	t_flt_color		pattern_color;
 	bool			single;
 	struct s_cone	*next;
 }					t_cone;
@@ -466,6 +465,12 @@ typedef struct s_pixel_grid
 	t_flt	pixel_width;
 }			t_pixel_grid;
 
+typedef struct s_mouse
+{
+	double	x;
+	double	y;
+}			t_mouse;
+
 typedef struct s_data
 {
 	t_elems			elems;
@@ -486,6 +491,8 @@ typedef struct s_data
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	mlx_image_t		*sky_image;
+	t_mouse			mouse;
+	t_ray_x_obj		selected_obj;
 	t_error			error;
 }					t_data;
 
@@ -503,10 +510,8 @@ typedef struct s_cap_helper
 	t_plane		btm;
 	t_ray_x_obj	top_hit;
 	t_ray_x_obj	btm_hit;
-	t_vec4		top_mid;
-	t_vec4		btm_mid;
-	t_vec4		top_mid_to_hit;
-	t_vec4		btm_mid_to_hit;
+	t_vec4		top_center_to_hit;
+	t_vec4		btm_center_to_hit;
 	t_flt		top_dist;
 	t_flt		btm_dist;
 }				t_cap_helper;
@@ -550,9 +555,6 @@ bool			plane_parse(char *str, size_t *parse_i);
 
 // parsing/parse_cylinder.c
 bool			cylinder_parse(char *str, size_t *parse_i);
-
-// parsing/parse_cone.c
-bool			cone_parse(char *str, size_t *parse_i);
 
 // parsing/parse_triangle.c
 bool			triangle_parse(char *str, size_t *parse_i);
@@ -609,6 +611,7 @@ t_vec4			cone_normal_at(t_cone cn, t_vec4 world_pos);
 
 // objects/triangle_intersections.c
 t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
+t_vec4			triangle_normal_at(t_triangle tr, t_vec4 world_pos);
 
 /* ----------------------------------------------------------------- PATTERNS */
 
@@ -616,7 +619,6 @@ t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
 t_pattern_mats	sp_pattern_mats(t_pattern pattern_name, t_sphere *sphere);
 t_pattern_mats	pl_pattern_mats(t_pattern pattern_name, t_plane *plane);
 t_pattern_mats	cy_pattern_mats(t_pattern pattern_name, t_cylinder *cylinder);
-t_pattern_mats	cn_pattern_mats(t_pattern pattern_name, t_cone *cone);
 t_pattern_mats	tr_pattern_mats(t_pattern pattern_name, t_triangle *triangle);
 
 // color/pattern_checkerboard.c
@@ -657,8 +659,10 @@ void			init_lights(t_light *light);
 void			init_spheres(t_sphere *sp);
 void			init_planes(t_plane *pl);
 void			init_cylinders(t_cylinder *cyl);
-void			init_cones(t_cone *cn);
 void			init_triangles(t_triangle *cyl);
+
+// init/cone_initialization.c
+void			init_cones(t_cone *cn);
 
 // init/pixel_and_misc_initialization.c
 void			setup_pixel_grid(size_t width, size_t height);
@@ -683,6 +687,7 @@ t_vec2			plane_pitch_and_yaw(t_plane pl);
 
 // ui/hooks_01.c
 void			every_frame(void *param);
+t_vec2			get_rotation_input_axes(void);
 
 // ui/hooks_02.c
 void			handle_camera_fov_input(void);
@@ -691,6 +696,19 @@ void			exit_and_screenshot_and_capping_hook(
 					mlx_key_data_t key_data, void *param);
 void			resize_hook(int32_t width, int32_t height, void *param);
 void			reset_rendering_threads(void);
+
+// ui/hooks_03.c
+void			mouse_pos_hook(double x, double y, void *param);
+void			select_obj_hook(mouse_key_t key, action_t action,
+					modifier_key_t modifier, void *param);
+
+// ui/object_rotation_input.c
+void			handle_object_rotation_input(void);
+t_obj			match_selected_object(void);
+void			update_selected_object(t_obj ob);
+
+// ui/object_translation_input.c
+void			handle_object_translation_input(void);
 
 /* ---------------------------------------------------------------- THREADING */
 
