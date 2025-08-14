@@ -46,7 +46,7 @@ t_vec4	point(t_flt x, t_flt y, t_flt z)
 
 void	print_vec(t_vec4 vec)
 {
-	printf("Vec:	x = %f	y = %f	z = %f	w = %f\n",
+	printf("( x = %.4f	y = %.4f	z = %.4f	w = %.4f )\n",
 		vec.x, vec.y, vec.z, vec.w);
 }
 

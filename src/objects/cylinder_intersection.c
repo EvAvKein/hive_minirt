@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 15:01:58 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/11 13:56:17 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/13 17:24:46 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,31 +82,31 @@ t_ray_x_objs	ray_x_cylinder_shell(t_ray ray, t_cylinder const *cyl)
  * @returns	Ray x objects struct containing the intersections with the cylinder
  *			caps
  */
-t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cyl)
+t_ray_x_objs	ray_x_cylinder_caps(t_ray ray, t_cylinder const *cl)
 {
 	t_cap_helper	c;
 
-	ray = transformed_ray(ray, cyl->inverse);
-	c.top = (t_plane){.pos = point(0, cyl->height / 2, 0),
-		.orientation = vector(0, 1, 0), .inverse = identity_m4x4()};
-	c.btm = (t_plane){.pos = point(0, -cyl->height / 2, 0),
-		.orientation = vector(0, -1, 0), .inverse = identity_m4x4()};
+	ray = transformed_ray(ray, cl->inverse);
+	c.top = (t_plane){
+		.pos = point(0, cl->height / 2, 0),
+		.inverse = translation_m4x4(point(0, -cl->height / 2, 0))};
+	c.btm = (t_plane){
+		.pos = point(0, -cl->height / 2, 0),
+		.inverse = translation_m4x4(point(0, cl->height / 2, 0))};
 	c.top_hit = ray_x_plane(ray, &c.top);
 	c.btm_hit = ray_x_plane(ray, &c.btm);
-	c.top_mid = point(0, cyl->height / 2, 0);
-	c.btm_mid = point(0, -cyl->height / 2, 0);
-	c.top_mid_to_hit = vec_sub(ray_position(ray, c.top_hit.t), c.top_mid);
-	c.btm_mid_to_hit = vec_sub(ray_position(ray, c.btm_hit.t), c.btm_mid);
-	c.top_dist = vec_len(c.top_mid_to_hit);
-	c.btm_dist = vec_len(c.btm_mid_to_hit);
-	if (c.top_dist > cyl->diam / 2)
+	c.top_center_to_hit = vec_sub(ray_position(ray, c.top_hit.t), c.top.pos);
+	c.btm_center_to_hit = vec_sub(ray_position(ray, c.btm_hit.t), c.btm.pos);
+	c.top_dist = vec_len(c.top_center_to_hit);
+	c.btm_dist = vec_len(c.btm_center_to_hit);
+	if (c.top_dist > cl->diam / 2)
 		c.top_hit.t = 0;
-	if (c.btm_dist > cyl->diam / 2)
+	if (c.btm_dist > cl->diam / 2)
 		c.btm_hit.t = 0;
 	return ((t_ray_x_objs){.count = 2, ._[0] = (t_ray_x_obj){
-		.obj_type = CYLINDER, .obj = (void *)cyl, .t = c.top_hit.t},
+		.obj_type = CYLINDER, .obj = (void *)cl, .t = c.top_hit.t},
 		._[1] = (t_ray_x_obj){
-		.obj_type = CYLINDER, .obj = (void *)cyl, .t = c.btm_hit.t}});
+		.obj_type = CYLINDER, .obj = (void *)cl, .t = c.btm_hit.t}});
 }
 
 /**
@@ -124,11 +124,12 @@ t_vec4	cylinder_normal_at(t_cylinder cyl, t_vec4 world_pos)
 	object_pos = transformed_vec(world_pos, cyl.inverse);
 	if (flts_are_equal(fabs(object_pos.y), cyl.height / 2))
 	{
+		normal = vector(0, 1, 0);
 		if (object_pos.y < 0)
-			return (opposite_vec(cyl.orientation));
-		return (cyl.orientation);
+			normal = opposite_vec(normal);
 	}
-	normal = vector(object_pos.x, 0, object_pos.z);
+	else
+		normal = vector(object_pos.x, 0, object_pos.z);
 	normal = unit_vec(transformed_vec(normal, transpose_m4x4(cyl.inverse)));
 	normal.w = 0;
 	return (normal);

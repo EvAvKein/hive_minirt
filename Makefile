@@ -33,6 +33,9 @@ SRC		:=	main.c									\
 			screenshot/get_available_file_name.c	\
 			ui/hooks_01.c							\
 			ui/hooks_02.c							\
+			ui/hooks_03.c							\
+			ui/object_rotation_input.c				\
+			ui/object_translation_input.c			\
 			init/obj_initialization.c				\
 			init/mlx_initialization.c				\
 			init/asset_initialization.c				\

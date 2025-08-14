@@ -34,6 +34,7 @@ void	handle_camera_fov_input(void)
 		dat()->pause_threads = true;
 		dat()->elems.camera->fov += fov_delta;
 		setup_pixel_grid(dat()->img->width, dat()->img->height);
+		printf("Camera FOV:		%u\n", dat()->elems.camera->fov);
 		reset_rendering_threads();
 	}
 }

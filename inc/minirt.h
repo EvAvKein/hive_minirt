@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/13 17:27:32 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/13 09:56:17 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,8 @@ typedef struct s_plane\
 				t_plane;
 typedef struct s_cylinder\
 				t_cylinder;
+typedef struct s_cone\
+				t_cone;
 typedef struct s_triangle\
 				t_triangle;
 
@@ -239,6 +241,8 @@ t_material		mat_by_texture_plane(
 					t_vec4 relative_pos, t_plane *pl);
 t_material		mat_by_texture_cylinder(
 					t_vec4 relative_pos, t_cylinder *cyl);
+t_material		mat_by_texture_cone(
+						t_vec4 relative_pos, t_cone *cn);
 
 // color/mat_at_pos_of_obj.c
 t_material		mat_at_hit_on_sphere(
@@ -247,6 +251,8 @@ t_material		mat_at_hit_on_plane(
 					t_vec4 *hit_pos, t_plane *pl);
 t_material		mat_at_hit_on_cylinder(
 					t_vec4 *hit_pos, t_cylinder *cyl);
+t_material		mat_at_hit_on_cone(
+					t_vec4 *hit_pos, t_cone *cn);
 t_material		mat_at_hit_on_triangle(
 					t_vec4 *hit_pos, t_triangle *tr);
 
@@ -397,6 +403,10 @@ typedef struct s_cone
 	t_m4x4			transform;
 	t_m4x4			inverse;
 	t_material		material;
+	mlx_texture_t	*texture;
+	mlx_image_t		*image;
+	t_pattern		pattern;
+	t_flt_color		pattern_color;
 	bool			single;
 	struct s_cone	*next;
 }					t_cone;
@@ -556,6 +566,9 @@ bool			plane_parse(char *str, size_t *parse_i);
 // parsing/parse_cylinder.c
 bool			cylinder_parse(char *str, size_t *parse_i);
 
+// parsing/parse_cone.c
+bool			cone_parse(char *str, size_t *parse_i);
+
 // parsing/parse_triangle.c
 bool			triangle_parse(char *str, size_t *parse_i);
 
@@ -611,7 +624,6 @@ t_vec4			cone_normal_at(t_cone cn, t_vec4 world_pos);
 
 // objects/triangle_intersections.c
 t_ray_x_obj		ray_x_triangle(t_ray ray, t_triangle const *tr);
-t_vec4			triangle_normal_at(t_triangle tr, t_vec4 world_pos);
 
 /* ----------------------------------------------------------------- PATTERNS */
 
@@ -619,6 +631,7 @@ t_vec4			triangle_normal_at(t_triangle tr, t_vec4 world_pos);
 t_pattern_mats	sp_pattern_mats(t_pattern pattern_name, t_sphere *sphere);
 t_pattern_mats	pl_pattern_mats(t_pattern pattern_name, t_plane *plane);
 t_pattern_mats	cy_pattern_mats(t_pattern pattern_name, t_cylinder *cylinder);
+t_pattern_mats	cn_pattern_mats(t_pattern pattern_name, t_cone *cone);
 t_pattern_mats	tr_pattern_mats(t_pattern pattern_name, t_triangle *triangle);
 
 // color/pattern_checkerboard.c
@@ -659,10 +672,8 @@ void			init_lights(t_light *light);
 void			init_spheres(t_sphere *sp);
 void			init_planes(t_plane *pl);
 void			init_cylinders(t_cylinder *cyl);
-void			init_triangles(t_triangle *cyl);
-
-// init/cone_initialization.c
 void			init_cones(t_cone *cn);
+void			init_triangles(t_triangle *cyl);
 
 // init/pixel_and_misc_initialization.c
 void			setup_pixel_grid(size_t width, size_t height);

@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 10:41:38 by jvarila           #+#    #+#             */
-/*   Updated: 2025/07/23 13:15:24 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/13 17:26:55 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 t_ray_x_obj	ray_x_plane(t_ray ray, t_plane const *pl)
 {
 	t_flt	t;
-	t_flt	divisor;
 
-	divisor = dot(ray.dir, pl->orientation);
-	if (flts_are_equal(divisor, 0))
+	ray = transformed_ray(ray, pl->inverse);
+	if (flts_are_equal(ray.dir.y, 0))
 		return ((t_ray_x_obj){});
-	t = dot(vec_sub(pl->pos, ray.orig), pl->orientation) / divisor;
-	if (t < 0)
+
+	t = dot(vec_sub(point(0, 0, 0), ray.orig), vector(0, 1, 0)) / ray.dir.y;
+	if (t < EPSILON)
 		return ((t_ray_x_obj){});
 	return ((t_ray_x_obj){.t = t, .obj = (void *)pl, .obj_type = PLANE});
 }

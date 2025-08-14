@@ -61,4 +61,6 @@ void	init_object_data(void)
 	init_cones(dat()->elems.cones);
 	init_triangles(dat()->elems.triangles);
 	init_camera_transform(dat()->elems.camera);
+	dat()->elems.camera->initial_pos = dat()->elems.camera->pos;
+	dat()->elems.camera->initial_orientation = dat()->elems.camera->orientation;
 }
