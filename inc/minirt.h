@@ -25,7 +25,7 @@
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
-typedef float	t_flt;
+typedef double	t_flt;
 
 typedef enum e_error
 {
@@ -675,9 +675,14 @@ void			init_triangles(t_triangle *cyl);
 void			setup_pixel_grid(size_t width, size_t height);
 t_ray			ray_for_pixel(size_t i);
 void			init_object_data(void);
+bool			mlx_asset_init_successful(void);
 
 // asset_initialization.c
-bool			mlx_asset_init_successful(void);
+bool			sky_asset_init_successful(void);
+bool			sphere_asset_init_successful(void);
+bool			plane_asset_init_successful(void);
+bool			cylinder_asset_init_successful(void);
+bool			cone_asset_init_successful(void);
 
 // objects/transform_initialization.c
 void			init_sphere_transform(t_sphere *sp);
