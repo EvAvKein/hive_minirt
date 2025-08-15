@@ -39,7 +39,7 @@ bool	cone_parse(char *str, size_t *parse_i)
 	skip_letters_and_trailing_spaces(str, parse_i);
 	if (!vec4_parse(str, parse_i, &cone.pos, true)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cone position"));
+		return (print_err("Invalid cone position"));
 	if (!cone_parse_pt2(&cone, str, parse_i)
 		|| !cone_parse_pt3(&cone, str, parse_i))
 		return (false);
@@ -51,7 +51,7 @@ bool	cone_parse(char *str, size_t *parse_i)
 	{
 		if (cone.texture)
 			mlx_delete_texture(cone.texture);
-		return (print_err("failed to allocate memory for cone"));
+		return (print_err("Failed to allocate memory for cone"));
 	}
 	**ptr_to_next = cone;
 	return (true);
@@ -65,13 +65,13 @@ static inline bool	cone_parse_pt2(t_cone *cone,
 	if (!vec4_parse(str, parse_i, &cone->orientation, false)
 		|| !is_normalized_vec(cone->orientation)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cone orientation"));
+		return (print_err("Invalid cone orientation"));
 	if (!flt_parse(str, parse_i, &cone->diam)
 		|| cone->diam < EPSILON || !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cone diameter"));
+		return (print_err("Invalid cone diameter"));
 	if (!flt_parse(str, parse_i, &cone->height)
 		|| cone->height < EPSILON || !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cone height"));
+		return (print_err("Invalid cone height"));
 	if (!uint8_parse(str, parse_i, &num)
 		|| num < 1 || num > 2
 		|| !is_space(str[*parse_i - 1]))
@@ -85,19 +85,19 @@ static inline bool	cone_parse_pt3(t_cone *cone,
 {
 	if (!rgb_parse(str, parse_i, &cone->color)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cone color"));
+		return (print_err("Invalid cone color"));
 	if (!optional_pattern_name_parse(str, parse_i, &cone->pattern)
 		&& !optional_asset_parse(str, parse_i, &cone->texture))
-		return (print_err("invalid cone pattern name or texture"));
+		return (print_err("Invalid cone pattern name or texture"));
 	if (!cone->texture && !optional_pattern_color_parse(str, parse_i,
 			cone->pattern, &cone->pattern_color))
-		return (print_err("invalid cone pattern color"));
+		return (print_err("Invalid cone pattern color"));
 	if (!is_end(str[*parse_i]))
 	{
 		if (!cone->texture)
-			return (print_err("invalid cone data after pattern color"));
+			return (print_err("Invalid cone data after pattern color"));
 		mlx_delete_texture(cone->texture);
-		return (print_err("invalid cone data after texture"));
+		return (print_err("Invalid cone data after texture"));
 	}
 	return (true);
 }

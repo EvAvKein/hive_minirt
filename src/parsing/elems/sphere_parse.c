@@ -37,7 +37,7 @@ bool	sphere_parse(char *str, size_t *parse_i)
 	skip_letters_and_trailing_spaces(str, parse_i);
 	if (!vec4_parse(str, parse_i, &sphere.pos, true)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid sphere position"));
+		return (print_err("Invalid sphere position"));
 	sphere.radius /= 2;
 	if (!sphere_parse_pt2(&sphere, str, parse_i))
 		return (false);
@@ -49,7 +49,7 @@ bool	sphere_parse(char *str, size_t *parse_i)
 	{
 		if (sphere.texture)
 			mlx_delete_texture(sphere.texture);
-		return (print_err("failed to allocate memory for sphere"));
+		return (print_err("Failed to allocate memory for sphere"));
 	}
 	**ptr_to_next = sphere;
 	return (true);
@@ -60,22 +60,22 @@ static inline bool	sphere_parse_pt2(t_sphere *sphere,
 {
 	if (!flt_parse(str, parse_i, &sphere->radius)
 		|| sphere->radius < EPSILON || !is_space(str[*parse_i - 1]))
-		return (print_err("invalid sphere diameter"));
+		return (print_err("Invalid sphere diameter"));
 	sphere->radius /= 2;
 	if (!rgb_parse(str, parse_i, &sphere->color))
-		return (print_err("invalid sphere color"));
+		return (print_err("Invalid sphere color"));
 	if (!optional_pattern_name_parse(str, parse_i, &sphere->pattern)
 		&& !optional_asset_parse(str, parse_i, &sphere->texture))
-		return (print_err("invalid sphere pattern name or texture"));
+		return (print_err("Invalid sphere pattern name or texture"));
 	if (!sphere->texture && !optional_pattern_color_parse(str, parse_i,
 			sphere->pattern, &sphere->pattern_color))
-		return (print_err("invalid sphere pattern color"));
+		return (print_err("Invalid sphere pattern color"));
 	if (!is_end(str[*parse_i]))
 	{
 		if (!sphere->texture)
-			return (print_err("invalid sphere data after pattern color"));
+			return (print_err("Invalid sphere data after pattern color"));
 		mlx_delete_texture(sphere->texture);
-		return (print_err("invalid sphere data after texture"));
+		return (print_err("Invalid sphere data after texture"));
 	}
 	return (true);
 }

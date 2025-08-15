@@ -37,7 +37,7 @@ bool	plane_parse(char *str, size_t *parse_i)
 	skip_letters_and_trailing_spaces(str, parse_i);
 	if (!vec4_parse(str, parse_i, &plane.pos, true)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid plane position"));
+		return (print_err("Invalid plane position"));
 	if (!plane_parse_pt2(&plane, str, parse_i))
 		return (false);
 	ptr_to_next = &dat()->elems.planes;
@@ -48,7 +48,7 @@ bool	plane_parse(char *str, size_t *parse_i)
 	{
 		if (plane.texture)
 			mlx_delete_texture(plane.texture);
-		return (print_err("failed to allocate memory for plane"));
+		return (print_err("Failed to allocate memory for plane"));
 	}
 	**ptr_to_next = plane;
 	return (true);
@@ -60,22 +60,22 @@ static inline bool	plane_parse_pt2(
 	if (!vec4_parse(str, parse_i, &plane->orientation, false)
 		|| !is_normalized_vec(plane->orientation)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid plane orientation"));
+		return (print_err("Invalid plane orientation"));
 	if (!rgb_parse(str, parse_i, &plane->color)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid plane color"));
+		return (print_err("Invalid plane color"));
 	if (!optional_pattern_name_parse(str, parse_i, &plane->pattern)
 		&& !optional_asset_parse(str, parse_i, &plane->texture))
-		return (print_err("invalid plane pattern name or texture"));
+		return (print_err("Invalid plane pattern name or texture"));
 	if (!plane->texture && !optional_pattern_color_parse(str, parse_i,
 			plane->pattern, &plane->pattern_color))
-		return (print_err("invalid plane pattern color"));
+		return (print_err("Invalid plane pattern color"));
 	if (!is_end(str[*parse_i]))
 	{
 		if (!plane->texture)
-			return (print_err("invalid plane data after pattern color"));
+			return (print_err("Invalid plane data after pattern color"));
 		mlx_delete_texture(plane->texture);
-		return (print_err("invalid plane data after texture"));
+		return (print_err("Invalid plane data after texture"));
 	}
 	return (true);
 }

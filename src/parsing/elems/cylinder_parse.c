@@ -39,7 +39,7 @@ bool	cylinder_parse(char *str, size_t *parse_i)
 	skip_letters_and_trailing_spaces(str, parse_i);
 	if (!vec4_parse(str, parse_i, &cylinder.pos, true)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cylinder position"));
+		return (print_err("Invalid cylinder position"));
 	if (!cylinder_parse_pt2(&cylinder, str, parse_i)
 		|| !cylinder_parse_pt3(&cylinder, str, parse_i))
 		return (false);
@@ -51,7 +51,7 @@ bool	cylinder_parse(char *str, size_t *parse_i)
 	{
 		if (cylinder.texture)
 			mlx_delete_texture(cylinder.texture);
-		return (print_err("failed to allocate memory for cylinder"));
+		return (print_err("Failed to allocate memory for cylinder"));
 	}
 	**ptr_to_next = cylinder;
 	return (true);
@@ -63,16 +63,16 @@ static inline bool	cylinder_parse_pt2(t_cylinder *cylinder,
 	if (!vec4_parse(str, parse_i, &cylinder->orientation, false)
 		|| !is_normalized_vec(cylinder->orientation)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cylinder orientation"));
+		return (print_err("Invalid cylinder orientation"));
 	if (!flt_parse(str, parse_i, &cylinder->diam)
 		|| cylinder->diam < EPSILON || !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cylinder diameter"));
+		return (print_err("Invalid cylinder diameter"));
 	if (!flt_parse(str, parse_i, &cylinder->height)
 		|| cylinder->height < EPSILON || !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cylinder height"));
+		return (print_err("Invalid cylinder height"));
 	if (!rgb_parse(str, parse_i, &cylinder->color)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid cylinder color"));
+		return (print_err("Invalid cylinder color"));
 	return (true);
 }
 
@@ -81,16 +81,16 @@ static inline bool	cylinder_parse_pt3(t_cylinder *cylinder,
 {
 	if (!optional_pattern_name_parse(str, parse_i, &cylinder->pattern)
 		&& !optional_asset_parse(str, parse_i, &cylinder->texture))
-		return (print_err("invalid cylinder pattern name or texture"));
+		return (print_err("Invalid cylinder pattern name or texture"));
 	if (!cylinder->texture && !optional_pattern_color_parse(str, parse_i,
 			cylinder->pattern, &cylinder->pattern_color))
-		return (print_err("invalid cylinder pattern color"));
+		return (print_err("Invalid cylinder pattern color"));
 	if (!is_end(str[*parse_i]))
 	{
 		if (!cylinder->texture)
-			return (print_err("invalid cylinder data after pattern color"));
+			return (print_err("Invalid cylinder data after pattern color"));
 		mlx_delete_texture(cylinder->texture);
-		return (print_err("invalid cylinder data after texture"));
+		return (print_err("Invalid cylinder data after texture"));
 	}
 	return (true);
 }

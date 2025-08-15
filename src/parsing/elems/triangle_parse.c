@@ -39,13 +39,13 @@ bool	triangle_parse(char *str, size_t *parse_i)
 	skip_letters_and_trailing_spaces(str, parse_i);
 	if (!vec4_parse(str, parse_i, &triangle.pos1, true)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid triangle position 1"));
+		return (print_err("Invalid triangle position 1"));
 	if (!vec4_parse(str, parse_i, &triangle.pos2, true)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid triangle position 2"));
+		return (print_err("Invalid triangle position 2"));
 	if (!vec4_parse(str, parse_i, &triangle.pos3, true)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid triangle position 3"));
+		return (print_err("Invalid triangle position 3"));
 	if (!triangle_parse_latter_half(&triangle, str, parse_i))
 		return (false);
 	triangle.next = NULL;
@@ -54,7 +54,7 @@ bool	triangle_parse(char *str, size_t *parse_i)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_triangle));
 	if (!*ptr_to_next)
-		return (print_err("failed to allocate memory for triangle"));
+		return (print_err("Failed to allocate memory for triangle"));
 	**ptr_to_next = triangle;
 	return (true);
 }
@@ -64,16 +64,16 @@ static inline bool	triangle_parse_latter_half(t_triangle *triangle,
 {
 	if (!rgb_parse(str, parse_i, &triangle->color)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid triangle color"));
+		return (print_err("Invalid triangle color"));
 	if (invalid_pattern(str, parse_i))
 		return (print_err("incompatible pattern for triangle"));
 	if (!optional_pattern_name_parse(str, parse_i, &triangle->pattern))
-		return (print_err("invalid triangle pattern name"));
+		return (print_err("Invalid triangle pattern name"));
 	if (!optional_pattern_color_parse(str, parse_i,
 			triangle->pattern, &triangle->pattern_color))
-		return (print_err("invalid triangle pattern color"));
+		return (print_err("Invalid triangle pattern color"));
 	if (!is_end(str[*parse_i]))
-		return (print_err("invalid triangle data after pattern color"));
+		return (print_err("Invalid triangle data after pattern color"));
 	return (true);
 }
 

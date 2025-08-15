@@ -34,19 +34,19 @@ bool	ambient_light_parse(char *str, size_t *parse_i)
 	if (!flt_parse(str, parse_i, &ambient_light.brightness)
 		|| !in_flt_range(ambient_light.brightness, 0.0f, 1.0f)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid ambient light brightness"));
+		return (print_err("Invalid ambient light brightness"));
 	skip_spaces(str, parse_i);
 	if (!rgb_parse(str, parse_i, &ambient_light.color)
 		|| (!is_end(str[*parse_i]) && !is_space(str[*parse_i - 1])))
-		return (print_err("invalid ambient light color"));
+		return (print_err("Invalid ambient light color"));
 	if (!optional_asset_parse(str, parse_i, &ambient_light.sky_texture))
-		return (print_err("invalid sky texture path"));
+		return (print_err("Invalid sky texture path"));
 	skip_spaces(str, parse_i);
 	if (!is_end(str[*parse_i]))
-		return (print_err("invalid ambient light data after sky texture"));
+		return (print_err("Invalid ambient light data after sky texture"));
 	node = malloc(sizeof(t_ambient_light));
 	if (!node)
-		return (print_err("failed to allocate memory for ambient light"));
+		return (print_err("Failed to allocate memory for ambient light"));
 	*node = ambient_light;
 	dat()->elems.ambient_light = node;
 	return (true);
@@ -73,19 +73,19 @@ bool	camera_parse(char *str, size_t *parse_i)
 	skip_letters_and_trailing_spaces(str, parse_i);
 	if (!vec4_parse(str, parse_i, &camera.pos, true)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid camera position"));
+		return (print_err("Invalid camera position"));
 	if (!vec4_parse(str, parse_i, &camera.orientation, false)
 		|| !is_normalized_vec(camera.orientation)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid camera orientation"));
+		return (print_err("Invalid camera orientation"));
 	if (!uint8_parse(str, parse_i, &camera.fov)
 		|| camera.fov > 180)
-		return (print_err("invalid camera field of view"));
+		return (print_err("Invalid camera field of view"));
 	if (!is_end(str[*parse_i]))
-		return (print_err("invalid camera data after field of view"));
+		return (print_err("Invalid camera data after field of view"));
 	node = malloc(sizeof(t_camera));
 	if (!node)
-		return (print_err("failed to allocate memory for camera"));
+		return (print_err("Failed to allocate memory for camera"));
 	*node = camera;
 	dat()->elems.camera = node;
 	return (true);
@@ -112,22 +112,22 @@ bool	light_parse(char *str, size_t *parse_i)
 	skip_letters_and_trailing_spaces(str, parse_i);
 	if (!vec4_parse(str, parse_i, &light.pos, true)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid light position"));
+		return (print_err("Invalid light position"));
 	if (!flt_parse(str, parse_i, &light.brightness)
 		|| !in_flt_range(light.brightness, 0.f, 1.f)
 		|| !is_space(str[*parse_i - 1]))
-		return (print_err("invalid light brightness"));
+		return (print_err("Invalid light brightness"));
 	if (!rgb_parse(str, parse_i, &light.color))
-		return (print_err("invalid light color"));
+		return (print_err("Invalid light color"));
 	if (!is_end(str[*parse_i]))
-		return (print_err("invalid light data after color"));
+		return (print_err("Invalid light data after color"));
 	light.next = NULL;
 	ptr_to_next = &dat()->elems.lights;
 	while (*ptr_to_next)
 		ptr_to_next = &(*ptr_to_next)->next;
 	*ptr_to_next = malloc(sizeof(t_light));
 	if (!*ptr_to_next)
-		return (print_err("failed to allocate memory for light"));
+		return (print_err("Failed to allocate memory for light"));
 	**ptr_to_next = light;
 	return (true);
 }
