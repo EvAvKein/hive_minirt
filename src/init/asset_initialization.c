@@ -12,20 +12,7 @@
 
 #include "minirt.h"
 
-static bool	sky_asset_init_successful(void);
-static bool	sphere_asset_init_successful(void);
-static bool	plane_asset_init_successful(void);
-static bool	cylinder_asset_init_successful(void);
-
-bool	mlx_asset_init_successful(void)
-{
-	return (sky_asset_init_successful()
-		&& sphere_asset_init_successful()
-		&& plane_asset_init_successful()
-		&& cylinder_asset_init_successful());
-}
-
-static bool	sky_asset_init_successful(void)
+bool	sky_asset_init_successful(void)
 {
 	if (dat()->elems.ambient_light->sky_texture)
 	{
@@ -39,7 +26,7 @@ static bool	sky_asset_init_successful(void)
 	return (true);
 }
 
-static bool	sphere_asset_init_successful(void)
+bool	sphere_asset_init_successful(void)
 {
 	t_sphere	*sphere;
 
@@ -61,7 +48,7 @@ static bool	sphere_asset_init_successful(void)
 	return (true);
 }
 
-static bool	plane_asset_init_successful(void)
+bool	plane_asset_init_successful(void)
 {
 	t_plane	*plane;
 
@@ -83,7 +70,7 @@ static bool	plane_asset_init_successful(void)
 	return (true);
 }
 
-static bool	cylinder_asset_init_successful(void)
+bool	cylinder_asset_init_successful(void)
 {
 	t_cylinder	*cylinder;
 
@@ -102,6 +89,29 @@ static bool	cylinder_asset_init_successful(void)
 			return (print_err("Failed to convert cylinder texture"
 					"to MLX image"));
 		cylinder = cylinder->next;
+	}
+	return (true);
+}
+
+bool	cone_asset_init_successful(void)
+{
+	t_cone	*cone;
+
+	cone = dat()->elems.cones;
+	while (cone)
+	{
+		if (!cone->texture)
+		{
+			cone = cone->next;
+			continue ;
+		}
+		cone->image = mlx_texture_to_image(dat()->mlx, cone->texture);
+		mlx_delete_texture(cone->texture);
+		cone->texture = NULL;
+		if (!cone->image)
+			return (print_err("Failed to convert cone texture"
+					"to MLX image"));
+		cone = cone->next;
 	}
 	return (true);
 }

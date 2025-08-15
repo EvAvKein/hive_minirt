@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:11:06 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/13 13:01:09 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/15 10:02:29 by ekeinan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	select_obj_hook(mouse_key_t key, action_t action,
 	{
 		dat()->selected_obj = ray.closest_hit;
 		ob = match_selected_object();
-		printf("Object type:			%d\n", ray.closest_hit.obj_type);
+		printf("Object type:		" CLR_BOLD "%s" CLR_RESET "\n",
+			obj_type_to_str(ray.closest_hit.obj_type));
 		ft_putstr_fd("Object position:	", STDOUT_FILENO);
 		print_vec(ob.pos);
 		ft_putstr_fd("Object orientation:	", STDOUT_FILENO);

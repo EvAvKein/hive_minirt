@@ -18,7 +18,7 @@
 # include <math.h>			// pow(), fabs()
 # include <float.h>			// FLT_MAX & DBL_MAX
 # include <pthread.h>		// pthread_create()
-# include <stdio.h>			// fflush TODO: Remove before eval
+# include <stdio.h>			// printf
 # include "libft_plus.h"
 # include "MLX42.h"
 # include "settings.h"
@@ -26,7 +26,7 @@
 # define RADIANS_PER_DEGREE	0.0174532925
 # define DEGREES_PER_RADIAN	57.2957795
 
-typedef float	t_flt;
+typedef double	t_flt;
 
 typedef enum e_error
 {
@@ -264,7 +264,7 @@ t_flt_color		let_there_be_light(t_phong_helper *p);
 
 typedef enum e_obj_type
 {
-	UNKNOWN,
+	UNKNOWN = 0,
 	CAMERA,
 	AMBIENT_LIGHT,
 	LIGHT,
@@ -273,6 +273,7 @@ typedef enum e_obj_type
 	CYLINDER,
 	CONE,
 	TRIANGLE,
+	TYPES_AMOUNT
 }	t_obj_type;
 
 typedef struct s_obj
@@ -672,9 +673,14 @@ void			init_triangles(t_triangle *cyl);
 void			setup_pixel_grid(size_t width, size_t height);
 t_ray			ray_for_pixel(size_t i);
 void			init_object_data(void);
+bool			mlx_asset_init_successful(void);
 
 // asset_initialization.c
-bool			mlx_asset_init_successful(void);
+bool			sky_asset_init_successful(void);
+bool			sphere_asset_init_successful(void);
+bool			plane_asset_init_successful(void);
+bool			cylinder_asset_init_successful(void);
+bool			cone_asset_init_successful(void);
 
 // objects/transform_initialization.c
 void			init_sphere_transform(t_sphere *sp);
@@ -733,6 +739,12 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 
 // utils/utils_02.c
 t_8bit_color	normal_to_color(t_vec4 normal);
+char			*obj_type_to_str(t_obj_type type);
+
+/* -------------------------------------------------------------- COLOR CODES */
+
+# define CLR_RESET			"\e[0m"
+# define CLR_BOLD			"\e[1;37m"
 
 /* -------------------------------------------------------- IMAGE FILE SAVING */
 

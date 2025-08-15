@@ -30,3 +30,15 @@ t_8bit_color	normal_to_color(t_vec4 normal)
 	col.a = 0xff;
 	return (col);
 }
+
+/**
+ * @returns The string name of the provided type
+ */
+char	*obj_type_to_str(t_obj_type type)
+{
+	static char	*names[TYPES_AMOUNT] = {"Unknown",
+		"Camera", "Ambient Light", "Light",
+		"Sphere", "Plane", "Cylinder", "Cone", "Triangle"};
+
+	return (names[type]);
+}

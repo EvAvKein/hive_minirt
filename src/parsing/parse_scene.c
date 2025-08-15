@@ -24,7 +24,7 @@ static bool	object_parse(char *line, size_t *i)
 		return (cone_parse(line, i));
 	if (!ft_strncmp(&line[*i], "tr", 2) && is_space(line[*i + 2]))
 		return (triangle_parse(line, i));
-	print_err("invalid object name");
+	print_err("Invalid object name");
 	return (false);
 }
 
@@ -48,13 +48,13 @@ static bool	process_line(char *line, size_t *i)
 	if (line[*i] == 'A' && is_space(line[*i + 1]))
 	{
 		if (dat()->elems.ambient_light)
-			return (print_err("excess ambient light"));
+			return (print_err("Excess ambient light"));
 		return (ambient_light_parse(line, i));
 	}
 	if (line[*i] == 'C' && is_space(line[*i + 1]))
 	{
 		if (dat()->elems.camera)
-			return (print_err("excess camera"));
+			return (print_err("Excess camera"));
 		return (camera_parse(line, i));
 	}
 	if (line[*i] == 'L' && is_space(line[*i + 1]))

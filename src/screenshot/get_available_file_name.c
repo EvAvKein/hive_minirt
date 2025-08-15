@@ -20,12 +20,12 @@ static void	increment_postfixed_num(char *buffer);
  */
 char	*get_available_file_name(void)
 {
-	char	name[40];
+	char	name[48];
 	size_t	i;
 	char	*name_on_heap;
 
-	ft_bzero(name, 40);
-	ft_strlcpy(name, "miniRT_screenshot_0.bmp", 24);
+	ft_bzero(name, 48);
+	ft_strlcpy(name, "screenshots/miniRT_screenshot_0.bmp", 36);
 	while (!access(name, F_OK))
 	{
 		i = ft_strlen(name) - 4;
