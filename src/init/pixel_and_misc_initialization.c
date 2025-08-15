@@ -77,3 +77,12 @@ bool	mlx_asset_init_successful(void)
 		&& cylinder_asset_init_successful()
 		&& cone_asset_init_successful());
 }
+
+bool	mlx_asset_init_successful(void)
+{
+	return (sky_asset_init_successful()
+		&& sphere_asset_init_successful()
+		&& plane_asset_init_successful()
+		&& cylinder_asset_init_successful()
+		&& cone_asset_init_successful());
+}
