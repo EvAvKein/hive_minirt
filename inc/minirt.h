@@ -752,7 +752,6 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 t_8bit_color	normal_to_color(t_vec4 normal);
 char			*obj_type_to_str(t_obj_type type);
 
-
 /* -------------------------------------------------------------- COLOR CODES */
 
 # define CLR_RESET			"\e[0m"
