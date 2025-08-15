@@ -62,3 +62,4 @@ dkms.conf
 MLX42
 miniRT
 *.bmp
+!*/.defrosted.bmp
