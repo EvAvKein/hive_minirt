@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 13:31:26 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/15 13:33:33 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/15 14:31:28 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	reset_camera(void)
 	dat()->pause_threads = true;
 	cam->pos = cam->initial_pos;
 	cam->orientation = cam->initial_orientation;
+	cam->fov = cam->initial_fov;
 	init_camera_transform(cam);
+	setup_pixel_grid(dat()->img->width, dat()->img->height);
+	ft_putendl_fd("Reset camera", STDOUT_FILENO);
 	reset_rendering_threads();
 }
 
@@ -42,6 +45,7 @@ void	reset_object(void)
 		init_plane_transform((t_plane *)dat()->selected_obj.obj);
 	else if (ob.type == CONE)
 		init_cone_transform((t_cone *)dat()->selected_obj.obj);
+	printf("Reset %s\n", obj_type_to_str(ob.type));
 	reset_rendering_threads();
 }
 

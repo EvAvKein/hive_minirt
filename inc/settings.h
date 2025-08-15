@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:09:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 15:17:09 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/15 13:58:28 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,11 @@
 # endif
 
 # ifndef SCALE_DELTA
-#  define SCALE_DELTA		1.1
+#  define SCALE_DELTA		1.015
 # endif
 
 # ifndef SCALE_MULT
-#  define SCALE_MULT		2
+#  define SCALE_MULT		1.1
 # endif
 
 // Window closing

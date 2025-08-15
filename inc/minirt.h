@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/15 13:34:31 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/15 14:22:15 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,6 +313,7 @@ typedef struct s_camera
 	t_vec4	pos;
 	t_vec4	orientation;
 	uint8_t	fov;
+	uint8_t	initial_fov;
 	t_m4x4	transform;
 	t_m4x4	inverse;
 }			t_camera;
@@ -725,6 +726,7 @@ void			handle_object_translation_input(void);
 
 // ui/object_scaling_input.c
 void			handle_object_scaling_input(void);
+void			print_object_scale(t_obj ob);
 
 // ui/resetting.c
 void			reset_camera(void);

@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:11:06 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/15 10:02:29 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/15 14:17:21 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void	select_obj_hook(mouse_key_t key, action_t action,
 		print_vec(ob.pos);
 		ft_putstr_fd("Object orientation:	", STDOUT_FILENO);
 		print_vec(ob.orie);
+		print_object_scale(ob);
 	}
 }
