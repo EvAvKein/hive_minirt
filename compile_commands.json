@@ -65,24 +65,6 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/parsing/elems/parse_cam_and_lights.c",
-   "-o",
-   "obj/parsing/elems/parse_cam_and_lights.o"
-  ],
-  "file": "src/parsing/elems/parse_cam_and_lights.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
    "src/parsing/parse_scene.c",
    "-o",
    "obj/parsing/parse_scene.o"
@@ -124,42 +106,6 @@
    "obj/parsing/parse_value.o"
   ],
   "file": "src/parsing/parse_value.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/parsing/utils.c",
-   "-o",
-   "obj/parsing/utils.o"
-  ],
-  "file": "src/parsing/utils.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/image_to_file.c",
-   "-o",
-   "obj/image_to_file.o"
-  ],
-  "file": "src/image_to_file.c"
  },
  {
   "directory": "/home/jvarila/Repos/minirt",
@@ -916,5 +862,257 @@
    "obj/threading/threading_02.o"
   ],
   "file": "src/threading/threading_02.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/screenshot/image_to_file.c",
+   "-o",
+   "obj/screenshot/image_to_file.o"
+  ],
+  "file": "src/screenshot/image_to_file.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/screenshot/get_available_file_name.c",
+   "-o",
+   "obj/screenshot/get_available_file_name.o"
+  ],
+  "file": "src/screenshot/get_available_file_name.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/ui/hooks_03.c",
+   "-o",
+   "obj/ui/hooks_03.o"
+  ],
+  "file": "src/ui/hooks_03.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/ui/object_rotation_input.c",
+   "-o",
+   "obj/ui/object_rotation_input.o"
+  ],
+  "file": "src/ui/object_rotation_input.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/ui/object_translation_input.c",
+   "-o",
+   "obj/ui/object_translation_input.o"
+  ],
+  "file": "src/ui/object_translation_input.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/init/cone_initialization.c",
+   "-o",
+   "obj/init/cone_initialization.o"
+  ],
+  "file": "src/init/cone_initialization.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/parsing/elems/cam_and_lights_parse.c",
+   "-o",
+   "obj/parsing/elems/cam_and_lights_parse.o"
+  ],
+  "file": "src/parsing/elems/cam_and_lights_parse.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/parsing/elems/cone_parse.c",
+   "-o",
+   "obj/parsing/elems/cone_parse.o"
+  ],
+  "file": "src/parsing/elems/cone_parse.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/parsing/utils/range_checks.c",
+   "-o",
+   "obj/parsing/utils/range_checks.o"
+  ],
+  "file": "src/parsing/utils/range_checks.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/parsing/utils/char_checks_and_skips.c",
+   "-o",
+   "obj/parsing/utils/char_checks_and_skips.o"
+  ],
+  "file": "src/parsing/utils/char_checks_and_skips.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/rays/ray_at_cone.c",
+   "-o",
+   "obj/rays/ray_at_cone.o"
+  ],
+  "file": "src/rays/ray_at_cone.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/objects/cone_intersection.c",
+   "-o",
+   "obj/objects/cone_intersection.o"
+  ],
+  "file": "src/objects/cone_intersection.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/ui/object_scaling_input.c",
+   "-o",
+   "obj/ui/object_scaling_input.o"
+  ],
+  "file": "src/ui/object_scaling_input.c"
+ },
+ {
+  "directory": "/home/jvarila/Repos/minirt",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-Iinc",
+   "-Ilibft_plus",
+   "-Ilibft_plus/include",
+   "-IMLX42/include/MLX42",
+   "-c",
+   "src/ui/resetting.c",
+   "-o",
+   "obj/ui/resetting.o"
+  ],
+  "file": "src/ui/resetting.c"
  }
 ]

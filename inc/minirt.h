@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:52:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/13 09:56:17 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/15 13:34:31 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 
 # include <limits.h>		// LLONG_MAX
 # include <fcntl.h>			// open()
-# include <math.h>			// pow(), fabs()
-# include <float.h>			// FLT_MAX & DBL_MAX
-# include <pthread.h>		// pthread_create()
-# include <stdio.h>			// fflush TODO: Remove before eval
+# include <math.h>			// pow(), fabs(), M_PI...
+# include <pthread.h>		// pthread_create()...
+# include <stdio.h>			// printf()
 # include "libft_plus.h"
 # include "MLX42.h"
 # include "settings.h"
@@ -280,6 +279,8 @@ typedef struct s_obj
 	t_obj_type	type;
 	t_vec4		pos;
 	t_vec4		orie;
+	t_vec4		pos0;
+	t_vec4		orie0;
 	t_m4x4		transf;
 	t_m4x4		inv;
 	t_flt_color	col;
@@ -388,6 +389,8 @@ typedef struct s_cylinder
 
 typedef struct s_cone
 {
+	t_vec4			initial_pos;
+	t_vec4			initial_orientation;
 	t_vec4			pos;
 	t_vec4			orientation;
 	t_flt			diam;
@@ -713,6 +716,14 @@ void			update_selected_object(t_obj ob);
 
 // ui/object_translation_input.c
 void			handle_object_translation_input(void);
+
+// ui/object_scaling_input.c
+void			handle_object_scaling_input(void);
+
+// ui/resetting.c
+void			reset_camera(void);
+void			reset_object(void);
+void			reset_scene(void);
 
 /* ---------------------------------------------------------------- THREADING */
 

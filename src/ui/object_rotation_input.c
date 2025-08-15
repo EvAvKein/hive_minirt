@@ -41,52 +41,56 @@ void	handle_object_rotation_input(void)
 t_obj	match_selected_object(void)
 {
 	const t_ray_x_obj	selected = dat()->selected_obj;
-	t_obj				ob;
 
 	if (selected.obj_type == SPHERE)
-	{
-		ob.type = SPHERE;
-		ob.pos = ((t_sphere *)selected.obj)->pos;
-		ob.orie = ((t_sphere *)selected.obj)->orientation;
-		ob.transf = ((t_sphere *)selected.obj)->transform;
-		ob.inv = ((t_sphere *)selected.obj)->inverse;
-	}
-	else if (selected.obj_type == PLANE)
-	{
-		ob.type = PLANE;
-		ob.pos = ((t_plane *)selected.obj)->pos;
-		ob.orie = ((t_plane *)selected.obj)->orientation;
-		ob.transf = ((t_plane *)selected.obj)->transform;
-		ob.inv = ((t_plane *)selected.obj)->inverse;
-	}
+		return ((t_obj){
+			.type = SPHERE,
+			.pos = ((t_sphere *)selected.obj)->pos,
+			.orie = ((t_sphere *)selected.obj)->orientation,
+			.pos0 = ((t_sphere *)selected.obj)->initial_pos,
+			.orie0 = ((t_sphere *)selected.obj)->initial_orientation,
+			.transf = ((t_sphere *)selected.obj)->transform,
+			.inv = ((t_sphere *)selected.obj)->inverse
+		});
+	if (selected.obj_type == PLANE)
+		return ((t_obj){
+			.type = PLANE,
+			.pos = ((t_plane *)selected.obj)->pos,
+			.orie = ((t_plane *)selected.obj)->orientation,
+			.pos0 = ((t_plane *)selected.obj)->initial_pos,
+			.orie0 = ((t_plane *)selected.obj)->initial_orientation,
+			.transf = ((t_plane *)selected.obj)->transform,
+			.inv = ((t_plane *)selected.obj)->inverse
+		});
 	else
 		return (match_selected_object2());
-	return (ob);
 }
 
 static t_obj	match_selected_object2(void)
 {
 	const t_ray_x_obj	selected = dat()->selected_obj;
-	t_obj				ob;
 
-	ob = (t_obj){};
 	if (selected.obj_type == CYLINDER)
-	{
-		ob.type = CYLINDER;
-		ob.pos = ((t_cylinder *)selected.obj)->pos;
-		ob.orie = ((t_cylinder *)selected.obj)->orientation;
-		ob.transf = ((t_cylinder *)selected.obj)->transform;
-		ob.inv = ((t_cylinder *)selected.obj)->inverse;
-	}
-	else if (selected.obj_type == CONE)
-	{
-		ob.type = CONE;
-		ob.pos = ((t_cone *)selected.obj)->pos;
-		ob.orie = ((t_cone *)selected.obj)->orientation;
-		ob.transf = ((t_cone *)selected.obj)->transform;
-		ob.inv = ((t_cone *)selected.obj)->inverse;
-	}
-	return (ob);
+		return ((t_obj){
+			.type = CYLINDER,
+			.pos = ((t_cylinder *)selected.obj)->pos,
+			.orie = ((t_cylinder *)selected.obj)->orientation,
+			.pos0 = ((t_cylinder *)selected.obj)->initial_pos,
+			.orie0 = ((t_cylinder *)selected.obj)->initial_orientation,
+			.transf = ((t_cylinder *)selected.obj)->transform,
+			.inv = ((t_cylinder *)selected.obj)->inverse
+		});
+	if (selected.obj_type == CONE)
+		return ((t_obj){
+			.type = CONE,
+			.pos = ((t_cone *)selected.obj)->pos,
+			.orie = ((t_cone *)selected.obj)->orientation,
+			.pos0 = ((t_cone *)selected.obj)->initial_pos,
+			.orie0 = ((t_cone *)selected.obj)->initial_orientation,
+			.transf = ((t_cone *)selected.obj)->transform,
+			.inv = ((t_cone *)selected.obj)->inverse
+		});
+	return ((t_obj){});
 }
 
 static void		update_selected_object2(t_obj ob);
