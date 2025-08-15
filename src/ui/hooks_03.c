@@ -42,7 +42,7 @@ void	select_obj_hook(mouse_key_t key, action_t action,
 	{
 		dat()->selected_obj = ray.closest_hit;
 		ob = match_selected_object();
-		printf("Object type:		%s\n",
+		printf("Object type:		" CLR_BOLD "%s" CLR_RESET "\n",
 			obj_type_to_str(ray.closest_hit.obj_type));
 		ft_putstr_fd("Object position:	", STDOUT_FILENO);
 		print_vec(ob.pos);
