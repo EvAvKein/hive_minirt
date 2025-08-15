@@ -109,7 +109,7 @@ all: $(NAME)
 $(NAME): $(OBJ) $(LIBFT_LIB) $(MLX_LIB)
 	$(CC) $(COMPILE_FLAGS) $^ $(MLX_FLAGS) -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) $(MLX_LIB)
 	@mkdir -p $(@D)
 	$(CC) $(COMPILE_FLAGS) -c $< -o $@
 
