@@ -120,6 +120,9 @@ $(MLX_LIB):
 	fi;
 	@cd $(MLX_DIR) && cmake -B build && cmake --build build -j4
 # ---------------------------------------------------------------------------- #
+
+bonus: all
+
 clean:
 	@make -C $(LIBFT_DIR) $@ --no-print-directory
 	rm -rf $(OBJ_DIR)
