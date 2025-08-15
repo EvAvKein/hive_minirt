@@ -264,7 +264,7 @@ t_flt_color		let_there_be_light(t_phong_helper *p);
 
 typedef enum e_obj_type
 {
-	UNKNOWN,
+	UNKNOWN = 0,
 	CAMERA,
 	AMBIENT_LIGHT,
 	LIGHT,
@@ -273,6 +273,7 @@ typedef enum e_obj_type
 	CYLINDER,
 	CONE,
 	TRIANGLE,
+	TYPES_AMOUNT
 }	t_obj_type;
 
 typedef struct s_obj
@@ -738,6 +739,7 @@ bool			in_front_of_camera(t_camera cam, t_vec4 vec);
 
 // utils/utils_02.c
 t_8bit_color	normal_to_color(t_vec4 normal);
+char			*obj_type_to_str(t_obj_type type);
 
 /* -------------------------------------------------------- IMAGE FILE SAVING */
 
