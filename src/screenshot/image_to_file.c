@@ -118,7 +118,7 @@ void	image_to_file(void)
 	if (fd < 0)
 	{
 		free(file_name);
-		print_err("Cannot save image to file - cannot create/access file");
+		print_err("Unable to access screenshots directory or create file");
 		return ;
 	}
 	if (write_header_to_file(fd, dat()->img->width, dat()->img->height)
