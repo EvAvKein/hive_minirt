@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 11:10:57 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/14 17:52:56 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/15 14:24:51 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,28 @@ t_ray	ray_for_pixel(size_t i)
 
 void	init_object_data(void)
 {
-	init_lights(dat()->elems.lights);
-	init_spheres(dat()->elems.spheres);
-	init_planes(dat()->elems.planes);
-	init_cylinders(dat()->elems.cylinders);
-	init_cones(dat()->elems.cones);
-	init_triangles(dat()->elems.triangles);
-	init_camera_transform(dat()->elems.camera);
-	dat()->elems.camera->initial_pos = dat()->elems.camera->pos;
-	dat()->elems.camera->initial_orientation = dat()->elems.camera->orientation;
+	t_elems *const	elems = &dat()->elems;
+	t_camera *const	cam = elems->camera;
+
+	init_lights(elems->lights);
+	init_spheres(elems->spheres);
+	init_planes(elems->planes);
+	init_cylinders(elems->cylinders);
+	init_cones(elems->cones);
+	init_triangles(elems->triangles);
+	init_camera_transform(cam);
+	cam->initial_pos = cam->pos;
+	cam->initial_orientation = cam->orientation;
+	cam->initial_fov = cam->fov;
+}
+
+bool	mlx_asset_init_successful(void)
+{
+	return (sky_asset_init_successful()
+		&& sphere_asset_init_successful()
+		&& plane_asset_init_successful()
+		&& cylinder_asset_init_successful()
+		&& cone_asset_init_successful());
 }
 
 bool	mlx_asset_init_successful(void)

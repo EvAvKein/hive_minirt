@@ -6,7 +6,7 @@
 /*   By: jvarila <jvarila@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 17:33:47 by jvarila           #+#    #+#             */
-/*   Updated: 2025/08/11 17:54:06 by ekeinan          ###   ########.fr       */
+/*   Updated: 2025/08/15 13:36:28 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,15 @@ void	handle_camera_fov_input(void)
 		fov_delta = -FOV_DELTA;
 	if (mlx_is_key_down(dat()->mlx, KEYBIND_FAST))
 		fov_delta *= 2;
-	if (fov_delta != 0
-		&& dat()->elems.camera->fov + fov_delta <= 180
-		&& dat()->elems.camera->fov + fov_delta >= 1)
-	{
-		dat()->pause_threads = true;
-		dat()->elems.camera->fov += fov_delta;
-		setup_pixel_grid(dat()->img->width, dat()->img->height);
-		printf("Camera FOV:		%u\n", dat()->elems.camera->fov);
-		reset_rendering_threads();
-	}
+	if (fov_delta == 0
+		|| dat()->elems.camera->fov + fov_delta > 180
+		|| dat()->elems.camera->fov + fov_delta < 1)
+		return ;
+	dat()->pause_threads = true;
+	dat()->elems.camera->fov += fov_delta;
+	setup_pixel_grid(dat()->img->width, dat()->img->height);
+	printf("Camera FOV:		%u\n", dat()->elems.camera->fov);
+	reset_rendering_threads();
 }
 
 /**
@@ -48,7 +47,7 @@ void	close_hook(void *param)
 
 	data->stop_threads = true;
 	while (data->active_threads > 0)
-		usleep(TICK);
+		usleep(TICK * 10);
 }
 
 /**
@@ -57,29 +56,30 @@ void	close_hook(void *param)
 void	exit_and_screenshot_and_capping_hook(
 			mlx_key_data_t key_data, void *param)
 {
-	t_data *const	data = param;
-
+	(void)param;
 	(void)key_data;
-	if (mlx_is_key_down(data->mlx, KEYBIND_QUIT))
+	if (mlx_is_key_down(dat()->mlx, KEYBIND_QUIT))
 	{
-		data->stop_threads = true;
-		while (data->active_threads > 0)
-			usleep(TICK);
-		mlx_terminate(dat()->mlx);
-		free_data();
-		exit(EXIT_SUCCESS);
+		dat()->stop_threads = true;
+		while (dat()->active_threads > 0)
+			usleep(TICK * 10);
+		mlx_close_window(dat()->mlx);
 	}
-	if (mlx_is_key_down(data->mlx, KEYBIND_NO_CAP))
+	else if (mlx_is_key_down(dat()->mlx, KEYBIND_NO_CAP))
 	{
 		dat()->no_cap = !dat()->no_cap;
 		reset_rendering_threads();
-		return ;
 	}
-	if (mlx_is_key_down(data->mlx, KEYBIND_SAVE))
-	{
+	else if (mlx_is_key_down(dat()->mlx, KEYBIND_SAVE))
 		image_to_file();
-		return ;
-	}
+	else if (mlx_is_key_down(dat()->mlx, KEYBIND_RESET)
+		&& !mlx_is_key_down(dat()->mlx, KEYBIND_OBJ))
+		reset_camera();
+	else if (mlx_is_key_down(dat()->mlx, KEYBIND_RESET)
+		&& !mlx_is_key_down(dat()->mlx, KEYBIND_FAST))
+		reset_object();
+	else if (mlx_is_key_down(dat()->mlx, KEYBIND_RESET))
+		reset_scene();
 }
 
 /**

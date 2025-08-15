@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:11:06 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/13 17:28:32 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/15 13:29:41 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	every_frame(void *param)
 	{
 		handle_object_rotation_input();
 		handle_object_translation_input();
+		handle_object_scaling_input();
 	}
 	if (dat()->resized)
 	{

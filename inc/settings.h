@@ -6,7 +6,7 @@
 /*   By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:09:35 by ekeinan           #+#    #+#             */
-/*   Updated: 2025/08/08 15:17:09 by jvarila          ###   ########.fr       */
+/*   Updated: 2025/08/15 13:58:28 by jvarila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,15 +120,32 @@
 
 // FOV changing
 # ifndef KEYBIND_FOV_INC
-#  define KEYBIND_FOV_INC	MLX_KEY_R
+#  define KEYBIND_FOV_INC	MLX_KEY_F
 # endif
 
 # ifndef KEYBIND_FOV_DEC
-#  define KEYBIND_FOV_DEC	MLX_KEY_F
+#  define KEYBIND_FOV_DEC	MLX_KEY_R
 # endif
 
 # ifndef FOV_DELTA
 #  define FOV_DELTA			1
+# endif
+
+// Object scaling
+# ifndef KEYBIND_SCALE_INC
+#  define KEYBIND_SCALE_INC	MLX_KEY_R
+# endif
+
+# ifndef KEYBIND_SCALE_DEC
+#  define KEYBIND_SCALE_DEC	MLX_KEY_F
+# endif
+
+# ifndef SCALE_DELTA
+#  define SCALE_DELTA		1.015
+# endif
+
+# ifndef SCALE_MULT
+#  define SCALE_MULT		1.1
 # endif
 
 // Window closing
@@ -144,6 +161,11 @@
 // Screenshot
 # ifndef KEYBIND_SAVE
 #  define KEYBIND_SAVE		MLX_KEY_SPACE
+# endif
+
+// Reset
+# ifndef KEYBIND_RESET
+#  define KEYBIND_RESET		MLX_KEY_P
 # endif
 
 #endif

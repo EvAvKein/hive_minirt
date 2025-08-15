@@ -6,7 +6,7 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/08/13 09:57:42 by jvarila          ###   ########.fr        #
+#    Updated: 2025/08/15 13:34:46 by jvarila          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,8 @@ SRC		:=	main.c									\
 			ui/hooks_03.c							\
 			ui/object_rotation_input.c				\
 			ui/object_translation_input.c			\
+			ui/object_scaling_input.c				\
+			ui/resetting.c							\
 			init/obj_initialization.c				\
 			init/mlx_initialization.c				\
 			init/asset_initialization.c				\

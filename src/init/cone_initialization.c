@@ -16,6 +16,8 @@ void	init_cones(t_cone *cn)
 {
 	while (cn)
 	{
+		cn->initial_pos = cn->pos;
+		cn->initial_orientation = cn->orientation;
 		init_cone_transform(cn);
 		cn->material = default_material();
 		cn->material.color = point(cn->color.r, cn->color.g, cn->color.b);
