@@ -34,7 +34,6 @@ bool	free_data(void)
 	i = -1;
 	while (++i < THREADS)
 		pthread_join(dat()->threads[i], NULL);
-	pthread_join(dat()->monitor_thread, NULL);
 	pthread_mutex_destroy(&dat()->lock);
 	return (true);
 }

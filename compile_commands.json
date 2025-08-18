@@ -857,9 +857,9 @@
    "-Ilibft_plus/include",
    "-IMLX42/include/MLX42",
    "-c",
-   "src/threading/threading_02.c",
+   "src/screenshot/image_to_file.c",
    "-o",
-   "obj/threading/threading_02.o"
+   "obj/screenshot/image_to_file.o"
   ],
   "file": "src/threading/threading_02.c"
  },

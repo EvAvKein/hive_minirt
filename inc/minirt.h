@@ -494,7 +494,6 @@ typedef struct s_data
 	_Atomic bool	thread_can_proceed[THREADS];
 	_Atomic bool	no_cap;
 	pthread_t		threads[THREADS];
-	pthread_t		monitor_thread;
 	pthread_mutex_t	lock;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
@@ -737,9 +736,6 @@ void			reset_scene(void);
 
 // threading/threading_01.c
 bool			run_threads(void);
-
-// threading/threading_02.c
-void			*monitor_thread(void *param);
 
 /* -------------------------------------------------------------------- UTILS */
 

@@ -43,10 +43,11 @@ void	handle_camera_fov_input(void)
  */
 void	close_hook(void *param)
 {
-	(void)param;
-	dat()->stop_threads = true;
-	while (dat()->active_threads > 0)
-		usleep(TICK);
+	t_data *const	data = param;
+
+	data->stop_threads = true;
+	while (data->active_threads > 0)
+		usleep(TICK * 10);
 }
 
 /**

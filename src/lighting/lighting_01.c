@@ -99,7 +99,7 @@ static void	calculate_specular(t_phong_helper *p)
 {
 	t_flt	f;
 
-	p->from_light = scaled_vec(p->to_light, -1);
+	p->from_light = opposite_vec(p->to_light);
 	p->ref = reflection(p->from_light, p->normal);
 	p->camera_reflection_alignment = dot(p->to_cam, p->ref);
 	if (p->camera_reflection_alignment < 0)

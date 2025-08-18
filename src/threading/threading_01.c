@@ -38,7 +38,6 @@ bool	run_threads(void)
 			pthread_mutex_unlock(&dat()->lock);
 			while (i--)
 				pthread_join(dat()->threads[i], NULL);
-			pthread_join(dat()->monitor_thread, NULL);
 			return (print_err("A rendering thread failed to create"));
 		}
 	}
@@ -133,7 +132,6 @@ static t_flt_color	sample_ray(size_t i)
 		col = get_sky_color(ray, i);
 	else
 	{
-		p.light = dat()->elems.lights;
 		p.ray = &ray;
 		p.pos = ray_position(ray, ray.closest_hit.t);
 		p.to_cam = opposite_vec(ray.dir);
