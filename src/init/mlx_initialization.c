@@ -45,6 +45,7 @@ static bool	mlx_init_successful(void)
 	dat()->mlx = mlx_init(RES_X, RES_Y, "miniRT", true);
 	if (dat()->mlx == NULL)
 		return (set_error_return_false(ERROR_MLX_INIT));
+	mlx_set_window_limit(dat()->mlx, 64, 64, 7680, 4320);
 	dat()->img = mlx_new_image(dat()->mlx, RES_X, RES_Y);
 	if (dat()->img == NULL)
 	{
