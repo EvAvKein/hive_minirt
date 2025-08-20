@@ -30,6 +30,8 @@ void	handle_object_scaling_input(void)
 		return ;
 	dat()->pause_threads = true;
 	ob = match_selected_object();
+	if (ob.type == UNKNOWN)
+		return ;
 	ob.transf = mult_m4x4(translation_m4x4(opposite_vec(ob.pos)), ob.transf);
 	ob.transf = mult_m4x4(scaling_m4x4(scaling_factors), ob.transf);
 	ob.transf = mult_m4x4(translation_m4x4(ob.pos), ob.transf);
