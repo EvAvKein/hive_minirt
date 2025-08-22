@@ -52,13 +52,3 @@ static void	setup_hooks(void)
 	mlx_cursor_hook(dat()->mlx, mouse_pos_hook, dat());
 	mlx_mouse_hook(dat()->mlx, select_obj_hook, dat());
 }
-
-static void	setup_hooks(void)
-{
-	mlx_close_hook(dat()->mlx, close_hook, dat());
-	mlx_key_hook(dat()->mlx, exit_and_screenshot_and_capping_hook, dat());
-	mlx_loop_hook(dat()->mlx, every_frame, dat());
-	mlx_resize_hook(dat()->mlx, resize_hook, dat());
-	mlx_cursor_hook(dat()->mlx, mouse_pos_hook, dat());
-	mlx_mouse_hook(dat()->mlx, select_obj_hook, dat());
-}
