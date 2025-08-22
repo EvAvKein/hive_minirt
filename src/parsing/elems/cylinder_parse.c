@@ -71,7 +71,7 @@ static inline bool	cylinder_parse_pt2(t_cylinder *cylinder,
 		|| cylinder->height < EPSILON || !is_space(str[*parse_i - 1]))
 		return (print_err("Invalid cylinder height"));
 	if (!rgb_parse(str, parse_i, &cylinder->color)
-		|| !is_space(str[*parse_i - 1]))
+		|| (!is_end(str[*parse_i]) && !is_space(str[*parse_i - 1])))
 		return (print_err("Invalid cylinder color"));
 	return (true);
 }

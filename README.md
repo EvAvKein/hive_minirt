@@ -87,4 +87,5 @@ Recommended scenes:
 
 - [Eve Keinan](https://github.com/EvAvKein)
 - [Johnny Varila](https://github.com/zoni527)
-
+- 360 textures: [PolyHaven](https://polyhaven.com/hdris)
+- Portrait photos: [Uliana Nadorozhna](https://www.instagram.com/nadorozhna_uliana/)

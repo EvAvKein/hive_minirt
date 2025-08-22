@@ -38,8 +38,8 @@ int	main(int argc, char **argv)
 	run_threads();
 	setup_hooks();
 	mlx_loop(dat()->mlx);
-	mlx_terminate(dat()->mlx);
 	free_data();
+	mlx_terminate(dat()->mlx);
 	return (0);
 }
 

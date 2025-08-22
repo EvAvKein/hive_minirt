@@ -84,7 +84,7 @@ static inline bool	cone_parse_pt3(t_cone *cone,
 						char *str, size_t *parse_i)
 {
 	if (!rgb_parse(str, parse_i, &cone->color)
-		|| !is_space(str[*parse_i - 1]))
+		|| (!is_end(str[*parse_i]) && !is_space(str[*parse_i - 1])))
 		return (print_err("Invalid cone color"));
 	if (!optional_pattern_name_parse(str, parse_i, &cone->pattern)
 		&& !optional_asset_parse(str, parse_i, &cone->texture))
