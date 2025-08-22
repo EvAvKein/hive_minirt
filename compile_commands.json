@@ -861,24 +861,6 @@
    "-o",
    "obj/screenshot/image_to_file.o"
   ],
-  "file": "src/threading/threading_02.c"
- },
- {
-  "directory": "/home/jvarila/Repos/minirt",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-Iinc",
-   "-Ilibft_plus",
-   "-Ilibft_plus/include",
-   "-IMLX42/include/MLX42",
-   "-c",
-   "src/screenshot/image_to_file.c",
-   "-o",
-   "obj/screenshot/image_to_file.o"
-  ],
   "file": "src/screenshot/image_to_file.c"
  },
  {
