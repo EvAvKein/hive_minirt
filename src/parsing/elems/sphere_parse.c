@@ -62,7 +62,8 @@ static inline bool	sphere_parse_pt2(t_sphere *sphere,
 		|| sphere->radius < EPSILON || !is_space(str[*parse_i - 1]))
 		return (print_err("Invalid sphere diameter"));
 	sphere->radius /= 2;
-	if (!rgb_parse(str, parse_i, &sphere->color))
+	if (!rgb_parse(str, parse_i, &sphere->color)
+		|| (!is_end(str[*parse_i]) && !is_space(str[*parse_i - 1])))
 		return (print_err("Invalid sphere color"));
 	if (!optional_pattern_name_parse(str, parse_i, &sphere->pattern)
 		&& !optional_asset_parse(str, parse_i, &sphere->texture))

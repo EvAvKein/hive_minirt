@@ -62,7 +62,7 @@ static inline bool	plane_parse_pt2(
 		|| !is_space(str[*parse_i - 1]))
 		return (print_err("Invalid plane orientation"));
 	if (!rgb_parse(str, parse_i, &plane->color)
-		|| !is_space(str[*parse_i - 1]))
+		|| (!is_end(str[*parse_i]) && !is_space(str[*parse_i - 1])))
 		return (print_err("Invalid plane color"));
 	if (!optional_pattern_name_parse(str, parse_i, &plane->pattern)
 		&& !optional_asset_parse(str, parse_i, &plane->texture))
