@@ -100,6 +100,7 @@ void	resize_hook(int32_t width, int32_t height, void *param)
  */
 void	reset_rendering_threads(void)
 {
+	dat()->pause_threads = true;
 	while (dat()->active_threads != 0)
 		usleep(TICK);
 	dat()->jobs_available = THREADS;
