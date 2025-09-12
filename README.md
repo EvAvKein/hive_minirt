@@ -4,8 +4,7 @@ My 10th project at 42 Network's Hive Helsinki 🐝
 
 Simulating rays of light to render beautiful interactive scenes
 
-<video src="./README_assets/compilation.mp4" controls="true" autoplay="true" loop="true" muted="true" width="1280" style="margin-inline: auto">
-</video>
+https://github.com/EvAvKein/hive_minirt/blob/main/README_assets/compilation.mp4
 
 <div style="padding-top: 1.4em; display: flex; flex-wrap: wrap; justify-content: space-between">
     <div style="flex-basis: 48%">
