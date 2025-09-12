@@ -63,3 +63,6 @@ MLX42
 miniRT
 *.bmp
 !*/.defrosted.bmp
+
+textures/*flipped*
+textures/quarry*
