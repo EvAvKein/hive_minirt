@@ -4,26 +4,30 @@ My 10th project at 42 Network's Hive Helsinki 🐝
 
 Simulating rays of light to render beautiful interactive scenes
 
-https://raw.githubusercontent.com/EvAvKein/hive_minirt/57e734a1a1ce6a9a0d2fab403bba94e3edee3058/README_assets/compilation.mp4
+https://github.com/user-attachments/assets/6535562d-95a9-424d-baf5-81abaeb6294c
 
-<div style="padding-top: 1.4em; display: flex; flex-wrap: wrap; justify-content: space-between">
-    <div style="flex-basis: 48%">
-        <img src="./README_assets/eve_wallpaper.png" alt=""/>
-        <p>eve_wallpaper.rt</p>
-    </div>
-    <div style="flex-basis: 48%">
-        <img src="./README_assets/inside_cylinder.png" alt=""/>
-        <p>inside_cylinder.rt</p>
-    </div>
-    <div style="flex-basis: 48%">
-        <img src="./README_assets/multicolored_lights_01.png" alt=""/>
-        <p>multicolored_lights_01.rt</p>
-    </div>
-    <div style="flex-basis: 48%">
-        <img src="./README_assets/crysis.png" alt=""/>
-        <p>crysis.rt</p>
-    </div>
-</div>
+<table width="100%">
+    <tr>
+      <td width="50%">
+        <img src="https://raw.githubusercontent.com/EvAvKein/hive_minirt/refs/heads/main/README_assets/eve_wallpaper.png"/>
+        eve_wallpaper.rt
+      </td>
+      <td width="50%">
+        <img src="https://raw.githubusercontent.com/EvAvKein/hive_minirt/refs/heads/main/README_assets/inside_cylinder.png"/>
+        inside_cylinder.rt
+      </td>
+    </tr>
+    <tr>
+      <td width="50%">
+        <img src="https://raw.githubusercontent.com/EvAvKein/hive_minirt/refs/heads/main/README_assets/multicolored_lights_01.png"/>
+        multicolored_lights_01.rt
+      </td>
+      <td width="50%">
+        <img src="https://raw.githubusercontent.com/EvAvKein/hive_minirt/refs/heads/main/README_assets/texture_mapping.png"/>
+        texture_mapping.rt
+      </td>
+    </tr>
+</table>
 
 > [!TIP]
 > If you're at a 42 school and doing this project: It's genuinely so much better to ask fellow students instead of reading online solutions ✨
