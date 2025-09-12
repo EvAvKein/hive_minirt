@@ -4,6 +4,29 @@ My 10th project at 42 Network's Hive Helsinki 🐝
 
 Simulating rays of light to render beautiful interactive scenes
 
+<video controls="true" autoplay="true" loop="true" muted="true" width="1280" style="margin-inline: auto">
+    <source src="./README_assets/compilation.mp4">
+</video>
+
+<div style="padding-top: 1.4em; display: flex; flex-wrap: wrap; justify-content: space-between">
+    <div style="flex-basis: 48%">
+        <img src="./README_assets/eve_wallpaper.png" alt=""/>
+        <p>eve_wallpaper.rt</p>
+    </div>
+    <div style="flex-basis: 48%">
+        <img src="./README_assets/inside_cylinder.png" alt=""/>
+        <p>inside_cylinder.rt</p>
+    </div>
+    <div style="flex-basis: 48%">
+        <img src="./README_assets/multicolored_lights_01.png" alt=""/>
+        <p>multicolored_lights_01.rt</p>
+    </div>
+    <div style="flex-basis: 48%">
+        <img src="./README_assets/crysis.png" alt=""/>
+        <p>crysis.rt</p>
+    </div>
+</div>
+
 > [!TIP]
 > If you're at a 42 school and doing this project: It's genuinely so much better to ask fellow students instead of reading online solutions ✨
 
