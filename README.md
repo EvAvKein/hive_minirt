@@ -24,7 +24,7 @@ https://github.com/user-attachments/assets/6535562d-95a9-424d-baf5-81abaeb6294c
       </td>
       <td width="50%">
         <img src="https://raw.githubusercontent.com/EvAvKein/hive_minirt/refs/heads/main/README_assets/texture_mapping.png"/>
-        texture_mapping.rt
+        Texture mapping example
       </td>
     </tr>
 </table>
