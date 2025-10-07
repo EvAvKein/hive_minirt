@@ -6,13 +6,13 @@
 #    By: ekeinan <ekeinan@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 09:31:47 by ekeinan           #+#    #+#              #
-#    Updated: 2025/08/15 13:34:46 by jvarila          ###   ########.fr        #
+#    Updated: 2025/10/07 11:01:40 by ekeinan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME				:= miniRT
 
-CC					:= cc
+CC					:= gcc
 COMPILE_FLAGS		:= -Wall -Wextra -Werror
 MLX_FLAGS			:= -Iinclude -ldl -lglfw -pthread -lm
 # ---------------------------------------------------------------------------- #
@@ -22,7 +22,7 @@ DEBUG_FLAGS := -g
 LIBFT_DIR := libft_plus
 LIBFT_LIB := $(LIBFT_DIR)/libft_plus.a
 # ---------------------------------------------------------------------------- #
-MLX_REPO		:= https://github.com/codam-coding-college/MLX42.git
+MLX_REPO		:= https://github.com/EvAvKein/MLX42_copy
 MLX_DIR			:= MLX42
 MLX_BUILD_DIR	:= $(MLX_DIR)/build
 MLX_LIB			:= $(MLX_BUILD_DIR)/libmlx42.a
